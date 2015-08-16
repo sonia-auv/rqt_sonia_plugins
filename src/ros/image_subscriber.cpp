@@ -46,7 +46,7 @@ void vision_client::ImageSubscriber::change(const std::string exec_name) {
   // subscribe to the result topic
   std::string _topic_result_name = exec_name + "_result";
   _subscriber_result = _node_handler.subscribe(
-      _topic_result_name, 200, &ImageSubscriber::resultCallback, this);
+      _topic_result_name, 50, &ImageSubscriber::resultCallback, this);
 }
 
 //------------------------------------------------------------------------------

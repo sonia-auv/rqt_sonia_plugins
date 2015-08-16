@@ -26,7 +26,7 @@
 
 // Project's .h
 #include <vision_server/image_feed.h>
-#include <vision_server/filterchain_return_message.h>
+#include <std_msgs/String.h>
 
 //==============================================================================
 // N A M E S P A C E S   D E C L A R A T I O N S
@@ -152,7 +152,7 @@ signals:
    * \param	msg	The result published on the topic.
    */
   inline void resultCallback(
-      const vision_server::filterchain_return_message::ConstPtr &msg) const;
+      const std_msgs::String::ConstPtr &msg) const;
 
   //==========================================================================
   // P R I V A T E   M E M B E R S
@@ -179,7 +179,7 @@ signals:
 //------------------------------------------------------------------------------
 //
 void vision_client::ImageSubscriber::resultCallback(
-    const vision_server::filterchain_return_message::ConstPtr &msg) const {
+    const std_msgs::String::ConstPtr &msg) const {
   emit imgSubscriberReceivedResult(
-      QString::fromStdString(msg->execution_result), this);
+      QString::fromStdString(msg->data), this);
 }
