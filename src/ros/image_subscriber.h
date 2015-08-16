@@ -18,15 +18,12 @@
 // Others librairies and .h
 #include <QObject>
 #include <QString>
-#include "ros/ros.h"
+#include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
-#include <cv_bridge/cv_bridge.h>
-#include "opencv2/opencv.hpp"
-
-// Project's .h
-#include <vision_server/image_feed.h>
 #include <std_msgs/String.h>
+#include <cv_bridge/cv_bridge.h>
+#include <opencv2/opencv.hpp>
 
 //==============================================================================
 // N A M E S P A C E S   D E C L A R A T I O N S
