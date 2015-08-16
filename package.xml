@@ -15,14 +15,12 @@
     <build_depend>roscpp</build_depend>
     <build_depend>std_msgs</build_depend>
     <build_depend>vision_server</build_depend>
-    <build_depend>vitals</build_depend>
     <build_depend>image_transport</build_depend>
     <build_depend>cv_bridge</build_depend>
 
     <run_depend>roscpp</run_depend>
     <run_depend>std_msgs</run_depend>
     <run_depend>vision_server</run_depend>
-    <run_depend>vitals</run_depend>
     <run_depend>image_transport</run_depend>
     <run_depend>cv_bridge</run_depend>
 </package>
