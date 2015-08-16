@@ -159,7 +159,7 @@ class vision_client::ImageFrame : public QFrame {
    */
   void changeImage(const cv::Mat &image);
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

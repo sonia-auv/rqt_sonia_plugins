@@ -599,7 +599,7 @@ class vision_client::CommunicationLine : public QObject {
    */
   void onReceivedResult(const QString &message, const ImageSubscriber *) const;
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

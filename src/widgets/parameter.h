@@ -130,7 +130,7 @@ class vision_client::Parameter : public QObject {
   /** Change value. */
   void changeValue();
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

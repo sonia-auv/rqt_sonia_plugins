@@ -159,7 +159,7 @@ class vision_client::FocusedFrameController : public QFrame {
    */
   void onSreenshotButtonClicked();
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

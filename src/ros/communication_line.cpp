@@ -30,7 +30,8 @@ vision_client::CommunicationLine::CommunicationLine(QObject *const parent)
       "get_filter_param", "vision_server_get_filterchain_filter_param");
 
   // service d'obtention des paramètres d'un filtre
-  addServiceClient<vision_server::vision_server_get_filterchain_filter_all_param>(
+  addServiceClient<
+      vision_server::vision_server_get_filterchain_filter_all_param>(
       "get_all_filter_param", "vision_server_get_filterchain_filter_all_param");
 
   // service de set des paramètres d'un filtre
@@ -70,7 +71,8 @@ vision_client::CommunicationLine::CommunicationLine(QObject *const parent)
       "get_media_from_exec", "vision_server_get_media_from_execution");
 
   // service pour set l'observeur de filtre
-  addServiceClient<vision_server::vision_server_set_filterchain_filter_observer>(
+  addServiceClient<
+      vision_server::vision_server_set_filterchain_filter_observer>(
       "set_filter_observer", "vision_server_set_filterchain_filter_observer");
 
   // service pour démarrer ou stopper une exécution
@@ -239,7 +241,8 @@ QString vision_client::CommunicationLine::getMediaFromExecution(
   vision_server::vision_server_get_media_from_execution srv;
   srv.request.exec_name = execution_name.toStdString();
 
-  return serviceGetString<vision_server::vision_server_get_media_from_execution>(
+  return serviceGetString<
+      vision_server::vision_server_get_media_from_execution>(
       &srv, "get_media_from_exec");
 }
 
@@ -286,7 +289,7 @@ bool vision_client::CommunicationLine::copyFilterChain(
   srv.request.filterchain_to_copy = filter_chain_name_to_copy.toStdString();
   srv.request.filterchain_new_name = filter_chain_new_name.toStdString();
   return callService<vision_server::vision_server_copy_filterchain>(&srv,
-                                                                 "copy_fc");
+                                                                    "copy_fc");
 }
 
 //------------------------------------------------------------------------------
@@ -363,7 +366,8 @@ bool vision_client::CommunicationLine::setFilterObserver(
   srv.request.filterchain = filter_chain_name.toStdString();
   srv.request.filter = filter_name.toStdString();
 
-  if (!callService<vision_server::vision_server_set_filterchain_filter_observer>(
+  if (!callService<
+          vision_server::vision_server_set_filterchain_filter_observer>(
           &srv, "set_filter_observer")) {
     return false;
   }
@@ -531,7 +535,7 @@ bool vision_client::CommunicationLine::serviceSave(
   srv.request.cmd = commande;
 
   if (!callService<vision_server::vision_server_save_filterchain>(&srv,
-                                                               "save_fc")) {
+                                                                  "save_fc")) {
     return false;
   }
 
@@ -550,7 +554,7 @@ QString vision_client::CommunicationLine::serviceExecute(
   srv.request.cmd = commande;
 
   if (!callService<vision_server::vision_server_execute_cmd>(&srv,
-                                                          "execute_cmd")) {
+                                                             "execute_cmd")) {
     return "";
   }
 
@@ -584,8 +588,8 @@ bool vision_client::CommunicationLine::serviceManageFilterChain(
   srv.request.filterchain = filter_chain_name;
   srv.request.cmd = commande;
 
-  if (!callService<vision_server::vision_server_manage_filterchain>(&srv,
-                                                                 "manage_fc")) {
+  if (!callService<vision_server::vision_server_manage_filterchain>(
+          &srv, "manage_fc")) {
     return false;
   }
 

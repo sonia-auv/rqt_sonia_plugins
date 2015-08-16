@@ -89,7 +89,7 @@ class vision_client::ParameterContainer : public QScrollArea,
    */
   void onParameterValueChanged(Parameter *const &);
 
-signals:
+ signals:
   //==========================================================================
   // Q T  S I G N A L S
 

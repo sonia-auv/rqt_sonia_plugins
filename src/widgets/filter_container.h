@@ -81,7 +81,7 @@ class vision_client::FilterContainer : public QListWidget,
   void onCurrentItemChanged(QListWidgetItem *current,
                             QListWidgetItem *const &previous);
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

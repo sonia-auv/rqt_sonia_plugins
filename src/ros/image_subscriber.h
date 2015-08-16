@@ -98,7 +98,7 @@ class vision_client::ImageSubscriber : public QObject,
    */
   void stop();
 
-signals:
+ signals:
   //==========================================================================
   // Q T   S I G N A L S
 
@@ -151,8 +151,7 @@ signals:
    *
    * \param	msg	The result published on the topic.
    */
-  inline void resultCallback(
-      const std_msgs::String::ConstPtr &msg) const;
+  inline void resultCallback(const std_msgs::String::ConstPtr &msg) const;
 
   //==========================================================================
   // P R I V A T E   M E M B E R S
@@ -180,6 +179,5 @@ signals:
 //
 void vision_client::ImageSubscriber::resultCallback(
     const std_msgs::String::ConstPtr &msg) const {
-  emit imgSubscriberReceivedResult(
-      QString::fromStdString(msg->data), this);
+  emit imgSubscriberReceivedResult(QString::fromStdString(msg->data), this);
 }
