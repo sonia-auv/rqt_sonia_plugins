@@ -14,7 +14,7 @@
 // C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
 
 vision_client::FilterContainer::FilterContainer(QWidget *const parent)
-    : ContainerWidget<Filter>(), QListWidget(parent) {
+    : QListWidget(parent), ContainerWidget<Filter>() {
   // When the selected filter changed, call method changeFilter
   connect(
       this, SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),

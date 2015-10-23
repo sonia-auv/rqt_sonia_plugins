@@ -17,7 +17,7 @@
 //
 vision_client::CreateExecutionWindowController::CreateExecutionWindowController(
     QWidget *const parent)
-    : QDialog(parent), _ui(), _execution(), _media(), _filter_chain() {
+    : QDialog(parent), _ui(), _execution(), _filter_chain(), _media() {
   _ui.setupUi(this);
 
   // Do not send accept when OK button is clicked

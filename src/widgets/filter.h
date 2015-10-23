@@ -89,11 +89,12 @@ class vision_client::Filter : public QObject {
   /** The name. */
   const QString _name;
 
+  /** The index. */
+  unsigned int _index;
+
   /** The widget. */
   QListWidgetItem *const _widget;
 
-  /** The index. */
-  unsigned int _index;
 };
 
 //==============================================================================

@@ -20,8 +20,8 @@ vision_client::ManageFilterChainsWindowController::
                                        QWidget *const parent)
     : QDialog(parent),
       _ui(),
-      _communication(communication),
-      _current_filter_chain() {
+      _current_filter_chain(),
+      _communication(communication){
   _ui.setupUi(this);
 
   loadFilterChains();

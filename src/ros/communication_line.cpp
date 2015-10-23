@@ -354,6 +354,7 @@ bool vision_client::CommunicationLine::stopExecutionFeed(
     _current_executions[execution_name]->stop();
     _current_executions.erase(execution_name);
   }
+  return true;
 }
 
 //------------------------------------------------------------------------------
@@ -449,6 +450,7 @@ QVariant vision_client::CommunicationLine::parseParameterType(
     }
   } else {
     // ROS_INFO( "[VISION CLIENT] Filter parameter type undefined." );
+    return false;
   }
 }
 
@@ -610,7 +612,7 @@ void vision_client::CommunicationLine::onReceivedImage(
       return;
     }
   }
-  // ROS_INFO( "[COMMUNICATION LINE] : no subscriber found in current \
+  // ROS_INFO( "[COMMUNICATION LINE] : no subscriber found in current
   //            executions list, this is not an expected behavior." );
 }
 
@@ -625,6 +627,6 @@ void vision_client::CommunicationLine::onReceivedResult(
       return;
     }
   }
-  // ROS_INFO( "[COMMUNICATION LINE] : no subscriber found in current \ 
+  // ROS_INFO( "[COMMUNICATION LINE] : no subscriber found in current
   //            executions list, this is not an expected behavior." );
 }

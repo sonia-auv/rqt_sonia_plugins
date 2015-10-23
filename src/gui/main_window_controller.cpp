@@ -337,7 +337,7 @@ void vision_client::MainWindowController::onImageChanged(
     getExecutionFrame(execution)->getImageFrame()->changeImage(image);
   }
   // TODO Replace the log by a real logger
-  // ROS_INFO( "[MAIN WINDOW CONTROLLER] : I didn't find any frame for this \
+  // ROS_INFO( "[MAIN WINDOW CONTROLLER] : I didn't find any frame for this
   //            execution, this is not an expected behavior" );
 }
 
@@ -353,7 +353,7 @@ void vision_client::MainWindowController::onResultChanged(
     }
   }
   // TODO Replace the log by a real logger
-  // ROS_INFO( "[MAIN WINDOW CONTROLLER] : I didn't find any frame for this\
+  // ROS_INFO( "[MAIN WINDOW CONTROLLER] : I didn't find any frame for this
   //            execution, this is not an expected behavior" );
 }
 

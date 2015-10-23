@@ -16,7 +16,7 @@
 //------------------------------------------------------------------------------
 //
 vision_client::ExecutionContainer::ExecutionContainer(QWidget *const parent)
-    : ContainerWidget<Execution>(), QTableWidget(parent) {
+    : QTableWidget(parent) , ContainerWidget<Execution>() {
   // When the selected execution changed, call method changeExecution
   connect(
       this, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
