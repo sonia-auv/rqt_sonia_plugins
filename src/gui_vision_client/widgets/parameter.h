@@ -7,13 +7,7 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// C and C++ libraries
 #include <typeinfo>
-
-// Others librairies and .h
 #include <QObject>
 #include <QVariant>
 #include <QSlider>
@@ -25,26 +19,9 @@
 #include <QPlainTextEdit>
 #include <QLabel>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class Parameter;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * Comment.
- * Multiligne.
- */
-class vision_client::Parameter : public QObject {
+class Parameter : public QObject {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -130,7 +107,7 @@ class vision_client::Parameter : public QObject {
   /** Change value. */
   void changeValue();
 
- signals:
+signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 
@@ -201,19 +178,19 @@ class vision_client::Parameter : public QObject {
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Parameter::getName() const { return _name; }
+inline const QString Parameter::getName() const { return _name; }
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Parameter::getType() const { return _type; }
+inline const QString Parameter::getType() const { return _type; }
 
 //------------------------------------------------------------------------------
 //
-inline QVariant vision_client::Parameter::getValue() const { return _value; }
+inline QVariant Parameter::getValue() const { return _value; }
 
 //------------------------------------------------------------------------------
 //
-inline QString vision_client::Parameter::getStringValue() const {
+inline QString Parameter::getStringValue() const {
   QString value;
 
   if (_value.type() == QVariant::Bool) {
@@ -231,18 +208,14 @@ inline QString vision_client::Parameter::getStringValue() const {
 
 //------------------------------------------------------------------------------
 //
-inline QLabel *vision_client::Parameter::getLabel() const {
-  return _name_label;
-}
+inline QLabel *Parameter::getLabel() const { return _name_label; }
 
 //------------------------------------------------------------------------------
 //
-inline QWidget *vision_client::Parameter::getValueWidget() const {
-  return _value_widget;
-}
+inline QWidget *Parameter::getValueWidget() const { return _value_widget; }
 
 //------------------------------------------------------------------------------
 //
-inline QWidget *vision_client::Parameter::getMainWidget() const {
-  return _main_widget;
-}
+inline QWidget *Parameter::getMainWidget() const { return _main_widget; }
+
+}  // namespace gui_vision_client

@@ -10,17 +10,16 @@
  * work. (https://github.com/ros-visualization/rqt_common_plugins)
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "image_frame.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
+ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
     : QFrame(parent),
       _aspect_ratio(),
       _image(),
@@ -33,14 +32,14 @@ vision_client::ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
 
 //------------------------------------------------------------------------------
 //
-vision_client::ImageFrame::~ImageFrame() {}
+ImageFrame::~ImageFrame() {}
 
 //==============================================================================
 // M E T H O D   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageFrame::setInnerFrameMinimumSize(const QSize &size) {
+void ImageFrame::setInnerFrameMinimumSize(const QSize &size) {
   int border = lineWidth();
   QSize new_size = size;
   new_size += QSize(2 * border, 2 * border);
@@ -50,7 +49,7 @@ void vision_client::ImageFrame::setInnerFrameMinimumSize(const QSize &size) {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageFrame::setInnerFrameMaximumSize(const QSize &size) {
+void ImageFrame::setInnerFrameMaximumSize(const QSize &size) {
   int border = lineWidth();
   QSize new_size = size;
   new_size += QSize(2 * border, 2 * border);
@@ -60,7 +59,7 @@ void vision_client::ImageFrame::setInnerFrameMaximumSize(const QSize &size) {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageFrame::paintEvent(QPaintEvent *event) {
+void ImageFrame::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
   _mutex.lock();
   if (!_image.isNull()) {
@@ -81,7 +80,7 @@ void vision_client::ImageFrame::paintEvent(QPaintEvent *event) {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageFrame::saveImage(const cv::Mat &image) {
+void ImageFrame::saveImage(const cv::Mat &image) {
   std::vector<int> compression_params;
   compression_params.push_back(CV_IMWRITE_JPEG_QUALITY);
   compression_params.push_back(100);
@@ -94,7 +93,7 @@ void vision_client::ImageFrame::saveImage(const cv::Mat &image) {
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::ImageFrame::startRecordingVideo(const QString &filename) {
+bool ImageFrame::startRecordingVideo(const QString &filename) {
   if (isRecording() || _output_video.isOpened()) {
     // ROS_INFO("[VISION_CLIENT] startVideoCapture not opened.");
     return false;
@@ -115,7 +114,7 @@ bool vision_client::ImageFrame::startRecordingVideo(const QString &filename) {
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::ImageFrame::stopRecordingVideo() {
+bool ImageFrame::stopRecordingVideo() {
   if (_output_video.isOpened() && isRecording()) {
     _output_video.release();
     _recording = false;
@@ -129,7 +128,7 @@ bool vision_client::ImageFrame::stopRecordingVideo() {
 
 //------------------------------------------------------------------------------
 //
-std::string vision_client::ImageFrame::getCurrentTimeAndDate() {
+std::string ImageFrame::getCurrentTimeAndDate() {
   time_t rawtime;
   struct tm *timeinfo;
   char buffer[80];
@@ -147,7 +146,7 @@ std::string vision_client::ImageFrame::getCurrentTimeAndDate() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageFrame::changeImage(const cv::Mat &image) {
+void ImageFrame::changeImage(const cv::Mat &image) {
   // on sauvegarde la vidéo
   if (_output_video.isOpened() && isRecording()) {
     cv::Mat temp;
@@ -167,3 +166,5 @@ void vision_client::ImageFrame::changeImage(const cv::Mat &image) {
   _mutex.unlock();
   emit delayed_update();
 }
+
+}  // namespace gui_vision_client

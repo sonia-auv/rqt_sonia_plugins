@@ -10,10 +10,6 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QFrame>
 #include <QImage>
 #include <QLayout>
@@ -25,26 +21,9 @@
 #include "opencv2/opencv.hpp"
 #include <opencv2/highgui/highgui.hpp>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class ImageFrame;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * An image frame.
- * Multiligne.
- */
-class vision_client::ImageFrame : public QFrame {
+class ImageFrame : public QFrame {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -159,7 +138,7 @@ class vision_client::ImageFrame : public QFrame {
    */
   void changeImage(const cv::Mat &image);
 
- signals:
+signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 
@@ -216,16 +195,14 @@ class vision_client::ImageFrame : public QFrame {
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::ImageFrame::setInnerFrameFixedSize(
-    const QSize &size) {
+inline void ImageFrame::setInnerFrameFixedSize(const QSize &size) {
   setInnerFrameMinimumSize(size);
   setInnerFrameMaximumSize(size);
 }
 
 //------------------------------------------------------------------------------
 //
-inline int vision_client::ImageFrame::greatestCommonDivisor(const int a,
-                                                            const int b) {
+inline int ImageFrame::greatestCommonDivisor(const int a, const int b) {
   if (b == 0) {
     return a;
   }
@@ -234,18 +211,16 @@ inline int vision_client::ImageFrame::greatestCommonDivisor(const int a,
 
 //------------------------------------------------------------------------------
 //
-inline bool vision_client::ImageFrame::isRecording() const {
-  return _recording;
-}
+inline bool ImageFrame::isRecording() const { return _recording; }
 
 //------------------------------------------------------------------------------
 //
-inline bool vision_client::ImageFrame::isScreenshotEnabled() const {
+inline bool ImageFrame::isScreenshotEnabled() const {
   return _screenshot_enabled;
 }
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::ImageFrame::takeScreenshot() {
-  _screenshot_enabled = true;
-}
+inline void ImageFrame::takeScreenshot() { _screenshot_enabled = true; }
+
+}  // namespace gui_vision_client

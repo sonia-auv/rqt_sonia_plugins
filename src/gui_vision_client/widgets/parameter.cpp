@@ -5,20 +5,18 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "parameter.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //-----------------------------------------------------------------------------
 //
-vision_client::Parameter::Parameter(const QString &name, const QVariant &value,
-                                    const QString &description,
-                                    const QVariant &min, const QVariant &max,
-                                    QObject *const parent)
+Parameter::Parameter(const QString &name, const QVariant &value,
+                     const QString &description, const QVariant &min,
+                     const QVariant &max, QObject *const parent)
     : QObject(parent),
       _name(name),
       _value(value),
@@ -98,7 +96,7 @@ vision_client::Parameter::Parameter(const QString &name, const QVariant &value,
 
 //-----------------------------------------------------------------------------
 //
-vision_client::Parameter::~Parameter() {
+Parameter::~Parameter() {
   if (_name_label) {
     delete _name_label;
   }
@@ -121,7 +119,7 @@ vision_client::Parameter::~Parameter() {
 
 //-----------------------------------------------------------------------------
 //
-void vision_client::Parameter::setupDescriptionUi() {
+void Parameter::setupDescriptionUi() {
   _main_widget = new QWidget();
 
   _verticalLayout_2 = new QVBoxLayout(_main_widget);
@@ -145,7 +143,7 @@ void vision_client::Parameter::setupDescriptionUi() {
 
 //-----------------------------------------------------------------------------
 //
-void vision_client::Parameter::setupNoDescriptionUi() {
+void Parameter::setupNoDescriptionUi() {
   _main_widget = new QWidget();
 
   _body_layout = new QHBoxLayout(_main_widget);
@@ -161,7 +159,7 @@ void vision_client::Parameter::setupNoDescriptionUi() {
 
 //-----------------------------------------------------------------------------
 //
-void vision_client::Parameter::setValue(QVariant const value) {
+void Parameter::setValue(QVariant const value) {
   QSlider *int_widget = dynamic_cast<QSlider *>(_value_widget);
   QDoubleSpinBox *double_widget = dynamic_cast<QDoubleSpinBox *>(_value_widget);
   QCheckBox *bool_widget = dynamic_cast<QCheckBox *>(_value_widget);
@@ -183,7 +181,7 @@ void vision_client::Parameter::setValue(QVariant const value) {
 
 //-----------------------------------------------------------------------------
 //
-void vision_client::Parameter::changeValue() {
+void Parameter::changeValue() {
   QSlider *int_widget = dynamic_cast<QSlider *>(_value_widget);
   QDoubleSpinBox *double_widget = dynamic_cast<QDoubleSpinBox *>(_value_widget);
   QCheckBox *bool_widget = dynamic_cast<QCheckBox *>(_value_widget);
@@ -203,3 +201,5 @@ void vision_client::Parameter::changeValue() {
 
   emit valueChanged(this);
 }
+
+}  // namespace gui_vision_client

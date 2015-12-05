@@ -9,13 +9,7 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// C and C++ libraries
 #include <string>
-
-// Others librairies and .h
 #include <QObject>
 #include <QString>
 #include <ros/ros.h>
@@ -25,20 +19,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
-
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class ImageSubscriber;
-}
-
-//==============================================================================
-// C L A S S E S
+namespace gui_vision_client {
 
 /**
  * Subscribe to the topics from an execution of the VisionServer.
@@ -52,8 +33,7 @@ class ImageSubscriber;
  * This mechanism allows to transmit data (image or result) to the
  * CommunicationLine which can send them to the GUI.
  */
-class vision_client::ImageSubscriber : public QObject,
-                                       public image_transport::Subscriber {
+class ImageSubscriber : public QObject, public image_transport::Subscriber {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -95,7 +75,7 @@ class vision_client::ImageSubscriber : public QObject,
    */
   void stop();
 
- signals:
+signals:
   //==========================================================================
   // Q T   S I G N A L S
 
@@ -174,7 +154,9 @@ class vision_client::ImageSubscriber : public QObject,
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageSubscriber::resultCallback(
+void ImageSubscriber::resultCallback(
     const std_msgs::String::ConstPtr &msg) const {
   emit imgSubscriberReceivedResult(QString::fromStdString(msg->data), this);
 }
+
+}  // namespace gui_vision_client

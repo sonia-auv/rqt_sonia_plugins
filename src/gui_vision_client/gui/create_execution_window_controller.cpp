@@ -5,17 +5,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "create_execution_window_controller.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::CreateExecutionWindowController::CreateExecutionWindowController(
+CreateExecutionWindowController::CreateExecutionWindowController(
     QWidget *const parent)
     : QDialog(parent), _ui(), _execution(), _filter_chain(), _media() {
   _ui.setupUi(this);
@@ -37,7 +36,7 @@ vision_client::CreateExecutionWindowController::CreateExecutionWindowController(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::setFilterChainList(
+void CreateExecutionWindowController::setFilterChainList(
     const QVector<QString> &filter_chains) {
   // TODO change QVector to QStringList
   _ui.filter_chain_combobox->clear();
@@ -50,7 +49,7 @@ void vision_client::CreateExecutionWindowController::setFilterChainList(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::setMediaList(
+void CreateExecutionWindowController::setMediaList(
     const QVector<QString> &medias) {
   _ui.media_combobox->clear();
   for (const auto &media : medias) {
@@ -63,7 +62,7 @@ void vision_client::CreateExecutionWindowController::setMediaList(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::onSelectFile() {
+void CreateExecutionWindowController::onSelectFile() {
   const auto fileName = QFileDialog::getOpenFileName(
       this, tr("Open File..."), QString(), tr("All Files (*)"));
   _ui.file_line_edit->setText(fileName);
@@ -71,19 +70,19 @@ void vision_client::CreateExecutionWindowController::onSelectFile() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::onSelectMediaRadio() {
+void CreateExecutionWindowController::onSelectMediaRadio() {
   _ui.media_radio_button->toggle();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::onSelectFileRadio() {
+void CreateExecutionWindowController::onSelectFileRadio() {
   _ui.file_radio_button->toggle();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CreateExecutionWindowController::onOKClicked() {
+void CreateExecutionWindowController::onOKClicked() {
   if (_ui.execution_line_edit->text().isEmpty()) {
     (void)QMessageBox::information(
         this, tr("No Execution Name"),
@@ -109,3 +108,5 @@ void vision_client::CreateExecutionWindowController::onOKClicked() {
     accept();
   }
 }
+
+}  // namespace gui_vision_client

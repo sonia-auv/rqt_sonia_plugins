@@ -5,23 +5,21 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "manage_filter_chains_window_controller.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::ManageFilterChainsWindowController::
-    ManageFilterChainsWindowController(CommunicationLine &communication,
-                                       QWidget *const parent)
+ManageFilterChainsWindowController::ManageFilterChainsWindowController(
+    CommunicationLine &communication, QWidget *const parent)
     : QDialog(parent),
       _ui(),
       _current_filter_chain(),
-      _communication(communication){
+      _communication(communication) {
   _ui.setupUi(this);
 
   loadFilterChains();
@@ -45,16 +43,14 @@ vision_client::ManageFilterChainsWindowController::
 
 //------------------------------------------------------------------------------
 //
-vision_client::ManageFilterChainsWindowController::
-    ~ManageFilterChainsWindowController() {}
+ManageFilterChainsWindowController::~ManageFilterChainsWindowController() {}
 
 //==============================================================================
 // M E T H O D   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ManageFilterChainsWindowController::
-    onAddFilterChainClicked() {
+void ManageFilterChainsWindowController::onAddFilterChainClicked() {
   const auto filter_chain = QInputDialog::getText(
       this, "Add a Filter Chain", "Enter the name of the new Filter Chain");
 
@@ -64,16 +60,14 @@ void vision_client::ManageFilterChainsWindowController::
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ManageFilterChainsWindowController::
-    onRemoveFilterChainClicked() {
+void ManageFilterChainsWindowController::onRemoveFilterChainClicked() {
   _communication.deleteFilterChain(_current_filter_chain);
   loadFilterChains();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ManageFilterChainsWindowController::
-    onRenameFilterChainClicked() {
+void ManageFilterChainsWindowController::onRenameFilterChainClicked() {
   auto ok = false;
   const auto filter_chain = QInputDialog::getText(
       this, "Rename Filter Chain", "Enter the name of the Filter Chain",
@@ -87,8 +81,7 @@ void vision_client::ManageFilterChainsWindowController::
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ManageFilterChainsWindowController::
-    onCopyFilterChainClicked() {
+void ManageFilterChainsWindowController::onCopyFilterChainClicked() {
   auto ok = false;
   const auto filter_chain = QInputDialog::getText(
       this, "Copy Filter Chain", "Enter the name of the new Filter Chain",
@@ -102,7 +95,9 @@ void vision_client::ManageFilterChainsWindowController::
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ManageFilterChainsWindowController::onFilterChainChanged(
+void ManageFilterChainsWindowController::onFilterChainChanged(
     const QString &new_filter_chain) {
   _current_filter_chain = new_filter_chain;
 }
+
+}  // namespace gui_vision_client

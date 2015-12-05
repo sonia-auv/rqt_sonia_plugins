@@ -5,17 +5,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "main_window_controller.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::MainWindowController::MainWindowController(QWidget *const parent)
+MainWindowController::MainWindowController(QWidget *const parent)
     : QMainWindow(parent),
       _ui(),
       _execution_window(new CreateExecutionWindowController(this)),
@@ -112,7 +111,7 @@ vision_client::MainWindowController::MainWindowController(QWidget *const parent)
   loadExecutions();
 }
 
-vision_client::MainWindowController::~MainWindowController() {
+MainWindowController::~MainWindowController() {
   if (_execution_window) {
     delete _execution_window;
   }
@@ -133,7 +132,7 @@ vision_client::MainWindowController::~MainWindowController() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::loadExecutions() {
+void MainWindowController::loadExecutions() {
   // Stop all the executions which are currently running
   for (const auto &it : _current_executions) {
     _communication.stopExecutionFeed(it->getName());
@@ -179,7 +178,7 @@ void vision_client::MainWindowController::loadExecutions() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::loadFilters() {
+void MainWindowController::loadFilters() {
   _ui.filter_container->removeAll();
   _ui.parameter_container->removeAll();
   const auto filters_names = _communication.getFiltersForFilterChain(
@@ -199,7 +198,7 @@ void vision_client::MainWindowController::loadFilters() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::loadParameters() {
+void MainWindowController::loadParameters() {
   _ui.parameter_container->removeAll();
 
   // If no execution is currently running on this frame, just do nothing
@@ -231,8 +230,7 @@ void vision_client::MainWindowController::loadParameters() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onExecutionChanged(
-    Execution *const &execution) {
+void MainWindowController::onExecutionChanged(Execution *const &execution) {
   _ui.action_save_filter_chain->setEnabled(true);
   // An other execution is running on the current frame...
   if (_current_executions[_current_video_frame]) {
@@ -248,16 +246,14 @@ void vision_client::MainWindowController::onExecutionChanged(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onFilterChanged(
-    Filter *const &filter) {
+void MainWindowController::onFilterChanged(Filter *const &filter) {
   _current_filter = filter;
   loadParameters();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onParameterChanged(
-    Parameter *const &parameter) {
+void MainWindowController::onParameterChanged(Parameter *const &parameter) {
   _communication.setFilterParameter(
       getCurrentExecution()->getFilterChainName(), _current_filter->getName(),
       parameter->getName(), parameter->getStringValue(),
@@ -266,7 +262,7 @@ void vision_client::MainWindowController::onParameterChanged(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onCreateExecutionWindow() {
+void MainWindowController::onCreateExecutionWindow() {
   _execution_window->setFilterChainList(_communication.getFilterChainList());
   _execution_window->setMediaList(_communication.getMediaList());
   _execution_window->show();
@@ -274,13 +270,13 @@ void vision_client::MainWindowController::onCreateExecutionWindow() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onManageFilterChainsWindow() {
+void MainWindowController::onManageFilterChainsWindow() {
   _manage_filter_chains_window->show();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onStopExecutionWindow() {
+void MainWindowController::onStopExecutionWindow() {
   if (getCurrentExecution() != nullptr) {
     // deleting the execution
     _communication.stopExecution(getCurrentExecution()->getName(),
@@ -293,7 +289,7 @@ void vision_client::MainWindowController::onStopExecutionWindow() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onCreateExecutionAccepted() {
+void MainWindowController::onCreateExecutionAccepted() {
   _communication.startExecution(_execution_window->getExecution(),
                                 _execution_window->getFilterChain(),
                                 _execution_window->getMedia());
@@ -303,14 +299,14 @@ void vision_client::MainWindowController::onCreateExecutionAccepted() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onSaveFilterChain() {
+void MainWindowController::onSaveFilterChain() {
   _communication.saveFilterChain(getCurrentExecution()->getFilterChainName(),
                                  getCurrentExecution()->getName());
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onVideoFrameClicked(
+void MainWindowController::onVideoFrameClicked(
     FocusedFrameController *const &frame) {
   if (frame != _current_video_frame) {
     _current_video_frame->unfocus();
@@ -321,14 +317,12 @@ void vision_client::MainWindowController::onVideoFrameClicked(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onReloadExecutions() {
-  loadExecutions();
-}
+void MainWindowController::onReloadExecutions() { loadExecutions(); }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onImageChanged(
-    const cv::Mat &image, const QString &running_execution) {
+void MainWindowController::onImageChanged(const cv::Mat &image,
+                                          const QString &running_execution) {
   for (auto &execution : _current_executions) {
     if (!(execution->getName() == running_execution)) {
       continue;
@@ -343,8 +337,8 @@ void vision_client::MainWindowController::onImageChanged(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onResultChanged(
-    const QString &result, const QString &running_execution) {
+void MainWindowController::onResultChanged(const QString &result,
+                                           const QString &running_execution) {
   for (auto &execution : _current_executions.keys()) {
     if ((_current_executions.value(execution)->getName() ==
          running_execution)) {
@@ -359,7 +353,7 @@ void vision_client::MainWindowController::onResultChanged(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onAddFilterClicked() {
+void MainWindowController::onAddFilterClicked() {
   auto filter_list = QStringList{};
   const auto available_filter = _communication.getFilterList();
   for (const auto &filter : available_filter) {
@@ -380,7 +374,7 @@ void vision_client::MainWindowController::onAddFilterClicked() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onRemoveFilterClicked() {
+void MainWindowController::onRemoveFilterClicked() {
   _communication.deleteFilter(getCurrentExecution()->getFilterChainName(),
                               _current_filter->getName(),
                               getCurrentExecution()->getName());
@@ -389,7 +383,7 @@ void vision_client::MainWindowController::onRemoveFilterClicked() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onFilterGoUp() {
+void MainWindowController::onFilterGoUp() {
   _communication.changeFilterOrder(getCurrentExecution()->getName(),
                                    getCurrentExecution()->getFilterChainName(),
                                    _current_filter->getIndex(), 1);
@@ -398,9 +392,11 @@ void vision_client::MainWindowController::onFilterGoUp() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::MainWindowController::onFilterGoDown() {
+void MainWindowController::onFilterGoDown() {
   _communication.changeFilterOrder(getCurrentExecution()->getName(),
                                    getCurrentExecution()->getFilterChainName(),
                                    _current_filter->getIndex(), 2);
   loadFilters();
 }
+
+}  // namespace gui_vision_client

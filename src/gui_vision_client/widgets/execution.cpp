@@ -5,19 +5,18 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "execution.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::Execution::Execution(const QString &execution_name,
-                                    const QString &filter_chain_name,
-                                    const QString &media_name)
+Execution::Execution(const QString &execution_name,
+                     const QString &filter_chain_name,
+                     const QString &media_name)
     : QObject(),
       _name(execution_name),
       _media_name(media_name),
@@ -29,7 +28,7 @@ vision_client::Execution::Execution(const QString &execution_name,
 
 //------------------------------------------------------------------------------
 //
-vision_client::Execution::~Execution() {
+Execution::~Execution() {
   if (_execution_widget) {
     delete _execution_widget;
   }
@@ -40,3 +39,5 @@ vision_client::Execution::~Execution() {
     delete _media_widget;
   }
 }
+
+}  // namespace gui_vision_client

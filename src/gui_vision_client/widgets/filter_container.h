@@ -7,39 +7,15 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QListWidget>
 #include <QListWidgetItem>
 #include "ros/ros.h"
-
-// Project's .h
 #include "container_widget.h"
 #include "filter.h"
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class FilterContainer;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * Comment.
- * Multiligne.
- */
-class vision_client::FilterContainer : public QListWidget,
-                                       public ContainerWidget<Filter> {
+class FilterContainer : public QListWidget, public ContainerWidget<Filter> {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -81,7 +57,7 @@ class vision_client::FilterContainer : public QListWidget,
   void onCurrentItemChanged(QListWidgetItem *current,
                             QListWidgetItem *const &previous);
 
- signals:
+signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 
@@ -109,7 +85,8 @@ class vision_client::FilterContainer : public QListWidget,
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::FilterContainer::createWidgets(
-    const Filter *const &filter) {
+inline void FilterContainer::createWidgets(const Filter *const &filter) {
   addItem(filter->getWidget());
 }
+
+}  // namespace gui_vision_client

@@ -5,18 +5,17 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "execution_container.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::ExecutionContainer::ExecutionContainer(QWidget *const parent)
-    : QTableWidget(parent) , ContainerWidget<Execution>() {
+ExecutionContainer::ExecutionContainer(QWidget *const parent)
+    : QTableWidget(parent), ContainerWidget<Execution>() {
   // When the selected execution changed, call method changeExecution
   connect(
       this, SIGNAL(currentItemChanged(QTableWidgetItem *, QTableWidgetItem *)),
@@ -28,8 +27,7 @@ vision_client::ExecutionContainer::ExecutionContainer(QWidget *const parent)
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ExecutionContainer::createWidgets(
-    const Execution *const &execution) {
+void ExecutionContainer::createWidgets(const Execution *const &execution) {
   const unsigned int size = _components.size();
   setRowCount(size);
 
@@ -40,7 +38,7 @@ void vision_client::ExecutionContainer::createWidgets(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ExecutionContainer::removeAll() {
+void ExecutionContainer::removeAll() {
   for (int i = 0; i < _components.size(); i++) {
     takeItem(i, 0);
     takeItem(i, 1);
@@ -58,8 +56,8 @@ void vision_client::ExecutionContainer::removeAll() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ExecutionContainer::onCurrentItemChanged(
-    QTableWidgetItem *current, QTableWidgetItem *previous) {
+void ExecutionContainer::onCurrentItemChanged(QTableWidgetItem *current,
+                                              QTableWidgetItem *previous) {
   if (!current) {
     return;
   }
@@ -77,7 +75,7 @@ void vision_client::ExecutionContainer::onCurrentItemChanged(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ExecutionContainer::onOutsideExecutionChanged(
+void ExecutionContainer::onOutsideExecutionChanged(
     const QString &execution_name) {
   for (auto &component : _components) {
     if ((component)->getName() == execution_name) {
@@ -88,3 +86,5 @@ void vision_client::ExecutionContainer::onOutsideExecutionChanged(
     }
   }
 }
+
+}  // namespace gui_vision_client

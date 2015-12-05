@@ -7,33 +7,11 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QListWidgetItem>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class Filter;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * A filter.
- * Multiligne.
- *
- */
-class vision_client::Filter : public QObject {
+class Filter : public QObject {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -94,7 +72,6 @@ class vision_client::Filter : public QObject {
 
   /** The widget. */
   QListWidgetItem *const _widget;
-
 };
 
 //==============================================================================
@@ -102,22 +79,18 @@ class vision_client::Filter : public QObject {
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Filter::getName() const { return _name; }
+inline const QString Filter::getName() const { return _name; }
 
 //------------------------------------------------------------------------------
 //
-inline QListWidgetItem *const vision_client::Filter::getWidget() const {
-  return _widget;
-}
+inline QListWidgetItem *const Filter::getWidget() const { return _widget; }
 
 //------------------------------------------------------------------------------
 //
-inline const unsigned int vision_client::Filter::getIndex() const {
-  return _index;
-}
+inline const unsigned int Filter::getIndex() const { return _index; }
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::Filter::setIndex(const unsigned int index) {
-  _index = index;
-}
+inline void Filter::setIndex(const unsigned int index) { _index = index; }
+
+}  // namespace gui_vision_client

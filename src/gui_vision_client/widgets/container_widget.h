@@ -7,27 +7,9 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QVector>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
-
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-template <class T>
-class ContainerWidget;
-}
-
-//==============================================================================
-// C L A S S E S
+namespace gui_vision_client {
 
 /**
  * A base class for all the widget that are going to contain a component
@@ -40,7 +22,7 @@ class ContainerWidget;
  * \tparam	T	Generic type parameter.
  */
 template <class T>
-class vision_client::ContainerWidget {
+class ContainerWidget {
  public:
   //==========================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
@@ -152,7 +134,7 @@ class vision_client::ContainerWidget {
 };
 
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 /// /!\ As this class is a template class, you can't simply put definition in
 /// cpp files.
@@ -161,13 +143,13 @@ class vision_client::ContainerWidget {
 //------------------------------------------------------------------------------
 //
 template <class T>
-vision_client::ContainerWidget<T>::ContainerWidget()
+ContainerWidget<T>::ContainerWidget()
     : _components(), _current(nullptr) {}
 
 //------------------------------------------------------------------------------
 //
 template <class T>
-vision_client::ContainerWidget<T>::~ContainerWidget() {
+ContainerWidget<T>::~ContainerWidget() {
   if (_current) {
     delete _current;
   }
@@ -179,7 +161,7 @@ vision_client::ContainerWidget<T>::~ContainerWidget() {
 //------------------------------------------------------------------------------
 //
 template <class T>
-inline void vision_client::ContainerWidget<T>::add(T *const &component) {
+inline void ContainerWidget<T>::add(T *const &component) {
   _components.push_back(component);
   createWidgets(component);
 }
@@ -187,8 +169,7 @@ inline void vision_client::ContainerWidget<T>::add(T *const &component) {
 //------------------------------------------------------------------------------
 //
 template <class T>
-inline void vision_client::ContainerWidget<T>::add(
-    const QVector<T *const> &components) {
+inline void ContainerWidget<T>::add(const QVector<T *const> &components) {
   for (auto const &it : components) {
     add(it);
   }
@@ -197,21 +178,22 @@ inline void vision_client::ContainerWidget<T>::add(
 //------------------------------------------------------------------------------
 //
 template <class T>
-inline void vision_client::ContainerWidget<T>::remove(T *const &component) {
+inline void ContainerWidget<T>::remove(T *const &component) {
   _components.remove(_components.indexOf(component));
 }
 
 //------------------------------------------------------------------------------
 //
 template <class T>
-inline const bool vision_client::ContainerWidget<T>::contains(
-    T *const &component) {
+inline const bool ContainerWidget<T>::contains(T *const &component) {
   return _components.contains(component);
 }
 
 //------------------------------------------------------------------------------
 //
 template <class T>
-inline QVector<T> vision_client::ContainerWidget<T>::getAll() const {
+inline QVector<T> ContainerWidget<T>::getAll() const {
   return _components;
 }
+
+}  // namespace gui_vision_client

@@ -5,15 +5,14 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "filter_container.h"
 
-//==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+namespace gui_vision_client {
 
-vision_client::FilterContainer::FilterContainer(QWidget *const parent)
+//==============================================================================
+// C / D T O R S   S E C T I O N
+
+FilterContainer::FilterContainer(QWidget *const parent)
     : QListWidget(parent), ContainerWidget<Filter>() {
   // When the selected filter changed, call method changeFilter
   connect(
@@ -26,7 +25,7 @@ vision_client::FilterContainer::FilterContainer(QWidget *const parent)
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FilterContainer::removeAll() {
+void FilterContainer::removeAll() {
   for (auto &component : _components) {
     removeItemWidget((component)->getWidget());
     delete component;
@@ -39,8 +38,8 @@ void vision_client::FilterContainer::removeAll() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FilterContainer::onCurrentItemChanged(
-    QListWidgetItem *current, QListWidgetItem *const &previous) {
+void FilterContainer::onCurrentItemChanged(QListWidgetItem *current,
+                                           QListWidgetItem *const &previous) {
   if (!current) {
     return;
   }
@@ -53,3 +52,5 @@ void vision_client::FilterContainer::onCurrentItemChanged(
     }
   }
 }
+
+}  // namespace gui_vision_client

@@ -7,17 +7,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "image_subscriber.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::ImageSubscriber::ImageSubscriber(const ros::NodeHandle &hdl)
+ImageSubscriber::ImageSubscriber(const ros::NodeHandle &hdl)
     : _node_handler(hdl),
       _img_transport(hdl),
       _subscriber(),
@@ -29,14 +28,14 @@ vision_client::ImageSubscriber::ImageSubscriber(const ros::NodeHandle &hdl)
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageSubscriber::stop() {
+void ImageSubscriber::stop() {
   _subscriber.shutdown();
   _subscriber_result.shutdown();
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageSubscriber::change(const std::string exec_name) {
+void ImageSubscriber::change(const std::string exec_name) {
   stop();
   // subscribe to the image topic compressed
   image_transport::TransportHints hints("compressed", ros::TransportHints());
@@ -51,8 +50,7 @@ void vision_client::ImageSubscriber::change(const std::string exec_name) {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ImageSubscriber::imageCallback(
-    const sensor_msgs::Image::ConstPtr &msg) {
+void ImageSubscriber::imageCallback(const sensor_msgs::Image::ConstPtr &msg) {
   try {
     cv_bridge::CvImageConstPtr ptr =
         cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::RGB8);
@@ -63,3 +61,5 @@ void vision_client::ImageSubscriber::imageCallback(
     // msg->encoding.c_str());
   }
 }
+
+}  // namespace gui_vision_client

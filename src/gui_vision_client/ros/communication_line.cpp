@@ -6,17 +6,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "communication_line.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::CommunicationLine::CommunicationLine(QObject *const parent)
+CommunicationLine::CommunicationLine(QObject *const parent)
     : QObject(parent), _node_handler(), _current_executions() {
   // création des clients ROS
   std::string serviceName;
@@ -82,7 +81,7 @@ vision_client::CommunicationLine::CommunicationLine(QObject *const parent)
 
 //------------------------------------------------------------------------------
 //
-vision_client::CommunicationLine::~CommunicationLine() {
+CommunicationLine::~CommunicationLine() {
   for (auto &service : _services) {
     service.second.shutdown();
   }
@@ -95,15 +94,15 @@ vision_client::CommunicationLine::~CommunicationLine() {
 //------------------------------------------------------------------------------
 //
 template <typename T>
-void vision_client::CommunicationLine::addServiceClient(
-    const std::string &service, const std::string &node) {
+void CommunicationLine::addServiceClient(const std::string &service,
+                                         const std::string &node) {
   _services[service] = _node_handler.serviceClient<T>(NODE_NAME_PREFIX + node);
 }
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CommunicationLine::changeImageSubscriber(
-    const QString &exec_to_launch, const QString &exec_to_stop) {
+void CommunicationLine::changeImageSubscriber(const QString &exec_to_launch,
+                                              const QString &exec_to_stop) {
   if (exec_to_stop != "") {
     stopExecutionFeed(exec_to_stop);
   }
@@ -137,7 +136,7 @@ void vision_client::CommunicationLine::changeImageSubscriber(
 
 //------------------------------------------------------------------------------
 //
-QVector<QString> vision_client::CommunicationLine::getFilterChainList() {
+QVector<QString> CommunicationLine::getFilterChainList() {
   vision_server::vision_server_get_information_list srv;
   srv.request.cmd = FILTERCHAIN;
 
@@ -147,7 +146,7 @@ QVector<QString> vision_client::CommunicationLine::getFilterChainList() {
 
 //------------------------------------------------------------------------------
 //
-QVector<QString> vision_client::CommunicationLine::getFiltersForFilterChain(
+QVector<QString> CommunicationLine::getFiltersForFilterChain(
     const QString &filter_chain_name, const QString &execution_name) {
   vision_server::vision_server_get_filterchain_filter srv;
   srv.request.exec_name = execution_name.toStdString();
@@ -159,7 +158,7 @@ QVector<QString> vision_client::CommunicationLine::getFiltersForFilterChain(
 
 //------------------------------------------------------------------------------
 //
-QVector<QString> vision_client::CommunicationLine::getMediaList() {
+QVector<QString> CommunicationLine::getMediaList() {
   vision_server::vision_server_get_information_list srv;
   srv.request.cmd = MEDIA;
 
@@ -169,7 +168,7 @@ QVector<QString> vision_client::CommunicationLine::getMediaList() {
 
 //------------------------------------------------------------------------------
 //
-QVector<QString> vision_client::CommunicationLine::getFilterList() {
+QVector<QString> CommunicationLine::getFilterList() {
   vision_server::vision_server_get_information_list srv;
   srv.request.cmd = FILTER;
 
@@ -179,7 +178,7 @@ QVector<QString> vision_client::CommunicationLine::getFilterList() {
 
 //------------------------------------------------------------------------------
 //
-QVector<QString> vision_client::CommunicationLine::getExecutionList() {
+QVector<QString> CommunicationLine::getExecutionList() {
   vision_server::vision_server_get_information_list srv;
   srv.request.cmd = EXECUTION;
 
@@ -189,7 +188,7 @@ QVector<QString> vision_client::CommunicationLine::getExecutionList() {
 
 //------------------------------------------------------------------------------
 //
-QVector<RawParameter> vision_client::CommunicationLine::getParametersForFilter(
+QVector<RawParameter> CommunicationLine::getParametersForFilter(
     const QString &filter_name, const QString &filter_chain_name,
     const QString &execution_name) {
   vision_server::vision_server_get_filterchain_filter_all_param srv;
@@ -207,10 +206,11 @@ QVector<RawParameter> vision_client::CommunicationLine::getParametersForFilter(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::setFilterParameter(
-    const QString &filter_chain_name, const QString &filter_name,
-    const QString &parameter_name, const QString &parameter_value,
-    const QString &execution_name) {
+bool CommunicationLine::setFilterParameter(const QString &filter_chain_name,
+                                           const QString &filter_name,
+                                           const QString &parameter_name,
+                                           const QString &parameter_value,
+                                           const QString &execution_name) {
   vision_server::vision_server_set_filterchain_filter_param srv;
   srv.request.exec_name = execution_name.toStdString();
   srv.request.filterchain = filter_chain_name.toStdString();
@@ -224,7 +224,7 @@ bool vision_client::CommunicationLine::setFilterParameter(
 
 //------------------------------------------------------------------------------
 //
-QString vision_client::CommunicationLine::getFilterChainFromExecution(
+QString CommunicationLine::getFilterChainFromExecution(
     const QString &execution_name) {
   vision_server::vision_server_get_filterchain_from_execution srv;
   srv.request.exec_name = execution_name.toStdString();
@@ -236,7 +236,7 @@ QString vision_client::CommunicationLine::getFilterChainFromExecution(
 
 //------------------------------------------------------------------------------
 //
-QString vision_client::CommunicationLine::getMediaFromExecution(
+QString CommunicationLine::getMediaFromExecution(
     const QString &execution_name) {
   vision_server::vision_server_get_media_from_execution srv;
   srv.request.exec_name = execution_name.toStdString();
@@ -248,9 +248,9 @@ QString vision_client::CommunicationLine::getMediaFromExecution(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::addFilter(
-    const QString &filter_chain_name, const QString &filter_name,
-    const QString &execution_name) {
+bool CommunicationLine::addFilter(const QString &filter_chain_name,
+                                  const QString &filter_name,
+                                  const QString &execution_name) {
   return serviceManageFilter(filter_chain_name.toStdString(), ADD,
                              filter_name.toStdString(),
                              execution_name.toStdString());
@@ -258,9 +258,9 @@ bool vision_client::CommunicationLine::addFilter(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::deleteFilter(
-    const QString &filter_chain_name, const QString &filter_name,
-    const QString &execution_name) {
+bool CommunicationLine::deleteFilter(const QString &filter_chain_name,
+                                     const QString &filter_name,
+                                     const QString &execution_name) {
   return serviceManageFilter(filter_chain_name.toStdString(), DELETE,
                              filter_name.toStdString(),
                              execution_name.toStdString());
@@ -268,21 +268,19 @@ bool vision_client::CommunicationLine::deleteFilter(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::createFilterChain(
-    const QString &filter_chain_name) {
+bool CommunicationLine::createFilterChain(const QString &filter_chain_name) {
   return serviceManageFilterChain(filter_chain_name.toStdString(), ADD);
 }
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::deleteFilterChain(
-    const QString &filter_chain_name) {
+bool CommunicationLine::deleteFilterChain(const QString &filter_chain_name) {
   return serviceManageFilterChain(filter_chain_name.toStdString(), DELETE);
 }
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::copyFilterChain(
+bool CommunicationLine::copyFilterChain(
     const QString &filter_chain_name_to_copy,
     const QString &filter_chain_new_name) {
   vision_server::vision_server_copy_filterchain srv;
@@ -294,7 +292,7 @@ bool vision_client::CommunicationLine::copyFilterChain(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::renameFilterChain(
+bool CommunicationLine::renameFilterChain(
     const QString &filter_chain_old_name,
     const QString &filter_chain_new_name) {
   // first copy
@@ -305,25 +303,25 @@ bool vision_client::CommunicationLine::renameFilterChain(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::saveFilterChain(
-    const QString &filter_chain_name, const QString &execution_name) {
+bool CommunicationLine::saveFilterChain(const QString &filter_chain_name,
+                                        const QString &execution_name) {
   return serviceSave(filter_chain_name.toStdString(), ADD,
                      execution_name.toStdString());
 }
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::restoreFilterChain(
-    const QString &filter_chain_name, const QString &execution_name) {
+bool CommunicationLine::restoreFilterChain(const QString &filter_chain_name,
+                                           const QString &execution_name) {
   return serviceSave(filter_chain_name.toStdString(), DELETE,
                      execution_name.toStdString());
 }
 
 //------------------------------------------------------------------------------
 //
-QString vision_client::CommunicationLine::startExecution(
-    const QString &execution_name, const QString &filter_chain_name,
-    const QString &media_name) {
+QString CommunicationLine::startExecution(const QString &execution_name,
+                                          const QString &filter_chain_name,
+                                          const QString &media_name) {
   // création de l'ImagesSubscriber correspondant
   QString exec_name = serviceExecute(execution_name.toStdString(),
                                      filter_chain_name.toStdString(),
@@ -335,9 +333,9 @@ QString vision_client::CommunicationLine::startExecution(
 
 //------------------------------------------------------------------------------
 //
-QString vision_client::CommunicationLine::stopExecution(
-    const QString &execution_name, const QString &filter_chain_name,
-    const QString &media_name) {
+QString CommunicationLine::stopExecution(const QString &execution_name,
+                                         const QString &filter_chain_name,
+                                         const QString &media_name) {
   stopExecutionFeed(execution_name);
   // on stop l'execution sur le serveur
   return serviceExecute(execution_name.toStdString(),
@@ -347,8 +345,7 @@ QString vision_client::CommunicationLine::stopExecution(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::stopExecutionFeed(
-    const QString &execution_name) {
+bool CommunicationLine::stopExecutionFeed(const QString &execution_name) {
   // on supprime l'instance dans le map
   if (_current_executions.find(execution_name) != _current_executions.end()) {
     _current_executions[execution_name]->stop();
@@ -359,9 +356,9 @@ bool vision_client::CommunicationLine::stopExecutionFeed(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::setFilterObserver(
-    const QString &execution_name, const QString &filter_chain_name,
-    const QString &filter_name) {
+bool CommunicationLine::setFilterObserver(const QString &execution_name,
+                                          const QString &filter_chain_name,
+                                          const QString &filter_name) {
   vision_server::vision_server_set_filterchain_filter_observer srv;
   srv.request.execution = execution_name.toStdString();
   srv.request.filterchain = filter_chain_name.toStdString();
@@ -378,9 +375,10 @@ bool vision_client::CommunicationLine::setFilterObserver(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::changeFilterOrder(
-    const QString &execution_name, const QString &filter_chain_name,
-    const unsigned int &filter_index, const unsigned int commande) {
+bool CommunicationLine::changeFilterOrder(const QString &execution_name,
+                                          const QString &filter_chain_name,
+                                          const unsigned int &filter_index,
+                                          const unsigned int commande) {
   vision_server::vision_server_set_filterchain_filter_order srv;
   srv.request.exec_name = execution_name.toStdString();
   srv.request.filterchain = filter_chain_name.toStdString();
@@ -400,7 +398,7 @@ bool vision_client::CommunicationLine::changeFilterOrder(
 
 //------------------------------------------------------------------------------
 //
-QVector<RawParameter> vision_client::CommunicationLine::toRawParameterList(
+QVector<RawParameter> CommunicationLine::toRawParameterList(
     const QVector<QString> &data) const {
   RawParameter parameter;
   QVector<RawParameter> parameters;
@@ -434,8 +432,8 @@ QVector<RawParameter> vision_client::CommunicationLine::toRawParameterList(
 
 //------------------------------------------------------------------------------
 //
-QVariant vision_client::CommunicationLine::parseParameterType(
-    const QString &value, const QString &type) const {
+QVariant CommunicationLine::parseParameterType(const QString &value,
+                                               const QString &type) const {
   if (type == "String") {
     return value;
   } else if (type == "Integer") {
@@ -460,8 +458,8 @@ QVariant vision_client::CommunicationLine::parseParameterType(
 //------------------------------------------------------------------------------
 //
 template <typename T>
-bool vision_client::CommunicationLine::callService(T *const &service,
-                                                   const std::string &node) {
+bool CommunicationLine::callService(T *const &service,
+                                    const std::string &node) {
   bool result = false;
   int counter = 0;
 
@@ -488,8 +486,8 @@ bool vision_client::CommunicationLine::callService(T *const &service,
 //------------------------------------------------------------------------------
 //
 template <typename T>
-QVector<QString> vision_client::CommunicationLine::serviceGetList(
-    T *const &service, const std::string &node) {
+QVector<QString> CommunicationLine::serviceGetList(T *const &service,
+                                                   const std::string &node) {
   QStringList splitted_data;
 
   // on appelle le serveur
@@ -504,8 +502,8 @@ QVector<QString> vision_client::CommunicationLine::serviceGetList(
 //------------------------------------------------------------------------------
 //
 template <typename T>
-QString vision_client::CommunicationLine::serviceGetString(
-    T *const &service, const std::string &node) {
+QString CommunicationLine::serviceGetString(T *const &service,
+                                            const std::string &node) {
   if (!callService(service, node)) {
     return "";
   }
@@ -528,9 +526,9 @@ QString vision_client::CommunicationLine::serviceGetString(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::serviceSave(
-    const std::string &filter_chain, CMD_MANAGE commande,
-    const std::string &execution) {
+bool CommunicationLine::serviceSave(const std::string &filter_chain,
+                                    CMD_MANAGE commande,
+                                    const std::string &execution) {
   vision_server::vision_server_save_filterchain srv;
   srv.request.exec_name = execution;
   srv.request.filterchain = filter_chain;
@@ -546,9 +544,10 @@ bool vision_client::CommunicationLine::serviceSave(
 
 //------------------------------------------------------------------------------
 //
-QString vision_client::CommunicationLine::serviceExecute(
-    const std::string &execName, const std::string &filter_chain_name,
-    const std::string &media_name, CMD_MANAGE commande) {
+QString CommunicationLine::serviceExecute(const std::string &execName,
+                                          const std::string &filter_chain_name,
+                                          const std::string &media_name,
+                                          CMD_MANAGE commande) {
   vision_server::vision_server_execute_cmd srv;
   srv.request.node_name = execName;
   srv.request.filterchain_name = filter_chain_name;
@@ -565,7 +564,7 @@ QString vision_client::CommunicationLine::serviceExecute(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::serviceManageFilter(
+bool CommunicationLine::serviceManageFilter(
     const std::string &filter_chain_name, const CMD_MANAGE commande,
     const std::string &filter_name, const std::string &execName) {
   vision_server::vision_server_manage_filterchain_filter srv;
@@ -584,7 +583,7 @@ bool vision_client::CommunicationLine::serviceManageFilter(
 
 //------------------------------------------------------------------------------
 //
-bool vision_client::CommunicationLine::serviceManageFilterChain(
+bool CommunicationLine::serviceManageFilterChain(
     const std::string &filter_chain_name, const CMD_MANAGE commande) {
   vision_server::vision_server_manage_filterchain srv;
   srv.request.filterchain = filter_chain_name;
@@ -603,7 +602,7 @@ bool vision_client::CommunicationLine::serviceManageFilterChain(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CommunicationLine::onReceivedImage(
+void CommunicationLine::onReceivedImage(
     const cv::Mat &image, const ImageSubscriber *subscriber) const {
   // on cherche l'exécution correspondante au subscriber
   for (auto &it : _current_executions) {
@@ -618,7 +617,7 @@ void vision_client::CommunicationLine::onReceivedImage(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::CommunicationLine::onReceivedResult(
+void CommunicationLine::onReceivedResult(
     const QString &message, const ImageSubscriber *subscriber) const {
   // on cherche l'exécution correspondante au subscriber
   for (auto &it : _current_executions) {
@@ -630,3 +629,5 @@ void vision_client::CommunicationLine::onReceivedResult(
   // ROS_INFO( "[COMMUNICATION LINE] : no subscriber found in current
   //            executions list, this is not an expected behavior." );
 }
+
+}  // namespace gui_vision_client

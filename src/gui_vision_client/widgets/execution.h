@@ -7,34 +7,13 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QObject>
 #include <QString>
 #include <QTableWidgetItem>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class Execution;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * Comment.
- * Multiligne.
- */
-class vision_client::Execution : public QObject {
+class Execution : public QObject {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -141,49 +120,46 @@ class vision_client::Execution : public QObject {
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Execution::getName() const { return _name; }
+inline const QString Execution::getName() const { return _name; }
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Execution::getMediaName() const {
-  return _media_name;
-}
+inline const QString Execution::getMediaName() const { return _media_name; }
 
 //------------------------------------------------------------------------------
 //
-inline const QString vision_client::Execution::getFilterChainName() const {
+inline const QString Execution::getFilterChainName() const {
   return _filter_chain_name;
 }
 
 //------------------------------------------------------------------------------
 //
-inline QTableWidgetItem *const vision_client::Execution::getExecutionWidget()
-    const {
+inline QTableWidgetItem *const Execution::getExecutionWidget() const {
   return _execution_widget;
 }
 
 //------------------------------------------------------------------------------
 //
-inline QTableWidgetItem *const vision_client::Execution::getFilterChainWidget()
-    const {
+inline QTableWidgetItem *const Execution::getFilterChainWidget() const {
   return _filter_chain_widget;
 }
 
 //------------------------------------------------------------------------------
 //
-inline QTableWidgetItem *const vision_client::Execution::getMediaWidget()
-    const {
+inline QTableWidgetItem *const Execution::getMediaWidget() const {
   return _media_widget;
 }
 
 //------------------------------------------------------------------------------
 //
-inline bool vision_client::Execution::isScreenshotEnabled() const {
+inline bool Execution::isScreenshotEnabled() const {
   return _is_screenshot_enabled;
 }
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::Execution::setIsScreenshotEnabled(bool value) {
+inline void Execution::setIsScreenshotEnabled(bool value) {
   _is_screenshot_enabled = value;
 }
+
+}  // namespace gui_vision_client

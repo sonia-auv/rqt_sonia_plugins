@@ -5,18 +5,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "focused_frame_controller.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::FocusedFrameController::FocusedFrameController(
-    QWidget *const parent)
+FocusedFrameController::FocusedFrameController(QWidget *const parent)
     : QFrame(parent) {
   _ui.setupUi(this);
 
@@ -34,7 +32,7 @@ vision_client::FocusedFrameController::FocusedFrameController(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FocusedFrameController::focus() {
+void FocusedFrameController::focus() {
   setFrameShape(QFrame::Panel);
   setFrameShadow(QFrame::Sunken);
   setLineWidth(4);
@@ -42,7 +40,7 @@ void vision_client::FocusedFrameController::focus() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FocusedFrameController::unfocus() {
+void FocusedFrameController::unfocus() {
   setFrameShape(QFrame::NoFrame);
   setFrameShadow(QFrame::Plain);
   setLineWidth(0);
@@ -53,8 +51,7 @@ void vision_client::FocusedFrameController::unfocus() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FocusedFrameController::mouseReleaseEvent(
-    QMouseEvent *event) {
+void FocusedFrameController::mouseReleaseEvent(QMouseEvent *event) {
   if (event->button() == Qt::LeftButton) {
     emit clicked(this);
   }
@@ -63,7 +60,7 @@ void vision_client::FocusedFrameController::mouseReleaseEvent(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FocusedFrameController::onRecordButtonClicked() {
+void FocusedFrameController::onRecordButtonClicked() {
   if (getImageFrame()->isRecording()) {
     if (getImageFrame()->stopRecordingVideo()) {
       _ui.video_record_button->setIcon(getIconFromTheme("media_record"));
@@ -82,6 +79,8 @@ void vision_client::FocusedFrameController::onRecordButtonClicked() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::FocusedFrameController::onSreenshotButtonClicked() {
+void FocusedFrameController::onSreenshotButtonClicked() {
   getImageFrame()->takeScreenshot();
 }
+
+}  // namespace gui_vision_client

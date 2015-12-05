@@ -5,18 +5,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "filter.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::Filter::Filter(const QString &name, unsigned int index,
-                              QObject *const parent)
+Filter::Filter(const QString &name, unsigned int index, QObject *const parent)
     : QObject(parent),
       _name(name),
       _index(index),
@@ -24,8 +22,10 @@ vision_client::Filter::Filter(const QString &name, unsigned int index,
 
 //------------------------------------------------------------------------------
 //
-vision_client::Filter::~Filter() {
+Filter::~Filter() {
   if (_widget) {
     delete _widget;
   }
 }
+
+}  // namespace gui_vision_client

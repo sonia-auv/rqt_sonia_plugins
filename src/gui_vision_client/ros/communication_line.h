@@ -8,10 +8,6 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// Others librairies and .h
 #include <QObject>
 #include <QMap>
 #include <QVector>
@@ -19,8 +15,6 @@
 #include <QVariant>
 #include <QStringList>
 #include "ros/ros.h"
-
-// Project's .h
 #include "image_subscriber.h"
 #include <vision_server/vision_server_execute_cmd.h>
 #include <vision_server/vision_server_copy_filterchain.h>
@@ -37,17 +31,7 @@
 #include <vision_server/vision_server_get_filterchain_from_execution.h>
 #include <vision_server/vision_server_get_media_from_execution.h>
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
-
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class CommunicationLine;
-}
+namespace gui_vision_client {
 
 //==============================================================================
 // G L O B A L   V A R I A B L E S   A N D   S T R U C T
@@ -101,9 +85,6 @@ struct RawParameter {
   QString description;
 };
 
-//==============================================================================
-// C L A S S E S
-
 /**
  * Handles all the communication with the VisionServer through ROS services.
  *
@@ -121,7 +102,7 @@ struct RawParameter {
  * Because the call of a ROS service can fail,
  * the CommunicationLine tries CONNEXION_ATTEMPS times to contact the service.
  */
-class vision_client::CommunicationLine : public QObject {
+class CommunicationLine : public QObject {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -599,7 +580,7 @@ class vision_client::CommunicationLine : public QObject {
    */
   void onReceivedResult(const QString &message, const ImageSubscriber *) const;
 
- signals:
+signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 
@@ -831,3 +812,5 @@ class vision_client::CommunicationLine : public QObject {
    */
   std::map<QString, ImageSubscriber *> _current_executions;
 };
+
+}  // namespace gui_vision_client

@@ -5,17 +5,16 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
 #include "parameter_container.h"
 
+namespace gui_vision_client {
+
 //==============================================================================
-// C O N S T R U C T O R / D E S T R U C T O R   S E C T I O N
+// C / D T O R S   S E C T I O N
 
 //------------------------------------------------------------------------------
 //
-vision_client::ParameterContainer::ParameterContainer(QWidget *const parent)
+ParameterContainer::ParameterContainer(QWidget *const parent)
     : QScrollArea(parent),
       ContainerWidget<Parameter>(),
       _current_parameter(nullptr),
@@ -26,7 +25,7 @@ vision_client::ParameterContainer::ParameterContainer(QWidget *const parent)
       new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 }
 
-vision_client::ParameterContainer::~ParameterContainer() {
+ParameterContainer::~ParameterContainer() {
   if (_current_parameter) {
     delete _current_parameter;
   }
@@ -43,7 +42,7 @@ vision_client::ParameterContainer::~ParameterContainer() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ParameterContainer::removeAll() {
+void ParameterContainer::removeAll() {
   for (auto &component : _components) {
     delete component;
   }
@@ -52,8 +51,7 @@ void vision_client::ParameterContainer::removeAll() {
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ParameterContainer::createWidgets(
-    const Parameter *const &parameter) {
+void ParameterContainer::createWidgets(const Parameter *const &parameter) {
   connect(parameter, SIGNAL(valueChanged(Parameter * const &)), this,
           SLOT(onParameterValueChanged(Parameter * const &)));
   _layout->addWidget(parameter->getMainWidget());
@@ -64,7 +62,8 @@ void vision_client::ParameterContainer::createWidgets(
 
 //------------------------------------------------------------------------------
 //
-void vision_client::ParameterContainer::onParameterValueChanged(
-    Parameter *const &parameter) {
+void ParameterContainer::onParameterValueChanged(Parameter *const &parameter) {
   emit parameterValueChanged(parameter);
 }
+
+}  // namespace gui_vision_client

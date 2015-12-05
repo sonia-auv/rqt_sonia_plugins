@@ -7,41 +7,17 @@
 
 #pragma once
 
-//==============================================================================
-// I N C L U D E   F I L E S
-
-// others librairies and .h
 #include <QScrollArea>
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QSpacerItem>
-
-// project's .h
 #include "container_widget.h"
 #include "parameter.h"
 
-//==============================================================================
-// N A M E S P A C E S   D E C L A R A T I O N S
+namespace gui_vision_client {
 
-/**
- * The namespace containing the whole code of this ROS package,
- * not polluating the global namespace is always a good practice and it became
- * a norme at SONIA. Please define your class in specific namespace.
- */
-namespace vision_client {
-class ParameterContainer;
-}
-
-//==============================================================================
-// C L A S S E S
-
-/**
- * A parameter contrainer.
- * Multiligne.
- *
- */
-class vision_client::ParameterContainer : public QScrollArea,
-                                          public ContainerWidget<Parameter> {
+class ParameterContainer : public QScrollArea,
+                           public ContainerWidget<Parameter> {
   /**
    * The Q_OBJECT constant provided by Qt.
    * Allow the class to behave as a Widget (provides SLOTS, SIGNALS, etc.)
@@ -89,7 +65,7 @@ class vision_client::ParameterContainer : public QScrollArea,
    */
   void onParameterValueChanged(Parameter *const &);
 
- signals:
+signals:
   //==========================================================================
   // Q T  S I G N A L S
 
@@ -128,13 +104,15 @@ class vision_client::ParameterContainer : public QScrollArea,
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::ParameterContainer::setLayout(QVBoxLayout *layout) {
+inline void ParameterContainer::setLayout(QVBoxLayout *layout) {
   _layout = layout;
 }
 
 //------------------------------------------------------------------------------
 //
-inline void vision_client::ParameterContainer::reloadSpacer() {
+inline void ParameterContainer::reloadSpacer() {
   _layout->removeItem(_spacer);
   _layout->addItem(_spacer);
 }
+
+}  // namespace gui_vision_client
