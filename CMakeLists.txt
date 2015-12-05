@@ -39,10 +39,9 @@ find_package( catkin REQUIRED COMPONENTS
 
 find_package( catkin REQUIRED provider_vision )
 
-find_package( Qt4 REQUIRED COMPONENTS
-    QtCore
-    QtGui
-    )
+find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+
+include( ${QT_USE_FILE} )
 
 catkin_package(
     INCLUDE_DIRS ${gui_vision_client_SRC_DIR}
@@ -58,16 +57,9 @@ catkin_package(
 #===============================================================================
 # I N C L U D E   F I L E S
 
-
-file( GLOB_RECURSE gui_vision_client_FILES "${gui_vision_client_SRC_DIR}/*.h" "${gui_vision_client_SRC_DIR}/*.cpp" )
-file( GLOB_RECURSE gui_vision_client_UIS "${gui_vision_client_UIS_DIR}/*.ui" )
-
-# Generating MOC and headers for UI files.
-# For some reason, commands are case sensitive, so just keep it like it is...
-QT4_WRAP_CPP( gui_vision_client_QT_MOC ${gui_vision_client_FILES} )
-QT4_WRAP_UI( gui_vision_client_QT_UIS ${gui_vision_client_UIS} )
-
-include( ${QT_USE_FILE} )
+file(GLOB_RECURSE gui_vision_client_SRC_FILES "${gui_vision_client_SRC_DIR}/*.cpp" )
+file(GLOB_RECURSE gui_vision_client_HDR_FILES "${gui_vision_client_SRC_DIR}/*.h")
+file(GLOB_RECURSE gui_vision_client_UIS "${gui_vision_client_UIS_DIR}/*.ui" )
 
 include_directories(
     ${gui_vision_client_SRC_DIR}
@@ -75,11 +67,15 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
+qt4_wrap_cpp( gui_vision_client_QT_MOC ${gui_vision_client_HDR_FILES} )
+qt4_wrap_ui( gui_vision_client_QT_UIS ${gui_vision_client_UIS} )
+
 #===============================================================================
 # C R E A T E   E X E C U T A B L E
 
 add_executable( ${PROJECT_NAME}_node
-    ${gui_vision_client_FILES}
+    ${gui_vision_client_SRC_FILES}
+    ${gui_vision_client_HDR_FILES}
     ${gui_vision_client_QT_MOC}
     ${gui_vision_client_QT_UIS}
 )
