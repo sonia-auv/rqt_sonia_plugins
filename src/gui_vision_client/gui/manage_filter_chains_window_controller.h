@@ -43,7 +43,7 @@ class ManageFilterChainsWindowController : public QDialog {
                                               QWidget *const parent = nullptr);
 
   /** Destructor */
-  ~ManageFilterChainsWindowController();
+  virtual ~ManageFilterChainsWindowController() = default;
 
   /** Return the currently selected filter chain */
   inline const QString &getCurrentFilterChain() const;
@@ -89,7 +89,7 @@ class ManageFilterChainsWindowController : public QDialog {
   // P R I V A T E   M E M B E R S
 
   /** The UI Composant of this controller */
-  Ui::ManageFilterChainsWindow _ui;
+  std::shared_ptr<Ui::ManageFilterChainsWindow> _ui;
 
   /** The current filter chain. */
   QString _current_filter_chain;
@@ -104,9 +104,9 @@ class ManageFilterChainsWindowController : public QDialog {
 //------------------------------------------------------------------------------
 //
 inline void ManageFilterChainsWindowController::loadFilterChains() {
-  _ui.filterchain_list->clear();
+  _ui->filterchain_list->clear();
   for (const auto &filter_chain : _communication.getFilterChainList()) {
-    _ui.filterchain_list->addItem(filter_chain);
+    _ui->filterchain_list->addItem(filter_chain);
   }
 }
 

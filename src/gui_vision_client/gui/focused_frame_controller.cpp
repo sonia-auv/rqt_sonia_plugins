@@ -15,8 +15,8 @@ namespace gui_vision_client {
 //------------------------------------------------------------------------------
 //
 FocusedFrameController::FocusedFrameController(QWidget *const parent)
-    : QFrame(parent) {
-  _ui.setupUi(this);
+    : QFrame(parent), _ui(std::make_shared<Ui::FocusedFrame>()) {
+  _ui->setupUi(this);
 
   // When the record checkbox is checked, call onRecordVideoClicked
   QObject::connect(getRecordButton(), SIGNAL(clicked()), this,
@@ -63,14 +63,14 @@ void FocusedFrameController::mouseReleaseEvent(QMouseEvent *event) {
 void FocusedFrameController::onRecordButtonClicked() {
   if (getImageFrame()->isRecording()) {
     if (getImageFrame()->stopRecordingVideo()) {
-      _ui.video_record_button->setIcon(getIconFromTheme("media_record"));
+      _ui->video_record_button->setIcon(getIconFromTheme("media_record"));
     }
   } else {
     const auto file_path =
         QFileDialog::getSaveFileName(this, tr("Save video as..."));
     if (!file_path.isEmpty()) {
       if (getImageFrame()->startRecordingVideo(file_path)) {
-        _ui.video_record_button->setIcon(
+        _ui->video_record_button->setIcon(
             getIconFromTheme("media-playback-stop"));
       }
     }

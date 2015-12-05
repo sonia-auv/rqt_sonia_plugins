@@ -44,7 +44,7 @@ class ImageFrame : public QFrame {
                       Qt::WFlags flags = nullptr);
 
   /** Destructor */
-  ~ImageFrame();
+  virtual ~ImageFrame() = default;
 
   /**
    * Start to capture a video.

@@ -36,7 +36,7 @@ class FilterContainer : public QListWidget, public ContainerWidget<Filter> {
   /**
    * Destructor
    */
-  ~FilterContainer() {}
+  virtual ~FilterContainer() = default;
 
   //==========================================================================
   // P U B L I C   M E T H O D S

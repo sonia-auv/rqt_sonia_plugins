@@ -17,33 +17,29 @@ namespace gui_vision_client {
 ManageFilterChainsWindowController::ManageFilterChainsWindowController(
     CommunicationLine &communication, QWidget *const parent)
     : QDialog(parent),
-      _ui(),
+      _ui(std::make_shared<Ui::ManageFilterChainsWindow>()),
       _current_filter_chain(),
       _communication(communication) {
-  _ui.setupUi(this);
+  _ui->setupUi(this);
 
   loadFilterChains();
 
-  QObject::connect(_ui.add_filterchain_button, SIGNAL(clicked()), this,
+  QObject::connect(_ui->add_filterchain_button, SIGNAL(clicked()), this,
                    SLOT(onAddFilterChainClicked()));
 
-  QObject::connect(_ui.remove_filterchain_button, SIGNAL(clicked()), this,
+  QObject::connect(_ui->remove_filterchain_button, SIGNAL(clicked()), this,
                    SLOT(onRemoveFilterChainClicked()));
 
-  QObject::connect(_ui.edit_filterchain_button, SIGNAL(clicked()), this,
+  QObject::connect(_ui->edit_filterchain_button, SIGNAL(clicked()), this,
                    SLOT(onRenameFilterChainClicked()));
 
-  QObject::connect(_ui.save_filterchain_button, SIGNAL(clicked()), this,
+  QObject::connect(_ui->save_filterchain_button, SIGNAL(clicked()), this,
                    SLOT(onCopyFilterChainClicked()));
 
-  QObject::connect(_ui.filterchain_list,
+  QObject::connect(_ui->filterchain_list,
                    SIGNAL(currentTextChanged(const QString &)), this,
                    SLOT(onFilterChainChanged(const QString &)));
 }
-
-//------------------------------------------------------------------------------
-//
-ManageFilterChainsWindowController::~ManageFilterChainsWindowController() {}
 
 //==============================================================================
 // M E T H O D   S E C T I O N

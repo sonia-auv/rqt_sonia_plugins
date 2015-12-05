@@ -35,7 +35,7 @@ class ParameterContainer : public QScrollArea,
   explicit ParameterContainer(QWidget *const parent = nullptr);
 
   /** Destructor. */
-  ~ParameterContainer();
+  virtual ~ParameterContainer();
 
   //==========================================================================
   // G E T T E R S   A N D   S E T T E R S

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <memory>
 #include <QFrame>
 #include <QWidget>
 #include <QMouseEvent>
@@ -25,6 +26,7 @@
  */
 namespace Ui {
 class MainWindow;
+class FocusedFrame;
 }
 
 namespace gui_vision_client {
@@ -48,7 +50,7 @@ class FocusedFrameController : public QFrame {
   explicit FocusedFrameController(QWidget *const parent = nullptr);
 
   /** Destructor */
-  ~FocusedFrameController() {}
+  virtual ~FocusedFrameController() = default;
 
   /**
    * This slot handle the behavior of the frame when it's focused.
@@ -168,7 +170,7 @@ signals:
   //==========================================================================
   // P R I V A T E   M E M B E R
 
-  Ui::FocusedFrame _ui;
+  std::shared_ptr<Ui::FocusedFrame> _ui;
 };
 
 //==============================================================================
@@ -177,31 +179,31 @@ signals:
 //------------------------------------------------------------------------------
 //
 inline QLineEdit *const &FocusedFrameController::getResultLine() const {
-  return _ui.video_result_line;
+  return _ui->video_result_line;
 }
 
 //------------------------------------------------------------------------------
 //
 inline ImageFrame *const &FocusedFrameController::getImageFrame() const {
-  return _ui.video_image_frame;
+  return _ui->video_image_frame;
 }
 
 //------------------------------------------------------------------------------
 //
 inline QToolButton *const &FocusedFrameController::getRecordButton() const {
-  return _ui.video_record_button;
+  return _ui->video_record_button;
 }
 
 //------------------------------------------------------------------------------
 //
 inline QToolButton *const &FocusedFrameController::getScreenshotButton() const {
-  return _ui.video_screenshot_button;
+  return _ui->video_screenshot_button;
 }
 
 //------------------------------------------------------------------------------
 //
 inline QComboBox *const &FocusedFrameController::getComboBox() const {
-  return _ui.video_combobox;
+  return _ui->video_combobox;
 }
 
 //------------------------------------------------------------------------------

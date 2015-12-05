@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <memory>
 #include <QVector>
 #include <QString>
 #include <QFileDialog>
@@ -43,6 +44,8 @@ class CreateExecutionWindowController : public QDialog {
    * \param parent The parent Qt widget
    */
   explicit CreateExecutionWindowController(QWidget *const parent = nullptr);
+
+  virtual ~CreateExecutionWindowController() = default;
 
   //==========================================================================
   // G E T T E R S   A N D   S E T T E R S
@@ -114,7 +117,7 @@ class CreateExecutionWindowController : public QDialog {
   // P R I V A T E   M E M B E R S
 
   /** The UI Composant of this controller. */
-  Ui::CreateExecutionWindow _ui;
+  std::shared_ptr<Ui::CreateExecutionWindow> _ui;
 
   /** The execution from the last CreateExecutionWindow instance. */
   QString _execution;

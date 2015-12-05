@@ -30,10 +30,6 @@ ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
           Qt::QueuedConnection);
 }
 
-//------------------------------------------------------------------------------
-//
-ImageFrame::~ImageFrame() {}
-
 //==============================================================================
 // M E T H O D   S E C T I O N
 

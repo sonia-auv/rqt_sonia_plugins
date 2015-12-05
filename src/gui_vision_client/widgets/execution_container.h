@@ -33,7 +33,7 @@ class ExecutionContainer : public QTableWidget,
   explicit ExecutionContainer(QWidget *const parent = nullptr);
 
   /** Destructor */
-  ~ExecutionContainer() {}
+  virtual ~ExecutionContainer() = default;
 
   //==========================================================================
   // P U B L I C   M E T H O D S

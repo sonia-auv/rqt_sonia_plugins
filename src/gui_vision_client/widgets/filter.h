@@ -31,7 +31,7 @@ class Filter : public QObject {
                   QObject *const parent = nullptr);
 
   /** Destructor. */
-  ~Filter();
+  virtual ~Filter();
 
   //==========================================================================
   // G E T T E R S   A N D   S E T T E R S

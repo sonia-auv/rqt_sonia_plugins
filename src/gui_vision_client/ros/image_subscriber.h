@@ -55,7 +55,7 @@ class ImageSubscriber : public QObject, public image_transport::Subscriber {
   explicit ImageSubscriber(const ros::NodeHandle &hdl);
 
   /** Destructor */
-  ~ImageSubscriber() {}
+  virtual ~ImageSubscriber() = default;
 
   //==========================================================================
   // P U B L I C   M E T H O D S

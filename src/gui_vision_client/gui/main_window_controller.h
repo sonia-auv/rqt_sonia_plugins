@@ -51,7 +51,7 @@ class MainWindowController : public QMainWindow {
   explicit MainWindowController(QWidget *const parent = nullptr);
 
   /** Destructor */
-  ~MainWindowController();
+  virtual ~MainWindowController();
 
   /**
    * Gets current execution.
@@ -236,7 +236,7 @@ class MainWindowController : public QMainWindow {
   // P R I V A T E   M E M B E R S
 
   /** The user interface. */
-  Ui::MainWindow _ui;
+  std::shared_ptr<Ui::MainWindow> _ui;
 
   /** The execution window. */
   CreateExecutionWindowController *_execution_window;

@@ -47,7 +47,7 @@ class Parameter : public QObject {
                      QObject *const parent = nullptr);
 
   /** Destructor. */
-  ~Parameter();
+  virtual ~Parameter();
 
   //==========================================================================
   // G E T T E R S   A N D   S E T T E R S

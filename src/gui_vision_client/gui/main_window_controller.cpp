@@ -16,32 +16,32 @@ namespace gui_vision_client {
 //
 MainWindowController::MainWindowController(QWidget *const parent)
     : QMainWindow(parent),
-      _ui(),
+      _ui(std::make_shared<Ui::MainWindow>()),
       _execution_window(new CreateExecutionWindowController(this)),
       _manage_filter_chains_window(nullptr),
       _communication(),
       _current_video_frame(nullptr),
       _current_executions(),
       _current_filter(nullptr) {
-  _ui.setupUi(this);
-  _current_video_frame = _ui.video_frame_left;
+  _ui->setupUi(this);
+  _current_video_frame = _ui->video_frame_left;
   _manage_filter_chains_window =
       new ManageFilterChainsWindowController(_communication, this);
-  _ui.parameter_container->setLayout(_ui.parameter_layout);
+  _ui->parameter_container->setLayout(_ui->parameter_layout);
 
   qRegisterMetaType<cv::Mat>("cv::Mat");
 
   // When the selected execution changed, call method onExecutionChanged
-  connect(_ui.execution_container, SIGNAL(focusChanged(Execution * const &)),
+  connect(_ui->execution_container, SIGNAL(focusChanged(Execution * const &)),
           this, SLOT(onExecutionChanged(Execution * const &)));
 
   // When the selected filter changed, call method onFilterChanged
-  connect(_ui.filter_container, SIGNAL(focusChanged(Filter * const &)), this,
+  connect(_ui->filter_container, SIGNAL(focusChanged(Filter * const &)), this,
           SLOT(onFilterChanged(Filter * const &)));
 
   // When the value of the selected parameter changed, call method
   // onParameterValueChanged
-  connect(_ui.parameter_container,
+  connect(_ui->parameter_container,
           SIGNAL(parameterValueChanged(Parameter * const &)), this,
           SLOT(onParameterChanged(Parameter * const &)));
 
@@ -57,16 +57,16 @@ MainWindowController::MainWindowController(QWidget *const parent)
 
   // When action Create Execution is called, call method
   // onCreateExecutionWindow
-  connect(_ui.action_create_execution, SIGNAL(triggered()), this,
+  connect(_ui->action_create_execution, SIGNAL(triggered()), this,
           SLOT(onCreateExecutionWindow()));
 
   // When action Create Execution is called, call method
   // onCreateExecutionWindow
-  connect(_ui.action_manage_filter_chains, SIGNAL(triggered()), this,
+  connect(_ui->action_manage_filter_chains, SIGNAL(triggered()), this,
           SLOT(onManageFilterChainsWindow()));
 
   // When action Stop Execution is called, call method onStopExecutionWindow
-  connect(_ui.action_stop_execution, SIGNAL(triggered()), this,
+  connect(_ui->action_stop_execution, SIGNAL(triggered()), this,
           SLOT(onStopExecutionWindow()));
 
   // When the execution window is validated, call method
@@ -75,36 +75,36 @@ MainWindowController::MainWindowController(QWidget *const parent)
           SLOT(onCreateExecutionAccepted()));
 
   // When action Save FilterChain is called, call method saveFilterChain
-  connect(_ui.action_save_filter_chain, SIGNAL(triggered()), this,
+  connect(_ui->action_save_filter_chain, SIGNAL(triggered()), this,
           SLOT(onSaveFilterChain()));
 
   // When action Quit is called, close the application
-  connect(_ui.action_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
+  connect(_ui->action_quit, SIGNAL(triggered()), qApp, SLOT(quit()));
 
   // When a video frame is clicked, call method handleVideoFrameClicked
-  QObject::connect(_ui.video_frame_left,
+  QObject::connect(_ui->video_frame_left,
                    SIGNAL(clicked(FocusedFrameController * const &)), this,
                    SLOT(onVideoFrameClicked(FocusedFrameController * const &)));
 
   // When a video frame is clicked, call method handleVideoFrameClicked
-  QObject::connect(_ui.video_frame_right,
+  QObject::connect(_ui->video_frame_right,
                    SIGNAL(clicked(FocusedFrameController * const &)), this,
                    SLOT(onVideoFrameClicked(FocusedFrameController * const &)));
 
   // When the reload execution menu is called, call onReloadExecutions
-  QObject::connect(_ui.action_reload_executions, SIGNAL(triggered()), this,
+  QObject::connect(_ui->action_reload_executions, SIGNAL(triggered()), this,
                    SLOT(onReloadExecutions()));
 
-  QObject::connect(_ui.filter_arrow_up, SIGNAL(clicked()), this,
+  QObject::connect(_ui->filter_arrow_up, SIGNAL(clicked()), this,
                    SLOT(onFilterGoUp()));
 
-  QObject::connect(_ui.filter_arrow_down, SIGNAL(clicked()), this,
+  QObject::connect(_ui->filter_arrow_down, SIGNAL(clicked()), this,
                    SLOT(onFilterGoDown()));
 
-  QObject::connect(_ui.filter_button_add, SIGNAL(clicked()), this,
+  QObject::connect(_ui->filter_button_add, SIGNAL(clicked()), this,
                    SLOT(onAddFilterClicked()));
 
-  QObject::connect(_ui.filter_button_remove, SIGNAL(clicked()), this,
+  QObject::connect(_ui->filter_button_remove, SIGNAL(clicked()), this,
                    SLOT(onRemoveFilterClicked()));
 
   // Init Components
@@ -139,9 +139,9 @@ void MainWindowController::loadExecutions() {
   }
   _current_executions.clear();
 
-  _ui.execution_container->removeAll();
-  _ui.filter_container->removeAll();
-  _ui.parameter_container->removeAll();
+  _ui->execution_container->removeAll();
+  _ui->filter_container->removeAll();
+  _ui->parameter_container->removeAll();
 
   const auto executions_names = _communication.getExecutionList();
 
@@ -150,8 +150,8 @@ void MainWindowController::loadExecutions() {
   }
 
   // Remove comboBox Items
-  _ui.video_frame_left->getComboBox()->clear();
-  _ui.video_frame_right->getComboBox()->clear();
+  _ui->video_frame_left->getComboBox()->clear();
+  _ui->video_frame_right->getComboBox()->clear();
 
   for (const auto &execution_name : executions_names) {
     const auto media_name =
@@ -165,22 +165,22 @@ void MainWindowController::loadExecutions() {
     }
 
     // Add the executin to the execution table
-    _ui.execution_container->add(
+    _ui->execution_container->add(
         new Execution(execution_name, filter_chain_name, media_name));
 
     // Add the execution to the left combobox
-    _ui.video_frame_left->getComboBox()->addItem(execution_name);
+    _ui->video_frame_left->getComboBox()->addItem(execution_name);
 
     // Add the execution to the right combobox
-    _ui.video_frame_right->getComboBox()->addItem(execution_name);
+    _ui->video_frame_right->getComboBox()->addItem(execution_name);
   }
 }
 
 //------------------------------------------------------------------------------
 //
 void MainWindowController::loadFilters() {
-  _ui.filter_container->removeAll();
-  _ui.parameter_container->removeAll();
+  _ui->filter_container->removeAll();
+  _ui->parameter_container->removeAll();
   const auto filters_names = _communication.getFiltersForFilterChain(
       getCurrentExecution()->getFilterChainName(),
       getCurrentExecution()->getName());
@@ -191,7 +191,7 @@ void MainWindowController::loadFilters() {
       continue;
     }
 
-    _ui.filter_container->add(new Filter(filter_name, index));
+    _ui->filter_container->add(new Filter(filter_name, index));
     index++;
   }
 }
@@ -199,7 +199,7 @@ void MainWindowController::loadFilters() {
 //------------------------------------------------------------------------------
 //
 void MainWindowController::loadParameters() {
-  _ui.parameter_container->removeAll();
+  _ui->parameter_container->removeAll();
 
   // If no execution is currently running on this frame, just do nothing
   if (getCurrentExecution() == nullptr) {
@@ -212,17 +212,17 @@ void MainWindowController::loadParameters() {
 
   for (auto &parameter : parameters) {
     if ((parameter).min_max_enable) {
-      _ui.parameter_container->add(new Parameter(
+      _ui->parameter_container->add(new Parameter(
           (parameter).name, (parameter).value, (parameter).description,
           (parameter).value_min, (parameter).value_max));
     } else {
-      _ui.parameter_container->add(new Parameter(
+      _ui->parameter_container->add(new Parameter(
           (parameter).name, (parameter).value, (parameter).description));
     }
   }
 
   // Push all widget on top of scroll area
-  _ui.parameter_container->reloadSpacer();
+  _ui->parameter_container->reloadSpacer();
 }
 
 //==============================================================================
@@ -231,7 +231,7 @@ void MainWindowController::loadParameters() {
 //------------------------------------------------------------------------------
 //
 void MainWindowController::onExecutionChanged(Execution *const &execution) {
-  _ui.action_save_filter_chain->setEnabled(true);
+  _ui->action_save_filter_chain->setEnabled(true);
   // An other execution is running on the current frame...
   if (_current_executions[_current_video_frame]) {
     _communication.changeImageSubscriber(
