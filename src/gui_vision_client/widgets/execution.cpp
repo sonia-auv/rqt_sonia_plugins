@@ -5,7 +5,7 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-#include "execution.h"
+#include "gui_vision_client/widgets/execution.h"
 
 namespace gui_vision_client {
 

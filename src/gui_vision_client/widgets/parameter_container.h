@@ -11,8 +11,8 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 #include <QSpacerItem>
-#include "container_widget.h"
-#include "parameter.h"
+#include "gui_vision_client/widgets/container_widget.h"
+#include "gui_vision_client/widgets/parameter.h"
 
 namespace gui_vision_client {
 

@@ -9,9 +9,9 @@
 
 #include <QListWidget>
 #include <QListWidgetItem>
-#include "ros/ros.h"
-#include "container_widget.h"
-#include "filter.h"
+#include <ros/ros.h>
+#include "gui_vision_client/widgets/container_widget.h"
+#include "gui_vision_client/widgets/filter.h"
 
 namespace gui_vision_client {
 

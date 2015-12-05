@@ -10,7 +10,7 @@
  * work. (https://github.com/ros-visualization/rqt_common_plugins)
  */
 
-#include "image_frame.h"
+#include "gui_vision_client/widgets/image_frame.h"
 
 namespace gui_vision_client {
 

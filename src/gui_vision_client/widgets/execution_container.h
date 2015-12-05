@@ -9,8 +9,8 @@
 
 #include <QTableWidget>
 #include <QTableWidgetItem>
-#include "container_widget.h"
-#include "execution.h"
+#include "gui_vision_client/widgets/container_widget.h"
+#include "gui_vision_client/widgets/execution.h"
 
 namespace gui_vision_client {
 

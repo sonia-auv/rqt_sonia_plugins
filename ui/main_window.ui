@@ -66,7 +66,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="vision_client::ExecutionContainer" name="execution_container">
+           <widget class="gui_vision_client::ExecutionContainer" name="execution_container">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -276,7 +276,7 @@
              </layout>
             </item>
             <item>
-             <widget class="vision_client::FilterContainer" name="filter_container">
+             <widget class="gui_vision_client::FilterContainer" name="filter_container">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                 <horstretch>0</horstretch>
@@ -324,7 +324,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="vision_client::ParameterContainer" name="parameter_container">
+        <widget class="gui_vision_client::ParameterContainer" name="parameter_container">
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
@@ -382,7 +382,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="vision_client::FocusedFrameController" name="video_frame_left">
+        <widget class="gui_vision_client::FocusedFrameController" name="video_frame_left">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -402,7 +402,7 @@
         </widget>
        </item>
        <item>
-        <widget class="vision_client::FocusedFrameController" name="video_frame_right">
+        <widget class="gui_vision_client::FocusedFrameController" name="video_frame_right">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -565,27 +565,27 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>vision_client::ExecutionContainer</class>
+   <class>gui_vision_client::ExecutionContainer</class>
    <extends>QTableWidget</extends>
-   <header>execution_container.h</header>
+   <header>gui_vision_client/widgets/execution_container.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>vision_client::FilterContainer</class>
+   <class>gui_vision_client::FilterContainer</class>
    <extends>QListWidget</extends>
-   <header>filter_container.h</header>
+   <header>gui_vision_client/widgets/filter_container.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>vision_client::ParameterContainer</class>
+   <class>gui_vision_client::ParameterContainer</class>
    <extends>QScrollArea</extends>
-   <header>parameter_container.h</header>
+   <header>gui_vision_client/widgets/parameter_container.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>vision_client::FocusedFrameController</class>
+   <class>gui_vision_client::FocusedFrameController</class>
    <extends>QFrame</extends>
-   <header>focused_frame_controller.h</header>
+   <header>gui_vision_client/gui/focused_frame_controller.h</header>
    <container>1</container>
    <slots>
     <signal>recordButtonClicked(FocusedFrameController*)</signal>

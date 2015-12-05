@@ -67,7 +67,7 @@
     </layout>
    </item>
    <item>
-    <widget class="vision_client::ImageFrame" name="video_image_frame">
+    <widget class="gui_vision_client::ImageFrame" name="video_image_frame">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -111,9 +111,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>vision_client::ImageFrame</class>
+   <class>gui_vision_client::ImageFrame</class>
    <extends>QFrame</extends>
-   <header>image_frame.h</header>
+   <header>gui_vision_client/widgets/image_frame.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

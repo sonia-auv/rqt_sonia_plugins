@@ -5,7 +5,7 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-#include "manage_filter_chains_window_controller.h"
+#include "gui_vision_client/gui/manage_filter_chains_window_controller.h"
 
 namespace gui_vision_client {
 

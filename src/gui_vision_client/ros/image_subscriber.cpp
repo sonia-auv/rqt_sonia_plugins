@@ -7,7 +7,7 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-#include "image_subscriber.h"
+#include "gui_vision_client/ros/image_subscriber.h"
 
 namespace gui_vision_client {
 

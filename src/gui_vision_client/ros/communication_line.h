@@ -15,21 +15,21 @@
 #include <QVariant>
 #include <QStringList>
 #include "ros/ros.h"
-#include "image_subscriber.h"
-#include <vision_server/vision_server_execute_cmd.h>
-#include <vision_server/vision_server_copy_filterchain.h>
-#include <vision_server/vision_server_manage_filterchain.h>
-#include <vision_server/vision_server_get_filterchain_filter_param.h>
-#include <vision_server/vision_server_set_filterchain_filter_param.h>
-#include <vision_server/vision_server_get_filterchain_filter_all_param.h>
-#include <vision_server/vision_server_get_filterchain_filter.h>
-#include <vision_server/vision_server_manage_filterchain_filter.h>
-#include <vision_server/vision_server_save_filterchain.h>
-#include <vision_server/vision_server_set_filterchain_filter_order.h>
-#include <vision_server/vision_server_set_filterchain_filter_observer.h>
-#include <vision_server/vision_server_get_information_list.h>
-#include <vision_server/vision_server_get_filterchain_from_execution.h>
-#include <vision_server/vision_server_get_media_from_execution.h>
+#include <provider_vision/execute_cmd.h>
+#include <provider_vision/copy_filterchain.h>
+#include <provider_vision/manage_filterchain.h>
+#include <provider_vision/get_filterchain_filter_param.h>
+#include <provider_vision/set_filterchain_filter_param.h>
+#include <provider_vision/get_filterchain_filter_all_param.h>
+#include <provider_vision/get_filterchain_filter.h>
+#include <provider_vision/manage_filterchain_filter.h>
+#include <provider_vision/save_filterchain.h>
+#include <provider_vision/set_filterchain_filter_order.h>
+#include <provider_vision/set_filterchain_filter_observer.h>
+#include <provider_vision/get_information_list.h>
+#include <provider_vision/get_filterchain_from_execution.h>
+#include <provider_vision/get_media_from_execution.h>
+#include "gui_vision_client/ros/image_subscriber.h"
 
 namespace gui_vision_client {
 

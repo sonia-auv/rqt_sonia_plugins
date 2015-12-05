@@ -5,7 +5,7 @@
  * \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
  */
 
-#include "parameter_container.h"
+#include "gui_vision_client/widgets/parameter_container.h"
 
 namespace gui_vision_client {
 
