@@ -22,61 +22,61 @@ CommunicationLine::CommunicationLine(QObject *const parent)
 
   // service de copie de fc
   addServiceClient<provider_vision::copy_filterchain>(
-      "copy_fc", "vision_server_copy_filterchain");
+      "copy_fc", "copy_filterchain");
 
   // service d'obtention d'un paramètre d'un filtre
   addServiceClient<provider_vision::get_filterchain_filter_param>(
-      "get_filter_param", "vision_server_get_filterchain_filter_param");
+      "get_filter_param", "get_filterchain_filter_param");
 
   // service d'obtention des paramètres d'un filtre
   addServiceClient<
       provider_vision::get_filterchain_filter_all_param>(
-      "get_all_filter_param", "vision_server_get_filterchain_filter_all_param");
+      "get_all_filter_param", "get_filterchain_filter_all_param");
 
   // service de set des paramètres d'un filtre
   addServiceClient<provider_vision::set_filterchain_filter_param>(
-      "set_filter_param", "vision_server_set_filterchain_filter_param");
+      "set_filter_param", "set_filterchain_filter_param");
 
   // service d'obtention d'un filtre
   addServiceClient<provider_vision::get_filterchain_filter>(
-      "get_filter", "vision_server_get_filterchain_filter");
+      "get_filter", "get_filterchain_filter");
 
   // service de management d'un filtre
   addServiceClient<provider_vision::manage_filterchain_filter>(
-      "manage_filter", "vision_server_manage_filterchain_filter");
+      "manage_filter", "manage_filterchain_filter");
 
   // service de management d'une FilterChain
   addServiceClient<provider_vision::manage_filterchain>(
-      "manage_fc", "vision_server_manage_filterchain");
+      "manage_fc", "manage_filterchain");
 
   // service de sauvegarde d'une fc
   addServiceClient<provider_vision::save_filterchain>(
-      "save_fc", "vision_server_save_filterchain");
+      "save_fc", "save_filterchain");
 
   // service pour set l'ordre d'une fc
   addServiceClient<provider_vision::set_filterchain_filter_order>(
-      "change_filter_order", "vision_server_set_filterchain_filter_order");
+      "change_filter_order", "set_filterchain_filter_order");
 
   // service pour récupérer une liste de données
   addServiceClient<provider_vision::get_information_list>(
-      "info_list", "vision_server_get_information_list");
+      "info_list", "get_information_list");
 
   // service pour récupérer la filterchain d'une exécution
   addServiceClient<provider_vision::get_filterchain_from_execution>(
-      "get_fc_from_exec", "vision_server_get_filterchain_from_execution");
+      "get_fc_from_exec", "get_filterchain_from_execution");
 
   // service pour récupérer la filterchain d'une exécution
   addServiceClient<provider_vision::get_media_from_execution>(
-      "get_media_from_exec", "vision_server_get_media_from_execution");
+      "get_media_from_exec", "get_media_from_execution");
 
   // service pour set l'observeur de filtre
   addServiceClient<
       provider_vision::set_filterchain_filter_observer>(
-      "set_filter_observer", "vision_server_set_filterchain_filter_observer");
+      "set_filter_observer", "set_filterchain_filter_observer");
 
   // service pour démarrer ou stopper une exécution
   addServiceClient<provider_vision::execute_cmd>(
-      "execute_cmd", "vision_server_execute_cmd");
+      "execute_cmd", "execute_cmd");
 }
 
 //------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ void CommunicationLine::changeImageSubscriber(const QString &exec_to_launch,
           SLOT(onReceivedResult(const QString &, const ImageSubscriber *)));
 
   // on lance l'observeur
-  _current_executions[exec_to_launch]->change(exec_to_launch.toStdString());
+  _current_executions[exec_to_launch]->change(NODE_NAME_PREFIX + exec_to_launch.toStdString());
 }
 
 //=============================================================================

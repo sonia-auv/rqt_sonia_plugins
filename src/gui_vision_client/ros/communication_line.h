@@ -46,7 +46,7 @@ const int CONNEXION_ATTEMPS = 1;
  * The prefix of the node name. This is a SONIA convention, the node of the
  * VisionServer is called vision_server.
  */
-const std::string NODE_NAME_PREFIX = "/vision_server/";
+const std::string NODE_NAME_PREFIX = "/provider_vision/";
 
 /**
  * The data received from the VisionServer are not parsed.
