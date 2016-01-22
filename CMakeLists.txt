@@ -35,6 +35,7 @@ find_package( catkin REQUIRED COMPONENTS
     message_generation
     image_transport
     cv_bridge
+    sonia_msgs
 )
 
 find_package( catkin REQUIRED provider_vision )
@@ -52,6 +53,7 @@ catkin_package(
     cv_bridge
     image_transport
     provider_vision
+    sonia_msgs
 )
 
 #===============================================================================

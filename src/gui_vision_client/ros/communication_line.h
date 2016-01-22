@@ -15,23 +15,26 @@
 #include <QVariant>
 #include <QStringList>
 #include "ros/ros.h"
-#include <provider_vision/execute_cmd.h>
-#include <provider_vision/copy_filterchain.h>
-#include <provider_vision/manage_filterchain.h>
-#include <provider_vision/get_filterchain_filter_param.h>
-#include <provider_vision/set_filterchain_filter_param.h>
-#include <provider_vision/get_filterchain_filter_all_param.h>
-#include <provider_vision/get_filterchain_filter.h>
-#include <provider_vision/manage_filterchain_filter.h>
-#include <provider_vision/save_filterchain.h>
-#include <provider_vision/set_filterchain_filter_order.h>
-#include <provider_vision/set_filterchain_filter_observer.h>
-#include <provider_vision/get_information_list.h>
-#include <provider_vision/get_filterchain_from_execution.h>
-#include <provider_vision/get_media_from_execution.h>
+
+#include <sonia_msgs/execute_cmd.h>
+#include <sonia_msgs/copy_filterchain.h>
+#include <sonia_msgs/manage_filterchain.h>
+#include <sonia_msgs/get_filterchain_filter_param.h>
+#include <sonia_msgs/set_filterchain_filter_param.h>
+#include <sonia_msgs/get_filterchain_filter_all_param.h>
+#include <sonia_msgs/get_filterchain_filter.h>
+#include <sonia_msgs/manage_filterchain_filter.h>
+#include <sonia_msgs/save_filterchain.h>
+#include <sonia_msgs/set_filterchain_filter_order.h>
+#include <sonia_msgs/set_filterchain_filter_observer.h>
+#include <sonia_msgs/get_information_list.h>
+#include <sonia_msgs/get_filterchain_from_execution.h>
+#include <sonia_msgs/get_media_from_execution.h>
+
 #include "gui_vision_client/ros/image_subscriber.h"
 
 namespace gui_vision_client {
+using namespace sonia_msgs;
 
 //==============================================================================
 // G L O B A L   V A R I A B L E S   A N D   S T R U C T
