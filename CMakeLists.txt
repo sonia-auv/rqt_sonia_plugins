@@ -1,13 +1,30 @@
 # \file	CMakeLists.txt
 # \author	Thibaut Mattio <thibaut.mattio@gmail.com>
 # \date	08/05/2015
-# \copyright	2015 SONIA AUV ETS <sonia@ens.etsmtl.ca>
+#
+# \copyright Copyright (c) 2015 S.O.N.I.A. All rights reserved.
+#
+# \section LICENSE
+#
+# This file is part of S.O.N.I.A. software.
+#
+# S.O.N.I.A. software is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# S.O.N.I.A. software is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with S.O.N.I.A. software. If not, see <http://www.gnu.org/licenses/>.
 
 #===============================================================================
-# C M A K E   C O N F I G U R A T I O N
+# G L O B A L   P R O J E C T   C O N F I G U R A T I O N
 
 cmake_minimum_required( VERSION 2.8.3 )
-
 project( gui_vision_client )
 
 IF( NOT CMAKE_BUILD_TYPE )
@@ -16,8 +33,8 @@ IF( NOT CMAKE_BUILD_TYPE )
       FORCE )
 ENDIF( NOT CMAKE_BUILD_TYPE )
 
-set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall" )
-set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3" )
+set( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11 -Wall " )
+set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++11 -O3 -s" )
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
@@ -48,8 +65,9 @@ catkin_package(
     INCLUDE_DIRS ${gui_vision_client_SRC_DIR}
     LIBRARIES
     CATKIN_DEPENDS
-    std_msgs
     roscpp
+    std_msgs
+    message_runtime
     cv_bridge
     image_transport
     provider_vision
@@ -88,3 +106,5 @@ target_link_libraries( ${PROJECT_NAME}_node
   ${QT_QTCORE_LIBRARY}
   ${QT_QTGUI_LIBRARY}
   )
+
+add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp sonia_msgs_generate_messages_cpp)
