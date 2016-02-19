@@ -440,10 +440,10 @@ QVariant CommunicationLine::parseParameterType(const QString &value,
   } else if (type == "Double") {
     return value.toDouble();
   } else if (type == "Boolean") {
-    if (value == "true") {
-      return true;
-    } else {
+    if (value == "0") {
       return false;
+    } else {
+      return true;
     }
   } else {
     // ROS_INFO( "[VISION CLIENT] Filter parameter type undefined." );
