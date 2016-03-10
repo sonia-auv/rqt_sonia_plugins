@@ -70,7 +70,6 @@ catkin_package(
     message_runtime
     cv_bridge
     image_transport
-    provider_vision
     sonia_msgs
 )
 
