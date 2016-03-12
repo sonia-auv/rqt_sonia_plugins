@@ -55,8 +55,6 @@ find_package( catkin REQUIRED COMPONENTS
     sonia_msgs
 )
 
-find_package( catkin REQUIRED provider_vision )
-
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 
 include( ${QT_USE_FILE} )
