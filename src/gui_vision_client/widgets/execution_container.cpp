@@ -66,8 +66,10 @@ void ExecutionContainer::onCurrentItemChanged(QTableWidgetItem *current,
     if ((component)->getExecutionWidget() == current ||
         (component)->getFilterChainWidget() == current ||
         (component)->getMediaWidget() == current) {
-      _current = component;
-      emit focusChanged(component);
+      if(_current != component) {
+        _current = component;
+        emit focusChanged(component);
+      }
       break;
     }
   }
