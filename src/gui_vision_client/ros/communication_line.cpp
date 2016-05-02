@@ -16,9 +16,6 @@ namespace gui_vision_client {
 //
 CommunicationLine::CommunicationLine(QObject *const parent)
     : QObject(parent), _node_handler(), _current_executions() {
-  // création des clients ROS
-  std::string serviceName;
-
   // service de copie de fc
   addServiceClient<sonia_msgs::copy_filterchain>(
       "copy_fc", "copy_filterchain");
