@@ -16,7 +16,11 @@ namespace gui_vision_client {
 //
 CreateExecutionWindowController::CreateExecutionWindowController(
     QWidget *const parent)
-    : QDialog(parent), _ui(std::make_shared<Ui::CreateExecutionWindow>()), _execution(), _filter_chain(), _media() {
+    : QDialog(parent),
+      _ui(std::make_shared<Ui::CreateExecutionWindow>()),
+      _execution(),
+      _filter_chain(),
+      _media() {
   _ui->setupUi(this);
 
   // Do not send accept when OK button is clicked

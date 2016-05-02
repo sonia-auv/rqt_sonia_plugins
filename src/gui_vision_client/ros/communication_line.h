@@ -8,28 +8,28 @@
 
 #pragma once
 
-#include <QObject>
 #include <QMap>
-#include <QVector>
+#include <QObject>
 #include <QString>
-#include <QVariant>
 #include <QStringList>
+#include <QVariant>
+#include <QVector>
 #include "ros/ros.h"
 
-#include <sonia_msgs/execute_cmd.h>
 #include <sonia_msgs/copy_filterchain.h>
-#include <sonia_msgs/manage_filterchain.h>
-#include <sonia_msgs/get_filterchain_filter_param.h>
-#include <sonia_msgs/set_filterchain_filter_param.h>
-#include <sonia_msgs/get_filterchain_filter_all_param.h>
+#include <sonia_msgs/execute_cmd.h>
 #include <sonia_msgs/get_filterchain_filter.h>
+#include <sonia_msgs/get_filterchain_filter_all_param.h>
+#include <sonia_msgs/get_filterchain_filter_param.h>
+#include <sonia_msgs/get_filterchain_from_execution.h>
+#include <sonia_msgs/get_information_list.h>
+#include <sonia_msgs/get_media_from_execution.h>
+#include <sonia_msgs/manage_filterchain.h>
 #include <sonia_msgs/manage_filterchain_filter.h>
 #include <sonia_msgs/save_filterchain.h>
-#include <sonia_msgs/set_filterchain_filter_order.h>
 #include <sonia_msgs/set_filterchain_filter_observer.h>
-#include <sonia_msgs/get_information_list.h>
-#include <sonia_msgs/get_filterchain_from_execution.h>
-#include <sonia_msgs/get_media_from_execution.h>
+#include <sonia_msgs/set_filterchain_filter_order.h>
+#include <sonia_msgs/set_filterchain_filter_param.h>
 
 #include "gui_vision_client/ros/image_subscriber.h"
 
@@ -583,7 +583,7 @@ class CommunicationLine : public QObject {
    */
   void onReceivedResult(const QString &message, const ImageSubscriber *) const;
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

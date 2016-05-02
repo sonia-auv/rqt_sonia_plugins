@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <QString>
+#include <ui_manage_filter_chains_window.h>
 #include <QDialog>
 #include <QInputDialog>
-#include <ui_manage_filter_chains_window.h>
+#include <QString>
 #include "gui_vision_client/ros/communication_line.h"
 
 /**

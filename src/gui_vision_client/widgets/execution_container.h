@@ -59,7 +59,7 @@ class ExecutionContainer : public QTableWidget,
    */
   void onOutsideExecutionChanged(const QString &execution_name);
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

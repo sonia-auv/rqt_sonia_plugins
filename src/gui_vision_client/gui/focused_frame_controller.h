@@ -7,17 +7,17 @@
 
 #pragma once
 
-#include <memory>
-#include <QFrame>
-#include <QWidget>
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QCheckBox>
-#include <QPushButton>
-#include <QFileDialog>
-#include <QComboBox>
-#include <QToolButton>
 #include <ui_focused_frame.h>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QFileDialog>
+#include <QFrame>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QPushButton>
+#include <QToolButton>
+#include <QWidget>
+#include <memory>
 #include "gui_vision_client/widgets/image_frame.h"
 
 /**
@@ -140,7 +140,7 @@ class FocusedFrameController : public QFrame {
    */
   void onSreenshotButtonClicked();
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

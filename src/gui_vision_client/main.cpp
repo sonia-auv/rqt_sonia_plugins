@@ -6,8 +6,8 @@
  */
 
 #include <QApplication>
-#include "ros/ros.h"
 #include "gui_vision_client/gui/main_window_controller.h"
+#include "ros/ros.h"
 
 /**
  * Main function of the vision_client package

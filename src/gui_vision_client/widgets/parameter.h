@@ -7,17 +7,17 @@
 
 #pragma once
 
-#include <typeinfo>
-#include <QObject>
-#include <QVariant>
-#include <QSlider>
-#include <QDoubleSpinBox>
 #include <QCheckBox>
-#include <QLineEdit>
-#include <QVBoxLayout>
+#include <QDoubleSpinBox>
 #include <QHBoxLayout>
-#include <QPlainTextEdit>
 #include <QLabel>
+#include <QLineEdit>
+#include <QObject>
+#include <QPlainTextEdit>
+#include <QSlider>
+#include <QVBoxLayout>
+#include <QVariant>
+#include <typeinfo>
 
 namespace gui_vision_client {
 
@@ -107,7 +107,7 @@ class Parameter : public QObject {
   /** Change value. */
   void changeValue();
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

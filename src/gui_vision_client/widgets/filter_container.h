@@ -7,9 +7,9 @@
 
 #pragma once
 
+#include <ros/ros.h>
 #include <QListWidget>
 #include <QListWidgetItem>
-#include <ros/ros.h>
 #include "gui_vision_client/widgets/container_widget.h"
 #include "gui_vision_client/widgets/filter.h"
 
@@ -57,7 +57,7 @@ class FilterContainer : public QListWidget, public ContainerWidget<Filter> {
   void onCurrentItemChanged(QListWidgetItem *current,
                             QListWidgetItem *const &previous);
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

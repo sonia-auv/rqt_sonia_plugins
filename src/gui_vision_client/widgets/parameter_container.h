@@ -7,10 +7,10 @@
 
 #pragma once
 
-#include <QScrollArea>
-#include <QVBoxLayout>
 #include <QFormLayout>
+#include <QScrollArea>
 #include <QSpacerItem>
+#include <QVBoxLayout>
 #include "gui_vision_client/widgets/container_widget.h"
 #include "gui_vision_client/widgets/parameter.h"
 
@@ -65,7 +65,7 @@ class ParameterContainer : public QScrollArea,
    */
   void onParameterValueChanged(Parameter *const &);
 
-signals:
+ signals:
   //==========================================================================
   // Q T  S I G N A L S
 

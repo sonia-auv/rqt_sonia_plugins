@@ -9,15 +9,15 @@
 
 #pragma once
 
-#include <string>
+#include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
+#include <ros/ros.h>
+#include <sensor_msgs/image_encodings.h>
+#include <sonia_msgs/VisionTarget.h>
 #include <QObject>
 #include <QString>
-#include <ros/ros.h>
-#include <image_transport/image_transport.h>
-#include <sensor_msgs/image_encodings.h>
-#include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
-#include <sonia_msgs/VisionTarget.h>
+#include <string>
 
 namespace gui_vision_client {
 
@@ -75,7 +75,7 @@ class ImageSubscriber : public QObject, public image_transport::Subscriber {
    */
   void stop();
 
-signals:
+ signals:
   //==========================================================================
   // Q T   S I G N A L S
 
@@ -128,7 +128,8 @@ signals:
    *
    * \param	msg	The result published on the topic.
    */
-  inline void resultCallback(const sonia_msgs::VisionTarget::ConstPtr &msg) const;
+  inline void resultCallback(
+      const sonia_msgs::VisionTarget::ConstPtr &msg) const;
 
   //==========================================================================
   // P R I V A T E   M E M B E R S

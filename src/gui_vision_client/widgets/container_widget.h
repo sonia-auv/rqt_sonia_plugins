@@ -143,8 +143,7 @@ class ContainerWidget {
 //------------------------------------------------------------------------------
 //
 template <class T>
-ContainerWidget<T>::ContainerWidget()
-    : _components(), _current(nullptr) {}
+ContainerWidget<T>::ContainerWidget() : _components(), _current(nullptr) {}
 
 //------------------------------------------------------------------------------
 //

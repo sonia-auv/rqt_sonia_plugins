@@ -18,8 +18,8 @@
 #include <QPainter>
 #include <QRect>
 #include <QSize>
-#include "opencv2/opencv.hpp"
 #include <opencv2/highgui/highgui.hpp>
+#include "opencv2/opencv.hpp"
 
 namespace gui_vision_client {
 
@@ -138,7 +138,7 @@ class ImageFrame : public QFrame {
    */
   void changeImage(const cv::Mat &image);
 
-signals:
+ signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 

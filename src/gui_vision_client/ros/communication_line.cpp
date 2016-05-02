@@ -17,16 +17,14 @@ namespace gui_vision_client {
 CommunicationLine::CommunicationLine(QObject *const parent)
     : QObject(parent), _node_handler(), _current_executions() {
   // service de copie de fc
-  addServiceClient<sonia_msgs::copy_filterchain>(
-      "copy_fc", "copy_filterchain");
+  addServiceClient<sonia_msgs::copy_filterchain>("copy_fc", "copy_filterchain");
 
   // service d'obtention d'un paramètre d'un filtre
   addServiceClient<sonia_msgs::get_filterchain_filter_param>(
       "get_filter_param", "get_filterchain_filter_param");
 
   // service d'obtention des paramètres d'un filtre
-  addServiceClient<
-      sonia_msgs::get_filterchain_filter_all_param>(
+  addServiceClient<sonia_msgs::get_filterchain_filter_all_param>(
       "get_all_filter_param", "get_filterchain_filter_all_param");
 
   // service de set des paramètres d'un filtre
@@ -42,20 +40,19 @@ CommunicationLine::CommunicationLine(QObject *const parent)
       "manage_filter", "manage_filterchain_filter");
 
   // service de management d'une FilterChain
-  addServiceClient<sonia_msgs::manage_filterchain>(
-      "manage_fc", "manage_filterchain");
+  addServiceClient<sonia_msgs::manage_filterchain>("manage_fc",
+                                                   "manage_filterchain");
 
   // service de sauvegarde d'une fc
-  addServiceClient<sonia_msgs::save_filterchain>(
-      "save_fc", "save_filterchain");
+  addServiceClient<sonia_msgs::save_filterchain>("save_fc", "save_filterchain");
 
   // service pour set l'ordre d'une fc
   addServiceClient<sonia_msgs::set_filterchain_filter_order>(
       "change_filter_order", "set_filterchain_filter_order");
 
   // service pour récupérer une liste de données
-  addServiceClient<sonia_msgs::get_information_list>(
-      "info_list", "get_information_list");
+  addServiceClient<sonia_msgs::get_information_list>("info_list",
+                                                     "get_information_list");
 
   // service pour récupérer la filterchain d'une exécution
   addServiceClient<sonia_msgs::get_filterchain_from_execution>(
@@ -66,13 +63,11 @@ CommunicationLine::CommunicationLine(QObject *const parent)
       "get_media_from_exec", "get_media_from_execution");
 
   // service pour set l'observeur de filtre
-  addServiceClient<
-      sonia_msgs::set_filterchain_filter_observer>(
+  addServiceClient<sonia_msgs::set_filterchain_filter_observer>(
       "set_filter_observer", "set_filterchain_filter_observer");
 
   // service pour démarrer ou stopper une exécution
-  addServiceClient<sonia_msgs::execute_cmd>(
-      "execute_cmd", "execute_cmd");
+  addServiceClient<sonia_msgs::execute_cmd>("execute_cmd", "execute_cmd");
 }
 
 //------------------------------------------------------------------------------
@@ -124,7 +119,8 @@ void CommunicationLine::changeImageSubscriber(const QString &exec_to_launch,
           SLOT(onReceivedResult(const QString &, const ImageSubscriber *)));
 
   // on lance l'observeur
-  _current_executions[exec_to_launch]->change(NODE_NAME_PREFIX + exec_to_launch.toStdString());
+  _current_executions[exec_to_launch]->change(NODE_NAME_PREFIX +
+                                              exec_to_launch.toStdString());
 }
 
 //=============================================================================
@@ -136,8 +132,7 @@ QVector<QString> CommunicationLine::getFilterChainList() {
   sonia_msgs::get_information_list srv;
   srv.request.cmd = FILTERCHAIN;
 
-  return serviceGetList<sonia_msgs::get_information_list>(
-      &srv, "info_list");
+  return serviceGetList<sonia_msgs::get_information_list>(&srv, "info_list");
 }
 
 //------------------------------------------------------------------------------
@@ -148,8 +143,7 @@ QVector<QString> CommunicationLine::getFiltersForFilterChain(
   srv.request.exec_name = execution_name.toStdString();
   srv.request.filterchain = filter_chain_name.toStdString();
 
-  return serviceGetList<sonia_msgs::get_filterchain_filter>(
-      &srv, "get_filter");
+  return serviceGetList<sonia_msgs::get_filterchain_filter>(&srv, "get_filter");
 }
 
 //------------------------------------------------------------------------------
@@ -158,8 +152,7 @@ QVector<QString> CommunicationLine::getMediaList() {
   sonia_msgs::get_information_list srv;
   srv.request.cmd = MEDIA;
 
-  return serviceGetList<sonia_msgs::get_information_list>(
-      &srv, "info_list");
+  return serviceGetList<sonia_msgs::get_information_list>(&srv, "info_list");
 }
 
 //------------------------------------------------------------------------------
@@ -168,8 +161,7 @@ QVector<QString> CommunicationLine::getFilterList() {
   sonia_msgs::get_information_list srv;
   srv.request.cmd = FILTER;
 
-  return serviceGetList<sonia_msgs::get_information_list>(
-      &srv, "info_list");
+  return serviceGetList<sonia_msgs::get_information_list>(&srv, "info_list");
 }
 
 //------------------------------------------------------------------------------
@@ -178,8 +170,7 @@ QVector<QString> CommunicationLine::getExecutionList() {
   sonia_msgs::get_information_list srv;
   srv.request.cmd = EXECUTION;
 
-  return serviceGetList<sonia_msgs::get_information_list>(
-      &srv, "info_list");
+  return serviceGetList<sonia_msgs::get_information_list>(&srv, "info_list");
 }
 
 //------------------------------------------------------------------------------
@@ -195,9 +186,9 @@ QVector<RawParameter> CommunicationLine::getParametersForFilter(
   // on notifie le serveur pour qu'il change d'observeur
   setFilterObserver(execution_name, filter_chain_name, filter_name);
 
-  return toRawParameterList(serviceGetList<
-      sonia_msgs::get_filterchain_filter_all_param>(
-      &srv, "get_all_filter_param"));
+  return toRawParameterList(
+      serviceGetList<sonia_msgs::get_filterchain_filter_all_param>(
+          &srv, "get_all_filter_param"));
 }
 
 //------------------------------------------------------------------------------
@@ -225,8 +216,7 @@ QString CommunicationLine::getFilterChainFromExecution(
   sonia_msgs::get_filterchain_from_execution srv;
   srv.request.exec_name = execution_name.toStdString();
 
-  return serviceGetString<
-      sonia_msgs::get_filterchain_from_execution>(
+  return serviceGetString<sonia_msgs::get_filterchain_from_execution>(
       &srv, "get_fc_from_exec");
 }
 
@@ -237,8 +227,7 @@ QString CommunicationLine::getMediaFromExecution(
   sonia_msgs::get_media_from_execution srv;
   srv.request.exec_name = execution_name.toStdString();
 
-  return serviceGetString<
-      sonia_msgs::get_media_from_execution>(
+  return serviceGetString<sonia_msgs::get_media_from_execution>(
       &srv, "get_media_from_exec");
 }
 
@@ -282,8 +271,7 @@ bool CommunicationLine::copyFilterChain(
   sonia_msgs::copy_filterchain srv;
   srv.request.filterchain_to_copy = filter_chain_name_to_copy.toStdString();
   srv.request.filterchain_new_name = filter_chain_new_name.toStdString();
-  return callService<sonia_msgs::copy_filterchain>(&srv,
-                                                                    "copy_fc");
+  return callService<sonia_msgs::copy_filterchain>(&srv, "copy_fc");
 }
 
 //------------------------------------------------------------------------------
@@ -360,8 +348,7 @@ bool CommunicationLine::setFilterObserver(const QString &execution_name,
   srv.request.filterchain = filter_chain_name.toStdString();
   srv.request.filter = filter_name.toStdString();
 
-  if (!callService<
-          sonia_msgs::set_filterchain_filter_observer>(
+  if (!callService<sonia_msgs::set_filterchain_filter_observer>(
           &srv, "set_filter_observer")) {
     return false;
   }
@@ -530,8 +517,7 @@ bool CommunicationLine::serviceSave(const std::string &filter_chain,
   srv.request.filterchain = filter_chain;
   srv.request.cmd = commande;
 
-  if (!callService<sonia_msgs::save_filterchain>(&srv,
-                                                                  "save_fc")) {
+  if (!callService<sonia_msgs::save_filterchain>(&srv, "save_fc")) {
     return false;
   }
 
@@ -550,8 +536,7 @@ QString CommunicationLine::serviceExecute(const std::string &execName,
   srv.request.media_name = media_name;
   srv.request.cmd = commande;
 
-  if (!callService<sonia_msgs::execute_cmd>(&srv,
-                                                             "execute_cmd")) {
+  if (!callService<sonia_msgs::execute_cmd>(&srv, "execute_cmd")) {
     return "";
   }
 
@@ -569,8 +554,8 @@ bool CommunicationLine::serviceManageFilter(
   srv.request.filter = filter_name;
   srv.request.cmd = commande;
 
-  if (!callService<sonia_msgs::manage_filterchain_filter>(
-          &srv, "manage_filter")) {
+  if (!callService<sonia_msgs::manage_filterchain_filter>(&srv,
+                                                          "manage_filter")) {
     return false;
   }
 
@@ -585,8 +570,7 @@ bool CommunicationLine::serviceManageFilterChain(
   srv.request.filterchain = filter_chain_name;
   srv.request.cmd = commande;
 
-  if (!callService<sonia_msgs::manage_filterchain>(
-          &srv, "manage_fc")) {
+  if (!callService<sonia_msgs::manage_filterchain>(&srv, "manage_fc")) {
     return false;
   }
 
