@@ -15,9 +15,9 @@
 #include <ros/ros.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
-#include <std_msgs/String.h>
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
+#include <sonia_msgs/VisionTarget.h>
 
 namespace gui_vision_client {
 
@@ -128,7 +128,7 @@ signals:
    *
    * \param	msg	The result published on the topic.
    */
-  inline void resultCallback(const std_msgs::String::ConstPtr &msg) const;
+  inline void resultCallback(const sonia_msgs::VisionTarget::ConstPtr &msg) const;
 
   //==========================================================================
   // P R I V A T E   M E M B E R S
@@ -155,8 +155,11 @@ signals:
 //------------------------------------------------------------------------------
 //
 void ImageSubscriber::resultCallback(
-    const std_msgs::String::ConstPtr &msg) const {
-  emit imgSubscriberReceivedResult(QString::fromStdString(msg->data), this);
+    const sonia_msgs::VisionTarget::ConstPtr &msg) const {
+  std::string x_pos{std::to_string(msg->x)};
+  std::string y_pos{std::to_string(msg->y)};
+  std::string target_msg{"Detected " + msg->header + " at [" + x_pos + "; " + y_pos + "]"};
+  emit imgSubscriberReceivedResult(QString::fromStdString(target_msg), this);
 }
 
 }  // namespace gui_vision_client
