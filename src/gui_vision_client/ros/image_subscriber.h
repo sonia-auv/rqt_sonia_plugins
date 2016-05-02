@@ -149,17 +149,4 @@ signals:
   ros::Subscriber _subscriber_result;
 };
 
-//==============================================================================
-// I N L I N E   F U N C T I O N S   D E F I N I T I O N S
-
-//------------------------------------------------------------------------------
-//
-void ImageSubscriber::resultCallback(
-    const sonia_msgs::VisionTarget::ConstPtr &msg) const {
-  std::string x_pos{std::to_string(msg->x)};
-  std::string y_pos{std::to_string(msg->y)};
-  std::string target_msg{"Detected " + msg->header + " at [" + x_pos + "; " + y_pos + "]"};
-  emit imgSubscriberReceivedResult(QString::fromStdString(target_msg), this);
-}
-
 }  // namespace gui_vision_client
