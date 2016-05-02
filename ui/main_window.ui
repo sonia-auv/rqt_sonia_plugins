@@ -199,7 +199,9 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset theme="list-add"/>
+                 <iconset theme="list-add">
+                  <normaloff/>
+                 </iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -221,7 +223,9 @@
                  <string>...</string>
                 </property>
                 <property name="icon">
-                 <iconset theme="list-remove"/>
+                 <iconset theme="list-remove">
+                  <normaloff/>
+                 </iconset>
                 </property>
                </widget>
               </item>
@@ -398,7 +402,6 @@
          <property name="lineWidth">
           <number>4</number>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_8"/>
         </widget>
        </item>
        <item>
@@ -412,7 +415,6 @@
          <property name="lineWidth">
           <number>0</number>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_10"/>
         </widget>
        </item>
       </layout>
