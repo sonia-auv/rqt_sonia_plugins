@@ -34,7 +34,7 @@ CanClient::CanClient(QWidget *parent) :
     ui->setupUi(this);
 
 
-    ui->tableWidget_Hydr_Fft_Mag->setRowCount(256);
+    ui->tableWidget_Hydr_Fft_Mag->setRowCount(128);
     ui->tableWidget_Hydr_Scope_samp->setRowCount(256);
 
     QTableWidgetItem *new_cell_index;
@@ -98,7 +98,7 @@ CanClient::CanClient(QWidget *parent) :
     led_indicator_srv_.request.unique_id = led_indicator_srv_.request.UNIQUE_ID_LIGHT_led_indicator;
 
     psu_srv_.request.device_id = psu_srv_.request.DEVICE_ID_power;
-    psu_srv_.request.device_id = psu_srv_.request.UNIQUE_ID_POWER_power_distribution;
+    psu_srv_.request.unique_id = psu_srv_.request.UNIQUE_ID_POWER_power_distribution;
 
     can_service_client_.call(can_hydros_get_params_srv_);
 }
@@ -168,14 +168,13 @@ void CanClient::on_spinBox_Hydr_Acq_Thrs_editingFinished()
 void CanClient::on_spinBox_Hydr_Filt_Thrs_editingFinished()
 {
     can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_filter_threshold;
-    can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Acq_Thrs->value();
+    can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Filt_Thrs->value();
     can_service_client_.call(can_hydros_srv_);
 }
 
-void CanClient::on_spinBox_Hydr_Cont_F_Freq_editingFinished()
-{
-    can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
-    can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Cont_F_Freq->value();
+void CanClient::on_spinBox_Hydr_Wave_En_editingFinished() {
+    can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_wave_enable;
+    can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Wave_En->value();
     can_service_client_.call(can_hydros_srv_);
 }
 
@@ -237,7 +236,7 @@ void CanClient::on_spinBox_Hydr_Cont_Fil_Freq_editingFinished()
 
 void CanClient::on_spinBox_Hydr_Bw_editingFinished()
 {
-    can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
+    can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_fft_bandwidth;
     can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Bw->value();
     can_service_client_.call(can_hydros_srv_);
 }
@@ -469,14 +468,49 @@ void CanClient::HydrophonesParamsCallback(const sonia_msgs::HydrophonesParams::C
 }
 
 void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstPtr &msg){
-    if(msg->dephasage1_updated) {
+    static uint32_t freq_slowdwn_count = 0;
+
+    if(msg->dephasage1_updated ) {
+        double pro_deph_1;
+        double pro_deph_2;
+        double pro_deph_3;
+
         QTableWidgetItem *new_cell_d1_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d1));
-        QTableWidgetItem *new_cell_d1_pro = new QTableWidgetItem(QString::number(msg->dephasage1_d1));
         QTableWidgetItem *new_cell_d2_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d2));
-        QTableWidgetItem *new_cell_d2_pro = new QTableWidgetItem(QString::number(msg->dephasage1_d2));
         QTableWidgetItem *new_cell_d3_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d3));
-        QTableWidgetItem *new_cell_d3_pro = new QTableWidgetItem(QString::number(msg->dephasage1_d3));
-        QTableWidgetItem *new_cell_freq = new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq * 813.79));
+        QTableWidgetItem *new_cell_freq = new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq * 406.25));
+
+        if (msg->dephasage1_pinger_freq != 0) {
+            // distance in cm for all phase displacements
+            if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
+                pro_deph_1 = (pow(2, 15) - (msg->dephasage1_d1 & 0x8000))
+                                * -1.0;
+            } else {
+                pro_deph_1 = msg->dephasage1_d1;
+            }
+
+            if ((msg->dephasage1_d2 & 0x8000) == 0x8000) {
+                pro_deph_2 = (pow(2, 15) - (msg->dephasage1_d2 & 0x8000))
+                                * -1.0;
+            } else {
+                pro_deph_2 = msg->dephasage1_d2;
+            }
+
+            if ((msg->dephasage1_d3 & 0x8000) == 0x8000) {
+                pro_deph_3 = (pow(2, 15) - (msg->dephasage1_d3 & 0x8000))
+                                * -1.0;
+            } else {
+                pro_deph_3 = msg->dephasage1_d3;
+            }
+
+            pro_deph_1 = (pro_deph_1 / NORMALIZING_VALUE) * (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+            pro_deph_2 = (pro_deph_2 / NORMALIZING_VALUE) * (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+            pro_deph_3 = (pro_deph_3 / NORMALIZING_VALUE) * (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+        }
+
+        QTableWidgetItem *new_cell_d1_pro = new QTableWidgetItem(QString::number(pro_deph_1));
+        QTableWidgetItem *new_cell_d2_pro = new QTableWidgetItem(QString::number(pro_deph_2));
+        QTableWidgetItem *new_cell_d3_pro = new QTableWidgetItem(QString::number(pro_deph_3));
 
         for(uint16_t i = 0; i < 4; i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
@@ -492,9 +526,15 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         ui->tableWidget_Hydr_Fft_Mag->setItem(3,1,new_cell_freq);
         ui->tableWidget_Hydr_Fft_Mag->setItem(3,2,new_cell_freq);
     }
+
     if(msg->hydro_freq_updated){
-        ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 813.79));
+        freq_slowdwn_count ++;
+        if(freq_slowdwn_count >= 50){
+            ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 406.25));
+            freq_slowdwn_count = 0;
+        }
     }
+
     if(msg->magn_samples_updated){
 
         QTableWidgetItem *new_cell_index;
@@ -503,12 +543,11 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         for(uint16_t i = 0; i < msg->magnitude_values.size(); i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
-            new_cell_index = new QTableWidgetItem(QString::number(i));
+            new_cell_index = new QTableWidgetItem(QString::number(i* 406.25));
             new_cell_value = new QTableWidgetItem(QString::number(msg->magnitude_values[i]));
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,0,new_cell_index);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,1,new_cell_value);
         }
-        ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,Qt::SortOrder::DescendingOrder);
     }
     if (msg->scope_samples_updated){
         QTableWidgetItem *new_cell_index;
@@ -625,8 +664,10 @@ void CanClient::on_pushButton_Led_Set_clicked()
 {
     led_indicator_srv_.request.method_number = led_indicator_srv_.request.METHOD_LED_set_color;
     led_indicator_srv_.request.parameter_value = ui->comboBox_Led_Color->currentIndex();
+    can_service_client_.call(led_indicator_srv_);
     led_indicator_srv_.request.method_number = led_indicator_srv_.request.METHOD_LED_set_mode;
     led_indicator_srv_.request.parameter_value = ui->comboBox_Led_Mode->currentIndex();
+    can_service_client_.call(led_indicator_srv_);
 }
 
 void CanClient::on_pushButton_psu_On_12V_1_clicked()

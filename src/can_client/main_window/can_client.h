@@ -21,6 +21,9 @@ class CanClient : public QMainWindow
     Q_OBJECT
 
 public:
+    const double SPEED_OF_SOUND = 1500; // Fresh water
+    const double NORMALIZING_VALUE = 32767;
+
     explicit CanClient(QWidget *parent = 0);
     ~CanClient();
 
@@ -32,8 +35,6 @@ private slots:
     void on_spinBox_Hydr_Acq_Thrs_editingFinished();
 
     void on_spinBox_Hydr_Filt_Thrs_editingFinished();
-
-    void on_spinBox_Hydr_Cont_F_Freq_editingFinished();
 
     void on_spinBox_Hydr_Samp_Count_editingFinished();
 
@@ -60,6 +61,8 @@ private slots:
     void on_pushButton_Param_Req_clicked();
 
     void on_pushButton_En_Fft_clicked();
+
+    void on_spinBox_Hydr_Wave_En_editingFinished();
 
     void on_pushButton_Thruster_Speed_Bd_clicked();
 
