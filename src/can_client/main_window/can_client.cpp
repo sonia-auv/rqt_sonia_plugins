@@ -478,7 +478,7 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         QTableWidgetItem *new_cell_d1_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d1));
         QTableWidgetItem *new_cell_d2_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d2));
         QTableWidgetItem *new_cell_d3_raw = new QTableWidgetItem(QString::number(msg->dephasage1_d3));
-        QTableWidgetItem *new_cell_freq = new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq * 406.25));
+        QTableWidgetItem *new_cell_freq = new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
 
         if (msg->dephasage1_pinger_freq != 0) {
             // distance in cm for all phase displacements
@@ -513,24 +513,23 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         QTableWidgetItem *new_cell_d3_pro = new QTableWidgetItem(QString::number(pro_deph_3));
 
         for(uint16_t i = 0; i < 4; i++){
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,2));
+            delete(ui->tableWidget_Hydr_Deph->item(i,0));
+            delete(ui->tableWidget_Hydr_Deph->item(i,1));
         }
 
-        ui->tableWidget_Hydr_Fft_Mag->setItem(0,1,new_cell_d1_raw);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(0,2,new_cell_d1_pro);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(1,1,new_cell_d2_raw);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(1,2,new_cell_d2_pro);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(2,1,new_cell_d3_raw);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(2,2,new_cell_d3_pro);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(3,1,new_cell_freq);
-        ui->tableWidget_Hydr_Fft_Mag->setItem(3,2,new_cell_freq);
+        ui->tableWidget_Hydr_Deph->setItem(0,0,new_cell_d1_raw);
+        ui->tableWidget_Hydr_Deph->setItem(0,1,new_cell_d1_pro);
+        ui->tableWidget_Hydr_Deph->setItem(1,0,new_cell_d2_raw);
+        ui->tableWidget_Hydr_Deph->setItem(1,1,new_cell_d2_pro);
+        ui->tableWidget_Hydr_Deph->setItem(2,0,new_cell_d3_raw);
+        ui->tableWidget_Hydr_Deph->setItem(2,1,new_cell_d3_pro);
+        ui->tableWidget_Hydr_Deph->setItem(3,0,new_cell_freq);
     }
 
     if(msg->hydro_freq_updated){
         freq_slowdwn_count ++;
         if(freq_slowdwn_count >= 50){
-            ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 406.25));
+            ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 406.25*2));
             freq_slowdwn_count = 0;
         }
     }
@@ -557,21 +556,21 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         QTableWidgetItem *new_cell_value4;
 
         for(uint16_t i = 0; i < msg->scope_values.size(); i++){
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,2));
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,3));
-            delete(ui->tableWidget_Hydr_Fft_Mag->item(i,4));
+            delete(ui->tableWidget_Hydr_Scope_samp->item(i,0));
+            delete(ui->tableWidget_Hydr_Scope_samp->item(i,1));
+            delete(ui->tableWidget_Hydr_Scope_samp->item(i,2));
+            delete(ui->tableWidget_Hydr_Scope_samp->item(i,3));
+            delete(ui->tableWidget_Hydr_Scope_samp->item(i,4));
             new_cell_index = new QTableWidgetItem(QString::number(i));
             new_cell_value1 = new QTableWidgetItem(QString::number(msg->scope_values[i].samples[0]));
             new_cell_value2 = new QTableWidgetItem(QString::number(msg->scope_values[i].samples[1]));
             new_cell_value3 = new QTableWidgetItem(QString::number(msg->scope_values[i].samples[2]));
             new_cell_value4 = new QTableWidgetItem(QString::number(msg->scope_values[i].samples[3]));
-            ui->tableWidget_Hydr_Fft_Mag->setItem(i,0,new_cell_index);
-            ui->tableWidget_Hydr_Fft_Mag->setItem(i,1,new_cell_value1);
-            ui->tableWidget_Hydr_Fft_Mag->setItem(i,2,new_cell_value2);
-            ui->tableWidget_Hydr_Fft_Mag->setItem(i,3,new_cell_value3);
-            ui->tableWidget_Hydr_Fft_Mag->setItem(i,4,new_cell_value4);
+            ui->tableWidget_Hydr_Scope_samp->setItem(i,0,new_cell_index);
+            ui->tableWidget_Hydr_Scope_samp->setItem(i,1,new_cell_value1);
+            ui->tableWidget_Hydr_Scope_samp->setItem(i,2,new_cell_value2);
+            ui->tableWidget_Hydr_Scope_samp->setItem(i,3,new_cell_value3);
+            ui->tableWidget_Hydr_Scope_samp->setItem(i,4,new_cell_value4);
 
         }
     }
