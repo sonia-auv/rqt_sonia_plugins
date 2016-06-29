@@ -529,7 +529,7 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
     if(msg->hydro_freq_updated){
         freq_slowdwn_count ++;
         if(freq_slowdwn_count >= 50){
-            ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 406.25*2));
+            ui->label_Hydr_Freq->setText(QString::number(msg->hydro_freq_index * 813));
             freq_slowdwn_count = 0;
         }
     }
@@ -542,7 +542,7 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         for(uint16_t i = 0; i < msg->magnitude_values.size(); i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
-            new_cell_index = new QTableWidgetItem(QString::number(i* 406.25));
+            new_cell_index = new QTableWidgetItem(QString::number(i* 813));
             new_cell_value = new QTableWidgetItem(QString::number(msg->magnitude_values[i]));
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,0,new_cell_index);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,1,new_cell_value);
