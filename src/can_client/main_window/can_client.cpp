@@ -313,10 +313,10 @@ void CanClient::on_pushButton_Thruster_Speed_S_clicked()
 
 void CanClient::on_pushButton_Thruster_Rot_L_clicked()
 {
-    thrusters_star_srv_.request.parameter_value = ui->spinBox_Thruster_Starboard->value();
-    can_service_client_.call(thrusters_star_srv_);
-    thrusters_port_srv_.request.parameter_value = -ui->spinBox_Thruster_Port->value();
-    can_service_client_.call(thrusters_port_srv_);
+    thrusters_back_heading_srv_.request.parameter_value = -ui->spinBox_Thruster_Back_Heading->value();
+    can_service_client_.call(thrusters_back_heading_srv_);
+    thrusters_front_heading_srv_.request.parameter_value = ui->spinBox_Thruster_Front_Heading->value();
+    can_service_client_.call(thrusters_front_heading_srv_);
 }
 
 void CanClient::on_pushButton_Thruster_For_clicked()
@@ -329,10 +329,10 @@ void CanClient::on_pushButton_Thruster_For_clicked()
 
 void CanClient::on_pushButton_Thruster_Rot_R_clicked()
 {
-    thrusters_star_srv_.request.parameter_value = -ui->spinBox_Thruster_Starboard->value();
-    can_service_client_.call(thrusters_star_srv_);
-    thrusters_port_srv_.request.parameter_value = ui->spinBox_Thruster_Port->value();
-    can_service_client_.call(thrusters_port_srv_);
+    thrusters_back_heading_srv_.request.parameter_value = ui->spinBox_Thruster_Back_Heading->value();
+    can_service_client_.call(thrusters_back_heading_srv_);
+    thrusters_front_heading_srv_.request.parameter_value = -ui->spinBox_Thruster_Front_Heading->value();
+    can_service_client_.call(thrusters_front_heading_srv_);
 }
 
 void CanClient::on_pushButton_Thruster_Up_clicked()
@@ -345,7 +345,7 @@ void CanClient::on_pushButton_Thruster_Up_clicked()
 
 void CanClient::on_pushButton_Thruster_Left_clicked()
 {
-    thrusters_back_heading_srv_.request.parameter_value = -ui->spinBox_Thruster_Back_Heading->value();
+    thrusters_back_heading_srv_.request.parameter_value = ui->spinBox_Thruster_Back_Heading->value();
     can_service_client_.call(thrusters_back_heading_srv_);
     thrusters_front_heading_srv_.request.parameter_value = ui->spinBox_Thruster_Front_Heading->value();
     can_service_client_.call(thrusters_front_heading_srv_);
@@ -369,7 +369,7 @@ void CanClient::on_pushButton_Thruster_Stop_clicked()
 
 void CanClient::on_pushButton_Thruster_Right_clicked()
 {
-    thrusters_back_heading_srv_.request.parameter_value = ui->spinBox_Thruster_Back_Heading->value();
+    thrusters_back_heading_srv_.request.parameter_value = -ui->spinBox_Thruster_Back_Heading->value();
     can_service_client_.call(thrusters_back_heading_srv_);
     thrusters_front_heading_srv_.request.parameter_value = -ui->spinBox_Thruster_Front_Heading->value();
     can_service_client_.call(thrusters_front_heading_srv_);
@@ -542,10 +542,23 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         for(uint16_t i = 0; i < msg->magnitude_values.size(); i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
-            new_cell_index = new QTableWidgetItem(QString::number(i* 813));
-            new_cell_value = new QTableWidgetItem(QString::number(msg->magnitude_values[i]));
+            new_cell_index = new QTableWidgetItem();
+            new_cell_value = new QTableWidgetItem();
+            new_cell_index->setData(Qt::DisplayRole,QString::number(i* 813));
+            new_cell_value->setData(Qt::DisplayRole,msg->magnitude_values[i]);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,0,new_cell_index);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,1,new_cell_value);
+        }
+
+        ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,Qt::SortOrder::DescendingOrder);
+
+        for(uint32_t i = 0; i < msg->magnitude_values.size(); i++){
+            if(ui->tableWidget_Hydr_Fft_Mag->item(i,0)->text().toDouble()/1000 < ui->label_Hydr_Ping_Freq->text().toDouble()+
+                                                                              ui->label_Hydr_Bw->text().toDouble()
+              && ui->tableWidget_Hydr_Fft_Mag->item(i,0)->text().toDouble()/1000 > ui->label_Hydr_Ping_Freq->text().toDouble()-
+                                                                              ui->label_Hydr_Bw->text().toDouble()){
+                ui->tableWidget_Hydr_Fft_Mag->item(i,0)->setBackground(Qt::green);
+            }
         }
     }
     if (msg->scope_samples_updated){
