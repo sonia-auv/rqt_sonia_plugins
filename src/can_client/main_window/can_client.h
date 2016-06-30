@@ -11,6 +11,7 @@
 #include <sonia_msgs/BarometerMsg.h>
 #include <sensor_msgs/FluidPressure.h>
 #include <sonia_msgs/PowerSupplyMsg.h>
+#include <qwt_plot_curve.h>
 
 namespace Ui {
 class CanClient;
@@ -160,6 +161,8 @@ private slots:
 
     void on_pushButton_Led_Set_clicked();
 
+    void on_pushButton_Hydr_MagDeph_clicked();
+
 private:
 
     ros::NodeHandle nh_;
@@ -192,6 +195,18 @@ private:
 
     sonia_msgs::SendCanMessage psu_srv_;
 
+    QwtPlotCurve *fft_curve_;
+    double freq_points_[64];
+    double mag_points_[64];
+
+    QwtPlotCurve *bw_curve_1;
+    double bw1_freq_[2];
+    QwtPlotCurve *bw_curve_2;
+    double bw2_freq_[2];
+    double bw_mag_[2];
+    QwtPlotCurve *thresh_curve;
+    double thresh_freq_[2];
+    double thresh_mag_[2];
 
     int hydros_enabled_;
     int fft_enabled_;

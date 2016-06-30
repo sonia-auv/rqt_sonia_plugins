@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>918</width>
-    <height>698</height>
+    <width>902</width>
+    <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>911</width>
+      <width>964</width>
       <height>862</height>
      </rect>
     </property>
@@ -57,7 +57,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="hydrophones">
         <attribute name="title">
@@ -467,10 +467,10 @@
           </item>
           <item row="0" column="1">
            <widget class="QSpinBox" name="spinBox_Hydr_Preamp_Gain">
-            <property name="value">
+            <property name="maximum">
              <number>1</number>
             </property>
-            <property name="maximum">
+            <property name="value">
              <number>1</number>
             </property>
            </widget>
@@ -669,7 +669,7 @@
           </property>
          </column>
         </widget>
-        <widget class="QLabel" name="label_27">
+        <widget class="QLabel" name="label_Hydr_Mag">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -689,7 +689,7 @@
           <string>FFT Bins Magnitudes</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_28">
+        <widget class="QLabel" name="label_Hydr_Scope">
          <property name="geometry">
           <rect>
            <x>360</x>
@@ -709,7 +709,7 @@
           <string>Scope samples</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_29">
+        <widget class="QLabel" name="label_Hydr_Deph">
          <property name="geometry">
           <rect>
            <x>680</x>
@@ -729,7 +729,7 @@
           <string>Dephasage</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_30">
+        <widget class="QLabel" name="label_Hydr_Freq_1">
          <property name="geometry">
           <rect>
            <x>570</x>
@@ -824,7 +824,7 @@
           <string>0</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_35">
+        <widget class="QLabel" name="label_Hydr_Freq_2">
          <property name="geometry">
           <rect>
            <x>860</x>
@@ -842,6 +842,29 @@
          </property>
          <property name="text">
           <string>Hz</string>
+         </property>
+        </widget>
+        <widget class="QwtPlot" name="plot_Hydr_Fft">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>370</y>
+           <width>821</width>
+           <height>281</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_Hydr_MagDeph">
+         <property name="geometry">
+          <rect>
+           <x>360</x>
+           <y>660</y>
+           <width>201</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Switch FFT/Dephasage</string>
          </property>
         </widget>
        </widget>
@@ -2550,7 +2573,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>918</width>
+     <width>902</width>
      <height>25</height>
     </rect>
    </property>
@@ -2566,6 +2589,13 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QwtPlot</class>
+   <extends>QFrame</extends>
+   <header>qwt_plot.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

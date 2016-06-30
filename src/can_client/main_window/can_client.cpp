@@ -1,5 +1,7 @@
+#include <qwt_symbol.h>
 #include "can_client.h"
 #include "ui_can_client.h"
+
 
 
 CanClient::CanClient(QWidget *parent) :
@@ -101,6 +103,49 @@ CanClient::CanClient(QWidget *parent) :
     psu_srv_.request.unique_id = psu_srv_.request.UNIQUE_ID_POWER_power_distribution;
 
     can_service_client_.call(can_hydros_get_params_srv_);
+
+    on_pushButton_Hydr_MagDeph_clicked();
+
+    ui->plot_Hydr_Fft->setAxisScale(QwtPlot::yLeft,0,100000,10000);
+    ui->plot_Hydr_Fft->setAxisScale(QwtPlot::xBottom,0,45000,5000);
+
+    for(uint16_t i = 0; i < 64; i++){
+        freq_points_[i] = 100;
+        mag_points_[i] = i*813;
+    }
+    fft_curve_ = new QwtPlotCurve();
+    fft_curve_->setPen(QColor(Qt::blue));
+    fft_curve_->attach(ui->plot_Hydr_Fft);
+    ui->plot_Hydr_Fft->replot();
+
+    bw_curve_1 = new QwtPlotCurve();
+    bw_curve_2 = new QwtPlotCurve();
+    thresh_curve = new QwtPlotCurve();
+
+    bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+
+    bw_mag_[0]  = 0;
+    bw_mag_[1]  = 100000;
+
+    thresh_freq_[0] = 0;
+    thresh_freq_[1] = 45000;
+    thresh_mag_[0] = ui->spinBox_Hydr_Fft_Thrs->value();
+    thresh_mag_[1] = ui->spinBox_Hydr_Fft_Thrs->value();
+
+    bw_curve_1->setSamples(bw1_freq_,bw_mag_,2);
+    bw_curve_1->setPen(QColor(Qt::green));
+    bw_curve_1->attach(ui->plot_Hydr_Fft);
+    bw_curve_2->setSamples(bw2_freq_,bw_mag_,2);
+    bw_curve_2->setPen(QColor(Qt::green));
+    bw_curve_2->attach(ui->plot_Hydr_Fft);
+    thresh_curve->setSamples(thresh_freq_,thresh_mag_,2);
+    thresh_curve->setPen(QColor(Qt::red));
+    thresh_curve->attach(ui->plot_Hydr_Fft);
+    ui->plot_Hydr_Fft->replot();
+
 }
 
 CanClient::~CanClient()
@@ -147,6 +192,14 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished()
             can_hydros_srv_.request.parameter_value = 15;
             break;
     }
+
+    bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+    bw_curve_1->setSamples(bw1_freq_,bw_mag_,2);
+    bw_curve_2->setSamples(bw2_freq_,bw_mag_,2);
+    ui->plot_Hydr_Fft->replot();
 
     can_service_client_.call(can_hydros_srv_);
 }
@@ -211,6 +264,11 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished()
     can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_fft_threshold;
     can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Fft_Thrs->value();
     can_service_client_.call(can_hydros_srv_);
+
+    thresh_mag_[0] = ui->spinBox_Hydr_Fft_Thrs->value();
+    thresh_mag_[1] = ui->spinBox_Hydr_Fft_Thrs->value();
+    thresh_curve->setSamples(thresh_freq_,thresh_mag_,2);
+    ui->plot_Hydr_Fft->replot();
 }
 
 void CanClient::on_spinBox_Hydr_Fft_Prefilter_editingFinished()
@@ -239,6 +297,15 @@ void CanClient::on_spinBox_Hydr_Bw_editingFinished()
     can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_set_fft_bandwidth;
     can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Bw->value();
     can_service_client_.call(can_hydros_srv_);
+
+    bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+    bw2_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
+    bw_curve_1->setSamples(bw1_freq_,bw_mag_,2);
+    bw_curve_2->setSamples(bw2_freq_,bw_mag_,2);
+    ui->plot_Hydr_Fft->replot();
+
 }
 
 void CanClient::on_spinBox_Hydr_Fft_Trig_Mode_editingFinished()
@@ -539,6 +606,12 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         QTableWidgetItem *new_cell_index;
         QTableWidgetItem *new_cell_value;
 
+        for(uint16_t i = 0; i < 64; i++){
+            mag_points_[i] = (double)msg->magnitude_values[i];
+        }
+        ui->plot_Hydr_Fft->replot();
+        ui->plot_Hydr_Fft->show();
+
         for(uint16_t i = 0; i < msg->magnitude_values.size(); i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,1));
@@ -548,6 +621,8 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
             new_cell_value->setData(Qt::DisplayRole,msg->magnitude_values[i]);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,0,new_cell_index);
             ui->tableWidget_Hydr_Fft_Mag->setItem(i,1,new_cell_value);
+
+
         }
 
         ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,Qt::SortOrder::DescendingOrder);
@@ -809,3 +884,35 @@ void CanClient::on_pushButton_psu_Off_Motor_3_clicked()
     can_service_client_.call(psu_srv_);
 }
 
+
+void CanClient::on_pushButton_Hydr_MagDeph_clicked()
+{
+    static bool graph = false;
+
+    graph = !graph;
+
+    if(graph){
+        ui->tableWidget_Hydr_Fft_Mag->setVisible(false);
+        ui->tableWidget_Hydr_Scope_samp->setVisible(false);
+        ui->tableWidget_Hydr_Deph->setVisible(false);
+        ui->label_Hydr_Freq->setVisible(false);
+        ui->label_Hydr_Freq_1->setVisible(false);
+        ui->label_Hydr_Freq_2->setVisible(false);
+        ui->label_Hydr_Deph->setVisible(false);
+        ui->label_Hydr_Mag->setVisible(false);
+        ui->label_Hydr_Scope->setText("FFT Graph");
+        ui->plot_Hydr_Fft->setVisible(true);
+    }else{
+        ui->tableWidget_Hydr_Fft_Mag->setVisible(true);
+        ui->tableWidget_Hydr_Scope_samp->setVisible(true);
+        ui->tableWidget_Hydr_Deph->setVisible(true);
+        ui->label_Hydr_Freq->setVisible(true);
+        ui->label_Hydr_Freq_1->setVisible(true);
+        ui->label_Hydr_Freq_2->setVisible(true);
+        ui->label_Hydr_Deph->setVisible(true);
+        ui->label_Hydr_Mag->setVisible(true);
+        ui->label_Hydr_Scope->setVisible(true);
+        ui->label_Hydr_Scope->setText("Scope Samples");
+        ui->plot_Hydr_Fft->setVisible(false);
+    }
+}

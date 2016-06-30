@@ -57,6 +57,13 @@ find_package( catkin REQUIRED COMPONENTS
 
 find_package( catkin REQUIRED provider_can )
 
+file(GLOB QWT_SEARCH_PATHS "/opt/qwt-*" "/usr/include/qwt-*")
+find_path(QWT_INCLUDE_DIR
+        NAMES qwt.h
+        NAMES qwt_global.h
+        NAMES qwt_plot.h
+        PATHS ${QWT_SEARCH_PATHS})
+
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
 
 include( ${QT_USE_FILE} )
@@ -80,11 +87,15 @@ file(GLOB_RECURSE can_client_SRC_FILES "${can_client_SRC_DIR}/*.cpp" )
 file(GLOB_RECURSE can_client_HDR_FILES "${can_client_SRC_DIR}/*.h")
 file(GLOB_RECURSE can_client_UIS "${can_client_UIS_DIR}/*.ui" )
 
+
+
 include_directories(
     ${can_client_SRC_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${catkin_INCLUDE_DIRS}
+    ${QWT_INCLUDE_DIR}
 )
+link_directories(${QWT_INCLUDE_DIR}/lib)
 
 qt4_wrap_cpp( can_client_QT_MOC ${can_client_HDR_FILES} )
 qt4_wrap_ui( can_client_QT_UIS ${can_client_UIS} )
@@ -104,6 +115,8 @@ target_link_libraries( ${PROJECT_NAME}_node
   ${QT4_LIBRARIES}
   ${QT_QTCORE_LIBRARY}
   ${QT_QTGUI_LIBRARY}
+  qwt
   )
 
-add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp sonia_msgs_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_node  sonia_msgs_generate_messages_cpp)
+
