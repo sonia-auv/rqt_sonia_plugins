@@ -163,6 +163,9 @@ private slots:
 
     void on_pushButton_Hydr_MagDeph_clicked();
 
+
+    void on_pushButton_Hydr_Plot_clicked();
+
 private:
 
     ros::NodeHandle nh_;

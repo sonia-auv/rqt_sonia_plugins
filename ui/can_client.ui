@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>902</width>
+    <width>914</width>
     <height>820</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Can Client</string>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="formLayoutWidget">
@@ -69,10 +72,17 @@
            <x>10</x>
            <y>10</y>
            <width>441</width>
-           <height>261</height>
+           <height>276</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Wave Enable</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_13">
             <property name="text">
@@ -140,6 +150,13 @@
             </property>
            </widget>
           </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="spinBox_Hydr_Phase_Calc_Alg">
+            <property name="maximum">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Gain">
             <property name="text">
@@ -150,14 +167,7 @@
           <item row="3" column="0">
            <widget class="QLabel" name="label_14">
             <property name="text">
-             <string>Filter Threshold</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Phase_Calc_Alg">
-            <property name="maximum">
-             <number>1</number>
+             <string>Input Filters Threshold</string>
             </property>
            </widget>
           </item>
@@ -185,14 +195,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_10">
             <property name="text">
-             <string>Sample Count</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_12">
-            <property name="text">
-             <string>Wave Enable</string>
+             <string>FFT Samples Count</string>
             </property>
            </widget>
           </item>
@@ -295,6 +298,13 @@
             </property>
            </widget>
           </item>
+          <item row="4" column="3">
+           <widget class="QLabel" name="label_Hydr_Samp_Count_3">
+            <property name="text">
+             <string>/2</string>
+            </property>
+           </widget>
+          </item>
           <item row="5" column="3">
            <widget class="QLabel" name="label_Hydr_Samp_Count_2">
             <property name="text">
@@ -306,13 +316,6 @@
            <widget class="QLabel" name="label_Hydr_Ping_Freq_4">
             <property name="text">
              <string>/1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QLabel" name="label_Hydr_Samp_Count_3">
-            <property name="text">
-             <string>/2</string>
             </property>
            </widget>
           </item>
@@ -430,7 +433,7 @@
           <item row="5" column="0">
            <widget class="QLabel" name="label_23">
             <property name="text">
-             <string>Bandwidth:</string>
+             <string>Detection Bandwidth:</string>
             </property>
            </widget>
           </item>
@@ -601,13 +604,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_Param_Req">
-            <property name="text">
-             <string>Send Data Request</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="pushButton_En_Fft">
             <property name="text">
              <string>Enable FFT </string>
@@ -633,7 +629,7 @@
          <property name="geometry">
           <rect>
            <x>600</x>
-           <y>380</y>
+           <y>430</y>
            <width>291</width>
            <height>151</height>
           </rect>
@@ -672,8 +668,8 @@
         <widget class="QLabel" name="label_Hydr_Mag">
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>340</y>
+           <x>40</x>
+           <y>350</y>
            <width>221</width>
            <height>31</height>
           </rect>
@@ -693,7 +689,7 @@
          <property name="geometry">
           <rect>
            <x>360</x>
-           <y>340</y>
+           <y>350</y>
            <width>151</width>
            <height>31</height>
           </rect>
@@ -709,31 +705,11 @@
           <string>Scope samples</string>
          </property>
         </widget>
-        <widget class="QLabel" name="label_Hydr_Deph">
-         <property name="geometry">
-          <rect>
-           <x>680</x>
-           <y>340</y>
-           <width>151</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Dephasage</string>
-         </property>
-        </widget>
         <widget class="QLabel" name="label_Hydr_Freq_1">
          <property name="geometry">
           <rect>
            <x>570</x>
-           <y>540</y>
+           <y>610</y>
            <width>151</width>
            <height>31</height>
           </rect>
@@ -753,7 +729,7 @@
          <property name="geometry">
           <rect>
            <x>30</x>
-           <y>380</y>
+           <y>410</y>
            <width>251</width>
            <height>192</height>
           </rect>
@@ -772,8 +748,8 @@
         <widget class="QTableWidget" name="tableWidget_Hydr_Scope_samp">
          <property name="geometry">
           <rect>
-           <x>300</x>
-           <y>380</y>
+           <x>310</x>
+           <y>410</y>
            <width>251</width>
            <height>192</height>
           </rect>
@@ -808,7 +784,7 @@
          <property name="geometry">
           <rect>
            <x>730</x>
-           <y>540</y>
+           <y>610</y>
            <width>131</width>
            <height>31</height>
           </rect>
@@ -828,7 +804,7 @@
          <property name="geometry">
           <rect>
            <x>860</x>
-           <y>540</y>
+           <y>610</y>
            <width>151</width>
            <height>31</height>
           </rect>
@@ -847,24 +823,64 @@
         <widget class="QwtPlot" name="plot_Hydr_Fft">
          <property name="geometry">
           <rect>
-           <x>40</x>
-           <y>370</y>
-           <width>821</width>
-           <height>281</height>
+           <x>20</x>
+           <y>340</y>
+           <width>861</width>
+           <height>311</height>
           </rect>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_Hydr_MagDeph">
+        <widget class="QWidget" name="horizontalLayoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>360</x>
+           <x>10</x>
            <y>660</y>
-           <width>201</width>
-           <height>27</height>
+           <width>891</width>
+           <height>31</height>
           </rect>
          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="pushButton_Hydr_MagDeph">
+            <property name="text">
+             <string>Switch FFT/Dephasage</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_Hydr_Plot">
+            <property name="text">
+             <string>Plot Data</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_Param_Req">
+            <property name="text">
+             <string>Request new data</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QLabel" name="label_Hydr_Deph">
+         <property name="geometry">
+          <rect>
+           <x>670</x>
+           <y>350</y>
+           <width>151</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
-          <string>Switch FFT/Dephasage</string>
+          <string>Dephasage</string>
          </property>
         </widget>
        </widget>
@@ -875,8 +891,8 @@
         <widget class="QWidget" name="gridLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>50</y>
+           <x>30</x>
+           <y>210</y>
            <width>402</width>
            <height>221</height>
           </rect>
@@ -1434,8 +1450,8 @@
         <widget class="QWidget" name="gridLayoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>450</x>
-           <y>50</y>
+           <x>460</x>
+           <y>210</y>
            <width>391</width>
            <height>221</height>
           </rect>
@@ -1614,8 +1630,8 @@
         <widget class="QLabel" name="label_7">
          <property name="geometry">
           <rect>
-           <x>560</x>
-           <y>20</y>
+           <x>570</x>
+           <y>170</y>
            <width>151</width>
            <height>21</height>
           </rect>
@@ -1635,7 +1651,7 @@
          <property name="geometry">
           <rect>
            <x>170</x>
-           <y>20</y>
+           <y>170</y>
            <width>151</width>
            <height>21</height>
           </rect>
@@ -1659,8 +1675,8 @@
         <widget class="QWidget" name="verticalLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>180</x>
-           <y>90</y>
+           <x>150</x>
+           <y>220</y>
            <width>160</width>
            <height>80</height>
           </rect>
@@ -1699,8 +1715,8 @@
         <widget class="QWidget" name="verticalLayoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>560</x>
-           <y>90</y>
+           <x>530</x>
+           <y>220</y>
            <width>160</width>
            <height>80</height>
           </rect>
@@ -1739,8 +1755,8 @@
         <widget class="QLabel" name="label_Baro_press_3">
          <property name="geometry">
           <rect>
-           <x>340</x>
-           <y>130</y>
+           <x>320</x>
+           <y>260</y>
            <width>158</width>
            <height>36</height>
           </rect>
@@ -1759,8 +1775,8 @@
         <widget class="QLabel" name="label_Baro_press_4">
          <property name="geometry">
           <rect>
-           <x>730</x>
-           <y>130</y>
+           <x>700</x>
+           <y>260</y>
            <width>158</width>
            <height>36</height>
           </rect>
@@ -1784,8 +1800,8 @@
         <widget class="QLabel" name="label_31">
          <property name="geometry">
           <rect>
-           <x>120</x>
-           <y>50</y>
+           <x>140</x>
+           <y>190</y>
            <width>171</width>
            <height>41</height>
           </rect>
@@ -1804,8 +1820,8 @@
         <widget class="QLineEdit" name="lineEdit_Div_Mission_string">
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>90</y>
+           <x>70</x>
+           <y>240</y>
            <width>281</width>
            <height>21</height>
           </rect>
@@ -1814,8 +1830,8 @@
         <widget class="QLabel" name="label_32">
          <property name="geometry">
           <rect>
-           <x>540</x>
-           <y>50</y>
+           <x>530</x>
+           <y>190</y>
            <width>171</width>
            <height>41</height>
           </rect>
@@ -1835,7 +1851,7 @@
          <property name="geometry">
           <rect>
            <x>450</x>
-           <y>90</y>
+           <y>240</y>
            <width>281</width>
            <height>21</height>
           </rect>
@@ -1850,7 +1866,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>60</y>
+           <y>160</y>
            <width>621</width>
            <height>321</height>
           </rect>
@@ -2428,7 +2444,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>120</y>
+           <y>240</y>
            <width>85</width>
            <height>27</height>
           </rect>
@@ -2467,8 +2483,8 @@
         <widget class="QLabel" name="label_33">
          <property name="geometry">
           <rect>
-           <x>150</x>
-           <y>70</y>
+           <x>140</x>
+           <y>200</y>
            <width>61</width>
            <height>41</height>
           </rect>
@@ -2487,8 +2503,8 @@
         <widget class="QComboBox" name="comboBox_Led_Mode">
          <property name="geometry">
           <rect>
-           <x>290</x>
-           <y>120</y>
+           <x>280</x>
+           <y>240</y>
            <width>85</width>
            <height>27</height>
           </rect>
@@ -2518,7 +2534,7 @@
          <property name="geometry">
           <rect>
            <x>300</x>
-           <y>70</y>
+           <y>200</y>
            <width>61</width>
            <height>41</height>
           </rect>
@@ -2537,8 +2553,8 @@
         <widget class="QPushButton" name="pushButton_Led_Set">
          <property name="geometry">
           <rect>
-           <x>460</x>
-           <y>120</y>
+           <x>450</x>
+           <y>240</y>
            <width>99</width>
            <height>27</height>
           </rect>
@@ -2573,7 +2589,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>902</width>
+     <width>914</width>
      <height>25</height>
     </rect>
    </property>
@@ -2594,6 +2610,7 @@
    <class>QwtPlot</class>
    <extends>QFrame</extends>
    <header>qwt_plot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

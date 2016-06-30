@@ -108,7 +108,8 @@ CanClient::CanClient(QWidget *parent) :
 
     ui->plot_Hydr_Fft->setAxisScale(QwtPlot::yLeft,0,100000,10000);
     ui->plot_Hydr_Fft->setAxisScale(QwtPlot::xBottom,0,45000,5000);
-
+    ui->plot_Hydr_Fft->setAxisTitle(QwtPlot::yLeft, "amplitude (int)");
+    ui->plot_Hydr_Fft->setAxisTitle(QwtPlot::xBottom, "frequency (Hz)");
 
     fft_curve_ = new QwtPlotCurve();
     bw_curve_1 = new QwtPlotCurve();
@@ -327,6 +328,17 @@ void CanClient::on_pushButton_En_Hydros_clicked()
 }
 
 void CanClient::on_pushButton_Param_Req_clicked() {
+    if(ui->spinBox_Hydr_Wave_En->value() == 0){
+        ui->spinBox_Hydr_Wave_En->setValue(1);
+        on_spinBox_Hydr_Wave_En_editingFinished();
+    }
+    if(!hydros_enabled_){
+        on_pushButton_En_Hydros_clicked();
+    }
+    if(!fft_enabled_){
+        on_pushButton_En_Fft_clicked();
+    }
+
     can_hydros_srv_.request.method_number = can_hydros_srv_.request.METHOD_HYDRO_send_data_req;
     can_service_client_.call(can_hydros_srv_);
 }
@@ -896,12 +908,11 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked()
         ui->label_Hydr_Freq->setVisible(false);
         ui->label_Hydr_Freq_1->setVisible(false);
         ui->label_Hydr_Freq_2->setVisible(false);
-        ui->label_Hydr_Deph->setVisible(false);
+        ui->label_Hydr_Scope->setVisible(false);
         ui->label_Hydr_Mag->setVisible(false);
-        ui->label_Hydr_Scope->setText("FFT Graph");
+        ui->label_Hydr_Deph->setText("FFT Graph");
         ui->plot_Hydr_Fft->setVisible(true);
-        fft_curve_->setSamples(freq_points_,mag_points_,64);
-        ui->plot_Hydr_Fft->replot();
+        ui->label_Hydr_Deph->setVisible(true);
     }else{
         ui->tableWidget_Hydr_Fft_Mag->setVisible(true);
         ui->tableWidget_Hydr_Scope_samp->setVisible(true);
@@ -909,10 +920,16 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked()
         ui->label_Hydr_Freq->setVisible(true);
         ui->label_Hydr_Freq_1->setVisible(true);
         ui->label_Hydr_Freq_2->setVisible(true);
-        ui->label_Hydr_Deph->setVisible(true);
-        ui->label_Hydr_Mag->setVisible(true);
         ui->label_Hydr_Scope->setVisible(true);
-        ui->label_Hydr_Scope->setText("Scope Samples");
+        ui->label_Hydr_Mag->setVisible(true);
+        ui->label_Hydr_Deph->setVisible(true);
+        ui->label_Hydr_Deph->setText("Dephasage");
         ui->plot_Hydr_Fft->setVisible(false);
     }
+}
+
+void CanClient::on_pushButton_Hydr_Plot_clicked()
+{
+    fft_curve_->setSamples(freq_points_,mag_points_,64);
+    ui->plot_Hydr_Fft->replot();
 }
