@@ -104,37 +104,35 @@ CanClient::CanClient(QWidget *parent) :
 
     can_service_client_.call(can_hydros_get_params_srv_);
 
-    on_pushButton_Hydr_MagDeph_clicked();
+
 
     ui->plot_Hydr_Fft->setAxisScale(QwtPlot::yLeft,0,100000,10000);
     ui->plot_Hydr_Fft->setAxisScale(QwtPlot::xBottom,0,45000,5000);
 
-    for(uint16_t i = 0; i < 64; i++){
-        freq_points_[i] = 100;
-        mag_points_[i] = i*813;
-    }
-    fft_curve_ = new QwtPlotCurve();
-    fft_curve_->setPen(QColor(Qt::blue));
-    fft_curve_->attach(ui->plot_Hydr_Fft);
-    ui->plot_Hydr_Fft->replot();
 
+    fft_curve_ = new QwtPlotCurve();
     bw_curve_1 = new QwtPlotCurve();
     bw_curve_2 = new QwtPlotCurve();
     thresh_curve = new QwtPlotCurve();
 
+    for(uint16_t i = 0; i < 64; i++){
+        freq_points_[i] = i*813;
+        mag_points_[i] = 100;
+    }
     bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
     bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 - ui->spinBox_Hydr_Bw->value()*813;
     bw2_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
     bw2_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value()*1000 + ui->spinBox_Hydr_Bw->value()*813;
-
     bw_mag_[0]  = 0;
     bw_mag_[1]  = 100000;
-
     thresh_freq_[0] = 0;
     thresh_freq_[1] = 45000;
     thresh_mag_[0] = ui->spinBox_Hydr_Fft_Thrs->value();
     thresh_mag_[1] = ui->spinBox_Hydr_Fft_Thrs->value();
 
+    fft_curve_->setSamples(freq_points_,mag_points_,64);
+    fft_curve_->setPen(QColor(Qt::blue));
+    fft_curve_->attach(ui->plot_Hydr_Fft);
     bw_curve_1->setSamples(bw1_freq_,bw_mag_,2);
     bw_curve_1->setPen(QColor(Qt::green));
     bw_curve_1->attach(ui->plot_Hydr_Fft);
@@ -145,6 +143,8 @@ CanClient::CanClient(QWidget *parent) :
     thresh_curve->setPen(QColor(Qt::red));
     thresh_curve->attach(ui->plot_Hydr_Fft);
     ui->plot_Hydr_Fft->replot();
+
+    on_pushButton_Hydr_MagDeph_clicked();
 
 }
 
@@ -609,8 +609,6 @@ void CanClient::HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstP
         for(uint16_t i = 0; i < 64; i++){
             mag_points_[i] = (double)msg->magnitude_values[i];
         }
-        ui->plot_Hydr_Fft->replot();
-        ui->plot_Hydr_Fft->show();
 
         for(uint16_t i = 0; i < msg->magnitude_values.size(); i++){
             delete(ui->tableWidget_Hydr_Fft_Mag->item(i,0));
@@ -887,7 +885,7 @@ void CanClient::on_pushButton_psu_Off_Motor_3_clicked()
 
 void CanClient::on_pushButton_Hydr_MagDeph_clicked()
 {
-    static bool graph = false;
+    static bool graph = true;
 
     graph = !graph;
 
@@ -902,6 +900,8 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked()
         ui->label_Hydr_Mag->setVisible(false);
         ui->label_Hydr_Scope->setText("FFT Graph");
         ui->plot_Hydr_Fft->setVisible(true);
+        fft_curve_->setSamples(freq_points_,mag_points_,64);
+        ui->plot_Hydr_Fft->replot();
     }else{
         ui->tableWidget_Hydr_Fft_Mag->setVisible(true);
         ui->tableWidget_Hydr_Scope_samp->setVisible(true);

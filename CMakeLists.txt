@@ -57,11 +57,9 @@ find_package( catkin REQUIRED COMPONENTS
 
 find_package( catkin REQUIRED provider_can )
 
-file(GLOB QWT_SEARCH_PATHS "/opt/qwt-*" "/usr/include/qwt-*")
+file(GLOB QWT_SEARCH_PATHS /usr/include/qwt)
 find_path(QWT_INCLUDE_DIR
         NAMES qwt.h
-        NAMES qwt_global.h
-        NAMES qwt_plot.h
         PATHS ${QWT_SEARCH_PATHS})
 
 find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
@@ -93,7 +91,7 @@ include_directories(
     ${can_client_SRC_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${catkin_INCLUDE_DIRS}
-    ${QWT_INCLUDE_DIR}
+     ${QWT_INCLUDE_DIR}
 )
 link_directories(${QWT_INCLUDE_DIR}/lib)
 
