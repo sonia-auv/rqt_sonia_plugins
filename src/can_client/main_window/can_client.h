@@ -1,5 +1,15 @@
-#ifndef CANCLIENT_H
-#define CANCLIENT_H
+/**
+ * \file	can_client.cc
+ * \author	Alexi Demers <alexidemers@gmail.com>
+ * \date	30/06/2016
+ *
+ * \copyright	Copyright (c) 2015 SONIA AUV ETS. All rights reserved.
+ * Use of this source code is governed by the MIT license that can be
+ * found in the LICENSE file.
+ */
+
+#ifndef CAN_CLIENT_H
+#define CAN_CLIENT_H
 
 #include <QMainWindow>
 #include <ros/ros.h>
@@ -21,13 +31,23 @@ class CanClient : public QMainWindow {
   Q_OBJECT
 
  public:
+
+  //==========================================================================
+  // T Y P E D E F   A N D   E N U M
+
   const double SPEED_OF_SOUND = 1500;  // Fresh water
   const double NORMALIZING_VALUE = 32767;
+
+  //============================================================================
+  // P U B L I C   C / D T O R S
 
   explicit CanClient(QWidget *parent = 0);
   ~CanClient();
 
  private slots:
+
+  //============================================================================
+  // P R I V A T E   S L O T S
   void on_spinBox_Hydr_Pinger_Freq_editingFinished();
 
   void on_spinBox_Hydr_Gain_editingFinished();
@@ -166,6 +186,11 @@ class CanClient : public QMainWindow {
   void on_pushButton_Hydr_Plot_clicked();
 
  private:
+
+  //============================================================================
+  // P R I V A T E   M E M B E R S
+
+  // ROS subscribers
   ros::NodeHandle nh_;
   Ui::CanClient *ui;
   ros::Subscriber hydrophones_params_subs_;
@@ -179,27 +204,26 @@ class CanClient : public QMainWindow {
   ros::Subscriber barometer_pressure_subs_;
   ros::Subscriber barometer_depth_subs_;
   ros::Subscriber psu_subs_;
+
+  // ROS services
   ros::ServiceClient can_service_client_;
 
   sonia_msgs::SendCanMessage can_hydros_get_params_srv_;
   sonia_msgs::SendCanMessage can_hydros_srv_;
-
   sonia_msgs::SendCanMessage thrusters_back_depth_srv_;
   sonia_msgs::SendCanMessage thrusters_front_depth_srv_;
   sonia_msgs::SendCanMessage thrusters_back_heading_srv_;
   sonia_msgs::SendCanMessage thrusters_front_heading_srv_;
   sonia_msgs::SendCanMessage thrusters_star_srv_;
   sonia_msgs::SendCanMessage thrusters_port_srv_;
-
   sonia_msgs::SendCanMessage diver_interface_srv_;
   sonia_msgs::SendCanMessage led_indicator_srv_;
-
   sonia_msgs::SendCanMessage psu_srv_;
 
+  // Hyrophones FFT graph curves
   QwtPlotCurve *fft_curve_;
   double freq_points_[64];
   double mag_points_[64];
-
   QwtPlotCurve *bw_curve_1;
   double bw1_freq_[2];
   QwtPlotCurve *bw_curve_2;
@@ -209,6 +233,7 @@ class CanClient : public QMainWindow {
   double thresh_freq_[2];
   double thresh_mag_[2];
 
+  // Hydros params enabling
   int hydros_enabled_;
   int fft_enabled_;
 };

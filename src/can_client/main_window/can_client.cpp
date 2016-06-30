@@ -1,7 +1,26 @@
+/**
+ * \file	can_client.cc
+ * \author	Alexi Demers <alexidemers@gmail.com>
+ * \date	30/06/2016
+ *
+ * \copyright	Copyright (c) 2015 SONIA AUV ETS. All rights reserved.
+ * Use of this source code is governed by the MIT license that can be
+ * found in the LICENSE file.
+ */
+
 #include <qwt_symbol.h>
 #include "can_client.h"
 #include "ui_can_client.h"
 
+
+//==============================================================================
+// S T A T I C   M E M B E R S
+
+//==============================================================================
+// C / D T O R   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
 CanClient::CanClient(QWidget *parent)
     : QMainWindow(parent),
       nh_(),
@@ -194,12 +213,23 @@ CanClient::CanClient(QWidget *parent)
   on_pushButton_Hydr_MagDeph_clicked();
 }
 
+//------------------------------------------------------------------------------
+//
+
 CanClient::~CanClient() { delete ui; }
+
+//==============================================================================
+// M E T H O D S   S E C T I O N
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_pinger_freq;
 
+  // hydrophone frequencies are coded quite randomly. this
+  // switch case is for conversion from kHz purpose.
   switch (ui->spinBox_Hydr_Pinger_Freq->value()) {
     case 13:
       can_hydros_srv_.request.parameter_value = 5;
@@ -236,6 +266,7 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       break;
   }
 
+  // updating bandwidth curves on FFT graph
   bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
                  ui->spinBox_Hydr_Bw->value() * 813;
   bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
@@ -251,6 +282,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Gain_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_gain;
@@ -258,6 +292,9 @@ void CanClient::on_spinBox_Hydr_Gain_editingFinished() {
       (float)ui->spinBox_Hydr_Gain->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Acq_Thrs_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -267,6 +304,9 @@ void CanClient::on_spinBox_Hydr_Acq_Thrs_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Filt_Thrs_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_filter_threshold;
@@ -274,6 +314,9 @@ void CanClient::on_spinBox_Hydr_Filt_Thrs_editingFinished() {
       (float)ui->spinBox_Hydr_Filt_Thrs->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Wave_En_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -283,6 +326,9 @@ void CanClient::on_spinBox_Hydr_Wave_En_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Samp_Count_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_sample_count;
@@ -290,6 +336,9 @@ void CanClient::on_spinBox_Hydr_Samp_Count_editingFinished() {
       (float)ui->spinBox_Hydr_Samp_Count->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Acq_Th_Mode_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -299,6 +348,9 @@ void CanClient::on_spinBox_Hydr_Acq_Th_Mode_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Phase_Calc_Alg_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_phase_calc_alg;
@@ -307,6 +359,9 @@ void CanClient::on_spinBox_Hydr_Phase_Calc_Alg_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Preamp_Gain_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_preamp_gain;
@@ -314,6 +369,9 @@ void CanClient::on_spinBox_Hydr_Preamp_Gain_editingFinished() {
       (float)ui->spinBox_Hydr_Preamp_Gain->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -328,6 +386,9 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
   ui->plot_Hydr_Fft->replot();
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Fft_Prefilter_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter;
@@ -335,6 +396,9 @@ void CanClient::on_spinBox_Hydr_Fft_Prefilter_editingFinished() {
       (float)ui->spinBox_Hydr_Fft_Prefilter->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_spinBox_Hydr_Fft_Prefilter_T_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -344,6 +408,9 @@ void CanClient::on_spinBox_Hydr_Fft_Prefilter_T_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Cont_Fil_Freq_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
@@ -352,12 +419,16 @@ void CanClient::on_spinBox_Hydr_Cont_Fil_Freq_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Bw_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_fft_bandwidth;
   can_hydros_srv_.request.parameter_value = (float)ui->spinBox_Hydr_Bw->value();
   can_service_client_.call(can_hydros_srv_);
 
+  // updating bandwidth curves on FFT graph
   bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
                  ui->spinBox_Hydr_Bw->value() * 813;
   bw1_freq_[1] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
@@ -371,6 +442,9 @@ void CanClient::on_spinBox_Hydr_Bw_editingFinished() {
   ui->plot_Hydr_Fft->replot();
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_spinBox_Hydr_Fft_Trig_Mode_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_fft_trig_mode;
@@ -378,6 +452,9 @@ void CanClient::on_spinBox_Hydr_Fft_Trig_Mode_editingFinished() {
       (float)ui->spinBox_Hydr_Fft_Trig_Mode->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_En_Hydros_clicked() {
   can_hydros_srv_.request.method_number =
@@ -389,6 +466,9 @@ void CanClient::on_pushButton_En_Hydros_clicked() {
   }
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Param_Req_clicked() {
   if (ui->spinBox_Hydr_Wave_En->value() == 0) {
@@ -407,6 +487,9 @@ void CanClient::on_pushButton_Param_Req_clicked() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_En_Fft_clicked() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_fft_enable;
@@ -419,11 +502,17 @@ void CanClient::on_pushButton_En_Fft_clicked() {
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Speed_Bd_clicked() {
   thrusters_back_depth_srv_.request.parameter_value =
       ui->spinBox_Thruster_Back_Depth->value();
   can_service_client_.call(thrusters_back_depth_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Speed_Bh_clicked() {
   thrusters_back_heading_srv_.request.parameter_value =
@@ -431,11 +520,17 @@ void CanClient::on_pushButton_Thruster_Speed_Bh_clicked() {
   can_service_client_.call(thrusters_back_heading_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Speed_Fd_clicked() {
   thrusters_front_depth_srv_.request.parameter_value =
       ui->spinBox_Thruster_Front_Depth->value();
   can_service_client_.call(thrusters_front_depth_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Speed_Fh_clicked() {
   thrusters_front_heading_srv_.request.parameter_value =
@@ -443,17 +538,26 @@ void CanClient::on_pushButton_Thruster_Speed_Fh_clicked() {
   can_service_client_.call(thrusters_front_heading_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Speed_P_clicked() {
   thrusters_port_srv_.request.parameter_value =
       ui->spinBox_Thruster_Port->value();
   can_service_client_.call(thrusters_port_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Speed_S_clicked() {
   thrusters_star_srv_.request.parameter_value =
       ui->spinBox_Thruster_Starboard->value();
   can_service_client_.call(thrusters_star_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Rot_L_clicked() {
   thrusters_back_heading_srv_.request.parameter_value =
@@ -464,6 +568,9 @@ void CanClient::on_pushButton_Thruster_Rot_L_clicked() {
   can_service_client_.call(thrusters_front_heading_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_For_clicked() {
   thrusters_star_srv_.request.parameter_value =
       ui->spinBox_Thruster_Starboard->value();
@@ -472,6 +579,9 @@ void CanClient::on_pushButton_Thruster_For_clicked() {
       ui->spinBox_Thruster_Port->value();
   can_service_client_.call(thrusters_port_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Rot_R_clicked() {
   thrusters_back_heading_srv_.request.parameter_value =
@@ -482,6 +592,9 @@ void CanClient::on_pushButton_Thruster_Rot_R_clicked() {
   can_service_client_.call(thrusters_front_heading_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Up_clicked() {
   thrusters_front_depth_srv_.request.parameter_value =
       ui->spinBox_Thruster_Front_Depth->value();
@@ -491,6 +604,9 @@ void CanClient::on_pushButton_Thruster_Up_clicked() {
   can_service_client_.call(thrusters_back_depth_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Left_clicked() {
   thrusters_back_heading_srv_.request.parameter_value =
       ui->spinBox_Thruster_Back_Heading->value();
@@ -499,6 +615,9 @@ void CanClient::on_pushButton_Thruster_Left_clicked() {
       ui->spinBox_Thruster_Front_Heading->value();
   can_service_client_.call(thrusters_front_heading_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Stop_clicked() {
   thrusters_front_depth_srv_.request.parameter_value = 0;
@@ -515,6 +634,9 @@ void CanClient::on_pushButton_Thruster_Stop_clicked() {
   can_service_client_.call(thrusters_port_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Right_clicked() {
   thrusters_back_heading_srv_.request.parameter_value =
       -ui->spinBox_Thruster_Back_Heading->value();
@@ -523,6 +645,9 @@ void CanClient::on_pushButton_Thruster_Right_clicked() {
       -ui->spinBox_Thruster_Front_Heading->value();
   can_service_client_.call(thrusters_front_heading_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Thruster_Back_clicked() {
   thrusters_star_srv_.request.parameter_value =
@@ -533,6 +658,9 @@ void CanClient::on_pushButton_Thruster_Back_clicked() {
   can_service_client_.call(thrusters_port_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Thruster_Down_clicked() {
   thrusters_front_depth_srv_.request.parameter_value =
       -ui->spinBox_Thruster_Front_Depth->value();
@@ -541,6 +669,9 @@ void CanClient::on_pushButton_Thruster_Down_clicked() {
       -ui->spinBox_Thruster_Back_Depth->value();
   can_service_client_.call(thrusters_back_depth_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::HydrophonesParamsCallback(
     const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
@@ -580,6 +711,8 @@ void CanClient::HydrophonesParamsCallback(
     ui->pushButton_En_Hydros->setText("Enable Hydrophone");
   }
 
+  // hydrophone frequencies are coded quite randomly. this
+  // switch case is for conversion to kHz purpose.
   switch (msg->pinger_freq) {
     case 5:
       ui->label_Hydr_Ping_Freq->setNum(13);
@@ -617,15 +750,20 @@ void CanClient::HydrophonesParamsCallback(
   }
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::HydrophonesMsgsCallback(
     const sonia_msgs::HydrophonesMsg::ConstPtr &msg) {
   static uint32_t freq_slowdwn_count = 0;
 
+  // if a ping was received and dephasage calculated
   if (msg->dephasage1_updated) {
     double pro_deph_1;
     double pro_deph_2;
     double pro_deph_3;
 
+    // sets table widget with values
     QTableWidgetItem *new_cell_d1_raw =
         new QTableWidgetItem(QString::number(msg->dephasage1_d1));
     QTableWidgetItem *new_cell_d2_raw =
@@ -635,6 +773,7 @@ void CanClient::HydrophonesMsgsCallback(
     QTableWidgetItem *new_cell_freq =
         new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
 
+    // makes a part of the processing done by AUV6
     if (msg->dephasage1_pinger_freq != 0) {
       // distance in cm for all phase displacements
       if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
@@ -663,6 +802,7 @@ void CanClient::HydrophonesMsgsCallback(
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
     }
 
+    // shows processed values
     QTableWidgetItem *new_cell_d1_pro =
         new QTableWidgetItem(QString::number(pro_deph_1));
     QTableWidgetItem *new_cell_d2_pro =
@@ -670,11 +810,13 @@ void CanClient::HydrophonesMsgsCallback(
     QTableWidgetItem *new_cell_d3_pro =
         new QTableWidgetItem(QString::number(pro_deph_3));
 
+    // deleting old table widget cells
     for (uint16_t i = 0; i < 4; i++) {
       delete (ui->tableWidget_Hydr_Deph->item(i, 0));
       delete (ui->tableWidget_Hydr_Deph->item(i, 1));
     }
 
+    // setting up new cells
     ui->tableWidget_Hydr_Deph->setItem(0, 0, new_cell_d1_raw);
     ui->tableWidget_Hydr_Deph->setItem(0, 1, new_cell_d1_pro);
     ui->tableWidget_Hydr_Deph->setItem(1, 0, new_cell_d2_raw);
@@ -684,6 +826,7 @@ void CanClient::HydrophonesMsgsCallback(
     ui->tableWidget_Hydr_Deph->setItem(3, 0, new_cell_freq);
   }
 
+  // if a new maximum frequency was received
   if (msg->hydro_freq_updated) {
     freq_slowdwn_count++;
     if (freq_slowdwn_count >= 50) {
@@ -693,14 +836,17 @@ void CanClient::HydrophonesMsgsCallback(
     }
   }
 
+  // if FFT samples are received
   if (msg->magn_samples_updated) {
     QTableWidgetItem *new_cell_index;
     QTableWidgetItem *new_cell_value;
 
+    // updates FFT curve points
     for (uint16_t i = 0; i < 64; i++) {
       mag_points_[i] = (double)msg->magnitude_values[i];
     }
 
+    // updates table widget values
     for (uint16_t i = 0; i < msg->magnitude_values.size(); i++) {
       delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 0));
       delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 1));
@@ -715,6 +861,7 @@ void CanClient::HydrophonesMsgsCallback(
     ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,
                                                Qt::SortOrder::DescendingOrder);
 
+    // highlighting frequency values between the asked interval
     for (uint32_t i = 0; i < msg->magnitude_values.size(); i++) {
       if (ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->text().toDouble() / 1000 <
               ui->label_Hydr_Ping_Freq->text().toDouble() +
@@ -757,7 +904,11 @@ void CanClient::HydrophonesMsgsCallback(
   }
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
+  // updates all power supply values
   ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus2_current);
   ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus1_current);
   ui->label_Psu_Motor_Cur_1->setNum(msg->motor_bus1_current);
@@ -792,53 +943,89 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
     ui->label_Kill_State->setText("Off");
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::ThrusterBackDCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_Bd->setNum(msg->speed);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::ThrusterFrontDCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_Fd->setNum(msg->speed);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::ThrusterBackHCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_Bh->setNum(msg->speed);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::ThrusterFrontHCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_Fh->setNum(msg->speed);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::ThrusterStarCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_S->setNum(msg->speed);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::ThrusterPortCallback(
     const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
   ui->label_Thruster_Speed_P->setNum(msg->speed);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::BarometerDepthCallback(
     const sonia_msgs::BarometerMsg::ConstPtr &msg) {
   ui->label_Baro_press_2->setNum((double)msg->depth);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::BarometerPressCallback(
     const sensor_msgs::FluidPressure::ConstPtr &msg) {
   ui->label_Baro_press->setNum(msg->fluid_pressure);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Hydr_Refrsh_clicked() {
   can_service_client_.call(can_hydros_get_params_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_lineEdit_Div_Mission_string_editingFinished() {}
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_lineEdit_Div_State_String_editingFinished() {}
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_Led_Set_clicked() {
   led_indicator_srv_.request.method_number =
@@ -853,11 +1040,17 @@ void CanClient::on_pushButton_Led_Set_clicked() {
   can_service_client_.call(led_indicator_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_12V_1_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_BUS_12V1;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_On_12V_2_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
@@ -865,11 +1058,17 @@ void CanClient::on_pushButton_psu_On_12V_2_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_Pc_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_PC;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_On_Dvl_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
@@ -877,11 +1076,17 @@ void CanClient::on_pushButton_psu_On_Dvl_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_Light_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_LIGHT;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_On_Act_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
@@ -889,11 +1094,17 @@ void CanClient::on_pushButton_psu_On_Act_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_Off_12V_1_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_BUS_12V1;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_12V_2_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -901,11 +1112,17 @@ void CanClient::on_pushButton_psu_Off_12V_2_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_Off_Pc_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_PC;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_Dvl_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -913,11 +1130,17 @@ void CanClient::on_pushButton_psu_Off_Dvl_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_Off_Light_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_LIGHT;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_Act_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -925,11 +1148,17 @@ void CanClient::on_pushButton_psu_Off_Act_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_Motor_1_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_BUS_12V1;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_Motor_1_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -937,11 +1166,17 @@ void CanClient::on_pushButton_psu_Off_Motor_1_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_Motor_2_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_MOTOR2;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_Motor_2_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -949,11 +1184,17 @@ void CanClient::on_pushButton_psu_Off_Motor_2_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_psu_On_Motor_3_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_set_channel;
   psu_srv_.request.parameter_value = psu_srv_.request.PSU_CHAN_MOTOR3;
   can_service_client_.call(psu_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
 
 void CanClient::on_pushButton_psu_Off_Motor_3_clicked() {
   psu_srv_.request.method_number = psu_srv_.request.METHOD_PSU_clr_channel;
@@ -961,11 +1202,15 @@ void CanClient::on_pushButton_psu_Off_Motor_3_clicked() {
   can_service_client_.call(psu_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   static bool graph = true;
 
   graph = !graph;
 
+  // show the hydrophone FFT graph. makes the tableWidgets behind disappear
   if (graph) {
     ui->tableWidget_Hydr_Fft_Mag->setVisible(false);
     ui->tableWidget_Hydr_Scope_samp->setVisible(false);
@@ -978,7 +1223,7 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
     ui->label_Hydr_Deph->setText("FFT Graph");
     ui->plot_Hydr_Fft->setVisible(true);
     ui->label_Hydr_Deph->setVisible(true);
-  } else {
+  } else {// hide the hyrophone FFT graph
     ui->tableWidget_Hydr_Fft_Mag->setVisible(true);
     ui->tableWidget_Hydr_Scope_samp->setVisible(true);
     ui->tableWidget_Hydr_Deph->setVisible(true);
@@ -993,7 +1238,13 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   }
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_pushButton_Hydr_Plot_clicked() {
   fft_curve_->setSamples(freq_points_, mag_points_, 64);
   ui->plot_Hydr_Fft->replot();
 }
+
+//------------------------------------------------------------------------------
+//
