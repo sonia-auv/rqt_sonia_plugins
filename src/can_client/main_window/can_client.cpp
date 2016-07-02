@@ -1238,12 +1238,32 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   }
 }
 
-<<<<<<< HEAD
-void CanClient::on_pushButton_Thruster_Test_clicked()
-{
 
+void CanClient::on_pushButton_Thruster_Test_clicked() {
+  struct timeval start_time;
+  struct timeval end_time;
+
+
+
+  for(uint8_t i = 1; i < 7; i++){
+    thrusters_back_heading_srv_.request.unique_id = i;
+
+    gettimeofday(&start_time, NULL);
+    gettimeofday(&end_time, NULL);
+
+    thrusters_back_heading_srv_.request.parameter_value = 30;
+    can_service_client_.call(thrusters_back_heading_srv_);
+
+    while((end_time.tv_sec - start_time.tv_sec) < 2){
+      gettimeofday(&end_time, NULL);
+    }
+    thrusters_back_heading_srv_.request.parameter_value = 0;
+    can_service_client_.call(thrusters_back_heading_srv_);
+
+  }
+  thrusters_back_heading_srv_.request.unique_id = thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
 }
-=======
+
 //------------------------------------------------------------------------------
 //
 
@@ -1254,4 +1274,4 @@ void CanClient::on_pushButton_Hydr_Plot_clicked() {
 
 //------------------------------------------------------------------------------
 //
->>>>>>> eb60655e01e6b7b93016a6a70e098f8ac0928ed4
+
