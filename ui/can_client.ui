@@ -57,7 +57,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="hydrophones">
         <attribute name="title">
@@ -1651,6 +1651,19 @@
           <string>Controls</string>
          </property>
         </widget>
+        <widget class="QPushButton" name="pushButton_Thruster_Test">
+         <property name="geometry">
+          <rect>
+           <x>280</x>
+           <y>300</y>
+           <width>311</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Thrusters test</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="barometer">
         <attribute name="title">
@@ -2594,6 +2607,7 @@
    <class>QwtPlot</class>
    <extends>QFrame</extends>
    <header>qwt_plot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

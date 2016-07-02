@@ -916,3 +916,8 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked()
         ui->plot_Hydr_Fft->setVisible(false);
     }
 }
+
+void CanClient::on_pushButton_Thruster_Test_clicked()
+{
+
+}
