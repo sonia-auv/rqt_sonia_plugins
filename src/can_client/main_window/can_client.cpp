@@ -9,6 +9,7 @@
  */
 
 #include <qwt_symbol.h>
+#include <thread>
 #include "can_client.h"
 #include "ui_can_client.h"
 
@@ -48,7 +49,8 @@ CanClient::CanClient(QWidget *parent)
       led_indicator_srv_(),
       psu_srv_(),
       hydros_enabled_(false),
-      fft_enabled_(false) {
+      fft_enabled_(false),
+      thruster_test_thread_() {
   ui->setupUi(this);
 
   ui->tableWidget_Hydr_Fft_Mag->setRowCount(128);
@@ -1241,10 +1243,24 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
 
 
 void CanClient::on_pushButton_Thruster_Test_clicked() {
+
+  thruster_test_thread_ = new std::thread (&CanClient::ThrusterTest, this, 10);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_pushButton_Hydr_Plot_clicked() {
+  fft_curve_->setSamples(freq_points_, mag_points_, 64);
+  ui->plot_Hydr_Fft->replot();
+}
+
+//------------------------------------------------------------------------------
+//
+
+int CanClient::ThrusterTest(int arg) {
   struct timeval start_time;
   struct timeval end_time;
-
-
 
   for(uint8_t i = 1; i < 7; i++){
     thrusters_back_heading_srv_.request.unique_id = i;
@@ -1263,14 +1279,8 @@ void CanClient::on_pushButton_Thruster_Test_clicked() {
 
   }
   thrusters_back_heading_srv_.request.unique_id = thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
-}
 
-//------------------------------------------------------------------------------
-//
-
-void CanClient::on_pushButton_Hydr_Plot_clicked() {
-  fft_curve_->setSamples(freq_points_, mag_points_, 64);
-  ui->plot_Hydr_Fft->replot();
+  return 0;
 }
 
 //------------------------------------------------------------------------------

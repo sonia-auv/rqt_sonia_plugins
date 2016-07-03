@@ -11,6 +11,7 @@
 #ifndef CAN_CLIENT_H
 #define CAN_CLIENT_H
 
+#include <thread>
 #include <QMainWindow>
 #include <ros/ros.h>
 #include <ros/node_handle.h>
@@ -191,6 +192,8 @@ class CanClient : public QMainWindow {
 
  private:
 
+  int ThrusterTest(int arg);
+
   //============================================================================
   // P R I V A T E   M E M B E R S
 
@@ -240,6 +243,8 @@ class CanClient : public QMainWindow {
   // Hydros params enabling
   int hydros_enabled_;
   int fft_enabled_;
+
+  std::thread *thruster_test_thread_;
 };
 
 #endif  // CANCLIENT_H
