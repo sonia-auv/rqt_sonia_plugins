@@ -211,6 +211,7 @@ CanClient::CanClient(QWidget *parent)
   ui->plot_Hydr_Fft->replot();
 
   on_pushButton_Hydr_MagDeph_clicked();
+  //on_pushButton_Hydr_MagDeph_clicked();
 }
 
 //------------------------------------------------------------------------------

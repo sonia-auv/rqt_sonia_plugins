@@ -177,7 +177,6 @@ class CanClient : public QMainWindow {
 
   void on_pushButton_Thruster_Test_clicked();
 
-private:
 
   void on_pushButton_psu_On_Motor_3_clicked();
 
