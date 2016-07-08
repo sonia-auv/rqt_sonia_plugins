@@ -343,17 +343,6 @@ void CanClient::on_spinBox_Hydr_Phase_Calc_Alg_editingFinished() {
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_spinBox_Hydr_Preamp_Gain_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_set_preamp_gain;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Preamp_Gain->value();
-  can_service_client_.call(can_hydros_srv_);
-}
-
-//------------------------------------------------------------------------------
-//
-
 void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_fft_threshold;
@@ -1289,6 +1278,15 @@ void CanClient::on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index)
 {
   can_hydros_srv_.request.method_number =
     can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
+
+void CanClient::on_comboBox_Preamp_Gain_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_preamp_gain;
   can_hydros_srv_.request.parameter_value =
     (float)index;
   can_service_client_.call(can_hydros_srv_);

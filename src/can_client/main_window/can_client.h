@@ -62,8 +62,6 @@ class CanClient : public QMainWindow {
 
   void on_spinBox_Hydr_Phase_Calc_Alg_editingFinished();
 
-  void on_spinBox_Hydr_Preamp_Gain_editingFinished();
-
   void on_spinBox_Hydr_Fft_Thrs_editingFinished();
 
   void on_spinBox_Hydr_Fft_Prefilter_T_editingFinished();
@@ -190,6 +188,8 @@ class CanClient : public QMainWindow {
   void on_comboBox_Prefilter_Enable_currentIndexChanged(int index);
 
   void on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index);
+
+  void on_comboBox_Preamp_Gain_currentIndexChanged(int index);
 
 private:
 
