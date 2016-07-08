@@ -66,11 +66,7 @@ class CanClient : public QMainWindow {
 
   void on_spinBox_Hydr_Fft_Thrs_editingFinished();
 
-  void on_spinBox_Hydr_Fft_Prefilter_editingFinished();
-
   void on_spinBox_Hydr_Fft_Prefilter_T_editingFinished();
-
-  void on_spinBox_Hydr_Cont_Fil_Freq_editingFinished();
 
   void on_spinBox_Hydr_Bw_editingFinished();
 
@@ -81,8 +77,6 @@ class CanClient : public QMainWindow {
   void on_pushButton_Param_Req_clicked();
 
   void on_pushButton_En_Fft_clicked();
-
-  void on_spinBox_Hydr_Wave_En_editingFinished();
 
   void on_pushButton_Thruster_Speed_Bd_clicked();
 
