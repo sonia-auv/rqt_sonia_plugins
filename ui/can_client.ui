@@ -358,7 +358,7 @@
           <item row="3" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Fft_Prefilter_T">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>0</string>
@@ -414,23 +414,10 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Fft_Prefilter_T">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximum">
-             <number>5</number>
-            </property>
-            <property name="value">
-             <number>5</number>
-            </property>
-           </widget>
-          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_21">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>FFT Prefilter Type:</string>
@@ -832,6 +819,257 @@
             <item>
              <property name="text">
               <string>On</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QLabel" name="label_Hydr_Samp_Count_7">
+            <property name="text">
+             <string>/48</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboBox_FFT_Prefilt_Type">
+            <item>
+             <property name="text">
+              <string>BP 20-30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HP 20kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 10-30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 10-20kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HP 10kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 25-40kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 13kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 15kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 22kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 23kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 24kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 25kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 26kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 27kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 28kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 29kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 31kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 32kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 33kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 34kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 35kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 36kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 37kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 38kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 39kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 40kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 13kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 15kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 22kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 23kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 24kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 25kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 26kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 27kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 28kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 29kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 31kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 32kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 33kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 34kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 35kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 36kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 37kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 38kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 39kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 40kHz</string>
              </property>
             </item>
            </widget>

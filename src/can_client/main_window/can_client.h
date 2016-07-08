@@ -64,8 +64,6 @@ class CanClient : public QMainWindow {
 
   void on_spinBox_Hydr_Fft_Thrs_editingFinished();
 
-  void on_spinBox_Hydr_Fft_Prefilter_T_editingFinished();
-
   void on_spinBox_Hydr_Bw_editingFinished();
 
   void on_spinBox_Hydr_Fft_Trig_Mode_editingFinished();
@@ -190,6 +188,8 @@ class CanClient : public QMainWindow {
   void on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index);
 
   void on_comboBox_Preamp_Gain_currentIndexChanged(int index);
+
+  void on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index);
 
 private:
 

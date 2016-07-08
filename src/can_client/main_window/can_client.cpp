@@ -356,17 +356,6 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
   ui->plot_Hydr_Fft->replot();
 }
 
-//------------------------------------------------------------------------------
-//
-
-void CanClient::on_spinBox_Hydr_Fft_Prefilter_T_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter_type;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Fft_Prefilter_T->value();
-  can_service_client_.call(can_hydros_srv_);
-}
-
 
 //------------------------------------------------------------------------------
 //
@@ -1283,6 +1272,9 @@ void CanClient::on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index)
   can_service_client_.call(can_hydros_srv_);
 }
 
+//------------------------------------------------------------------------------
+//
+
 void CanClient::on_comboBox_Preamp_Gain_currentIndexChanged(int index)
 {
   can_hydros_srv_.request.method_number =
@@ -1291,3 +1283,18 @@ void CanClient::on_comboBox_Preamp_Gain_currentIndexChanged(int index)
     (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter_type;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
+
+//------------------------------------------------------------------------------
+//
