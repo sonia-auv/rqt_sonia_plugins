@@ -118,6 +118,9 @@
           </item>
           <item row="7" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Phase_Calc_Alg">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>0</string>
             </property>
@@ -163,6 +166,9 @@
           </item>
           <item row="7" column="1">
            <widget class="QSpinBox" name="spinBox_Hydr_Phase_Calc_Alg">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="maximum">
              <number>1</number>
             </property>
@@ -225,6 +231,9 @@
           </item>
           <item row="7" column="0">
            <widget class="QLabel" name="label_18">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Phase Calculation Algorithm:</string>
             </property>
@@ -283,6 +292,9 @@
           </item>
           <item row="7" column="3">
            <widget class="QLabel" name="label_Hydr_Ping_Freq_4">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>/1</string>
             </property>
@@ -315,7 +327,7 @@
           <item row="4" column="3">
            <widget class="QLabel" name="label_Hydr_Samp_Count_3">
             <property name="text">
-             <string>/2</string>
+             <string>/1</string>
             </property>
            </widget>
           </item>
@@ -1114,6 +1126,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_En_Fft">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Enable FFT </string>
             </property>
@@ -1195,6 +1210,9 @@
          </property>
         </widget>
         <widget class="QLabel" name="label_Hydr_Scope">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>360</x>
@@ -1255,6 +1273,9 @@
          </column>
         </widget>
         <widget class="QTableWidget" name="tableWidget_Hydr_Scope_samp">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>310</x>
@@ -1332,8 +1353,8 @@
         <widget class="QwtPlot" name="plot_Hydr_Fft">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>340</y>
+           <x>30</x>
+           <y>330</y>
            <width>861</width>
            <height>311</height>
           </rect>
