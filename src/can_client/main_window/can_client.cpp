@@ -235,37 +235,67 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
   // switch case is for conversion from kHz purpose.
   switch (ui->spinBox_Hydr_Pinger_Freq->value()) {
     case 13:
-      can_hydros_srv_.request.parameter_value = 5;
-      break;
-    case 15:
       can_hydros_srv_.request.parameter_value = 6;
       break;
-    case 22:
+    case 15:
       can_hydros_srv_.request.parameter_value = 7;
       break;
-    case 23:
+    case 22:
       can_hydros_srv_.request.parameter_value = 8;
       break;
-    case 24:
+    case 23:
       can_hydros_srv_.request.parameter_value = 9;
       break;
-    case 25:
+    case 24:
       can_hydros_srv_.request.parameter_value = 10;
       break;
-    case 26:
+    case 25:
       can_hydros_srv_.request.parameter_value = 11;
       break;
-    case 27:
+    case 26:
       can_hydros_srv_.request.parameter_value = 12;
       break;
-    case 28:
+    case 27:
       can_hydros_srv_.request.parameter_value = 13;
       break;
-    case 29:
+    case 28:
       can_hydros_srv_.request.parameter_value = 14;
       break;
-    case 30:
+    case 29:
       can_hydros_srv_.request.parameter_value = 15;
+      break;
+    case 30:
+      can_hydros_srv_.request.parameter_value = 16;
+      break;
+    case 31:
+      can_hydros_srv_.request.parameter_value = 17;
+      break;
+    case 32:
+      can_hydros_srv_.request.parameter_value = 18;
+      break;
+    case 33:
+      can_hydros_srv_.request.parameter_value = 19;
+      break;
+    case 34:
+      can_hydros_srv_.request.parameter_value = 20;
+      break;
+    case 35:
+      can_hydros_srv_.request.parameter_value = 21;
+      break;
+    case 36:
+      can_hydros_srv_.request.parameter_value = 22;
+      break;
+    case 37:
+      can_hydros_srv_.request.parameter_value = 23;
+      break;
+    case 38:
+      can_hydros_srv_.request.parameter_value = 24;
+      break;
+    case 39:
+      can_hydros_srv_.request.parameter_value = 25;
+      break;
+    case 40:
+      can_hydros_srv_.request.parameter_value = 26;
       break;
   }
 
@@ -656,38 +686,68 @@ void CanClient::HydrophonesParamsCallback(
   // hydrophone frequencies are coded quite randomly. this
   // switch case is for conversion to kHz purpose.
   switch (msg->pinger_freq) {
-    case 5:
+    case 6:
       ui->label_Hydr_Ping_Freq->setNum(13);
       break;
-    case 6:
+    case 7:
       ui->label_Hydr_Ping_Freq->setNum(15);
       break;
-    case 7:
+    case 8:
       ui->label_Hydr_Ping_Freq->setNum(22);
       break;
-    case 8:
+    case 9:
       ui->label_Hydr_Ping_Freq->setNum(23);
       break;
-    case 9:
+    case 10:
       ui->label_Hydr_Ping_Freq->setNum(24);
       break;
-    case 10:
+    case 11:
       ui->label_Hydr_Ping_Freq->setNum(25);
       break;
-    case 11:
+    case 12:
       ui->label_Hydr_Ping_Freq->setNum(26);
       break;
-    case 12:
+    case 13:
       ui->label_Hydr_Ping_Freq->setNum(27);
       break;
-    case 13:
+    case 14:
       ui->label_Hydr_Ping_Freq->setNum(28);
       break;
-    case 14:
+    case 15:
       ui->label_Hydr_Ping_Freq->setNum(29);
       break;
-    case 15:
+    case 16:
       ui->label_Hydr_Ping_Freq->setNum(30);
+      break;
+    case 17:
+      ui->label_Hydr_Ping_Freq->setNum(31);
+      break;
+    case 18:
+      ui->label_Hydr_Ping_Freq->setNum(32);
+      break;
+    case 19:
+      ui->label_Hydr_Ping_Freq->setNum(33);
+      break;
+    case 20:
+      ui->label_Hydr_Ping_Freq->setNum(34);
+      break;
+    case 21:
+      ui->label_Hydr_Ping_Freq->setNum(35);
+      break;
+    case 22:
+      ui->label_Hydr_Ping_Freq->setNum(36);
+      break;
+    case 23:
+      ui->label_Hydr_Ping_Freq->setNum(37);
+      break;
+    case 24:
+      ui->label_Hydr_Ping_Freq->setNum(38);
+      break;
+    case 25:
+      ui->label_Hydr_Ping_Freq->setNum(39);
+      break;
+    case 26:
+      ui->label_Hydr_Ping_Freq->setNum(40);
       break;
   }
 }
