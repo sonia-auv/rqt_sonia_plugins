@@ -495,7 +495,7 @@
           <item row="7" column="0">
            <widget class="QLabel" name="label_17">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>Cutoff Frequency:</string>
@@ -505,7 +505,7 @@
           <item row="7" column="1">
            <widget class="QSpinBox" name="spinBox_Hydr_Cutoff">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="value">
              <number>28</number>
@@ -522,7 +522,7 @@
           <item row="7" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Cutoff">
             <property name="enabled">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
             <property name="text">
              <string>0</string>
