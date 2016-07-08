@@ -59,7 +59,6 @@ class CanClient : public QMainWindow {
 
   void on_spinBox_Hydr_Samp_Count_editingFinished();
 
-  void on_spinBox_Hydr_Acq_Th_Mode_editingFinished();
 
   void on_spinBox_Hydr_Phase_Calc_Alg_editingFinished();
 
@@ -190,7 +189,15 @@ class CanClient : public QMainWindow {
 
   void on_pushButton_Hydr_Plot_clicked();
 
- private:
+  void on_comboBox_Wave_Enable_currentIndexChanged(int index);
+
+  void on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index);
+
+  void on_comboBox_Prefilter_Enable_currentIndexChanged(int index);
+
+  void on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index);
+
+private:
 
   int ThrusterTest(int arg);
 

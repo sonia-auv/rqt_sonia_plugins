@@ -60,7 +60,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="hydrophones">
         <attribute name="title">
@@ -106,16 +106,6 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Acq_Th_Mode">
-            <property name="maximum">
-             <number>5</number>
-            </property>
-            <property name="value">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_11">
             <property name="enabled">
@@ -123,6 +113,20 @@
             </property>
             <property name="text">
              <string>Acquisition threshold:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_Hydr_Phase_Calc_Alg">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_Hydr_Ping_Freq">
+            <property name="text">
+             <string>0</string>
             </property>
            </widget>
           </item>
@@ -136,27 +140,6 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_Hydr_Ping_Freq">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_Hydr_Phase_Calc_Alg">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Phase_Calc_Alg">
-            <property name="maximum">
-             <number>1</number>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Gain">
             <property name="text">
@@ -164,10 +147,24 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_Hydr_Ping_Freq_2">
+            <property name="text">
+             <string>kHz</string>
+            </property>
+           </widget>
+          </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_14">
             <property name="text">
              <string>Input Filters Threshold</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QSpinBox" name="spinBox_Hydr_Phase_Calc_Alg">
+            <property name="maximum">
+             <number>1</number>
             </property>
            </widget>
           </item>
@@ -192,30 +189,20 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>FFT Samples Count</string>
-            </property>
-           </widget>
-          </item>
           <item row="6" column="0">
            <widget class="QLabel" name="label_16">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Acquisition Threshold Mode:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Wave_En">
-            <property name="maximum">
-             <number>2</number>
-            </property>
-            <property name="singleStep">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <number>0</number>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>FFT Samples Count</string>
             </property>
            </widget>
           </item>
@@ -243,15 +230,18 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_Hydr_Wave_En">
+          <item row="5" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_Hydr_Samp_Count">
             <property name="text">
              <string>0</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_Hydr_Samp_Count">
+          <item row="6" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_Hydr_Acq_Th_Mode">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>0</string>
             </property>
@@ -270,20 +260,6 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="2" alignment="Qt::AlignHCenter">
-           <widget class="QLabel" name="label_Hydr_Acq_Th_Mode">
-            <property name="text">
-             <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLabel" name="label_Hydr_Ping_Freq_2">
-            <property name="text">
-             <string>kHz</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="3">
            <widget class="QLabel" name="label_Hydr_Ping_Freq_3">
             <property name="text">
@@ -295,13 +271,6 @@
            <widget class="QLabel" name="label_Hydr_Filt_Thrs_2">
             <property name="text">
              <string>%</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QLabel" name="label_Hydr_Samp_Count_3">
-            <property name="text">
-             <string>/2</string>
             </property>
            </widget>
           </item>
@@ -321,9 +290,57 @@
           </item>
           <item row="6" column="3">
            <widget class="QLabel" name="label_Hydr_Ping_Freq_5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>/1</string>
             </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBox_Wave_Enable">
+            <item>
+             <property name="text">
+              <string>Off</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>On</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QLabel" name="label_Hydr_Samp_Count_3">
+            <property name="text">
+             <string>/2</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_Hydr_Wave_En">
+            <property name="text">
+             <string>0</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QComboBox" name="comboBox_Acq_Thrs_Mode">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>Verify Acq Threshold</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Do not verify</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -352,16 +369,6 @@
            <widget class="QLabel" name="label_Hydr_Bw">
             <property name="text">
              <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Fft_Prefilter">
-            <property name="maximum">
-             <number>1</number>
-            </property>
-            <property name="value">
-             <number>1</number>
             </property>
            </widget>
           </item>
@@ -455,16 +462,6 @@
            <widget class="QLabel" name="label_Hydr_Fft_Prefilter">
             <property name="text">
              <string>0</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QSpinBox" name="spinBox_Hydr_Cont_Fil_Freq">
-            <property name="maximum">
-             <number>48</number>
-            </property>
-            <property name="value">
-             <number>5</number>
             </property>
            </widget>
           </item>
@@ -566,7 +563,7 @@
           <item row="5" column="3">
            <widget class="QLabel" name="label_Hydr_Samp_Count_5">
             <property name="text">
-             <string>bins</string>
+             <string>kHz</string>
             </property>
            </widget>
           </item>
@@ -575,6 +572,264 @@
             <property name="text">
              <string>/1</string>
             </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBox_Prefilter_Enable">
+            <item>
+             <property name="text">
+              <string>Off</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>On</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBox_Cont_Filt_Freq">
+            <item>
+             <property name="text">
+              <string>BP 20-30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HP 20kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 10-30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 10-20kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HP 10kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BP 25-40kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 13kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 15kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 22kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 23kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 24kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 25kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 26kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 27kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 28kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 29kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 31kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 32kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 33kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 34kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 35kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 36kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 37kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 38kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 39kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Elliptic 40kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 13kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 15kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 22kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 23kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 24kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 25kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 26kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 27kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 28kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 29kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 30kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 31kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 32kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 33kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 34kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 35kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 36kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 37kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 38kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 39kHz</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Chebyshev 40kHz</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>

@@ -321,33 +321,11 @@ void CanClient::on_spinBox_Hydr_Filt_Thrs_editingFinished() {
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_spinBox_Hydr_Wave_En_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_wave_enable;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Wave_En->value();
-  can_service_client_.call(can_hydros_srv_);
-}
-
-//------------------------------------------------------------------------------
-//
-
 void CanClient::on_spinBox_Hydr_Samp_Count_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_sample_count;
   can_hydros_srv_.request.parameter_value =
       (float)ui->spinBox_Hydr_Samp_Count->value();
-  can_service_client_.call(can_hydros_srv_);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::on_spinBox_Hydr_Acq_Th_Mode_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_set_acq_thrs_mode;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Acq_Th_Mode->value();
   can_service_client_.call(can_hydros_srv_);
 }
 
@@ -392,17 +370,6 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_spinBox_Hydr_Fft_Prefilter_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Fft_Prefilter->value();
-  can_service_client_.call(can_hydros_srv_);
-}
-
-//------------------------------------------------------------------------------
-//
-
 void CanClient::on_spinBox_Hydr_Fft_Prefilter_T_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter_type;
@@ -411,16 +378,6 @@ void CanClient::on_spinBox_Hydr_Fft_Prefilter_T_editingFinished() {
   can_service_client_.call(can_hydros_srv_);
 }
 
-//------------------------------------------------------------------------------
-//
-
-void CanClient::on_spinBox_Hydr_Cont_Fil_Freq_editingFinished() {
-  can_hydros_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
-  can_hydros_srv_.request.parameter_value =
-      (float)ui->spinBox_Hydr_Cont_Fil_Freq->value();
-  can_service_client_.call(can_hydros_srv_);
-}
 
 //------------------------------------------------------------------------------
 //
@@ -474,9 +431,9 @@ void CanClient::on_pushButton_En_Hydros_clicked() {
 //
 
 void CanClient::on_pushButton_Param_Req_clicked() {
-  if (ui->spinBox_Hydr_Wave_En->value() == 0) {
-    ui->spinBox_Hydr_Wave_En->setValue(1);
-    on_spinBox_Hydr_Wave_En_editingFinished();
+  if (ui->comboBox_Wave_Enable->currentIndex() == 0) {
+    ui->comboBox_Wave_Enable->setCurrentIndex(1);
+    on_comboBox_Wave_Enable_currentIndexChanged(1);
   }
   if (!hydros_enabled_) {
     on_pushButton_En_Hydros_clicked();
@@ -680,7 +637,7 @@ void CanClient::HydrophonesParamsCallback(
     const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
   ui->label_Hydr_Acq_Th_Mode->setNum(msg->acq_thrs_mode);
   ui->label_Hydr_Acq_Thrs->setNum(msg->acq_threshold);
-  ui->label_Hydr_Bw->setNum(msg->fft_bandwidth);
+  ui->label_Hydr_Bw->setNum(msg->fft_bandwidth*813*2);
   ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
   ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
   ui->label_Hydr_Cutoff->setNum(msg->set_cutoff_freq);
@@ -699,12 +656,16 @@ void CanClient::HydrophonesParamsCallback(
   if (fft_enabled_) {
     ui->label_Hydr_Acq_Thrs->setEnabled(false);
     ui->spinBox_Hydr_Acq_Thrs->setEnabled(false);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(false);
+    ui->label_Hydr_Acq_Th_Mode->setEnabled(false);
     ui->pushButton_En_Fft->setText("Disable FFT");
   }
 
   else {
     ui->spinBox_Hydr_Acq_Thrs->setEnabled(true);
     ui->label_Hydr_Acq_Thrs->setEnabled(true);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(true);
+    ui->label_Hydr_Acq_Th_Mode->setEnabled(true);
     ui->pushButton_En_Fft->setText("Enable FFT");
   }
 
@@ -1286,3 +1247,49 @@ int CanClient::ThrusterTest(int arg) {
 //------------------------------------------------------------------------------
 //
 
+
+void CanClient::on_comboBox_Wave_Enable_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_wave_enable;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_acq_thrs_mode;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_comboBox_Prefilter_Enable_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index)
+{
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
+  can_hydros_srv_.request.parameter_value =
+    (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
