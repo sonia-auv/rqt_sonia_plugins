@@ -319,7 +319,12 @@
             </item>
             <item>
              <property name="text">
-              <string>On</string>
+              <string>Raw</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>When ping</string>
              </property>
             </item>
            </widget>
