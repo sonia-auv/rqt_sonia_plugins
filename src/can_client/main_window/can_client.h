@@ -191,6 +191,8 @@ class CanClient : public QMainWindow {
 
   void on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index);
 
+  void on_spinBox_Hydr_Cutoff_editingFinished();
+
 private:
 
   int ThrusterTest(int arg);

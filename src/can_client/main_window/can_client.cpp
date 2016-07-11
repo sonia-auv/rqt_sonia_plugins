@@ -1350,3 +1350,11 @@ void CanClient::on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index)
 
 //------------------------------------------------------------------------------
 //
+void CanClient::on_spinBox_Hydr_Cutoff_editingFinished(){
+  can_hydros_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_set_freq_cutoff;
+  can_hydros_srv_.request.parameter_value =
+    (float)ui->spinBox_Hydr_Cutoff->value();
+  can_service_client_.call(can_hydros_srv_);
+}
+
