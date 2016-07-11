@@ -446,9 +446,6 @@ void CanClient::on_pushButton_Param_Req_clicked() {
   if (!hydros_enabled_) {
     on_pushButton_En_Hydros_clicked();
   }
-  if (!fft_enabled_) {
-    on_pushButton_En_Fft_clicked();
-  }
 
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_send_data_req;
