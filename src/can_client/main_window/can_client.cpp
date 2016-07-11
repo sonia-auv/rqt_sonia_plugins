@@ -645,7 +645,7 @@ void CanClient::HydrophonesParamsCallback(
     const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
   ui->label_Hydr_Acq_Th_Mode->setNum(msg->acq_thrs_mode);
   ui->label_Hydr_Acq_Thrs->setNum(msg->acq_threshold);
-  ui->label_Hydr_Bw->setNum(msg->fft_bandwidth*813*2);
+  ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth*813*2)/1000.0);
   ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
   ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
   ui->label_Hydr_Cutoff->setNum(msg->set_cutoff_freq);
@@ -662,18 +662,10 @@ void CanClient::HydrophonesParamsCallback(
   fft_enabled_ = msg->fft_enable;
 
   if (fft_enabled_) {
-    ui->label_Hydr_Acq_Thrs->setEnabled(false);
-    ui->spinBox_Hydr_Acq_Thrs->setEnabled(false);
-    ui->comboBox_Acq_Thrs_Mode->setEnabled(false);
-    ui->label_Hydr_Acq_Th_Mode->setEnabled(false);
     ui->pushButton_En_Fft->setText("Disable FFT");
   }
 
   else {
-    ui->spinBox_Hydr_Acq_Thrs->setEnabled(true);
-    ui->label_Hydr_Acq_Thrs->setEnabled(true);
-    ui->comboBox_Acq_Thrs_Mode->setEnabled(true);
-    ui->label_Hydr_Acq_Th_Mode->setEnabled(true);
     ui->pushButton_En_Fft->setText("Enable FFT");
   }
 
