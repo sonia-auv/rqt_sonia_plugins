@@ -265,7 +265,7 @@
              <number>60</number>
             </property>
             <property name="value">
-             <number>25</number>
+             <number>29</number>
             </property>
            </widget>
           </item>
@@ -332,7 +332,7 @@
           <item row="4" column="3">
            <widget class="QLabel" name="label_Hydr_Samp_Count_3">
             <property name="text">
-             <string>/1</string>
+             <string>/3</string>
             </property>
            </widget>
           </item>
@@ -394,6 +394,9 @@
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="label_25">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Continuous Filter Frequency:</string>
             </property>
@@ -425,6 +428,9 @@
           </item>
           <item row="0" column="1">
            <widget class="QComboBox" name="comboBox_Preamp_Gain">
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
             <item>
              <property name="text">
               <string>Off</string>
@@ -439,6 +445,9 @@
           </item>
           <item row="2" column="1">
            <widget class="QComboBox" name="comboBox_Prefilter_Enable">
+            <property name="currentIndex">
+             <number>1</number>
+            </property>
             <item>
              <property name="text">
               <string>Off</string>
@@ -467,6 +476,9 @@
           </item>
           <item row="4" column="1">
            <widget class="QComboBox" name="comboBox_Cont_Filt_Freq">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <item>
              <property name="text">
               <string>BP 20-30kHz</string>
@@ -749,6 +761,9 @@
           </item>
           <item row="4" column="3">
            <widget class="QLabel" name="label_Hydr_Samp_Count_4">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>/48</string>
             </property>
@@ -824,7 +839,7 @@
              <bool>true</bool>
             </property>
             <property name="value">
-             <number>28</number>
+             <number>24</number>
             </property>
            </widget>
           </item>
@@ -837,6 +852,9 @@
           </item>
           <item row="4" column="2" alignment="Qt::AlignHCenter">
            <widget class="QLabel" name="label_Hydr_Cont_Fil_Freq">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>0</string>
             </property>
@@ -861,6 +879,9 @@
           </item>
           <item row="3" column="1">
            <widget class="QComboBox" name="comboBox_FFT_Prefilt_Type">
+            <property name="currentIndex">
+             <number>5</number>
+            </property>
             <item>
              <property name="text">
               <string>BP 20-30kHz</string>
