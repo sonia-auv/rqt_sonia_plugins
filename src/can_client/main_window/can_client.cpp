@@ -1,7 +1,7 @@
 /**
  * \file	can_client.cc
  * \author	Alexi Demers <alexidemers@gmail.com>
- * \date	30/06/2016
+ * \date	20/07/2016
  *
  * \copyright	Copyright (c) 2015 SONIA AUV ETS. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -233,6 +233,7 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
 
   int cheby_or_elliptic = 0;
 
+  // there are two possible filters type for pinger frequency
   // if chebyshev filter is selected
   if(ui->comboBox_Freq_Filter_Type->currentIndex() == 1){
     // adapt the frequency index to match chebyshev filters coefficients in
@@ -654,7 +655,9 @@ void CanClient::HydrophonesParamsCallback(
   ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth*813*2)/1000.0);
   ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
   ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
-  ui->label_Hydr_Cutoff->setNum(msg->set_cutoff_freq);
+  // fcutoff parameters represents half the clk period of the ADC input filters.
+  // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
+  ui->label_Hydr_Cutoff->setNum((150000.0/((double)msg->set_cutoff_freq * 2.0))/32.0);
   ui->label_Hydr_Fft_Prefilter->setNum(msg->fft_prefilter);
   ui->label_Hydr_Fft_Prefilter_T->setNum(msg->fft_prefilter_type);
   ui->label_Hydr_Fft_Thrs->setNum(msg->fft_threshold);
@@ -1380,8 +1383,10 @@ void CanClient::on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index)
 void CanClient::on_spinBox_Hydr_Cutoff_editingFinished(){
   can_hydros_srv_.request.method_number =
     can_hydros_srv_.request.METHOD_HYDRO_set_freq_cutoff;
+  // fcutoff parameters represents half the clk period of the ADC input filters.
+  // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
   can_hydros_srv_.request.parameter_value =
-    (float)ui->spinBox_Hydr_Cutoff->value();
+    (150000.0/((float)ui->spinBox_Hydr_Cutoff->value() * 32.0)/2.0);
   can_service_client_.call(can_hydros_srv_);
 }
 

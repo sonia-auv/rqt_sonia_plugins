@@ -1,7 +1,7 @@
 /**
  * \file	can_client.cc
  * \author	Alexi Demers <alexidemers@gmail.com>
- * \date	30/06/2016
+ * \date	20/07/2016
  *
  * \copyright	Copyright (c) 2015 SONIA AUV ETS. All rights reserved.
  * Use of this source code is governed by the MIT license that can be
@@ -49,30 +49,135 @@ class CanClient : public QMainWindow {
 
   //============================================================================
   // P R I V A T E   S L O T S
+
+  /**
+   * Spin box for pinger frequency. This parameter sets the FFT bandpass
+   * to the selected value and applies a filter to input samples. Two possible
+   * types of filters exists: chebyshev and elliptic.
+   */
   void on_spinBox_Hydr_Pinger_Freq_editingFinished();
 
+  /**
+   * Spin box for ADC input gain.
+   */
   void on_spinBox_Hydr_Gain_editingFinished();
 
+  /**
+   * Spin box for acquisition threshold (now disabled because unused)
+   */
   void on_spinBox_Hydr_Acq_Thrs_editingFinished();
 
+  /**
+   * Spin box for filter threshold percentage. This value
+   * is the minimum power that each microphone must have recorded
+   * compared to the most powerful signal of the 1st microphone
+   * to consider the ping valid.
+   */
   void on_spinBox_Hydr_Filt_Thrs_editingFinished();
 
+  /**
+   * Number of ADC samples used to generate the FFT
+   */
   void on_spinBox_Hydr_Samp_Count_editingFinished();
 
-
+  /**
+   * Type of phase calculation (now unused)
+   */
   void on_spinBox_Hydr_Phase_Calc_Alg_editingFinished();
 
+  /**
+   * spin box for FFT Threshold.
+   * FFT threshold is the minimum threshold to consider ping. Values are in
+   * integer (ADC values).
+   */
   void on_spinBox_Hydr_Fft_Thrs_editingFinished();
 
+  /**
+   * Spin box for Bandwidth. Pings in the range of pinger freq - bandwidth/2
+   * and pinger freq + bandwidth/2 will be considered.
+   */
   void on_spinBox_Hydr_Bw_editingFinished();
 
+  /**
+   * type of triggering. (Now unused)
+   */
   void on_spinBox_Hydr_Fft_Trig_Mode_editingFinished();
 
+  /**
+   * Push button for enabling hydrophones.
+   */
   void on_pushButton_En_Hydros_clicked();
 
+  /**
+   * Push button for data request to hydrophones.
+   */
   void on_pushButton_Param_Req_clicked();
 
+  /**
+   * push button for enabling FFT. (now unused, because FFT
+   * must always be active).
+   */
   void on_pushButton_En_Fft_clicked();
+
+  /**
+   * Button for FFT graph display
+   */
+  void on_pushButton_Hydr_MagDeph_clicked();
+
+  /**
+   * Button to enable plotting the FFT
+   */
+  void on_pushButton_Hydr_Plot_clicked();
+
+  /**
+   * combo box for enabling FFT reception on the push of
+   * pushButton_Param_Req.
+   * Wave enable has 3 modes:
+   *  - off: no FFT
+   *  - when ping: FFT will be sent once pushButton_Param_Req is pushed
+   *                and a ping has been received
+   *  - raw : FFT will be sent at the moment pushButton_Param_Req is pushed.
+   */
+  void on_comboBox_Wave_Enable_currentIndexChanged(int index);
+
+  /**
+   * combo box acquisition threshold mode (unused)
+   */
+  void on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index);
+
+  /**
+   * combo box for enabling FFT prefiltering. This is useless
+   * except for display. Hydrophones does not use the result of
+   * this filtering. The filter that will be applied is the
+   * one selected by comboBox_FFT_Prefilt_Type
+   */
+  void on_comboBox_Prefilter_Enable_currentIndexChanged(int index);
+
+  /**
+   * Unused
+   */
+  void on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index);
+
+  /**
+   * Combo box for enabling preamplification gain at ADC input
+   */
+  void on_comboBox_Preamp_Gain_currentIndexChanged(int index);
+
+  /**
+   * Type of FFT filter to apply. See on_comboBox_Prefilter_Enable_currentIndexChanged
+   */
+  void on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index);
+
+  /**
+   * Spinbox for input cotuff frequency. The filter set by this spin box
+   * is an input filter made to remove high frequency noise in the signal.
+   */
+  void on_spinBox_Hydr_Cutoff_editingFinished();
+
+  /**
+   * Spin box to select type of pinger frequency filter (chebyshev or elliptic)
+   */
+  void on_comboBox_Freq_Filter_Type_currentIndexChanged(int index);
 
   void on_pushButton_Thruster_Speed_Bd_clicked();
 
@@ -174,26 +279,6 @@ class CanClient : public QMainWindow {
   void on_pushButton_psu_Off_Motor_3_clicked();
 
   void on_pushButton_Led_Set_clicked();
-
-  void on_pushButton_Hydr_MagDeph_clicked();
-
-  void on_pushButton_Hydr_Plot_clicked();
-
-  void on_comboBox_Wave_Enable_currentIndexChanged(int index);
-
-  void on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index);
-
-  void on_comboBox_Prefilter_Enable_currentIndexChanged(int index);
-
-  void on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index);
-
-  void on_comboBox_Preamp_Gain_currentIndexChanged(int index);
-
-  void on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index);
-
-  void on_spinBox_Hydr_Cutoff_editingFinished();
-
-  void on_comboBox_Freq_Filter_Type_currentIndexChanged(int index);
 
 private:
 
