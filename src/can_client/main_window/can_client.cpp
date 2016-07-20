@@ -231,71 +231,80 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
   can_hydros_srv_.request.method_number =
       can_hydros_srv_.request.METHOD_HYDRO_set_pinger_freq;
 
+  int cheby_or_elliptic = 0;
+
+  // if chebyshev filter is selected
+  if(ui->comboBox_Freq_Filter_Type->currentIndex() == 1){
+    // adapt the frequency index to match chebyshev filters coefficients in
+    // hydrophone's firmware
+    cheby_or_elliptic = 21;
+  }
+
   // hydrophone frequencies are coded quite randomly. this
   // switch case is for conversion from kHz purpose.
   switch (ui->spinBox_Hydr_Pinger_Freq->value()) {
     case 13:
-      can_hydros_srv_.request.parameter_value = 6;
+      can_hydros_srv_.request.parameter_value = 6 + cheby_or_elliptic;
       break;
     case 15:
-      can_hydros_srv_.request.parameter_value = 7;
+      can_hydros_srv_.request.parameter_value = 7 + cheby_or_elliptic;
       break;
     case 22:
-      can_hydros_srv_.request.parameter_value = 8;
+      can_hydros_srv_.request.parameter_value = 8 + cheby_or_elliptic;
       break;
     case 23:
-      can_hydros_srv_.request.parameter_value = 9;
+      can_hydros_srv_.request.parameter_value = 9 + cheby_or_elliptic;
       break;
     case 24:
-      can_hydros_srv_.request.parameter_value = 10;
+      can_hydros_srv_.request.parameter_value = 10 + cheby_or_elliptic;
       break;
     case 25:
-      can_hydros_srv_.request.parameter_value = 11;
+      can_hydros_srv_.request.parameter_value = 11 + cheby_or_elliptic;
       break;
     case 26:
-      can_hydros_srv_.request.parameter_value = 12;
+      can_hydros_srv_.request.parameter_value = 12 + cheby_or_elliptic;
       break;
     case 27:
-      can_hydros_srv_.request.parameter_value = 13;
+      can_hydros_srv_.request.parameter_value = 13 + cheby_or_elliptic;
       break;
     case 28:
-      can_hydros_srv_.request.parameter_value = 14;
+      can_hydros_srv_.request.parameter_value = 14 + cheby_or_elliptic;
       break;
     case 29:
-      can_hydros_srv_.request.parameter_value = 15;
+      can_hydros_srv_.request.parameter_value = 15 + cheby_or_elliptic;
       break;
     case 30:
-      can_hydros_srv_.request.parameter_value = 16;
+      can_hydros_srv_.request.parameter_value = 16 + cheby_or_elliptic;
       break;
     case 31:
-      can_hydros_srv_.request.parameter_value = 17;
+      can_hydros_srv_.request.parameter_value = 17 + cheby_or_elliptic;
       break;
     case 32:
-      can_hydros_srv_.request.parameter_value = 18;
+      can_hydros_srv_.request.parameter_value = 18 + cheby_or_elliptic;
       break;
     case 33:
-      can_hydros_srv_.request.parameter_value = 19;
+      can_hydros_srv_.request.parameter_value = 19 + cheby_or_elliptic;
       break;
     case 34:
-      can_hydros_srv_.request.parameter_value = 20;
+      can_hydros_srv_.request.parameter_value = 20 + cheby_or_elliptic;
       break;
     case 35:
-      can_hydros_srv_.request.parameter_value = 21;
+      can_hydros_srv_.request.parameter_value = 21 + cheby_or_elliptic;
       break;
     case 36:
-      can_hydros_srv_.request.parameter_value = 22;
+      can_hydros_srv_.request.parameter_value = 22 + cheby_or_elliptic;
       break;
     case 37:
-      can_hydros_srv_.request.parameter_value = 23;
+      can_hydros_srv_.request.parameter_value = 23 + cheby_or_elliptic;
       break;
     case 38:
-      can_hydros_srv_.request.parameter_value = 24;
+      can_hydros_srv_.request.parameter_value = 24 + cheby_or_elliptic;
       break;
     case 39:
-      can_hydros_srv_.request.parameter_value = 25;
+      can_hydros_srv_.request.parameter_value = 25 + cheby_or_elliptic;
       break;
     case 40:
-      can_hydros_srv_.request.parameter_value = 26;
+      can_hydros_srv_.request.parameter_value = 26 + cheby_or_elliptic;
       break;
   }
 
@@ -676,66 +685,87 @@ void CanClient::HydrophonesParamsCallback(
   // switch case is for conversion to kHz purpose.
   switch (msg->pinger_freq) {
     case 6:
+    case 27:
       ui->label_Hydr_Ping_Freq->setNum(13);
       break;
     case 7:
+    case 28:
       ui->label_Hydr_Ping_Freq->setNum(15);
       break;
     case 8:
+    case 29:
       ui->label_Hydr_Ping_Freq->setNum(22);
       break;
     case 9:
+    case 30:
       ui->label_Hydr_Ping_Freq->setNum(23);
       break;
     case 10:
+    case 31:
       ui->label_Hydr_Ping_Freq->setNum(24);
       break;
     case 11:
+    case 32:
       ui->label_Hydr_Ping_Freq->setNum(25);
       break;
     case 12:
+    case 33:
       ui->label_Hydr_Ping_Freq->setNum(26);
       break;
     case 13:
+    case 34:
       ui->label_Hydr_Ping_Freq->setNum(27);
       break;
     case 14:
+    case 35:
       ui->label_Hydr_Ping_Freq->setNum(28);
       break;
     case 15:
+    case 36:
       ui->label_Hydr_Ping_Freq->setNum(29);
       break;
     case 16:
+    case 37:
       ui->label_Hydr_Ping_Freq->setNum(30);
       break;
     case 17:
+    case 38:
       ui->label_Hydr_Ping_Freq->setNum(31);
       break;
     case 18:
+    case 39:
       ui->label_Hydr_Ping_Freq->setNum(32);
       break;
     case 19:
+    case 40:
       ui->label_Hydr_Ping_Freq->setNum(33);
       break;
     case 20:
+    case 41:
       ui->label_Hydr_Ping_Freq->setNum(34);
       break;
     case 21:
+    case 42:
       ui->label_Hydr_Ping_Freq->setNum(35);
       break;
     case 22:
+    case 43:
       ui->label_Hydr_Ping_Freq->setNum(36);
       break;
     case 23:
+    case 44:
       ui->label_Hydr_Ping_Freq->setNum(37);
       break;
     case 24:
+    case 45:
       ui->label_Hydr_Ping_Freq->setNum(38);
       break;
     case 25:
+    case 46:
       ui->label_Hydr_Ping_Freq->setNum(39);
       break;
     case 26:
+    case 47:
       ui->label_Hydr_Ping_Freq->setNum(40);
       break;
   }
@@ -1354,4 +1384,14 @@ void CanClient::on_spinBox_Hydr_Cutoff_editingFinished(){
     (float)ui->spinBox_Hydr_Cutoff->value();
   can_service_client_.call(can_hydros_srv_);
 }
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_comboBox_Freq_Filter_Type_currentIndexChanged(int index)
+{
+  on_spinBox_Hydr_Pinger_Freq_editingFinished();
+}
+
+
 

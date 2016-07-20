@@ -193,6 +193,8 @@ class CanClient : public QMainWindow {
 
   void on_spinBox_Hydr_Cutoff_editingFinished();
 
+  void on_comboBox_Freq_Filter_Type_currentIndexChanged(int index);
+
 private:
 
   int ThrusterTest(int arg);
