@@ -102,6 +102,9 @@ CanClient::CanClient(QWidget *parent)
       nh_.subscribe("/provider_can/barometer_intern_press_msgs", 10,
                     &CanClient::BarometerDepthCallback, this);
 
+  mission_switch_subs_=nh_.subscribe("/provider_can/mission_switch_msgs", 10,
+                                     &CanClient::MissionSwitchCallback, this);
+
   can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
       "/provider_can/send_can_message");
 
@@ -213,7 +216,11 @@ CanClient::CanClient(QWidget *parent)
   ui->plot_Hydr_Fft->replot();
 
   on_pushButton_Hydr_MagDeph_clicked();
-  //on_pushButton_Hydr_MagDeph_clicked();
+
+  ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
+  ui->label_Kill_State->setStyleSheet("QLabel { color : red; }");
+
+  on_pushButton_Device_Discover_clicked();
 }
 
 //------------------------------------------------------------------------------
@@ -961,10 +968,15 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   ui->label_Psu_Light_State->setNum(msg->light_state);
   ui->label_Psu_Pc_State->setNum(msg->pc_state);
 
-  if (msg->kill_switch_state)
+  if (msg->kill_switch_state){
+    ui->label_Mission_State->setStyleSheet("QLabel { color : green; }");
     ui->label_Kill_State->setText("On");
-  else
+  }
+  else{
+    ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
     ui->label_Kill_State->setText("Off");
+  }
+
 }
 
 //------------------------------------------------------------------------------
@@ -1396,6 +1408,105 @@ void CanClient::on_spinBox_Hydr_Cutoff_editingFinished(){
 void CanClient::on_comboBox_Freq_Filter_Type_currentIndexChanged(int index)
 {
   on_spinBox_Hydr_Pinger_Freq_editingFinished();
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::on_pushButton_Device_Discover_clicked(){
+
+
+  bool end_loop = false;
+  int device_index = 0 ;
+
+  while(!end_loop) {
+    switch (device_index) {
+      case 0:
+        devices_discovery_srv_ = thrusters_port_srv_;
+        break;
+      case 1:
+        devices_discovery_srv_ = thrusters_star_srv_;
+        break;
+      case 2:
+        devices_discovery_srv_ = thrusters_front_heading_srv_;
+        break;
+      case 3:
+        devices_discovery_srv_ = thrusters_back_heading_srv_;
+        break;
+      case 4:
+        devices_discovery_srv_ = thrusters_front_depth_srv_;
+        break;
+      case 5:
+        devices_discovery_srv_ = thrusters_back_depth_srv_;
+        break;
+      case 6:
+        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_actuators;
+        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_ACT_grabber;
+        break;
+      case 7:
+        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_markers;
+        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_MARK_launcher;
+        break;
+      case 8:
+        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_markers;
+        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_MARK_dropper;
+        break;
+      case 9:
+        devices_discovery_srv_ = diver_interface_srv_;
+        break;
+      case 10:
+        devices_discovery_srv_ = psu_srv_;
+        break;
+      case 11:
+        devices_discovery_srv_ = can_hydros_srv_;
+        break;
+      case 12:
+        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_sensors;
+        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_SENSORS_barometer;
+        end_loop = true;
+        break;
+    }
+
+    devices_discovery_srv_.request.method_number = devices_discovery_srv_.request.METHOD_COMMON_get_properties;
+    can_service_client_.call(devices_discovery_srv_);
+
+    QTableWidgetItem *new_cell_value;
+    delete ui->tableWidget_Devices_List->item(device_index,0);
+
+    if (devices_discovery_srv_.response.device_status == 0) {
+      new_cell_value = new QTableWidgetItem("No");
+      ui->tableWidget_Devices_List->setItem( device_index,0, new_cell_value);
+      ui->tableWidget_Devices_List->item( device_index,0)->setBackground(Qt::red);
+    } else {
+      new_cell_value = new QTableWidgetItem("Yes");
+      ui->tableWidget_Devices_List->setItem( device_index,0, new_cell_value);
+      ui->tableWidget_Devices_List->item( device_index,0)->setBackground(Qt::green);
+    }
+
+    device_index++;
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg){
+  if(msg->state){
+    ui->label_Mission_State->setText("On");
+    ui->label_Mission_State->setStyleSheet("QLabel { color : green; }");
+  }
+
+  else{
+    ui->label_Mission_State->setText("Off");
+    ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::CarteNavPro(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg){
+
 }
 
 

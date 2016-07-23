@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>912</width>
+    <width>965</width>
     <height>822</height>
    </rect>
   </property>
@@ -23,35 +23,66 @@
       <x>0</x>
       <y>0</y>
       <width>964</width>
-      <height>862</height>
+      <height>872</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_66">
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Killswitch State:</string>
-       </property>
-      </widget>
-     </item>
+     <property name="fieldGrowthPolicy">
+      <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+     </property>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_Kill_State">
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Off</string>
-       </property>
-      </widget>
+      <layout class="QGridLayout" name="gridLayout_6">
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_Kill_State">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Off</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_68">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Mission Switch State:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_66">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Killswitch State:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QLabel" name="label_Mission_State">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Off</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
-     <item row="1" column="0" colspan="2">
+     <item row="2" column="1">
       <widget class="QTabWidget" name="devicesTab">
        <property name="minimumSize">
         <size>
@@ -60,7 +91,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>9</number>
        </property>
        <widget class="QWidget" name="hydrophones">
         <attribute name="title">
@@ -402,9 +433,9 @@
         <widget class="QWidget" name="gridLayoutWidget_4">
          <property name="geometry">
           <rect>
-           <x>480</x>
+           <x>490</x>
            <y>10</y>
-           <width>421</width>
+           <width>441</width>
            <height>271</height>
           </rect>
          </property>
@@ -1169,7 +1200,7 @@
         <widget class="Line" name="line">
          <property name="geometry">
           <rect>
-           <x>460</x>
+           <x>470</x>
            <y>10</y>
            <width>20</width>
            <height>261</height>
@@ -1389,13 +1420,12 @@
            <height>311</height>
           </rect>
          </property>
-         <zorder>label_Hydr_Samp_Count_8</zorder>
         </widget>
         <widget class="QWidget" name="horizontalLayoutWidget_2">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>660</y>
+           <x>30</x>
+           <y>650</y>
            <width>891</width>
            <height>31</height>
           </rect>
@@ -1447,7 +1477,7 @@
         <widget class="QWidget" name="horizontalLayoutWidget">
          <property name="geometry">
           <rect>
-           <x>10</x>
+           <x>30</x>
            <y>290</y>
            <width>891</width>
            <height>31</height>
@@ -3189,6 +3219,119 @@
          <string>Droppers</string>
         </attribute>
        </widget>
+       <widget class="QWidget" name="DevicesList">
+        <attribute name="title">
+         <string>Devices List</string>
+        </attribute>
+        <widget class="QTableWidget" name="tableWidget_Devices_List">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>120</y>
+           <width>571</width>
+           <height>421</height>
+          </rect>
+         </property>
+         <row>
+          <property name="text">
+           <string>Thruster Port</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Thruster Starboard</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Thuster Front Heading</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Thruster Back Heading</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Thruster Front Depth</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Thruster Back Depth</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Grabber</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Torpedo launcher</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Droppers</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Diver Interface</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Power Supply</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Hydrophones</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Barometer</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Present</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Software Version</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Capabilities</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>UC Signature</string>
+          </property>
+         </column>
+        </widget>
+        <widget class="QPushButton" name="pushButton_Device_Discover">
+         <property name="geometry">
+          <rect>
+           <x>280</x>
+           <y>550</y>
+           <width>291</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Discover</string>
+         </property>
+        </widget>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -3199,7 +3342,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>912</width>
+     <width>965</width>
      <height>25</height>
     </rect>
    </property>

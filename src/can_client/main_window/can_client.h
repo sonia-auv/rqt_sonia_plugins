@@ -22,6 +22,7 @@
 #include <sonia_msgs/BarometerMsg.h>
 #include <sensor_msgs/FluidPressure.h>
 #include <sonia_msgs/PowerSupplyMsg.h>
+#include <sonia_msgs/MissionSwitchMsg.h>
 #include <qwt_plot_curve.h>
 
 namespace Ui {
@@ -232,6 +233,8 @@ class CanClient : public QMainWindow {
 
   void PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg);
 
+  void MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg);
+
   void on_pushButton_Hydr_Refrsh_clicked();
 
   void on_lineEdit_Div_Mission_string_editingFinished();
@@ -280,6 +283,8 @@ class CanClient : public QMainWindow {
 
   void on_pushButton_Led_Set_clicked();
 
+  void on_pushButton_Device_Discover_clicked();
+
 private:
 
   int ThrusterTest(int arg);
@@ -301,6 +306,7 @@ private:
   ros::Subscriber barometer_pressure_subs_;
   ros::Subscriber barometer_depth_subs_;
   ros::Subscriber psu_subs_;
+  ros::Subscriber mission_switch_subs_;
 
   // ROS services
   ros::ServiceClient can_service_client_;
@@ -316,6 +322,8 @@ private:
   sonia_msgs::SendCanMessage diver_interface_srv_;
   sonia_msgs::SendCanMessage led_indicator_srv_;
   sonia_msgs::SendCanMessage psu_srv_;
+
+  sonia_msgs::SendCanMessage devices_discovery_srv_;
 
   // Hyrophones FFT graph curves
   QwtPlotCurve *fft_curve_;
