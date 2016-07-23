@@ -104,6 +104,18 @@ CanClient::CanClient(QWidget *parent)
 
   mission_switch_subs_=nh_.subscribe("/provider_can/mission_switch_msgs", 10,
                                      &CanClient::MissionSwitchCallback, this);
+  // subscribes to any carte nav device since every device will have the same properties
+  carte_nav_properties_subs_=nh_.subscribe("/provider_can/barometer_properties", 10,
+                                           &CanClient::CarteNavPropertiesCallback, this);
+
+  mission_switch_properties_subs_=nh_.subscribe("/provider_can/mission_switch_properties", 10,
+                                                                &CanClient::MissionSwPropertiesCallback, this);
+  hydrophones_properties_subs_=nh_.subscribe("/provider_can/hydrophones_properties", 10,
+                                                             &CanClient::HydrosPropertiesCallback, this);
+  psu_properties_subs_=nh_.subscribe("/provider_can/power_supply_properties", 10,
+                                                     &CanClient::PsuPropertiesCallback, this);
+  diver_properties_subs_ =  nh_.subscribe("/provider_can/diver_interface_properties", 10,
+                                          &CanClient::DiverPropertiesCallback, this);
 
   can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
       "/provider_can/send_can_message");
@@ -968,6 +980,17 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   ui->label_Psu_Light_State->setNum(msg->light_state);
   ui->label_Psu_Pc_State->setNum(msg->pc_state);
 
+  // labels and progress bar for battery level
+  ui->label_Batt_Voltage->setNum(msg->light_voltage);
+  ui->progressBar_Battery_Level->setValue((int)((msg->light_voltage - BATT_THRESHOLD)/(BATT_MAX-BATT_THRESHOLD) * 100));
+  if(ui->progressBar_Battery_Level->value() < 20){
+    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : red; }");
+  }else if(ui->progressBar_Battery_Level->value() < 50){
+    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : yellow; }");
+  }else{
+    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : green; }");
+  }
+
   if (msg->kill_switch_state){
     ui->label_Mission_State->setStyleSheet("QLabel { color : green; }");
     ui->label_Kill_State->setText("On");
@@ -1452,17 +1475,22 @@ void CanClient::on_pushButton_Device_Discover_clicked(){
         devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_MARK_dropper;
         break;
       case 9:
-        devices_discovery_srv_ = diver_interface_srv_;
-        break;
-      case 10:
-        devices_discovery_srv_ = psu_srv_;
-        break;
-      case 11:
-        devices_discovery_srv_ = can_hydros_srv_;
-        break;
-      case 12:
         devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_sensors;
         devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_SENSORS_barometer;
+        break;
+      case 10:
+
+        devices_discovery_srv_ = diver_interface_srv_;
+        break;
+      case 11:
+        devices_discovery_srv_ = psu_srv_;
+        break;
+      case 12:
+        devices_discovery_srv_ = can_hydros_srv_;
+        break;
+      case 13:
+        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_interfaces;
+        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_INTERFACE_mission_switch;
         end_loop = true;
         break;
     }
@@ -1505,8 +1533,66 @@ void CanClient::MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstP
 //------------------------------------------------------------------------------
 //
 
-void CanClient::CarteNavPro(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg){
+void CanClient::CarteNavPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
 
+  // for all carte nav devices, updates devices table view
+  for(int i = 0; i < 10; i++) {
+    SetDevicesPropertyRow(msg, i);
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::HydrosPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+  SetDevicesPropertyRow(msg, 12);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::PsuPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+  SetDevicesPropertyRow(msg, 11);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::MissionSwPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+
+  SetDevicesPropertyRow(msg, 13);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::DiverPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+
+  SetDevicesPropertyRow(msg, 10);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::SetDevicesPropertyRow(const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row){
+  std::stringstream ss;
+  QTableWidgetItem *new_firmware_value;
+  delete ui->tableWidget_Devices_List->item(row,1);
+  ss << msg->firmware_version;
+  new_firmware_value = new QTableWidgetItem(ss.str().data());
+  ui->tableWidget_Devices_List->setItem( row,1, new_firmware_value);
+
+  QTableWidgetItem *new_cap_value;
+  delete ui->tableWidget_Devices_List->item(row,2);
+  ss << msg->firmware_version;
+  new_cap_value = new QTableWidgetItem(ss.str().data());
+  ui->tableWidget_Devices_List->setItem( row,2, new_cap_value);
+
+  QTableWidgetItem *new_uc_value;
+  delete ui->tableWidget_Devices_List->item(row,3);
+  ss << msg->firmware_version;
+  new_uc_value = new QTableWidgetItem(ss.str().data());
+  ui->tableWidget_Devices_List->setItem( row,3, new_uc_value);
 }
 
 
