@@ -355,9 +355,18 @@ private:
   QwtPlotCurve *bw_curve_2;
   double bw2_freq_[2];
   double bw_mag_[2];
-  QwtPlotCurve *thresh_curve;
+  QwtPlotCurve *thresh_curve_;
   double thresh_freq_[2];
   double thresh_mag_[2];
+
+  QwtPlotCurve *current_curve_;
+  std::vector<double> current_values_;
+  std::vector<double> current_time_values_;
+  QwtPlotCurve *voltage_curve_;
+  std::vector<double> voltage_values_;
+  std::vector<double> voltage_time_values_;
+  struct timeval psu_monitor_start_time_;
+  struct timeval psu_monitor_end_time_;
 
   // Hydros params enabling
   int hydros_enabled_;

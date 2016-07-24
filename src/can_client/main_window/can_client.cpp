@@ -53,6 +53,8 @@ CanClient::CanClient(QWidget *parent)
       thruster_test_thread_() {
   ui->setupUi(this);
 
+   gettimeofday(&psu_monitor_start_time_,NULL);
+
   ui->tableWidget_Hydr_Fft_Mag->setRowCount(128);
   ui->tableWidget_Hydr_Scope_samp->setRowCount(256);
 
@@ -192,7 +194,7 @@ CanClient::CanClient(QWidget *parent)
   fft_curve_ = new QwtPlotCurve();
   bw_curve_1 = new QwtPlotCurve();
   bw_curve_2 = new QwtPlotCurve();
-  thresh_curve = new QwtPlotCurve();
+  thresh_curve_ = new QwtPlotCurve();
 
   for (uint16_t i = 0; i < 64; i++) {
     freq_points_[i] = i * 813;
@@ -222,12 +224,26 @@ CanClient::CanClient(QWidget *parent)
   bw_curve_2->setSamples(bw2_freq_, bw_mag_, 2);
   bw_curve_2->setPen(QColor(Qt::green));
   bw_curve_2->attach(ui->plot_Hydr_Fft);
-  thresh_curve->setSamples(thresh_freq_, thresh_mag_, 2);
-  thresh_curve->setPen(QColor(Qt::red));
-  thresh_curve->attach(ui->plot_Hydr_Fft);
+  thresh_curve_->setSamples(thresh_freq_, thresh_mag_, 2);
+  thresh_curve_->setPen(QColor(Qt::red));
+  thresh_curve_->attach(ui->plot_Hydr_Fft);
   ui->plot_Hydr_Fft->replot();
 
   on_pushButton_Hydr_MagDeph_clicked();
+
+  current_curve_ = new QwtPlotCurve();
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 60, 5);
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, 60, 5);
+  ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::yLeft, "Current (A)");
+  ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::xBottom, "Time (sec)");
+  current_curve_->attach(ui->qwtPlot_Psu_Current);
+
+  voltage_curve_ = new QwtPlotCurve();
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 0, 30, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0, 30, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::yLeft, "Voltage (V)");
+  ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::xBottom, "Time (min)");
+  voltage_curve_->attach(ui->qwtPlot_Psu_Voltage);
 
   ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
   ui->label_Kill_State->setStyleSheet("QLabel { color : red; }");
@@ -411,7 +427,7 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
 
   thresh_mag_[0] = ui->spinBox_Hydr_Fft_Thrs->value();
   thresh_mag_[1] = ui->spinBox_Hydr_Fft_Thrs->value();
-  thresh_curve->setSamples(thresh_freq_, thresh_mag_, 2);
+  thresh_curve_->setSamples(thresh_freq_, thresh_mag_, 2);
   ui->plot_Hydr_Fft->replot();
 }
 
@@ -951,6 +967,10 @@ void CanClient::HydrophonesMsgsCallback(
 //
 
 void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
+  static uint64_t psu_msg_received = 0;
+
+  psu_msg_received++;
+
   // updates all power supply values
   ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus2_current);
   ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus1_current);
@@ -999,6 +1019,39 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
     ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
     ui->label_Kill_State->setText("Off");
   }
+
+  gettimeofday(&psu_monitor_end_time_, NULL);
+  double current_value = msg->actuator_bus_current+msg->dvl_current+msg->light_current+msg->light_current+
+                                                          msg->motor_bus1_current+msg->motor_bus2_current+
+                                                                                  msg->motor_bus3_current+
+                                                                                  msg->pc_current+
+                                                                                  msg->volt_bus1_current+
+                                                                                  msg->volt_bus2_current;
+
+  if(psu_msg_received % 10){
+    current_time_values_.push_back(psu_monitor_end_time_.tv_sec-psu_monitor_start_time_.tv_sec);
+    current_values_.push_back(current_value);
+    if(current_time_values_[current_time_values_.size()-1]-current_time_values_[0] >= 30){
+      current_values_.erase(current_values_.begin());
+      current_time_values_.erase(current_time_values_.begin());
+      ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, current_time_values_[0], current_time_values_[current_time_values_.size()-1], 5);
+    }
+    current_curve_->setSamples(current_time_values_.data(),current_values_.data(),current_values_.size());
+    ui->qwtPlot_Psu_Current->replot();
+  }
+
+  if(psu_msg_received % 150){
+    voltage_time_values_.push_back((psu_monitor_end_time_.tv_usec-psu_monitor_start_time_.tv_usec)/60000000.0);
+    voltage_values_.push_back(msg->light_voltage);
+    if(voltage_time_values_[voltage_time_values_.size()-1]-voltage_time_values_[0] >= 30){
+      voltage_values_.erase(voltage_values_.begin());
+      voltage_time_values_.erase(voltage_time_values_.begin());
+      ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, voltage_time_values_[0], voltage_time_values_[voltage_time_values_.size()-1], 5);
+    }
+    voltage_curve_->setSamples(voltage_time_values_.data(),voltage_values_.data(),voltage_values_.size());
+    ui->qwtPlot_Psu_Voltage->replot();
+  }
+
 
 }
 

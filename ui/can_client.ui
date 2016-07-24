@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1623</width>
-    <height>922</height>
+    <width>1659</width>
+    <height>919</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,7 +96,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>8</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="hydrophones">
           <attribute name="title">
@@ -2510,8 +2510,8 @@
           <widget class="QWidget" name="gridLayoutWidget_5">
            <property name="geometry">
             <rect>
-             <x>140</x>
-             <y>160</y>
+             <x>160</x>
+             <y>60</y>
              <width>621</width>
              <height>321</height>
             </rect>
@@ -3080,6 +3080,80 @@
             </item>
            </layout>
           </widget>
+          <widget class="QwtPlot" name="qwtPlot_Psu_Current">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>470</y>
+             <width>451</width>
+             <height>271</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QwtPlot" name="qwtPlot_Psu_Voltage">
+           <property name="geometry">
+            <rect>
+             <x>520</x>
+             <y>470</y>
+             <width>451</width>
+             <height>271</height>
+            </rect>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_67">
+           <property name="geometry">
+            <rect>
+             <x>430</x>
+             <y>20</y>
+             <width>245</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Controls</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_69">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>440</y>
+             <width>245</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Current graph</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_70">
+           <property name="geometry">
+            <rect>
+             <x>680</x>
+             <y>440</y>
+             <width>245</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Voltage graph</string>
+           </property>
+          </widget>
          </widget>
          <widget class="QWidget" name="led_indicator">
           <attribute name="title">
@@ -3480,7 +3554,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1623</width>
+     <width>1659</width>
      <height>25</height>
     </rect>
    </property>
