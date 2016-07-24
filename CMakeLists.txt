@@ -104,4 +104,4 @@ target_link_libraries( ${PROJECT_NAME}_node
   ${QT_QTGUI_LIBRARY}
   )
 
-add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp sonia_msgs_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_node sonia_msgs_generate_messages_cpp)
