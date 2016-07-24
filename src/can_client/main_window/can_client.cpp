@@ -1021,14 +1021,16 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   }
 
   gettimeofday(&psu_monitor_end_time_, NULL);
-  double current_value = msg->actuator_bus_current+msg->dvl_current+msg->light_current+msg->light_current+
+  double current_value = (msg->actuator_bus_current+msg->dvl_current+msg->light_current+msg->light_current+
                                                           msg->motor_bus1_current+msg->motor_bus2_current+
                                                                                   msg->motor_bus3_current+
                                                                                   msg->pc_current+
                                                                                   msg->volt_bus1_current+
-                                                                                  msg->volt_bus2_current;
+                                                                                  msg->volt_bus2_current)/1000.0;
 
+  // each 10 power supply messages received
   if(psu_msg_received % 10){
+    // sets plot values
     current_time_values_.push_back(psu_monitor_end_time_.tv_sec-psu_monitor_start_time_.tv_sec);
     current_values_.push_back(current_value);
     if(current_time_values_[current_time_values_.size()-1]-current_time_values_[0] >= 30){
@@ -1040,7 +1042,9 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
     ui->qwtPlot_Psu_Current->replot();
   }
 
+  // each 150 power supply messages received
   if(psu_msg_received % 150){
+    // sets plot values
     voltage_time_values_.push_back((psu_monitor_end_time_.tv_usec-psu_monitor_start_time_.tv_usec)/60000000.0);
     voltage_values_.push_back(msg->light_voltage);
     if(voltage_time_values_[voltage_time_values_.size()-1]-voltage_time_values_[0] >= 30){
