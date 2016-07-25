@@ -251,7 +251,8 @@ void CanClient::SubscribeRosMessages(){
                                          &CanClient::DroppersNoticesCallback, this);
   grabber_notices_subs_ = nh_.subscribe("/provider_can/grabber_notices", 10,
                                         &CanClient::GrabberNoticesCallback, this);
-  torpedo_notices_subs_ = nh_.subscribe("/provider_can/torpedo_notices", 10,
+  torpedo_notices_subs_ = nh_.subscribe
+      ("/provider_can/torpedo_launchers_notices", 10,
                                         &CanClient::TorpedoNoticesCallback, this);
 }
 
@@ -385,15 +386,28 @@ void CanClient::SetDevicesNotices(
       ->setBackground(Qt::green);
   }
 
-  if(msg->fault.data() != NULL){
+  if(msg->fault.data()[0]!=0){
     QTableWidgetItem *new_fault_value;
+    std::string str = (char*)msg->fault.data();
+    str+="";
     delete ui->tableWidget_Devices_List->item(row, 3);
-    new_fault_value = new QTableWidgetItem((char*)msg->fault.data());
+    new_fault_value = new QTableWidgetItem(str.data());
     ui->tableWidget_Devices_List->setItem(row, 3, new_fault_value);
     ui->tableWidget_Devices_List->item(row, 3)
       ->setBackground(Qt::red);
   }
 
+}
+
+void CanClient::ResetPing(){
+  for(int i = 0; i < ui->tableWidget_Devices_List->rowCount(); i++){
+    QTableWidgetItem *new_ping_value;
+    delete ui->tableWidget_Devices_List->item(i, 2);
+    new_ping_value = new QTableWidgetItem("no");
+    ui->tableWidget_Devices_List->setItem(i, 2, new_ping_value);
+    ui->tableWidget_Devices_List->item(i, 2)
+        ->setBackground(Qt::red);
+  }
 }
 
 
@@ -1150,6 +1164,8 @@ void CanClient::on_pushButton_Device_Discover_clicked() {
   bool end_loop = false;
   int device_index = 0;
 
+  ResetPing();
+
   while (!end_loop) {
     switch (device_index) {
       case 0:
@@ -1330,7 +1346,7 @@ void CanClient::MissionSwitchCallback(
 void CanClient::CarteNavPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   // for all carte nav devices, updates devices table view
-  for (int i = 0; i < ui->tableWidget_Devices_List->rowCount()-5; i++) {
+  for (int i = 0; i < ui->tableWidget_Devices_List->rowCount()-4; i++) {
     SetDevicesFirmwareVersion(msg, i);
   }
 }

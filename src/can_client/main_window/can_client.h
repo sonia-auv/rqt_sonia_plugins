@@ -290,6 +290,7 @@ class CanClient : public QMainWindow {
   void SetDevicesFirmwareVersion(
     const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row);
   int ThrusterTest(int arg);
+  void ResetPing();
 
   //============================================================================
   // P R I V A T E   M E M B E R S
