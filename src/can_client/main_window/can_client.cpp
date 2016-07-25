@@ -1005,21 +1005,32 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
 
   // labels and progress bar for battery level
   ui->label_Batt_Voltage->setNum(msg->light_voltage);
+
   ui->progressBar_Battery_Level->setValue((int)((msg->light_voltage - BATT_THRESHOLD)/(BATT_MAX-BATT_THRESHOLD) * 100));
   if(ui->progressBar_Battery_Level->value() < 20){
-    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : red; }");
+    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
+                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
+        "color : red; }"));
   }else if(ui->progressBar_Battery_Level->value() < 50){
-    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : yellow; }");
+    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
+                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
+        "color : yellow; }"));
   }else{
-    ui->label_Batt_Voltage->setStyleSheet("QLabel { color : green; }");
+    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
+                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
+        "color : green; }"));
   }
 
   if (msg->kill_switch_state){
-    ui->label_Mission_State->setStyleSheet("QLabel { color : green; }");
+    QMetaObject::invokeMethod(ui->label_Kill_State,"setStyleSheet",
+                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
+        "color : green; }"));
     ui->label_Kill_State->setText("On");
   }
   else{
-    ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
+    QMetaObject::invokeMethod(ui->label_Kill_State,"setStyleSheet",
+                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
+        "color : red; }"));
     ui->label_Kill_State->setText("Off");
   }
 
@@ -1032,7 +1043,7 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
                                                                                   msg->volt_bus2_current)/1000.0;
 
   // each 10 power supply messages received
-  if(psu_msg_received % 10){
+  if(psu_msg_received % 10 == 0){
     // sets plot values
     current_time_values_.push_back(psu_monitor_end_time_.tv_sec-psu_monitor_start_time_.tv_sec);
     current_values_.push_back(current_value);
@@ -1044,7 +1055,7 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   }
 
   // each 150 power supply messages received
-  if(psu_msg_received % 150){
+  if(psu_msg_received % 150 == 0){
     // sets plot values
     voltage_time_values_.push_back((psu_monitor_end_time_.tv_usec-psu_monitor_start_time_.tv_usec)/60000000.0);
     voltage_values_.push_back(msg->light_voltage);
@@ -1569,20 +1580,25 @@ void CanClient::on_pushButton_Device_Discover_clicked(){
 
     device_index++;
   }
+
 }
 
 //------------------------------------------------------------------------------
 //
 
 void CanClient::MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg){
+  QString style_red = "QLabel { color : red; }";
+  QString style_green = "QLabel { color : green; }";
   if(msg->state){
     ui->label_Mission_State->setText("On");
-    ui->label_Mission_State->setStyleSheet("QLabel { color : green; }");
+    QMetaObject::invokeMethod(ui->label_Mission_State,"setStyleSheet",
+    Qt::QueuedConnection, Q_ARG(QString, style_green));
   }
 
   else{
     ui->label_Mission_State->setText("Off");
-    ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
+    QMetaObject::invokeMethod(ui->label_Mission_State,"setStyleSheet",
+                              Qt::QueuedConnection, Q_ARG(QString, style_red));
   }
 }
 
