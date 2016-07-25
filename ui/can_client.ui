@@ -96,7 +96,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>2</number>
          </property>
          <widget class="QWidget" name="hydrophones">
           <attribute name="title">
@@ -2962,6 +2962,32 @@
            </property>
            <property name="text">
             <string>Voltage graph</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_Plot_Current">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>410</y>
+             <width>98</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Plot</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_Plot_Voltage">
+           <property name="geometry">
+            <rect>
+             <x>530</x>
+             <y>410</y>
+             <width>98</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Plot</string>
            </property>
           </widget>
          </widget>

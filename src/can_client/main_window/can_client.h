@@ -300,6 +300,10 @@ class CanClient : public QMainWindow {
 
   void DiverPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
+  void on_pushButton_Plot_Current_clicked();
+
+  void on_pushButton_Plot_Voltage_clicked();
+
 private:
 
   int ThrusterTest(int arg);
