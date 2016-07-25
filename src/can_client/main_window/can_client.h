@@ -34,16 +34,22 @@ class CanClient : public QMainWindow {
   Q_OBJECT
 
  public:
-
   //==========================================================================
   // T Y P E D E F   A N D   E N U M
 
+  // used by hydros dephasage
   const double SPEED_OF_SOUND = 1500;  // Fresh water
   const double NORMALIZING_VALUE = 32767;
+
+  // battery progress bar threshold and max voltage value
   const double BATT_THRESHOLD = 25.6;
-  const double BATT_MAX = 28.5;  // Fresh water
+  const double BATT_MAX = 28.5;
+
+  // X axis maximum lenght
   const int CURRENT_GRAPH_RECORD_TIME = 60;
   const int VOLTAGE_GRAPH_RECORD_TIME = 30;
+
+  const int PSU_VALUES_REFRESH_PERIOD = 20;
 
   //============================================================================
   // P U B L I C   C / D T O R S
@@ -170,7 +176,8 @@ class CanClient : public QMainWindow {
   void on_comboBox_Preamp_Gain_currentIndexChanged(int index);
 
   /**
-   * Type of FFT filter to apply. See on_comboBox_Prefilter_Enable_currentIndexChanged
+   * Type of FFT filter to apply. See
+   * on_comboBox_Prefilter_Enable_currentIndexChanged
    */
   void on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index);
 
@@ -280,9 +287,7 @@ class CanClient : public QMainWindow {
 
   void on_pushButton_Thruster_Test_clicked();
 
-
   void on_pushButton_psu_On_Motor_3_clicked();
-
 
   void on_pushButton_psu_Off_Motor_3_clicked();
 
@@ -290,24 +295,29 @@ class CanClient : public QMainWindow {
 
   void on_pushButton_Device_Discover_clicked();
 
-  void CarteNavPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void CarteNavPropertiesCallback(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
-  void HydrosPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void HydrosPropertiesCallback(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
-  void PsuPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void PsuPropertiesCallback(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
-  void MissionSwPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void MissionSwPropertiesCallback(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
-  void SetDevicesPropertyRow(const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row);
+  void SetDevicesPropertyRow(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row);
 
-  void DiverPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void DiverPropertiesCallback(
+      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
 
   void on_pushButton_Plot_Current_clicked();
 
   void on_pushButton_Plot_Voltage_clicked();
 
-private:
-
+ private:
   int ThrusterTest(int arg);
 
   //============================================================================

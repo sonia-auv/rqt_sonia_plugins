@@ -13,7 +13,6 @@
 #include "can_client.h"
 #include "ui_can_client.h"
 
-
 //==============================================================================
 // S T A T I C   M E M B E R S
 
@@ -53,7 +52,7 @@ CanClient::CanClient(QWidget *parent)
       thruster_test_thread_() {
   ui->setupUi(this);
 
-   gettimeofday(&psu_monitor_start_time_,NULL);
+  gettimeofday(&psu_monitor_start_time_, NULL);
 
   ui->tableWidget_Hydr_Fft_Mag->setRowCount(128);
   ui->tableWidget_Hydr_Scope_samp->setRowCount(256);
@@ -104,20 +103,26 @@ CanClient::CanClient(QWidget *parent)
       nh_.subscribe("/provider_can/barometer_intern_press_msgs", 10,
                     &CanClient::BarometerDepthCallback, this);
 
-  mission_switch_subs_=nh_.subscribe("/provider_can/mission_switch_msgs", 10,
-                                     &CanClient::MissionSwitchCallback, this);
-  // subscribes to any carte nav device since every device will have the same properties
-  carte_nav_properties_subs_=nh_.subscribe("/provider_can/barometer_properties", 10,
-                                           &CanClient::CarteNavPropertiesCallback, this);
+  mission_switch_subs_ = nh_.subscribe("/provider_can/mission_switch_msgs", 10,
+                                       &CanClient::MissionSwitchCallback, this);
+  // subscribes to any carte nav device since every device will have the same
+  // properties
+  carte_nav_properties_subs_ =
+      nh_.subscribe("/provider_can/barometer_properties", 10,
+                    &CanClient::CarteNavPropertiesCallback, this);
 
-  mission_switch_properties_subs_=nh_.subscribe("/provider_can/mission_switch_properties", 10,
-                                                                &CanClient::MissionSwPropertiesCallback, this);
-  hydrophones_properties_subs_=nh_.subscribe("/provider_can/hydrophones_properties", 10,
-                                                             &CanClient::HydrosPropertiesCallback, this);
-  psu_properties_subs_=nh_.subscribe("/provider_can/power_supply_properties", 10,
-                                                     &CanClient::PsuPropertiesCallback, this);
-  diver_properties_subs_ =  nh_.subscribe("/provider_can/diver_interface_properties", 10,
-                                          &CanClient::DiverPropertiesCallback, this);
+  mission_switch_properties_subs_ =
+      nh_.subscribe("/provider_can/mission_switch_properties", 10,
+                    &CanClient::MissionSwPropertiesCallback, this);
+  hydrophones_properties_subs_ =
+      nh_.subscribe("/provider_can/hydrophones_properties", 10,
+                    &CanClient::HydrosPropertiesCallback, this);
+  psu_properties_subs_ =
+      nh_.subscribe("/provider_can/power_supply_properties", 10,
+                    &CanClient::PsuPropertiesCallback, this);
+  diver_properties_subs_ =
+      nh_.subscribe("/provider_can/diver_interface_properties", 10,
+                    &CanClient::DiverPropertiesCallback, this);
 
   can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
       "/provider_can/send_can_message");
@@ -233,14 +238,16 @@ CanClient::CanClient(QWidget *parent)
 
   current_curve_ = new QwtPlotCurve();
   ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 40, 5);
-  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, CURRENT_GRAPH_RECORD_TIME, 5);
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0,
+                                        CURRENT_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::yLeft, "Current (A)");
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::xBottom, "Time (sec)");
   current_curve_->attach(ui->qwtPlot_Psu_Current);
 
   voltage_curve_ = new QwtPlotCurve();
   ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 0, 30, 5);
-  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0, VOLTAGE_GRAPH_RECORD_TIME, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0,
+                                        VOLTAGE_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::yLeft, "Voltage (V)");
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::xBottom, "Time (min)");
   voltage_curve_->attach(ui->qwtPlot_Psu_Voltage);
@@ -273,7 +280,7 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
 
   // there are two possible filters type for pinger frequency
   // if chebyshev filter is selected
-  if(ui->comboBox_Freq_Filter_Type->currentIndex() == 1){
+  if (ui->comboBox_Freq_Filter_Type->currentIndex() == 1) {
     // adapt the frequency index to match chebyshev filters coefficients in
     // hydrophone's firmware
     cheby_or_elliptic = 21;
@@ -433,7 +440,6 @@ void CanClient::on_spinBox_Hydr_Fft_Thrs_editingFinished() {
   thresh_curve_->setSamples(thresh_freq_, thresh_mag_, 2);
   ui->plot_Hydr_Fft->replot();
 }
-
 
 //------------------------------------------------------------------------------
 //
@@ -690,12 +696,13 @@ void CanClient::HydrophonesParamsCallback(
     const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
   ui->label_Hydr_Acq_Th_Mode->setNum(msg->acq_thrs_mode);
   ui->label_Hydr_Acq_Thrs->setNum(msg->acq_threshold);
-  ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth*813*2)/1000.0);
+  ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth * 813 * 2) / 1000.0);
   ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
   ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
   // fcutoff parameters represents half the clk period of the ADC input filters.
   // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
-  ui->label_Hydr_Cutoff->setNum((150000.0/((double)msg->set_cutoff_freq * 2.0))/32.0);
+  ui->label_Hydr_Cutoff->setNum(
+      (150000.0 / ((double)msg->set_cutoff_freq * 2.0)) / 32.0);
   ui->label_Hydr_Fft_Prefilter->setNum(msg->fft_prefilter);
   ui->label_Hydr_Fft_Prefilter_T->setNum(msg->fft_prefilter_type);
   ui->label_Hydr_Fft_Thrs->setNum(msg->fft_threshold);
@@ -975,18 +982,20 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   psu_msg_received++;
 
   static double current_value;
+  static double voltage_value;
+
+  // sum to enable avergaing values for qwt plots.
   current_value +=
-      (msg->actuator_bus_current + msg->dvl_current + msg->light_current
-          + msg->light_current +
-          msg->motor_bus1_current + msg->motor_bus2_current +
-          msg->motor_bus3_current +
-          msg->pc_current +
-          msg->volt_bus1_current +
-          msg->volt_bus2_current) / 1000.0;
+      (msg->actuator_bus_current + msg->dvl_current + msg->light_current +
+       msg->light_current + msg->motor_bus1_current + msg->motor_bus2_current +
+       msg->motor_bus3_current + msg->pc_current + msg->volt_bus1_current +
+       msg->volt_bus2_current) /
+      1000.0;
+
+  voltage_value += msg->light_voltage;
 
   // limiting GUI update speed
-  if(psu_msg_received % 20 == 0) {
-
+  if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD == 0) {
     // updates all power supply values
     ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus1_current);
     ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus2_current);
@@ -1019,82 +1028,100 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
     // labels and progress bar for battery level
     ui->label_Batt_Voltage->setNum(msg->light_voltage);
 
-
     int voltage_percent;
 
+    // setting the battery progress bar depending on voltage percentage
     if (msg->light_voltage / 1000.0 > BATT_THRESHOLD)
-      voltage_percent = (int) ((((msg->light_voltage / 1000.0) -
-          BATT_THRESHOLD) / (BATT_MAX - BATT_THRESHOLD)) * 100.0);
-    else if((msg->light_voltage / 1000.0 > 100))
+      voltage_percent =
+          (int)((((msg->light_voltage / 1000.0) - BATT_THRESHOLD) /
+                 (BATT_MAX - BATT_THRESHOLD)) *
+                100.0);
+    else if ((msg->light_voltage / 1000.0 > 100))
       voltage_percent = 100;
     else
       voltage_percent = 0;
 
-    QMetaObject::invokeMethod(ui->progressBar_Battery_Level,
-                              "setValue",
+    QMetaObject::invokeMethod(ui->progressBar_Battery_Level, "setValue",
                               Qt::QueuedConnection,
                               Q_ARG(int, voltage_percent));
 
+    // Setting voltage text color o red or yellow when battery low
     if (ui->progressBar_Battery_Level->value() < 20) {
       QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
-          "color : red; }"));
+                                Qt::QueuedConnection, Q_ARG(QString,
+                                                            "QLabel { "
+                                                            "color : red; }"));
     } else if (ui->progressBar_Battery_Level->value() < 50) {
       QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
-          "color : yellow; }"));
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                      "color : yellow; }"));
     } else {
       QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
-          "color : green; }"));
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                      "color : green; }"));
     }
 
+    // setting killswitch text and color depending on state
     if (msg->kill_switch_state) {
       QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
-          "color : green; }"));
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                      "color : green; }"));
       ui->label_Kill_State->setText("On");
-    }
-    else {
+    } else {
       QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
-          "color : red; }"));
+                                Qt::QueuedConnection, Q_ARG(QString,
+                                                            "QLabel { "
+                                                            "color : red; }"));
       ui->label_Kill_State->setText("Off");
     }
 
+    // used to setup x axis values (time) for qwt plots
     gettimeofday(&psu_monitor_end_time_, NULL);
+
+    // averaging the current
     current_value = current_value / 20;
 
-    // each 10 power supply messages received
-
     // sets plot values
-    current_time_values_.push_back(
-        psu_monitor_end_time_.tv_sec - psu_monitor_start_time_.tv_sec);
+    current_time_values_.push_back(psu_monitor_end_time_.tv_sec -
+                                   psu_monitor_start_time_.tv_sec);
     current_values_.push_back(current_value);
-    if (current_time_values_[current_time_values_.size() - 1]
-        - current_time_values_[0] >= CURRENT_GRAPH_RECORD_TIME) {
+    if (current_time_values_[current_time_values_.size() - 1] -
+            current_time_values_[0] >=
+        CURRENT_GRAPH_RECORD_TIME) {
       current_values_.erase(current_values_.begin());
       current_time_values_.erase(current_time_values_.begin());
     }
+    // this is an invisible button. It is used to refresh qwt plot
     ui->pushButton_Plot_Current->click();
 
+    // resets value for next averaging
     current_value = 0;
 
-
-    // each 50 power supply messages received
-    if (psu_msg_received % 60 == 0) {
+    // each 60 power supply messages received
+    if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD * 5 == 0) {
+      voltage_value = (voltage_value / 1000.0) / 60.0;
       // sets plot values
-      voltage_time_values_.push_back((psu_monitor_end_time_
-          .tv_sec - psu_monitor_start_time_.tv_sec) / 60.0);
+      voltage_time_values_.push_back(
+          (psu_monitor_end_time_.tv_sec - psu_monitor_start_time_.tv_sec) /
+          60.0);
       voltage_values_.push_back(msg->light_voltage / 1000.0);
-      if (voltage_time_values_[voltage_time_values_.size()
-          - 1] - voltage_time_values_[0] >= VOLTAGE_GRAPH_RECORD_TIME) {
+      if (voltage_time_values_[voltage_time_values_.size() - 1] -
+              voltage_time_values_[0] >=
+          VOLTAGE_GRAPH_RECORD_TIME) {
         voltage_values_.erase(voltage_values_.begin());
         voltage_time_values_.erase(voltage_time_values_.begin());
       }
+      // this is an invisible button. It is used to refresh qwt plot
       ui->pushButton_Plot_Voltage->click();
+      // resets value for next averaging
+      voltage_value = 0;
     }
-
   }
 }
 
@@ -1378,7 +1405,7 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
     ui->label_Hydr_Deph->setText("FFT Graph");
     ui->plot_Hydr_Fft->setVisible(true);
     ui->label_Hydr_Deph->setVisible(true);
-  } else {// hide the hyrophone FFT graph
+  } else {  // hide the hyrophone FFT graph
     ui->tableWidget_Hydr_Fft_Mag->setVisible(true);
     ui->tableWidget_Hydr_Scope_samp->setVisible(true);
     ui->tableWidget_Hydr_Deph->setVisible(true);
@@ -1393,10 +1420,8 @@ void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   }
 }
 
-
 void CanClient::on_pushButton_Thruster_Test_clicked() {
-
-  thruster_test_thread_ = new std::thread (&CanClient::ThrusterTest, this, 10);
+  thruster_test_thread_ = new std::thread(&CanClient::ThrusterTest, this, 10);
 }
 
 //------------------------------------------------------------------------------
@@ -1414,7 +1439,7 @@ int CanClient::ThrusterTest(int arg) {
   struct timeval start_time;
   struct timeval end_time;
 
-  for(uint8_t i = 1; i < 7; i++){
+  for (uint8_t i = 1; i < 7; i++) {
     thrusters_back_heading_srv_.request.unique_id = i;
 
     gettimeofday(&start_time, NULL);
@@ -1423,14 +1448,14 @@ int CanClient::ThrusterTest(int arg) {
     thrusters_back_heading_srv_.request.parameter_value = 30;
     can_service_client_.call(thrusters_back_heading_srv_);
 
-    while((end_time.tv_sec - start_time.tv_sec) < 2){
+    while ((end_time.tv_sec - start_time.tv_sec) < 2) {
       gettimeofday(&end_time, NULL);
     }
     thrusters_back_heading_srv_.request.parameter_value = 0;
     can_service_client_.call(thrusters_back_heading_srv_);
-
   }
-  thrusters_back_heading_srv_.request.unique_id = thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
+  thrusters_back_heading_srv_.request.unique_id =
+      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
 
   return 0;
 }
@@ -1438,107 +1463,90 @@ int CanClient::ThrusterTest(int arg) {
 //------------------------------------------------------------------------------
 //
 
-
-void CanClient::on_comboBox_Wave_Enable_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Wave_Enable_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_wave_enable;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
-  can_service_client_.call(can_hydros_srv_);
-
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index)
-{
-  can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_acq_thrs_mode;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
+      can_hydros_srv_.request.METHOD_HYDRO_wave_enable;
+  can_hydros_srv_.request.parameter_value = (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_comboBox_Prefilter_Enable_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Acq_Thrs_Mode_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
+      can_hydros_srv_.request.METHOD_HYDRO_set_acq_thrs_mode;
+  can_hydros_srv_.request.parameter_value = (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Prefilter_Enable_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
+      can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter;
+  can_hydros_srv_.request.parameter_value = (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_comboBox_Preamp_Gain_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Cont_Filt_Freq_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_preamp_gain;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
+      can_hydros_srv_.request.METHOD_HYDRO_set_cont_filter_freq;
+  can_hydros_srv_.request.parameter_value = (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Preamp_Gain_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter_type;
-  can_hydros_srv_.request.parameter_value =
-    (float)index;
+      can_hydros_srv_.request.METHOD_HYDRO_set_preamp_gain;
+  can_hydros_srv_.request.parameter_value = (float)index;
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
-void CanClient::on_spinBox_Hydr_Cutoff_editingFinished(){
+
+void CanClient::on_comboBox_FFT_Prefilt_Type_currentIndexChanged(int index) {
   can_hydros_srv_.request.method_number =
-    can_hydros_srv_.request.METHOD_HYDRO_set_freq_cutoff;
+      can_hydros_srv_.request.METHOD_HYDRO_set_fft_prefilter_type;
+  can_hydros_srv_.request.parameter_value = (float)index;
+  can_service_client_.call(can_hydros_srv_);
+}
+
+//------------------------------------------------------------------------------
+//
+void CanClient::on_spinBox_Hydr_Cutoff_editingFinished() {
+  can_hydros_srv_.request.method_number =
+      can_hydros_srv_.request.METHOD_HYDRO_set_freq_cutoff;
   // fcutoff parameters represents half the clk period of the ADC input filters.
   // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
   can_hydros_srv_.request.parameter_value =
-    (150000.0/((float)ui->spinBox_Hydr_Cutoff->value() * 32.0)/2.0);
+      (150000.0 / ((float)ui->spinBox_Hydr_Cutoff->value() * 32.0) / 2.0);
   can_service_client_.call(can_hydros_srv_);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_comboBox_Freq_Filter_Type_currentIndexChanged(int index)
-{
+void CanClient::on_comboBox_Freq_Filter_Type_currentIndexChanged(int index) {
   on_spinBox_Hydr_Pinger_Freq_editingFinished();
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_pushButton_Device_Discover_clicked(){
-
-
+void CanClient::on_pushButton_Device_Discover_clicked() {
   bool end_loop = false;
-  int device_index = 0 ;
+  int device_index = 0;
 
-  while(!end_loop) {
+  while (!end_loop) {
     switch (device_index) {
       case 0:
         devices_discovery_srv_ = thrusters_port_srv_;
@@ -1559,20 +1567,28 @@ void CanClient::on_pushButton_Device_Discover_clicked(){
         devices_discovery_srv_ = thrusters_back_depth_srv_;
         break;
       case 6:
-        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_actuators;
-        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_ACT_grabber;
+        devices_discovery_srv_.request.device_id =
+            devices_discovery_srv_.request.DEVICE_ID_actuators;
+        devices_discovery_srv_.request.unique_id =
+            devices_discovery_srv_.request.UNIQUE_ID_ACT_grabber;
         break;
       case 7:
-        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_markers;
-        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_MARK_launcher;
+        devices_discovery_srv_.request.device_id =
+            devices_discovery_srv_.request.DEVICE_ID_markers;
+        devices_discovery_srv_.request.unique_id =
+            devices_discovery_srv_.request.UNIQUE_ID_MARK_launcher;
         break;
       case 8:
-        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_markers;
-        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_MARK_dropper;
+        devices_discovery_srv_.request.device_id =
+            devices_discovery_srv_.request.DEVICE_ID_markers;
+        devices_discovery_srv_.request.unique_id =
+            devices_discovery_srv_.request.UNIQUE_ID_MARK_dropper;
         break;
       case 9:
-        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_sensors;
-        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_SENSORS_barometer;
+        devices_discovery_srv_.request.device_id =
+            devices_discovery_srv_.request.DEVICE_ID_sensors;
+        devices_discovery_srv_.request.unique_id =
+            devices_discovery_srv_.request.UNIQUE_ID_SENSORS_barometer;
         break;
       case 10:
 
@@ -1585,48 +1601,56 @@ void CanClient::on_pushButton_Device_Discover_clicked(){
         devices_discovery_srv_ = can_hydros_srv_;
         break;
       case 13:
-        devices_discovery_srv_.request.device_id = devices_discovery_srv_.request.DEVICE_ID_interfaces;
-        devices_discovery_srv_.request.unique_id = devices_discovery_srv_.request.UNIQUE_ID_INTERFACE_mission_switch;
+        devices_discovery_srv_.request.device_id =
+            devices_discovery_srv_.request.DEVICE_ID_interfaces;
+        devices_discovery_srv_.request.unique_id =
+            devices_discovery_srv_.request.UNIQUE_ID_INTERFACE_mission_switch;
         end_loop = true;
         break;
     }
 
-    devices_discovery_srv_.request.method_number = devices_discovery_srv_.request.METHOD_COMMON_get_properties;
+    devices_discovery_srv_.request.method_number =
+        devices_discovery_srv_.request.METHOD_COMMON_get_properties;
     can_service_client_.call(devices_discovery_srv_);
 
     QTableWidgetItem *new_cell_value;
-    delete ui->tableWidget_Devices_List->item(device_index,0);
+    delete ui->tableWidget_Devices_List->item(device_index, 0);
 
     if (devices_discovery_srv_.response.device_status == 0) {
       new_cell_value = new QTableWidgetItem("No");
-      ui->tableWidget_Devices_List->setItem( device_index,0, new_cell_value);
-      ui->tableWidget_Devices_List->item( device_index,0)->setBackground(Qt::red);
+      ui->tableWidget_Devices_List->setItem(device_index, 0, new_cell_value);
+      ui->tableWidget_Devices_List->item(device_index, 0)
+          ->setBackground(Qt::red);
     } else {
       new_cell_value = new QTableWidgetItem("Yes");
-      ui->tableWidget_Devices_List->setItem( device_index,0, new_cell_value);
-      ui->tableWidget_Devices_List->item( device_index,0)->setBackground(Qt::green);
+      ui->tableWidget_Devices_List->setItem(device_index, 0, new_cell_value);
+      ui->tableWidget_Devices_List->item(device_index, 0)
+          ->setBackground(Qt::green);
     }
 
     device_index++;
   }
-
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg){
+void CanClient::MissionSwitchCallback(
+    const sonia_msgs::MissionSwitchMsg::ConstPtr &msg) {
   QString style_red = "QLabel { color : red; }";
   QString style_green = "QLabel { color : green; }";
-  if(msg->state){
+
+  // sets text and color for mission switch state
+  if (msg->state) {
     ui->label_Mission_State->setText("On");
-    QMetaObject::invokeMethod(ui->label_Mission_State,"setStyleSheet",
-    Qt::QueuedConnection, Q_ARG(QString, style_green));
+    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, style_green));
   }
 
-  else{
+  else {
     ui->label_Mission_State->setText("Off");
-    QMetaObject::invokeMethod(ui->label_Mission_State,"setStyleSheet",
+    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
                               Qt::QueuedConnection, Q_ARG(QString, style_red));
   }
 }
@@ -1634,10 +1658,10 @@ void CanClient::MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstP
 //------------------------------------------------------------------------------
 //
 
-void CanClient::CarteNavPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
-
+void CanClient::CarteNavPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   // for all carte nav devices, updates devices table view
-  for(int i = 0; i < 10; i++) {
+  for (int i = 0; i < 10; i++) {
     SetDevicesPropertyRow(msg, i);
   }
 }
@@ -1645,79 +1669,87 @@ void CanClient::CarteNavPropertiesCallback(const sonia_msgs::CanDevicesPropertie
 //------------------------------------------------------------------------------
 //
 
-void CanClient::HydrosPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+void CanClient::HydrosPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesPropertyRow(msg, 12);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::PsuPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
+void CanClient::PsuPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesPropertyRow(msg, 11);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::MissionSwPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
-
+void CanClient::MissionSwPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesPropertyRow(msg, 13);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::DiverPropertiesCallback(const sonia_msgs::CanDevicesProperties::ConstPtr &msg){
-
+void CanClient::DiverPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesPropertyRow(msg, 10);
 }
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::SetDevicesPropertyRow(const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row){
+void CanClient::SetDevicesPropertyRow(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row) {
+
+  // updates firmware version column
   std::stringstream firm_string;
   QTableWidgetItem *new_firmware_value;
-  delete ui->tableWidget_Devices_List->item(row,1);
+  delete ui->tableWidget_Devices_List->item(row, 1);
   firm_string << std::hex << msg->firmware_version;
   new_firmware_value = new QTableWidgetItem(firm_string.str().data());
-  ui->tableWidget_Devices_List->setItem( row,1, new_firmware_value);
+  ui->tableWidget_Devices_List->setItem(row, 1, new_firmware_value);
 
+  // updates capabilites column
   std::stringstream capab_string;
-
   QTableWidgetItem *new_cap_value;
-  delete ui->tableWidget_Devices_List->item(row,2);
+  delete ui->tableWidget_Devices_List->item(row, 2);
   capab_string << std::hex << (int)msg->capabilities;
   new_cap_value = new QTableWidgetItem(capab_string.str().data());
-  ui->tableWidget_Devices_List->setItem( row,2, new_cap_value);
+  ui->tableWidget_Devices_List->setItem(row, 2, new_cap_value);
 
+  // updates microcontroller signtaure column
   std::stringstream uc_string;
-
   QTableWidgetItem *new_uc_value;
-  delete ui->tableWidget_Devices_List->item(row,3);
+  delete ui->tableWidget_Devices_List->item(row, 3);
   uc_string << std::hex << msg->uc_signature;
   new_uc_value = new QTableWidgetItem(uc_string.str().data());
-  ui->tableWidget_Devices_List->setItem( row,3, new_uc_value);
+  ui->tableWidget_Devices_List->setItem(row, 3, new_uc_value);
 }
-
 
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_pushButton_Plot_Current_clicked(){
-  if(current_time_values_[current_time_values_.size() - 1]
-      - current_time_values_[0] >= CURRENT_GRAPH_RECORD_TIME)
-    ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, current_time_values_[0], current_time_values_[current_time_values_.size()-1], 5);
-  current_curve_->setSamples(current_time_values_.data(),current_values_.data(),current_values_.size());
-  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft,
-                                        0,*std::max_element(current_values_
-                                                                .begin(),
-                                                            current_values_.end
-                                                                ()+5),
-                                        *std::max_element(current_values_
-                                                              .begin(),
-                                                          current_values_.end
-                                                              ())/10.0);
+void CanClient::on_pushButton_Plot_Current_clicked() {
+  // Adjust x axis if the graph reaches the limits of the window
+  if (current_time_values_[current_time_values_.size() - 1] -
+          current_time_values_[0] >=
+      CURRENT_GRAPH_RECORD_TIME)
+    ui->qwtPlot_Psu_Current->setAxisScale(
+        QwtPlot::xBottom, current_time_values_[0],
+        current_time_values_[current_time_values_.size() - 1], 5);
+
+  // Sets new samples for graph
+  current_curve_->setSamples(current_time_values_.data(),
+                             current_values_.data(), current_values_.size());
+
+  // Adjusting y axis to fit data
+  ui->qwtPlot_Psu_Current->setAxisScale(
+      QwtPlot::yLeft, 0,
+      *std::max_element(current_values_.begin(), current_values_.end() + 5),
+      *std::max_element(current_values_.begin(), current_values_.end()) / 10.0);
 
   ui->qwtPlot_Psu_Current->replot();
 }
@@ -1725,15 +1757,17 @@ void CanClient::on_pushButton_Plot_Current_clicked(){
 //------------------------------------------------------------------------------
 //
 
-void CanClient::on_pushButton_Plot_Voltage_clicked(){
-  if(voltage_time_values_[voltage_time_values_.size() - 1]
-      - voltage_time_values_[0] >= VOLTAGE_GRAPH_RECORD_TIME)
-    ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, voltage_time_values_[0], voltage_time_values_[voltage_time_values_.size()-1], 5);
+void CanClient::on_pushButton_Plot_Voltage_clicked() {
+  // Adjust x axis if the graph reaches the limits of the window
+  if (voltage_time_values_[voltage_time_values_.size() - 1] -
+          voltage_time_values_[0] >=
+      VOLTAGE_GRAPH_RECORD_TIME)
+    ui->qwtPlot_Psu_Voltage->setAxisScale(
+        QwtPlot::xBottom, voltage_time_values_[0],
+        voltage_time_values_[voltage_time_values_.size() - 1], 5);
 
-  voltage_curve_->setSamples(voltage_time_values_.data(),voltage_values_.data(),voltage_values_.size());
+  // Sets new samples for graph
+  voltage_curve_->setSamples(voltage_time_values_.data(),
+                             voltage_values_.data(), voltage_values_.size());
   ui->qwtPlot_Psu_Voltage->replot();
 }
-
-
-
-
