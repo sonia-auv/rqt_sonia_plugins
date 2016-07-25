@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1588</width>
-    <height>919</height>
+    <width>1607</width>
+    <height>927</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,12 +91,12 @@
         <widget class="QTabWidget" name="devicesTab">
          <property name="minimumSize">
           <size>
-           <width>1000</width>
+           <width>950</width>
            <height>800</height>
           </size>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="hydrophones">
           <attribute name="title">
@@ -326,7 +326,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
+            <item row="2" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Filt_Thrs">
               <property name="text">
                <string>0</string>
@@ -366,14 +366,14 @@
               </property>
              </widget>
             </item>
-            <item row="4" column="2">
+            <item row="4" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Preamp_Gain">
               <property name="text">
                <string>0</string>
               </property>
              </widget>
             </item>
-            <item row="5" column="2">
+            <item row="5" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Acq_Thrs">
               <property name="enabled">
                <bool>false</bool>
@@ -397,7 +397,7 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="2">
+            <item row="3" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Cutoff">
               <property name="enabled">
                <bool>true</bool>
@@ -855,7 +855,7 @@
               </property>
              </widget>
             </item>
-            <item row="5" column="2">
+            <item row="5" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Cont_Fil_Freq">
               <property name="enabled">
                <bool>false</bool>
@@ -1155,7 +1155,7 @@
               </item>
              </widget>
             </item>
-            <item row="7" column="2">
+            <item row="7" column="2" alignment="Qt::AlignHCenter">
              <widget class="QLabel" name="label_Hydr_Wave_En">
               <property name="text">
                <string>0</string>
@@ -3703,17 +3703,13 @@
      </item>
     </layout>
    </widget>
-   <zorder>gridLayoutWidget_6</zorder>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>progressBar</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1588</width>
+     <width>1607</width>
      <height>25</height>
     </rect>
    </property>

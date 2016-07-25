@@ -233,14 +233,14 @@ CanClient::CanClient(QWidget *parent)
 
   current_curve_ = new QwtPlotCurve();
   ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 40, 5);
-  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, 40, 5);
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, CURRENT_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::yLeft, "Current (A)");
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::xBottom, "Time (sec)");
   current_curve_->attach(ui->qwtPlot_Psu_Current);
 
   voltage_curve_ = new QwtPlotCurve();
   ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 0, 30, 5);
-  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0, 30, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0, VOLTAGE_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::yLeft, "Voltage (V)");
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::xBottom, "Time (min)");
   voltage_curve_->attach(ui->qwtPlot_Psu_Voltage);
@@ -974,110 +974,128 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
 
   psu_msg_received++;
 
-  // updates all power supply values
-  ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus2_current);
-  ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus1_current);
-  ui->label_Psu_Motor_Cur_1->setNum(msg->motor_bus1_current);
-  ui->label_Psu_Motor_Cur_2->setNum(msg->motor_bus2_current);
-  ui->label_Psu_Motor_Cur_3->setNum(msg->motor_bus3_current);
-  ui->label_Psu_Act_Cur->setNum(msg->actuator_bus_current);
-  ui->label_Psu_Dvl_Cur->setNum(msg->dvl_current);
-  ui->label_Psu_PC_Cur->setNum(msg->pc_current);
-  ui->label_Psu_Light_Cur->setNum(msg->light_current);
-  ui->label_Psu_12V_Vol_1->setNum(msg->volt_bus1_voltage);
-  ui->label_Psu_12V_Vol_2->setNum(msg->volt_bus2_voltage);
-  ui->label_Psu_Motor_Vol_1->setNum(msg->motor_bus1_voltage);
-  ui->label_Psu_Motor_Vol_2->setNum(msg->motor_bus2_voltage);
-  ui->label_Psu_Motor_Vol_3->setNum(msg->motor_bus3_voltage);
-  ui->label_Psu_Pc_Vol->setNum(msg->pc_voltage);
-  ui->label_Psu_Dvl_Vol->setNum(msg->dvl_voltage);
-  ui->label_Psu_Act_Vol->setNum(msg->actuator_bus_voltage);
-  ui->label_Psu_light_Vol->setNum(msg->light_voltage);
-  ui->label_Psu_12V_State_1->setNum(msg->volt_bus1_state);
-  ui->label_Psu_12V_State_2->setNum(msg->volt_bus2_state);
-  ui->label_Psu_Motor_State_1->setNum(msg->motor_bus1_state);
-  ui->label_Psu_Motor_State_2->setNum(msg->motor_bus2_state);
-  ui->label_Psu_Motor_State_3->setNum(msg->motor_bus3_state);
-  ui->label_Psu_Dvl_State->setNum(msg->dvl_state);
-  ui->label_Psu_Act_State->setNum(msg->actuator_bus_state);
-  ui->label_Psu_Light_State->setNum(msg->light_state);
-  ui->label_Psu_Pc_State->setNum(msg->pc_state);
+  static double current_value;
+  current_value +=
+      (msg->actuator_bus_current + msg->dvl_current + msg->light_current
+          + msg->light_current +
+          msg->motor_bus1_current + msg->motor_bus2_current +
+          msg->motor_bus3_current +
+          msg->pc_current +
+          msg->volt_bus1_current +
+          msg->volt_bus2_current) / 1000.0;
 
-  // labels and progress bar for battery level
-  ui->label_Batt_Voltage->setNum(msg->light_voltage);
+  // limiting GUI update speed
+  if(psu_msg_received % 20 == 0) {
 
-  /*int voltage_percent;
+    // updates all power supply values
+    ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus1_current);
+    ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus2_current);
+    ui->label_Psu_Motor_Cur_1->setNum(msg->motor_bus1_current);
+    ui->label_Psu_Motor_Cur_2->setNum(msg->motor_bus2_current);
+    ui->label_Psu_Motor_Cur_3->setNum(msg->motor_bus3_current);
+    ui->label_Psu_Act_Cur->setNum(msg->actuator_bus_current);
+    ui->label_Psu_Dvl_Cur->setNum(msg->dvl_current);
+    ui->label_Psu_PC_Cur->setNum(msg->pc_current);
+    ui->label_Psu_Light_Cur->setNum(msg->light_current);
+    ui->label_Psu_12V_Vol_1->setNum(msg->volt_bus1_voltage);
+    ui->label_Psu_12V_Vol_2->setNum(msg->volt_bus2_voltage);
+    ui->label_Psu_Motor_Vol_1->setNum(msg->motor_bus1_voltage);
+    ui->label_Psu_Motor_Vol_2->setNum(msg->motor_bus2_voltage);
+    ui->label_Psu_Motor_Vol_3->setNum(msg->motor_bus3_voltage);
+    ui->label_Psu_Pc_Vol->setNum(msg->pc_voltage);
+    ui->label_Psu_Dvl_Vol->setNum(msg->dvl_voltage);
+    ui->label_Psu_Act_Vol->setNum(msg->actuator_bus_voltage);
+    ui->label_Psu_light_Vol->setNum(msg->light_voltage);
+    ui->label_Psu_12V_State_1->setNum(msg->volt_bus1_state);
+    ui->label_Psu_12V_State_2->setNum(msg->volt_bus2_state);
+    ui->label_Psu_Motor_State_1->setNum(msg->motor_bus1_state);
+    ui->label_Psu_Motor_State_2->setNum(msg->motor_bus2_state);
+    ui->label_Psu_Motor_State_3->setNum(msg->motor_bus3_state);
+    ui->label_Psu_Dvl_State->setNum(msg->dvl_state);
+    ui->label_Psu_Act_State->setNum(msg->actuator_bus_state);
+    ui->label_Psu_Light_State->setNum(msg->light_state);
+    ui->label_Psu_Pc_State->setNum(msg->pc_state);
 
-  if(msg->light_voltage/1000.0 > BATT_THRESHOLD)
-    voltage_percent = (int)((((msg->light_voltage/1000.0) -
-      BATT_THRESHOLD)/(BATT_MAX-BATT_THRESHOLD)) * 100.0);
-  else
-    voltage_percent = 0;
+    // labels and progress bar for battery level
+    ui->label_Batt_Voltage->setNum(msg->light_voltage);
 
-  ui->progressBar_Battery_Level->setValue(voltage_percent);*/
 
-  if(ui->progressBar_Battery_Level->value() < 20){
-    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
-                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
-        "color : red; }"));
-  }else if(ui->progressBar_Battery_Level->value() < 50){
-    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
-                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
-        "color : yellow; }"));
-  }else{
-    QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
-                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
-        "color : green; }"));
-  }
+    int voltage_percent;
 
-  if (msg->kill_switch_state){
-    QMetaObject::invokeMethod(ui->label_Kill_State,"setStyleSheet",
-                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
-        "color : green; }"));
-    ui->label_Kill_State->setText("On");
-  }
-  else{
-    QMetaObject::invokeMethod(ui->label_Kill_State,"setStyleSheet",
-                              Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
-        "color : red; }"));
-    ui->label_Kill_State->setText("Off");
-  }
+    if (msg->light_voltage / 1000.0 > BATT_THRESHOLD)
+      voltage_percent = (int) ((((msg->light_voltage / 1000.0) -
+          BATT_THRESHOLD) / (BATT_MAX - BATT_THRESHOLD)) * 100.0);
+    else if((msg->light_voltage / 1000.0 > 100))
+      voltage_percent = 100;
+    else
+      voltage_percent = 0;
 
-  gettimeofday(&psu_monitor_end_time_, NULL);
-  double current_value = (msg->actuator_bus_current+msg->dvl_current+msg->light_current+msg->light_current+
-                                                          msg->motor_bus1_current+msg->motor_bus2_current+
-                                                                                  msg->motor_bus3_current+
-                                                                                  msg->pc_current+
-                                                                                  msg->volt_bus1_current+
-                                                                                  msg->volt_bus2_current)/1000.0;
+    QMetaObject::invokeMethod(ui->progressBar_Battery_Level,
+                              "setValue",
+                              Qt::QueuedConnection,
+                              Q_ARG(int, voltage_percent));
 
-  // each 10 power supply messages received
-  if(psu_msg_received % 10 == 0){
+    if (ui->progressBar_Battery_Level->value() < 20) {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
+          "color : red; }"));
+    } else if (ui->progressBar_Battery_Level->value() < 50) {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
+          "color : yellow; }"));
+    } else {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
+          "color : green; }"));
+    }
+
+    if (msg->kill_switch_state) {
+      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
+          "color : green; }"));
+      ui->label_Kill_State->setText("On");
+    }
+    else {
+      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString, "QLabel { "
+          "color : red; }"));
+      ui->label_Kill_State->setText("Off");
+    }
+
+    gettimeofday(&psu_monitor_end_time_, NULL);
+    current_value = current_value / 20;
+
+    // each 10 power supply messages received
+
     // sets plot values
-    current_time_values_.push_back(psu_monitor_end_time_.tv_sec-psu_monitor_start_time_.tv_sec);
+    current_time_values_.push_back(
+        psu_monitor_end_time_.tv_sec - psu_monitor_start_time_.tv_sec);
     current_values_.push_back(current_value);
-    if(current_time_values_[current_time_values_.size()-1]-current_time_values_[0] >= 30){
+    if (current_time_values_[current_time_values_.size() - 1]
+        - current_time_values_[0] >= CURRENT_GRAPH_RECORD_TIME) {
       current_values_.erase(current_values_.begin());
       current_time_values_.erase(current_time_values_.begin());
     }
     ui->pushButton_Plot_Current->click();
-  }
 
-  // each 150 power supply messages received
-  if(psu_msg_received % 50 == 0){
-    // sets plot values
-    voltage_time_values_.push_back((psu_monitor_end_time_
-        .tv_sec-psu_monitor_start_time_.tv_sec)/60.0);
-    voltage_values_.push_back(msg->light_voltage/1000.0);
-    if(voltage_time_values_[voltage_time_values_.size()
-        -1]-voltage_time_values_[0] >= 90){
-      voltage_values_.erase(voltage_values_.begin());
-      voltage_time_values_.erase(voltage_time_values_.begin());
+    current_value = 0;
+
+
+    // each 50 power supply messages received
+    if (psu_msg_received % 60 == 0) {
+      // sets plot values
+      voltage_time_values_.push_back((psu_monitor_end_time_
+          .tv_sec - psu_monitor_start_time_.tv_sec) / 60.0);
+      voltage_values_.push_back(msg->light_voltage / 1000.0);
+      if (voltage_time_values_[voltage_time_values_.size()
+          - 1] - voltage_time_values_[0] >= VOLTAGE_GRAPH_RECORD_TIME) {
+        voltage_values_.erase(voltage_values_.begin());
+        voltage_time_values_.erase(voltage_time_values_.begin());
+      }
+      ui->pushButton_Plot_Voltage->click();
     }
-    ui->pushButton_Plot_Voltage->click();
+
   }
-
-
 }
 
 //------------------------------------------------------------------------------
@@ -1658,23 +1676,27 @@ void CanClient::DiverPropertiesCallback(const sonia_msgs::CanDevicesProperties::
 //
 
 void CanClient::SetDevicesPropertyRow(const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row){
-  std::stringstream ss;
+  std::stringstream firm_string;
   QTableWidgetItem *new_firmware_value;
   delete ui->tableWidget_Devices_List->item(row,1);
-  ss << msg->firmware_version;
-  new_firmware_value = new QTableWidgetItem(ss.str().data());
+  firm_string << std::hex << msg->firmware_version;
+  new_firmware_value = new QTableWidgetItem(firm_string.str().data());
   ui->tableWidget_Devices_List->setItem( row,1, new_firmware_value);
+
+  std::stringstream capab_string;
 
   QTableWidgetItem *new_cap_value;
   delete ui->tableWidget_Devices_List->item(row,2);
-  ss << msg->firmware_version;
-  new_cap_value = new QTableWidgetItem(ss.str().data());
+  capab_string << std::hex << (int)msg->capabilities;
+  new_cap_value = new QTableWidgetItem(capab_string.str().data());
   ui->tableWidget_Devices_List->setItem( row,2, new_cap_value);
+
+  std::stringstream uc_string;
 
   QTableWidgetItem *new_uc_value;
   delete ui->tableWidget_Devices_List->item(row,3);
-  ss << msg->firmware_version;
-  new_uc_value = new QTableWidgetItem(ss.str().data());
+  uc_string << std::hex << msg->uc_signature;
+  new_uc_value = new QTableWidgetItem(uc_string.str().data());
   ui->tableWidget_Devices_List->setItem( row,3, new_uc_value);
 }
 
@@ -1683,9 +1705,20 @@ void CanClient::SetDevicesPropertyRow(const sonia_msgs::CanDevicesProperties::Co
 //
 
 void CanClient::on_pushButton_Plot_Current_clicked(){
-  if(current_time_values_.size() >= 30)
+  if(current_time_values_[current_time_values_.size() - 1]
+      - current_time_values_[0] >= CURRENT_GRAPH_RECORD_TIME)
     ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, current_time_values_[0], current_time_values_[current_time_values_.size()-1], 5);
   current_curve_->setSamples(current_time_values_.data(),current_values_.data(),current_values_.size());
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft,
+                                        0,*std::max_element(current_values_
+                                                                .begin(),
+                                                            current_values_.end
+                                                                ()+5),
+                                        *std::max_element(current_values_
+                                                              .begin(),
+                                                          current_values_.end
+                                                              ())/10.0);
+
   ui->qwtPlot_Psu_Current->replot();
 }
 
@@ -1693,8 +1726,10 @@ void CanClient::on_pushButton_Plot_Current_clicked(){
 //
 
 void CanClient::on_pushButton_Plot_Voltage_clicked(){
-  if(voltage_time_values_.size() >= 90)
+  if(voltage_time_values_[voltage_time_values_.size() - 1]
+      - voltage_time_values_[0] >= VOLTAGE_GRAPH_RECORD_TIME)
     ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, voltage_time_values_[0], voltage_time_values_[voltage_time_values_.size()-1], 5);
+
   voltage_curve_->setSamples(voltage_time_values_.data(),voltage_values_.data(),voltage_values_.size());
   ui->qwtPlot_Psu_Voltage->replot();
 }

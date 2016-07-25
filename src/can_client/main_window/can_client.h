@@ -42,6 +42,8 @@ class CanClient : public QMainWindow {
   const double NORMALIZING_VALUE = 32767;
   const double BATT_THRESHOLD = 25.6;
   const double BATT_MAX = 28.5;  // Fresh water
+  const int CURRENT_GRAPH_RECORD_TIME = 60;
+  const int VOLTAGE_GRAPH_RECORD_TIME = 30;
 
   //============================================================================
   // P U B L I C   C / D T O R S
