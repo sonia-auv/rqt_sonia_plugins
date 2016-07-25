@@ -232,8 +232,8 @@ CanClient::CanClient(QWidget *parent)
   on_pushButton_Hydr_MagDeph_clicked();
 
   current_curve_ = new QwtPlotCurve();
-  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 60, 5);
-  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, 60, 5);
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 40, 5);
+  ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0, 40, 5);
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::yLeft, "Current (A)");
   ui->qwtPlot_Psu_Current->setAxisTitle(QwtPlot::xBottom, "Time (sec)");
   current_curve_->attach(ui->qwtPlot_Psu_Current);
@@ -1006,7 +1006,16 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   // labels and progress bar for battery level
   ui->label_Batt_Voltage->setNum(msg->light_voltage);
 
-  ui->progressBar_Battery_Level->setValue((int)((msg->light_voltage - BATT_THRESHOLD)/(BATT_MAX-BATT_THRESHOLD) * 100));
+  /*int voltage_percent;
+
+  if(msg->light_voltage/1000.0 > BATT_THRESHOLD)
+    voltage_percent = (int)((((msg->light_voltage/1000.0) -
+      BATT_THRESHOLD)/(BATT_MAX-BATT_THRESHOLD)) * 100.0);
+  else
+    voltage_percent = 0;
+
+  ui->progressBar_Battery_Level->setValue(voltage_percent);*/
+
   if(ui->progressBar_Battery_Level->value() < 20){
     QMetaObject::invokeMethod(ui->label_Batt_Voltage,"setStyleSheet",
                               Qt::QueuedConnection,Q_ARG(QString,"QLabel { "
@@ -1055,11 +1064,13 @@ void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
   }
 
   // each 150 power supply messages received
-  if(psu_msg_received % 150 == 0){
+  if(psu_msg_received % 50 == 0){
     // sets plot values
-    voltage_time_values_.push_back((psu_monitor_end_time_.tv_usec-psu_monitor_start_time_.tv_usec)/60000000.0);
-    voltage_values_.push_back(msg->light_voltage);
-    if(voltage_time_values_[voltage_time_values_.size()-1]-voltage_time_values_[0] >= 30){
+    voltage_time_values_.push_back((psu_monitor_end_time_
+        .tv_sec-psu_monitor_start_time_.tv_sec)/60.0);
+    voltage_values_.push_back(msg->light_voltage/1000.0);
+    if(voltage_time_values_[voltage_time_values_.size()
+        -1]-voltage_time_values_[0] >= 90){
       voltage_values_.erase(voltage_values_.begin());
       voltage_time_values_.erase(voltage_time_values_.begin());
     }
@@ -1682,7 +1693,7 @@ void CanClient::on_pushButton_Plot_Current_clicked(){
 //
 
 void CanClient::on_pushButton_Plot_Voltage_clicked(){
-  if(voltage_time_values_.size() >= 30)
+  if(voltage_time_values_.size() >= 90)
     ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, voltage_time_values_[0], voltage_time_values_[voltage_time_values_.size()-1], 5);
   voltage_curve_->setSamples(voltage_time_values_.data(),voltage_values_.data(),voltage_values_.size());
   ui->qwtPlot_Psu_Voltage->replot();
