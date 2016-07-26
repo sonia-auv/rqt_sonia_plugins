@@ -24,6 +24,7 @@
 #include <sonia_msgs/PowerSupplyMsg.h>
 #include <sonia_msgs/MissionSwitchMsg.h>
 #include <sonia_msgs/CanDevicesProperties.h>
+#include <sonia_msgs/CanDevicesNotices.h>
 #include <qwt_plot_curve.h>
 
 namespace Ui {
@@ -192,132 +193,102 @@ class CanClient : public QMainWindow {
    */
   void on_comboBox_Freq_Filter_Type_currentIndexChanged(int index);
 
+
   void on_pushButton_Thruster_Speed_Bd_clicked();
-
   void on_pushButton_Thruster_Speed_Bh_clicked();
-
   void on_pushButton_Thruster_Speed_Fd_clicked();
-
   void on_pushButton_Thruster_Speed_Fh_clicked();
-
   void on_pushButton_Thruster_Speed_P_clicked();
-
   void on_pushButton_Thruster_Speed_S_clicked();
-
   void on_pushButton_Thruster_Rot_L_clicked();
-
   void on_pushButton_Thruster_For_clicked();
-
   void on_pushButton_Thruster_Rot_R_clicked();
-
   void on_pushButton_Thruster_Up_clicked();
-
   void on_pushButton_Thruster_Left_clicked();
-
   void on_pushButton_Thruster_Stop_clicked();
-
   void on_pushButton_Thruster_Right_clicked();
-
   void on_pushButton_Thruster_Back_clicked();
-
   void on_pushButton_Thruster_Down_clicked();
-
-  void HydrophonesParamsCallback(
-      const sonia_msgs::HydrophonesParams::ConstPtr &msg);
-
-  void HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstPtr &msg);
-
-  void ThrusterBackDCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void ThrusterFrontDCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void ThrusterBackHCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void ThrusterFrontHCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void ThrusterStarCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void ThrusterPortCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
-
-  void BarometerPressCallback(const sensor_msgs::FluidPressure::ConstPtr &msg);
-
-  void BarometerDepthCallback(const sonia_msgs::BarometerMsg::ConstPtr &msg);
-
-  void PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg);
-
-  void MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg);
-
   void on_pushButton_Hydr_Refrsh_clicked();
-
   void on_lineEdit_Div_Mission_string_editingFinished();
-
   void on_lineEdit_Div_State_String_editingFinished();
-
   void on_pushButton_psu_On_12V_1_clicked();
-
   void on_pushButton_psu_On_12V_2_clicked();
-
   void on_pushButton_psu_On_Pc_clicked();
-
   void on_pushButton_psu_On_Dvl_clicked();
-
   void on_pushButton_psu_On_Light_clicked();
-
   void on_pushButton_psu_On_Act_clicked();
-
   void on_pushButton_psu_Off_12V_1_clicked();
-
   void on_pushButton_psu_Off_12V_2_clicked();
-
   void on_pushButton_psu_Off_Pc_clicked();
-
   void on_pushButton_psu_Off_Dvl_clicked();
-
   void on_pushButton_psu_Off_Light_clicked();
-
   void on_pushButton_psu_Off_Act_clicked();
-
   void on_pushButton_psu_On_Motor_1_clicked();
-
   void on_pushButton_psu_Off_Motor_1_clicked();
-
   void on_pushButton_psu_On_Motor_2_clicked();
-
   void on_pushButton_psu_Off_Motor_2_clicked();
-
   void on_pushButton_Thruster_Test_clicked();
-
   void on_pushButton_psu_On_Motor_3_clicked();
-
   void on_pushButton_psu_Off_Motor_3_clicked();
-
   void on_pushButton_Led_Set_clicked();
-
   void on_pushButton_Device_Discover_clicked();
-
-  void CarteNavPropertiesCallback(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
-
-  void HydrosPropertiesCallback(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
-
-  void PsuPropertiesCallback(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
-
-  void MissionSwPropertiesCallback(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
-
-  void SetDevicesPropertyRow(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row);
-
-  void DiverPropertiesCallback(
-      const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
-
   void on_pushButton_Plot_Current_clicked();
-
   void on_pushButton_Plot_Voltage_clicked();
 
  private:
+  //============================================================================
+  // P R I V A T E   R O S   C A L L B A C K S
+  void HydrophonesParamsCallback(
+    const sonia_msgs::HydrophonesParams::ConstPtr &msg);
+  void HydrophonesMsgsCallback(const sonia_msgs::HydrophonesMsg::ConstPtr &msg);
+  void ThrusterBackDCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void ThrusterFrontDCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void ThrusterBackHCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void ThrusterFrontHCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void ThrusterStarCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void ThrusterPortCallback(const sonia_msgs::ThrusterMsg::ConstPtr &msg);
+  void BarometerPressCallback(const sensor_msgs::FluidPressure::ConstPtr &msg);
+  void BarometerDepthCallback(const sonia_msgs::BarometerMsg::ConstPtr &msg);
+  void PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg);
+  void MissionSwitchCallback(const sonia_msgs::MissionSwitchMsg::ConstPtr &msg);
+  void CarteNavPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void HydrosPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void PsuPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void MissionSwPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void DiverPropertiesCallback(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg);
+  void ThrusterPortNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void ThrusterStarboardNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void ThrusterBackDepthNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void ThrusterFrontDepthNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void ThrusterBackHeadingNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void ThrusterFrontHeadingNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void BarometerNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void DiverNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void LedNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void DroppersNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void GrabberNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void TorpedoNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void MissionSwNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void HydrophonesNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void PsuNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg);
+  void SetDevicesNotices(
+    const sonia_msgs::CanDevicesNotices::ConstPtr &msg, int row);
+
+
+  //============================================================================
+  // P R I V A T E   M E T H O D S
+  void SubscribeRosMessages();
+  void SubscribeRosServices();
+  void InitPsuGraphs();
+  void InitHydrosTools();
+  void SetDevicesFirmwareVersion(
+    const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row);
   int ThrusterTest(int arg);
 
   //============================================================================
@@ -344,6 +315,22 @@ class CanClient : public QMainWindow {
   ros::Subscriber hydrophones_properties_subs_;
   ros::Subscriber psu_properties_subs_;
   ros::Subscriber diver_properties_subs_;
+
+  ros::Subscriber hydrophones_notices_subs_;
+  ros::Subscriber thruster_back_depth_notices_subs_;
+  ros::Subscriber thruster_front_depth_notices_subs_;
+  ros::Subscriber thrusters_back_heading_notices_subs_;
+  ros::Subscriber thrusters_front_heading_notices_subs_;
+  ros::Subscriber thrusters_starboard_notices_subs_;
+  ros::Subscriber thrusters_port_notices_subs_;
+  ros::Subscriber barometer_notices_subs_;
+  ros::Subscriber psu_notices_subs_;
+  ros::Subscriber mission_switch_notices_subs_;
+  ros::Subscriber diver_interface_notices_subs_;
+  ros::Subscriber led_indicator_notices_subs_;
+  ros::Subscriber droppers_notices_subs_;
+  ros::Subscriber grabber_notices_subs_;
+  ros::Subscriber torpedo_notices_subs_;
 
   // ROS services
   ros::ServiceClient can_service_client_;

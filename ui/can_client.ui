@@ -3482,13 +3482,13 @@
          <property name="minimumSize">
           <size>
            <width>570</width>
-           <height>460</height>
+           <height>500</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>570</width>
-           <height>460</height>
+           <height>500</height>
           </size>
          </property>
          <row>
@@ -3543,6 +3543,11 @@
          </row>
          <row>
           <property name="text">
+           <string>Led Indicator</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
            <string>Diver Interface</string>
           </property>
          </row>
@@ -3573,12 +3578,12 @@
          </column>
          <column>
           <property name="text">
-           <string>Capabilities</string>
+           <string>Answered ping</string>
           </property>
          </column>
          <column>
           <property name="text">
-           <string>UC Signature</string>
+           <string>Fault</string>
           </property>
          </column>
         </widget>

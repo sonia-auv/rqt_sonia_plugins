@@ -54,6 +54,31 @@ CanClient::CanClient(QWidget *parent)
 
   gettimeofday(&psu_monitor_start_time_, NULL);
 
+  SubscribeRosMessages();
+
+  SubscribeRosServices();
+
+  InitHydrosTools();
+
+  InitPsuGraphs();
+
+  ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
+  ui->label_Kill_State->setStyleSheet("QLabel { color : red; }");
+
+  on_pushButton_Device_Discover_clicked();
+
+}
+
+//------------------------------------------------------------------------------
+//
+
+CanClient::~CanClient() { delete ui; }
+
+//==============================================================================
+// M E T H O D S   S E C T I O N
+
+void CanClient::InitHydrosTools(){
+
   ui->tableWidget_Hydr_Fft_Mag->setRowCount(128);
   ui->tableWidget_Hydr_Scope_samp->setRowCount(256);
 
@@ -66,130 +91,6 @@ CanClient::CanClient(QWidget *parent)
     ui->tableWidget_Hydr_Fft_Mag->setItem(i, 0, new_cell_index);
     ui->tableWidget_Hydr_Fft_Mag->setItem(i, 1, new_cell_value);
   }
-
-  psu_subs_ = nh_.subscribe("/provider_can/power_supply_msgs", 10,
-                            &CanClient::PsuCallback, this);
-
-  hydrophones_params_subs_ =
-      nh_.subscribe("/provider_can/hydrophones_params", 10,
-                    &CanClient::HydrophonesParamsCallback, this);
-  hydrophones_msgs_subs_ =
-      nh_.subscribe("/provider_can/hydrophones_msgs", 10,
-                    &CanClient::HydrophonesMsgsCallback, this);
-
-  thruster_back_depth_subs_ =
-      nh_.subscribe("/provider_can/thruster_back_depth_msgs", 10,
-                    &CanClient::ThrusterBackDCallback, this);
-  thruster_front_depth_subs_ =
-      nh_.subscribe("/provider_can/thruster_front_depth_msgs", 10,
-                    &CanClient::ThrusterFrontDCallback, this);
-  thrusters_back_heading_msgs_subs_ =
-      nh_.subscribe("/provider_can/thruster_back_heading_msgs", 10,
-                    &CanClient::ThrusterBackHCallback, this);
-  thrusters_front_heading_msgs_subs_ =
-      nh_.subscribe("/provider_can/thruster_front_heading_msgs", 10,
-                    &CanClient::ThrusterFrontHCallback, this);
-  thrusters_starboard_msgs_subs_ =
-      nh_.subscribe("/provider_can/thruster_starboard_msgs", 10,
-                    &CanClient::ThrusterStarCallback, this);
-  thrusters_port_msgs_subs_ =
-      nh_.subscribe("/provider_can/thruster_port_msgs", 10,
-                    &CanClient::ThrusterPortCallback, this);
-
-  barometer_pressure_subs_ =
-      nh_.subscribe("/provider_can/barometer_fluidpress_msgs", 10,
-                    &CanClient::BarometerPressCallback, this);
-  barometer_depth_subs_ =
-      nh_.subscribe("/provider_can/barometer_intern_press_msgs", 10,
-                    &CanClient::BarometerDepthCallback, this);
-
-  mission_switch_subs_ = nh_.subscribe("/provider_can/mission_switch_msgs", 10,
-                                       &CanClient::MissionSwitchCallback, this);
-  // subscribes to any carte nav device since every device will have the same
-  // properties
-  carte_nav_properties_subs_ =
-      nh_.subscribe("/provider_can/barometer_properties", 10,
-                    &CanClient::CarteNavPropertiesCallback, this);
-
-  mission_switch_properties_subs_ =
-      nh_.subscribe("/provider_can/mission_switch_properties", 10,
-                    &CanClient::MissionSwPropertiesCallback, this);
-  hydrophones_properties_subs_ =
-      nh_.subscribe("/provider_can/hydrophones_properties", 10,
-                    &CanClient::HydrosPropertiesCallback, this);
-  psu_properties_subs_ =
-      nh_.subscribe("/provider_can/power_supply_properties", 10,
-                    &CanClient::PsuPropertiesCallback, this);
-  diver_properties_subs_ =
-      nh_.subscribe("/provider_can/diver_interface_properties", 10,
-                    &CanClient::DiverPropertiesCallback, this);
-
-  can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
-      "/provider_can/send_can_message");
-
-  can_hydros_srv_.request.device_id = can_hydros_srv_.request.DEVICE_ID_sonars;
-  can_hydros_srv_.request.unique_id =
-      can_hydros_srv_.request.UNIQUE_ID_SONARS_hydrophones;
-
-  can_hydros_get_params_srv_.request.device_id =
-      can_hydros_srv_.request.DEVICE_ID_sonars;
-  can_hydros_get_params_srv_.request.unique_id =
-      can_hydros_srv_.request.UNIQUE_ID_SONARS_hydrophones;
-  can_hydros_get_params_srv_.request.method_number =
-      can_hydros_srv_.request.METHOD_HYDRO_get_params;
-
-  thrusters_back_depth_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_back_depth_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_depth_motor;
-  thrusters_back_depth_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-  thrusters_front_depth_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_front_depth_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_front_depth_motor;
-  thrusters_front_depth_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-  thrusters_back_heading_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_back_heading_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
-  thrusters_back_heading_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-  thrusters_front_heading_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_front_heading_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_front_heading_motor;
-  thrusters_front_heading_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-  thrusters_star_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_star_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_starboard_motor;
-  thrusters_star_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-  thrusters_port_srv_.request.device_id =
-      thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
-  thrusters_port_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_port_motor;
-  thrusters_port_srv_.request.method_number =
-      thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
-
-  diver_interface_srv_.request.device_id =
-      diver_interface_srv_.request.DEVICE_ID_interfaces;
-  diver_interface_srv_.request.unique_id =
-      diver_interface_srv_.request.UNIQUE_ID_INTERFACE_diver;
-
-  led_indicator_srv_.request.device_id =
-      led_indicator_srv_.request.DEVICE_ID_lights;
-  led_indicator_srv_.request.unique_id =
-      led_indicator_srv_.request.UNIQUE_ID_LIGHT_led_indicator;
-
-  psu_srv_.request.device_id = psu_srv_.request.DEVICE_ID_power;
-  psu_srv_.request.unique_id =
-      psu_srv_.request.UNIQUE_ID_POWER_power_distribution;
-
-  can_service_client_.call(can_hydros_get_params_srv_);
 
   ui->plot_Hydr_Fft->setAxisScale(QwtPlot::yLeft, 0, 100000, 10000);
   ui->plot_Hydr_Fft->setAxisScale(QwtPlot::xBottom, 0, 45000, 5000);
@@ -235,7 +136,12 @@ CanClient::CanClient(QWidget *parent)
   ui->plot_Hydr_Fft->replot();
 
   on_pushButton_Hydr_MagDeph_clicked();
+}
 
+//------------------------------------------------------------------------------
+//
+
+void CanClient::InitPsuGraphs(){
   current_curve_ = new QwtPlotCurve();
   ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::yLeft, 0, 40, 5);
   ui->qwtPlot_Psu_Current->setAxisScale(QwtPlot::xBottom, 0,
@@ -252,11 +158,6 @@ CanClient::CanClient(QWidget *parent)
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::xBottom, "Time (min)");
   voltage_curve_->attach(ui->qwtPlot_Psu_Voltage);
 
-  ui->label_Mission_State->setStyleSheet("QLabel { color : red; }");
-  ui->label_Kill_State->setStyleSheet("QLabel { color : red; }");
-
-  on_pushButton_Device_Discover_clicked();
-
   ui->pushButton_Plot_Voltage->setVisible(false);
   ui->pushButton_Plot_Current->setVisible(false);
 }
@@ -264,13 +165,242 @@ CanClient::CanClient(QWidget *parent)
 //------------------------------------------------------------------------------
 //
 
-CanClient::~CanClient() { delete ui; }
+void CanClient::SubscribeRosMessages(){
+  psu_subs_ = nh_.subscribe("/provider_can/power_supply_msgs", 10,
+                            &CanClient::PsuCallback, this);
 
-//==============================================================================
-// M E T H O D S   S E C T I O N
+  hydrophones_params_subs_ =
+    nh_.subscribe("/provider_can/hydrophones_params", 10,
+                  &CanClient::HydrophonesParamsCallback, this);
+  hydrophones_msgs_subs_ =
+    nh_.subscribe("/provider_can/hydrophones_msgs", 10,
+                  &CanClient::HydrophonesMsgsCallback, this);
+
+  thruster_back_depth_subs_ =
+    nh_.subscribe("/provider_can/thruster_back_depth_msgs", 10,
+                  &CanClient::ThrusterBackDCallback, this);
+  thruster_front_depth_subs_ =
+    nh_.subscribe("/provider_can/thruster_front_depth_msgs", 10,
+                  &CanClient::ThrusterFrontDCallback, this);
+  thrusters_back_heading_msgs_subs_ =
+    nh_.subscribe("/provider_can/thruster_back_heading_msgs", 10,
+                  &CanClient::ThrusterBackHCallback, this);
+  thrusters_front_heading_msgs_subs_ =
+    nh_.subscribe("/provider_can/thruster_front_heading_msgs", 10,
+                  &CanClient::ThrusterFrontHCallback, this);
+  thrusters_starboard_msgs_subs_ =
+    nh_.subscribe("/provider_can/thruster_starboard_msgs", 10,
+                  &CanClient::ThrusterStarCallback, this);
+  thrusters_port_msgs_subs_ =
+    nh_.subscribe("/provider_can/thruster_port_msgs", 10,
+                  &CanClient::ThrusterPortCallback, this);
+
+  barometer_pressure_subs_ =
+    nh_.subscribe("/provider_can/barometer_fluidpress_msgs", 10,
+                  &CanClient::BarometerPressCallback, this);
+  barometer_depth_subs_ =
+    nh_.subscribe("/provider_can/barometer_intern_press_msgs", 10,
+                  &CanClient::BarometerDepthCallback, this);
+
+  mission_switch_subs_ = nh_.subscribe("/provider_can/mission_switch_msgs", 10,
+                                       &CanClient::MissionSwitchCallback, this);
+  // subscribes to any carte nav device since every device will have the same
+  // properties
+  carte_nav_properties_subs_ =
+    nh_.subscribe("/provider_can/barometer_properties", 10,
+                  &CanClient::CarteNavPropertiesCallback, this);
+
+  mission_switch_properties_subs_ =
+    nh_.subscribe("/provider_can/mission_switch_properties", 10,
+                  &CanClient::MissionSwPropertiesCallback, this);
+  hydrophones_properties_subs_ =
+    nh_.subscribe("/provider_can/hydrophones_properties", 10,
+                  &CanClient::HydrosPropertiesCallback, this);
+  psu_properties_subs_ =
+    nh_.subscribe("/provider_can/power_supply_properties", 10,
+                  &CanClient::PsuPropertiesCallback, this);
+  diver_properties_subs_ =
+    nh_.subscribe("/provider_can/diver_interface_properties", 10,
+                  &CanClient::DiverPropertiesCallback, this);
+
+  hydrophones_notices_subs_ = nh_.subscribe("/provider_can/hydrophones_notices", 10,
+                                            &CanClient::HydrophonesNoticesCallback, this);
+  thruster_back_depth_notices_subs_ = nh_.subscribe("/provider_can/thruster_back_depth_notices", 10,
+                                                    &CanClient::ThrusterBackDepthNoticesCallback, this);
+  thruster_front_depth_notices_subs_ = nh_.subscribe("/provider_can/thruster_front_depth_notices", 10,
+                                                     &CanClient::ThrusterFrontDepthNoticesCallback, this);
+  thrusters_back_heading_notices_subs_ = nh_.subscribe("/provider_can/thruster_back_heading_notices", 10,
+                                                       &CanClient::ThrusterBackHeadingNoticesCallback, this);
+  thrusters_front_heading_notices_subs_ = nh_.subscribe("/provider_can/thruster_front_heading_notices", 10,
+                                                        &CanClient::ThrusterFrontHeadingNoticesCallback, this);
+  thrusters_starboard_notices_subs_ = nh_.subscribe("/provider_can/thruster_starboard_notices", 10,
+                                                    &CanClient::ThrusterStarboardNoticesCallback, this);
+  thrusters_port_notices_subs_ = nh_.subscribe("/provider_can/thruster_port_notices", 10,
+                                               &CanClient::ThrusterPortNoticesCallback, this);
+  barometer_notices_subs_ = nh_.subscribe("/provider_can/barometer_notices", 10,
+                                          &CanClient::BarometerNoticesCallback, this);
+  psu_notices_subs_ = nh_.subscribe("/provider_can/power_supply_notices", 10,
+                                    &CanClient::PsuNoticesCallback, this);
+  mission_switch_notices_subs_ = nh_.subscribe("/provider_can/mission_switch_notices", 10,
+                                               &CanClient::MissionSwNoticesCallback, this);
+  diver_interface_notices_subs_ = nh_.subscribe("/provider_can/diver_interface_notices", 10,
+                                                &CanClient::DiverNoticesCallback, this);
+  led_indicator_notices_subs_ = nh_.subscribe("/provider_can/led_indicator_notices", 10,
+                                              &CanClient::LedNoticesCallback, this);
+  droppers_notices_subs_ = nh_.subscribe("/provider_can/droppers_notices", 10,
+                                         &CanClient::DroppersNoticesCallback, this);
+  grabber_notices_subs_ = nh_.subscribe("/provider_can/grabber_notices", 10,
+                                        &CanClient::GrabberNoticesCallback, this);
+  torpedo_notices_subs_ = nh_.subscribe("/provider_can/torpedo_notices", 10,
+                                        &CanClient::TorpedoNoticesCallback, this);
+}
 
 //------------------------------------------------------------------------------
 //
+
+void CanClient::SubscribeRosServices(){
+  can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
+    "/provider_can/send_can_message");
+
+  can_hydros_srv_.request.device_id = can_hydros_srv_.request.DEVICE_ID_sonars;
+  can_hydros_srv_.request.unique_id =
+    can_hydros_srv_.request.UNIQUE_ID_SONARS_hydrophones;
+
+  can_hydros_get_params_srv_.request.device_id =
+    can_hydros_srv_.request.DEVICE_ID_sonars;
+  can_hydros_get_params_srv_.request.unique_id =
+    can_hydros_srv_.request.UNIQUE_ID_SONARS_hydrophones;
+  can_hydros_get_params_srv_.request.method_number =
+    can_hydros_srv_.request.METHOD_HYDRO_get_params;
+
+  thrusters_back_depth_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_back_depth_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_depth_motor;
+  thrusters_back_depth_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+  thrusters_front_depth_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_front_depth_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_front_depth_motor;
+  thrusters_front_depth_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+  thrusters_back_heading_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_back_heading_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
+  thrusters_back_heading_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+  thrusters_front_heading_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_front_heading_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_front_heading_motor;
+  thrusters_front_heading_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+  thrusters_star_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_star_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_starboard_motor;
+  thrusters_star_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+  thrusters_port_srv_.request.device_id =
+    thrusters_back_depth_srv_.request.DEVICE_ID_actuators;
+  thrusters_port_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_port_motor;
+  thrusters_port_srv_.request.method_number =
+    thrusters_back_depth_srv_.request.METHOD_MOTOR_set_speed;
+
+  diver_interface_srv_.request.device_id =
+    diver_interface_srv_.request.DEVICE_ID_interfaces;
+  diver_interface_srv_.request.unique_id =
+    diver_interface_srv_.request.UNIQUE_ID_INTERFACE_diver;
+
+  led_indicator_srv_.request.device_id =
+    led_indicator_srv_.request.DEVICE_ID_lights;
+  led_indicator_srv_.request.unique_id =
+    led_indicator_srv_.request.UNIQUE_ID_LIGHT_led_indicator;
+
+  psu_srv_.request.device_id = psu_srv_.request.DEVICE_ID_power;
+  psu_srv_.request.unique_id =
+    psu_srv_.request.UNIQUE_ID_POWER_power_distribution;
+}
+
+//------------------------------------------------------------------------------
+//
+
+int CanClient::ThrusterTest(int arg) {
+  struct timeval start_time;
+  struct timeval end_time;
+
+  for (uint8_t i = 1; i < 7; i++) {
+    thrusters_back_heading_srv_.request.unique_id = i;
+
+    gettimeofday(&start_time, NULL);
+    gettimeofday(&end_time, NULL);
+
+    thrusters_back_heading_srv_.request.parameter_value = 30;
+    can_service_client_.call(thrusters_back_heading_srv_);
+
+    while ((end_time.tv_sec - start_time.tv_sec) < 2) {
+      gettimeofday(&end_time, NULL);
+    }
+    thrusters_back_heading_srv_.request.parameter_value = 0;
+    can_service_client_.call(thrusters_back_heading_srv_);
+  }
+  thrusters_back_heading_srv_.request.unique_id =
+    thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
+
+  return 0;
+}
+
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::SetDevicesFirmwareVersion(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row) {
+
+  // updates firmware version column
+  std::stringstream firm_string;
+  QTableWidgetItem *new_firmware_value;
+  delete ui->tableWidget_Devices_List->item(row, 1);
+  firm_string << std::hex << msg->firmware_version;
+  new_firmware_value = new QTableWidgetItem(firm_string.str().data());
+  ui->tableWidget_Devices_List->setItem(row, 1, new_firmware_value);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::SetDevicesNotices(
+  const sonia_msgs::CanDevicesNotices::ConstPtr &msg, int row) {
+
+
+  if(msg->ping_rcvd){
+    QTableWidgetItem *new_ping_value;
+    delete ui->tableWidget_Devices_List->item(row, 2);
+    new_ping_value = new QTableWidgetItem("yes");
+    ui->tableWidget_Devices_List->setItem(row, 2, new_ping_value);
+    ui->tableWidget_Devices_List->item(row, 2)
+      ->setBackground(Qt::green);
+  }
+
+  if(msg->fault.data() != NULL){
+    QTableWidgetItem *new_fault_value;
+    delete ui->tableWidget_Devices_List->item(row, 3);
+    new_fault_value = new QTableWidgetItem((char*)msg->fault.data());
+    ui->tableWidget_Devices_List->setItem(row, 3, new_fault_value);
+    ui->tableWidget_Devices_List->item(row, 3)
+      ->setBackground(Qt::red);
+  }
+
+}
+
+
+
+
+//==============================================================================
+// S L O T S
 
 void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
   can_hydros_srv_.request.method_number =
@@ -692,506 +822,6 @@ void CanClient::on_pushButton_Thruster_Down_clicked() {
 //------------------------------------------------------------------------------
 //
 
-void CanClient::HydrophonesParamsCallback(
-    const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
-  ui->label_Hydr_Acq_Th_Mode->setNum(msg->acq_thrs_mode);
-  ui->label_Hydr_Acq_Thrs->setNum(msg->acq_threshold);
-  ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth * 813 * 2) / 1000.0);
-  ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
-  ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
-  // fcutoff parameters represents half the clk period of the ADC input filters.
-  // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
-  ui->label_Hydr_Cutoff->setNum(
-      (150000.0 / ((double)msg->set_cutoff_freq * 2.0)) / 32.0);
-  ui->label_Hydr_Fft_Prefilter->setNum(msg->fft_prefilter);
-  ui->label_Hydr_Fft_Prefilter_T->setNum(msg->fft_prefilter_type);
-  ui->label_Hydr_Fft_Thrs->setNum(msg->fft_threshold);
-  ui->label_Hydr_Fft_Trig_Mode->setNum(msg->fft_trig_mode_Param);
-  ui->label_Hydr_Filt_Thrs->setNum(msg->filter_threshold);
-  ui->label_Hydr_Gain->setNum(msg->gain);
-  ui->label_Hydr_Phase_Calc_Alg->setNum(msg->phase_calc_alg);
-  ui->label_Hydr_Samp_Count->setNum(msg->sample_count);
-  ui->label_Hydr_Preamp_Gain->setNum(msg->set_preamp_gain);
-  hydros_enabled_ = msg->hydro_enable;
-  fft_enabled_ = msg->fft_enable;
-
-  if (fft_enabled_) {
-    ui->pushButton_En_Fft->setText("Disable FFT");
-  }
-
-  else {
-    ui->pushButton_En_Fft->setText("Enable FFT");
-  }
-
-  if (hydros_enabled_) {
-    ui->pushButton_En_Hydros->setText("Disable Hydrophone");
-  } else {
-    ui->pushButton_En_Hydros->setText("Enable Hydrophone");
-  }
-
-  // hydrophone frequencies are coded quite randomly. this
-  // switch case is for conversion to kHz purpose.
-  switch (msg->pinger_freq) {
-    case 6:
-    case 27:
-      ui->label_Hydr_Ping_Freq->setNum(13);
-      break;
-    case 7:
-    case 28:
-      ui->label_Hydr_Ping_Freq->setNum(15);
-      break;
-    case 8:
-    case 29:
-      ui->label_Hydr_Ping_Freq->setNum(22);
-      break;
-    case 9:
-    case 30:
-      ui->label_Hydr_Ping_Freq->setNum(23);
-      break;
-    case 10:
-    case 31:
-      ui->label_Hydr_Ping_Freq->setNum(24);
-      break;
-    case 11:
-    case 32:
-      ui->label_Hydr_Ping_Freq->setNum(25);
-      break;
-    case 12:
-    case 33:
-      ui->label_Hydr_Ping_Freq->setNum(26);
-      break;
-    case 13:
-    case 34:
-      ui->label_Hydr_Ping_Freq->setNum(27);
-      break;
-    case 14:
-    case 35:
-      ui->label_Hydr_Ping_Freq->setNum(28);
-      break;
-    case 15:
-    case 36:
-      ui->label_Hydr_Ping_Freq->setNum(29);
-      break;
-    case 16:
-    case 37:
-      ui->label_Hydr_Ping_Freq->setNum(30);
-      break;
-    case 17:
-    case 38:
-      ui->label_Hydr_Ping_Freq->setNum(31);
-      break;
-    case 18:
-    case 39:
-      ui->label_Hydr_Ping_Freq->setNum(32);
-      break;
-    case 19:
-    case 40:
-      ui->label_Hydr_Ping_Freq->setNum(33);
-      break;
-    case 20:
-    case 41:
-      ui->label_Hydr_Ping_Freq->setNum(34);
-      break;
-    case 21:
-    case 42:
-      ui->label_Hydr_Ping_Freq->setNum(35);
-      break;
-    case 22:
-    case 43:
-      ui->label_Hydr_Ping_Freq->setNum(36);
-      break;
-    case 23:
-    case 44:
-      ui->label_Hydr_Ping_Freq->setNum(37);
-      break;
-    case 24:
-    case 45:
-      ui->label_Hydr_Ping_Freq->setNum(38);
-      break;
-    case 25:
-    case 46:
-      ui->label_Hydr_Ping_Freq->setNum(39);
-      break;
-    case 26:
-    case 47:
-      ui->label_Hydr_Ping_Freq->setNum(40);
-      break;
-  }
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::HydrophonesMsgsCallback(
-    const sonia_msgs::HydrophonesMsg::ConstPtr &msg) {
-  static uint32_t freq_slowdwn_count = 0;
-
-  // if a ping was received and dephasage calculated
-  if (msg->dephasage1_updated) {
-    double pro_deph_1;
-    double pro_deph_2;
-    double pro_deph_3;
-
-    // sets table widget with values
-    QTableWidgetItem *new_cell_d1_raw =
-        new QTableWidgetItem(QString::number(msg->dephasage1_d1));
-    QTableWidgetItem *new_cell_d2_raw =
-        new QTableWidgetItem(QString::number(msg->dephasage1_d2));
-    QTableWidgetItem *new_cell_d3_raw =
-        new QTableWidgetItem(QString::number(msg->dephasage1_d3));
-    QTableWidgetItem *new_cell_freq =
-        new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
-
-    // makes a part of the processing done by AUV6
-    if (msg->dephasage1_pinger_freq != 0) {
-      // distance in cm for all phase displacements
-      if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
-        pro_deph_1 = (pow(2, 15) - (msg->dephasage1_d1 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_1 = msg->dephasage1_d1;
-      }
-
-      if ((msg->dephasage1_d2 & 0x8000) == 0x8000) {
-        pro_deph_2 = (pow(2, 15) - (msg->dephasage1_d2 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_2 = msg->dephasage1_d2;
-      }
-
-      if ((msg->dephasage1_d3 & 0x8000) == 0x8000) {
-        pro_deph_3 = (pow(2, 15) - (msg->dephasage1_d3 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_3 = msg->dephasage1_d3;
-      }
-
-      pro_deph_1 = (pro_deph_1 / NORMALIZING_VALUE) *
-                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_2 = (pro_deph_2 / NORMALIZING_VALUE) *
-                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_3 = (pro_deph_3 / NORMALIZING_VALUE) *
-                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-    }
-
-    // shows processed values
-    QTableWidgetItem *new_cell_d1_pro =
-        new QTableWidgetItem(QString::number(pro_deph_1));
-    QTableWidgetItem *new_cell_d2_pro =
-        new QTableWidgetItem(QString::number(pro_deph_2));
-    QTableWidgetItem *new_cell_d3_pro =
-        new QTableWidgetItem(QString::number(pro_deph_3));
-
-    // deleting old table widget cells
-    for (uint16_t i = 0; i < 4; i++) {
-      delete (ui->tableWidget_Hydr_Deph->item(i, 0));
-      delete (ui->tableWidget_Hydr_Deph->item(i, 1));
-    }
-
-    // setting up new cells
-    ui->tableWidget_Hydr_Deph->setItem(0, 0, new_cell_d1_raw);
-    ui->tableWidget_Hydr_Deph->setItem(0, 1, new_cell_d1_pro);
-    ui->tableWidget_Hydr_Deph->setItem(1, 0, new_cell_d2_raw);
-    ui->tableWidget_Hydr_Deph->setItem(1, 1, new_cell_d2_pro);
-    ui->tableWidget_Hydr_Deph->setItem(2, 0, new_cell_d3_raw);
-    ui->tableWidget_Hydr_Deph->setItem(2, 1, new_cell_d3_pro);
-    ui->tableWidget_Hydr_Deph->setItem(3, 0, new_cell_freq);
-  }
-
-  // if a new maximum frequency was received
-  if (msg->hydro_freq_updated) {
-    freq_slowdwn_count++;
-    if (freq_slowdwn_count >= 50) {
-      ui->label_Hydr_Freq->setText(
-          QString::number(msg->hydro_freq_index * 813));
-      freq_slowdwn_count = 0;
-    }
-  }
-
-  // if FFT samples are received
-  if (msg->magn_samples_updated) {
-    QTableWidgetItem *new_cell_index;
-    QTableWidgetItem *new_cell_value;
-
-    // updates FFT curve points
-    for (uint16_t i = 0; i < 64; i++) {
-      mag_points_[i] = (double)msg->magnitude_values[i];
-    }
-
-    // updates table widget values
-    for (uint16_t i = 0; i < msg->magnitude_values.size(); i++) {
-      delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 0));
-      delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 1));
-      new_cell_index = new QTableWidgetItem();
-      new_cell_value = new QTableWidgetItem();
-      new_cell_index->setData(Qt::DisplayRole, QString::number(i * 813));
-      new_cell_value->setData(Qt::DisplayRole, msg->magnitude_values[i]);
-      ui->tableWidget_Hydr_Fft_Mag->setItem(i, 0, new_cell_index);
-      ui->tableWidget_Hydr_Fft_Mag->setItem(i, 1, new_cell_value);
-    }
-
-    ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,
-                                               Qt::SortOrder::DescendingOrder);
-
-    // highlighting frequency values between the asked interval
-    for (uint32_t i = 0; i < msg->magnitude_values.size(); i++) {
-      if (ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->text().toDouble() / 1000 <
-              ui->label_Hydr_Ping_Freq->text().toDouble() +
-                  ui->label_Hydr_Bw->text().toDouble() &&
-          ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->text().toDouble() / 1000 >
-              ui->label_Hydr_Ping_Freq->text().toDouble() -
-                  ui->label_Hydr_Bw->text().toDouble()) {
-        ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->setBackground(Qt::green);
-      }
-    }
-  }
-  if (msg->scope_samples_updated) {
-    QTableWidgetItem *new_cell_index;
-    QTableWidgetItem *new_cell_value1;
-    QTableWidgetItem *new_cell_value2;
-    QTableWidgetItem *new_cell_value3;
-    QTableWidgetItem *new_cell_value4;
-
-    for (uint16_t i = 0; i < msg->scope_values.size(); i++) {
-      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 0));
-      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 1));
-      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 2));
-      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 3));
-      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 4));
-      new_cell_index = new QTableWidgetItem(QString::number(i));
-      new_cell_value1 = new QTableWidgetItem(
-          QString::number(msg->scope_values[i].samples[0]));
-      new_cell_value2 = new QTableWidgetItem(
-          QString::number(msg->scope_values[i].samples[1]));
-      new_cell_value3 = new QTableWidgetItem(
-          QString::number(msg->scope_values[i].samples[2]));
-      new_cell_value4 = new QTableWidgetItem(
-          QString::number(msg->scope_values[i].samples[3]));
-      ui->tableWidget_Hydr_Scope_samp->setItem(i, 0, new_cell_index);
-      ui->tableWidget_Hydr_Scope_samp->setItem(i, 1, new_cell_value1);
-      ui->tableWidget_Hydr_Scope_samp->setItem(i, 2, new_cell_value2);
-      ui->tableWidget_Hydr_Scope_samp->setItem(i, 3, new_cell_value3);
-      ui->tableWidget_Hydr_Scope_samp->setItem(i, 4, new_cell_value4);
-    }
-  }
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
-  static uint64_t psu_msg_received = 0;
-
-  psu_msg_received++;
-
-  static double current_value;
-  static double voltage_value;
-
-  // sum to enable avergaing values for qwt plots.
-  current_value +=
-      (msg->actuator_bus_current + msg->dvl_current + msg->light_current +
-       msg->light_current + msg->motor_bus1_current + msg->motor_bus2_current +
-       msg->motor_bus3_current + msg->pc_current + msg->volt_bus1_current +
-       msg->volt_bus2_current) /
-      1000.0;
-
-  voltage_value += msg->light_voltage;
-
-  // limiting GUI update speed
-  if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD == 0) {
-    // updates all power supply values
-    ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus1_current);
-    ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus2_current);
-    ui->label_Psu_Motor_Cur_1->setNum(msg->motor_bus1_current);
-    ui->label_Psu_Motor_Cur_2->setNum(msg->motor_bus2_current);
-    ui->label_Psu_Motor_Cur_3->setNum(msg->motor_bus3_current);
-    ui->label_Psu_Act_Cur->setNum(msg->actuator_bus_current);
-    ui->label_Psu_Dvl_Cur->setNum(msg->dvl_current);
-    ui->label_Psu_PC_Cur->setNum(msg->pc_current);
-    ui->label_Psu_Light_Cur->setNum(msg->light_current);
-    ui->label_Psu_12V_Vol_1->setNum(msg->volt_bus1_voltage);
-    ui->label_Psu_12V_Vol_2->setNum(msg->volt_bus2_voltage);
-    ui->label_Psu_Motor_Vol_1->setNum(msg->motor_bus1_voltage);
-    ui->label_Psu_Motor_Vol_2->setNum(msg->motor_bus2_voltage);
-    ui->label_Psu_Motor_Vol_3->setNum(msg->motor_bus3_voltage);
-    ui->label_Psu_Pc_Vol->setNum(msg->pc_voltage);
-    ui->label_Psu_Dvl_Vol->setNum(msg->dvl_voltage);
-    ui->label_Psu_Act_Vol->setNum(msg->actuator_bus_voltage);
-    ui->label_Psu_light_Vol->setNum(msg->light_voltage);
-    ui->label_Psu_12V_State_1->setNum(msg->volt_bus1_state);
-    ui->label_Psu_12V_State_2->setNum(msg->volt_bus2_state);
-    ui->label_Psu_Motor_State_1->setNum(msg->motor_bus1_state);
-    ui->label_Psu_Motor_State_2->setNum(msg->motor_bus2_state);
-    ui->label_Psu_Motor_State_3->setNum(msg->motor_bus3_state);
-    ui->label_Psu_Dvl_State->setNum(msg->dvl_state);
-    ui->label_Psu_Act_State->setNum(msg->actuator_bus_state);
-    ui->label_Psu_Light_State->setNum(msg->light_state);
-    ui->label_Psu_Pc_State->setNum(msg->pc_state);
-
-    // labels and progress bar for battery level
-    ui->label_Batt_Voltage->setNum(msg->light_voltage);
-
-    int voltage_percent;
-
-    // setting the battery progress bar depending on voltage percentage
-    if (msg->light_voltage / 1000.0 > BATT_THRESHOLD)
-      voltage_percent =
-          (int)((((msg->light_voltage / 1000.0) - BATT_THRESHOLD) /
-                 (BATT_MAX - BATT_THRESHOLD)) *
-                100.0);
-    else if ((msg->light_voltage / 1000.0 > 100))
-      voltage_percent = 100;
-    else
-      voltage_percent = 0;
-
-    QMetaObject::invokeMethod(ui->progressBar_Battery_Level, "setValue",
-                              Qt::QueuedConnection,
-                              Q_ARG(int, voltage_percent));
-
-    // Setting voltage text color o red or yellow when battery low
-    if (ui->progressBar_Battery_Level->value() < 20) {
-      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString,
-                                                            "QLabel { "
-                                                            "color : red; }"));
-    } else if (ui->progressBar_Battery_Level->value() < 50) {
-      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection,
-                                Q_ARG(QString,
-                                      "QLabel { "
-                                      "color : yellow; }"));
-    } else {
-      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
-                                Qt::QueuedConnection,
-                                Q_ARG(QString,
-                                      "QLabel { "
-                                      "color : green; }"));
-    }
-
-    // setting killswitch text and color depending on state
-    if (msg->kill_switch_state) {
-      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
-                                Qt::QueuedConnection,
-                                Q_ARG(QString,
-                                      "QLabel { "
-                                      "color : green; }"));
-      ui->label_Kill_State->setText("On");
-    } else {
-      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
-                                Qt::QueuedConnection, Q_ARG(QString,
-                                                            "QLabel { "
-                                                            "color : red; }"));
-      ui->label_Kill_State->setText("Off");
-    }
-
-    // used to setup x axis values (time) for qwt plots
-    gettimeofday(&psu_monitor_end_time_, NULL);
-
-    // averaging the current
-    current_value = current_value / 20;
-
-    // sets plot values
-    current_time_values_.push_back(psu_monitor_end_time_.tv_sec -
-                                   psu_monitor_start_time_.tv_sec);
-    current_values_.push_back(current_value);
-    if (current_time_values_[current_time_values_.size() - 1] -
-            current_time_values_[0] >=
-        CURRENT_GRAPH_RECORD_TIME) {
-      current_values_.erase(current_values_.begin());
-      current_time_values_.erase(current_time_values_.begin());
-    }
-    // this is an invisible button. It is used to refresh qwt plot
-    ui->pushButton_Plot_Current->click();
-
-    // resets value for next averaging
-    current_value = 0;
-
-    // each 60 power supply messages received
-    if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD * 5 == 0) {
-      voltage_value = (voltage_value / 1000.0) / 60.0;
-      // sets plot values
-      voltage_time_values_.push_back(
-          (psu_monitor_end_time_.tv_sec - psu_monitor_start_time_.tv_sec) /
-          60.0);
-      voltage_values_.push_back(msg->light_voltage / 1000.0);
-      if (voltage_time_values_[voltage_time_values_.size() - 1] -
-              voltage_time_values_[0] >=
-          VOLTAGE_GRAPH_RECORD_TIME) {
-        voltage_values_.erase(voltage_values_.begin());
-        voltage_time_values_.erase(voltage_time_values_.begin());
-      }
-      // this is an invisible button. It is used to refresh qwt plot
-      ui->pushButton_Plot_Voltage->click();
-      // resets value for next averaging
-      voltage_value = 0;
-    }
-  }
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterBackDCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_Bd->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterFrontDCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_Fd->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterBackHCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_Bh->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterFrontHCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_Fh->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterStarCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_S->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::ThrusterPortCallback(
-    const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
-  ui->label_Thruster_Speed_P->setNum(msg->speed);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::BarometerDepthCallback(
-    const sonia_msgs::BarometerMsg::ConstPtr &msg) {
-  ui->label_Baro_press_2->setNum((double)msg->depth);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::BarometerPressCallback(
-    const sensor_msgs::FluidPressure::ConstPtr &msg) {
-  ui->label_Baro_press->setNum(msg->fluid_pressure);
-}
-
-//------------------------------------------------------------------------------
-//
-
 void CanClient::on_pushButton_Hydr_Refrsh_clicked() {
   can_service_client_.call(can_hydros_get_params_srv_);
 }
@@ -1432,33 +1062,7 @@ void CanClient::on_pushButton_Hydr_Plot_clicked() {
   ui->plot_Hydr_Fft->replot();
 }
 
-//------------------------------------------------------------------------------
-//
 
-int CanClient::ThrusterTest(int arg) {
-  struct timeval start_time;
-  struct timeval end_time;
-
-  for (uint8_t i = 1; i < 7; i++) {
-    thrusters_back_heading_srv_.request.unique_id = i;
-
-    gettimeofday(&start_time, NULL);
-    gettimeofday(&end_time, NULL);
-
-    thrusters_back_heading_srv_.request.parameter_value = 30;
-    can_service_client_.call(thrusters_back_heading_srv_);
-
-    while ((end_time.tv_sec - start_time.tv_sec) < 2) {
-      gettimeofday(&end_time, NULL);
-    }
-    thrusters_back_heading_srv_.request.parameter_value = 0;
-    can_service_client_.call(thrusters_back_heading_srv_);
-  }
-  thrusters_back_heading_srv_.request.unique_id =
-      thrusters_back_depth_srv_.request.UNIQUE_ID_ACT_back_heading_motor;
-
-  return 0;
-}
 
 //------------------------------------------------------------------------------
 //
@@ -1592,15 +1196,19 @@ void CanClient::on_pushButton_Device_Discover_clicked() {
         break;
       case 10:
 
-        devices_discovery_srv_ = diver_interface_srv_;
+        devices_discovery_srv_ = led_indicator_srv_;
         break;
       case 11:
-        devices_discovery_srv_ = psu_srv_;
+
+        devices_discovery_srv_ = diver_interface_srv_;
         break;
       case 12:
-        devices_discovery_srv_ = can_hydros_srv_;
+        devices_discovery_srv_ = psu_srv_;
         break;
       case 13:
+        devices_discovery_srv_ = can_hydros_srv_;
+        break;
+      case 14:
         devices_discovery_srv_.request.device_id =
             devices_discovery_srv_.request.DEVICE_ID_interfaces;
         devices_discovery_srv_.request.unique_id =
@@ -1628,106 +1236,14 @@ void CanClient::on_pushButton_Device_Discover_clicked() {
           ->setBackground(Qt::green);
     }
 
+    devices_discovery_srv_.request.method_number =
+      devices_discovery_srv_.request.METHOD_COMMON_ping_req;
+    can_service_client_.call(devices_discovery_srv_);
+
     device_index++;
   }
 }
 
-//------------------------------------------------------------------------------
-//
-
-void CanClient::MissionSwitchCallback(
-    const sonia_msgs::MissionSwitchMsg::ConstPtr &msg) {
-  QString style_red = "QLabel { color : red; }";
-  QString style_green = "QLabel { color : green; }";
-
-  // sets text and color for mission switch state
-  if (msg->state) {
-    ui->label_Mission_State->setText("On");
-    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
-                              Qt::QueuedConnection,
-                              Q_ARG(QString, style_green));
-  }
-
-  else {
-    ui->label_Mission_State->setText("Off");
-    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
-                              Qt::QueuedConnection, Q_ARG(QString, style_red));
-  }
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::CarteNavPropertiesCallback(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
-  // for all carte nav devices, updates devices table view
-  for (int i = 0; i < 10; i++) {
-    SetDevicesPropertyRow(msg, i);
-  }
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::HydrosPropertiesCallback(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
-  SetDevicesPropertyRow(msg, 12);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::PsuPropertiesCallback(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
-  SetDevicesPropertyRow(msg, 11);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::MissionSwPropertiesCallback(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
-  SetDevicesPropertyRow(msg, 13);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::DiverPropertiesCallback(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
-  SetDevicesPropertyRow(msg, 10);
-}
-
-//------------------------------------------------------------------------------
-//
-
-void CanClient::SetDevicesPropertyRow(
-    const sonia_msgs::CanDevicesProperties::ConstPtr &msg, int row) {
-
-  // updates firmware version column
-  std::stringstream firm_string;
-  QTableWidgetItem *new_firmware_value;
-  delete ui->tableWidget_Devices_List->item(row, 1);
-  firm_string << std::hex << msg->firmware_version;
-  new_firmware_value = new QTableWidgetItem(firm_string.str().data());
-  ui->tableWidget_Devices_List->setItem(row, 1, new_firmware_value);
-
-  // updates capabilites column
-  std::stringstream capab_string;
-  QTableWidgetItem *new_cap_value;
-  delete ui->tableWidget_Devices_List->item(row, 2);
-  capab_string << std::hex << (int)msg->capabilities;
-  new_cap_value = new QTableWidgetItem(capab_string.str().data());
-  ui->tableWidget_Devices_List->setItem(row, 2, new_cap_value);
-
-  // updates microcontroller signtaure column
-  std::stringstream uc_string;
-  QTableWidgetItem *new_uc_value;
-  delete ui->tableWidget_Devices_List->item(row, 3);
-  uc_string << std::hex << msg->uc_signature;
-  new_uc_value = new QTableWidgetItem(uc_string.str().data());
-  ui->tableWidget_Devices_List->setItem(row, 3, new_uc_value);
-}
 
 //------------------------------------------------------------------------------
 //
@@ -1770,4 +1286,576 @@ void CanClient::on_pushButton_Plot_Voltage_clicked() {
   voltage_curve_->setSamples(voltage_time_values_.data(),
                              voltage_values_.data(), voltage_values_.size());
   ui->qwtPlot_Psu_Voltage->replot();
+}
+
+
+
+
+
+
+
+
+
+//============================================================================
+// R O S   C A L L B A C K S
+
+
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::MissionSwitchCallback(
+  const sonia_msgs::MissionSwitchMsg::ConstPtr &msg) {
+  QString style_red = "QLabel { color : red; }";
+  QString style_green = "QLabel { color : green; }";
+
+  // sets text and color for mission switch state
+  if (msg->state) {
+    ui->label_Mission_State->setText("On");
+    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
+                              Qt::QueuedConnection,
+                              Q_ARG(QString, style_green));
+  }
+
+  else {
+    ui->label_Mission_State->setText("Off");
+    QMetaObject::invokeMethod(ui->label_Mission_State, "setStyleSheet",
+                              Qt::QueuedConnection, Q_ARG(QString, style_red));
+  }
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::CarteNavPropertiesCallback(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
+  // for all carte nav devices, updates devices table view
+  for (int i = 0; i < ui->tableWidget_Devices_List->rowCount()-5; i++) {
+    SetDevicesFirmwareVersion(msg, i);
+  }
+}
+void CanClient::HydrosPropertiesCallback(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
+  SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 2);
+}
+void CanClient::PsuPropertiesCallback(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
+  SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 3);
+}
+void CanClient::MissionSwPropertiesCallback(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
+  SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 1);
+}
+void CanClient::DiverPropertiesCallback(
+  const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
+  SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 4);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::ThrusterPortNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 0);
+}
+void CanClient::ThrusterStarboardNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 1);
+}
+void CanClient::ThrusterBackDepthNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 5);
+}
+void CanClient::ThrusterFrontDepthNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 4);
+}
+void CanClient::ThrusterBackHeadingNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 3);
+}
+void CanClient::ThrusterFrontHeadingNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 2);
+}
+void CanClient::BarometerNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 9);
+}
+void CanClient::DiverNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 11);
+}
+void CanClient::LedNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 10);
+}
+void CanClient::DroppersNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 8);
+}
+void CanClient::GrabberNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 6);
+}
+void CanClient::TorpedoNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 7);
+}
+void CanClient::MissionSwNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 14);
+}
+void CanClient::HydrophonesNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 13);
+}
+void CanClient::PsuNoticesCallback(const sonia_msgs::CanDevicesNotices::ConstPtr &msg) {
+  SetDevicesNotices(msg, 12);
+}
+
+//------------------------------------------------------------------------------
+//
+
+void CanClient::HydrophonesParamsCallback(
+  const sonia_msgs::HydrophonesParams::ConstPtr &msg) {
+  ui->label_Hydr_Acq_Th_Mode->setNum(msg->acq_thrs_mode);
+  ui->label_Hydr_Acq_Thrs->setNum(msg->acq_threshold);
+  ui->label_Hydr_Bw->setNum((double)(msg->fft_bandwidth * 813 * 2) / 1000.0);
+  ui->label_Hydr_Cont_Fil_Freq->setNum(msg->continuous_filter_freq);
+  ui->label_Hydr_Wave_En->setNum(msg->wave_enable);
+  // fcutoff parameters represents half the clk period of the ADC input filters.
+  // hydros DSP is at 150MHz. The frequency cutoff of the filters is clk/32.
+  ui->label_Hydr_Cutoff->setNum(
+    (150000.0 / ((double)msg->set_cutoff_freq * 2.0)) / 32.0);
+  ui->label_Hydr_Fft_Prefilter->setNum(msg->fft_prefilter);
+  ui->label_Hydr_Fft_Prefilter_T->setNum(msg->fft_prefilter_type);
+  ui->label_Hydr_Fft_Thrs->setNum(msg->fft_threshold);
+  ui->label_Hydr_Fft_Trig_Mode->setNum(msg->fft_trig_mode_Param);
+  ui->label_Hydr_Filt_Thrs->setNum(msg->filter_threshold);
+  ui->label_Hydr_Gain->setNum(msg->gain);
+  ui->label_Hydr_Phase_Calc_Alg->setNum(msg->phase_calc_alg);
+  ui->label_Hydr_Samp_Count->setNum(msg->sample_count);
+  ui->label_Hydr_Preamp_Gain->setNum(msg->set_preamp_gain);
+  hydros_enabled_ = msg->hydro_enable;
+  fft_enabled_ = msg->fft_enable;
+
+  if (fft_enabled_) {
+    ui->pushButton_En_Fft->setText("Disable FFT");
+  }
+
+  else {
+    ui->pushButton_En_Fft->setText("Enable FFT");
+  }
+
+  if (hydros_enabled_) {
+    ui->pushButton_En_Hydros->setText("Disable Hydrophone");
+  } else {
+    ui->pushButton_En_Hydros->setText("Enable Hydrophone");
+  }
+
+  // hydrophone frequencies are coded quite randomly. this
+  // switch case is for conversion to kHz purpose.
+  switch (msg->pinger_freq) {
+    case 6:
+    case 27:
+      ui->label_Hydr_Ping_Freq->setNum(13);
+      break;
+    case 7:
+    case 28:
+      ui->label_Hydr_Ping_Freq->setNum(15);
+      break;
+    case 8:
+    case 29:
+      ui->label_Hydr_Ping_Freq->setNum(22);
+      break;
+    case 9:
+    case 30:
+      ui->label_Hydr_Ping_Freq->setNum(23);
+      break;
+    case 10:
+    case 31:
+      ui->label_Hydr_Ping_Freq->setNum(24);
+      break;
+    case 11:
+    case 32:
+      ui->label_Hydr_Ping_Freq->setNum(25);
+      break;
+    case 12:
+    case 33:
+      ui->label_Hydr_Ping_Freq->setNum(26);
+      break;
+    case 13:
+    case 34:
+      ui->label_Hydr_Ping_Freq->setNum(27);
+      break;
+    case 14:
+    case 35:
+      ui->label_Hydr_Ping_Freq->setNum(28);
+      break;
+    case 15:
+    case 36:
+      ui->label_Hydr_Ping_Freq->setNum(29);
+      break;
+    case 16:
+    case 37:
+      ui->label_Hydr_Ping_Freq->setNum(30);
+      break;
+    case 17:
+    case 38:
+      ui->label_Hydr_Ping_Freq->setNum(31);
+      break;
+    case 18:
+    case 39:
+      ui->label_Hydr_Ping_Freq->setNum(32);
+      break;
+    case 19:
+    case 40:
+      ui->label_Hydr_Ping_Freq->setNum(33);
+      break;
+    case 20:
+    case 41:
+      ui->label_Hydr_Ping_Freq->setNum(34);
+      break;
+    case 21:
+    case 42:
+      ui->label_Hydr_Ping_Freq->setNum(35);
+      break;
+    case 22:
+    case 43:
+      ui->label_Hydr_Ping_Freq->setNum(36);
+      break;
+    case 23:
+    case 44:
+      ui->label_Hydr_Ping_Freq->setNum(37);
+      break;
+    case 24:
+    case 45:
+      ui->label_Hydr_Ping_Freq->setNum(38);
+      break;
+    case 25:
+    case 46:
+      ui->label_Hydr_Ping_Freq->setNum(39);
+      break;
+    case 26:
+    case 47:
+      ui->label_Hydr_Ping_Freq->setNum(40);
+      break;
+  }
+}
+void CanClient::HydrophonesMsgsCallback(
+  const sonia_msgs::HydrophonesMsg::ConstPtr &msg) {
+  static uint32_t freq_slowdwn_count = 0;
+
+  // if a ping was received and dephasage calculated
+  if (msg->dephasage1_updated) {
+    double pro_deph_1;
+    double pro_deph_2;
+    double pro_deph_3;
+
+    // sets table widget with values
+    QTableWidgetItem *new_cell_d1_raw =
+      new QTableWidgetItem(QString::number(msg->dephasage1_d1));
+    QTableWidgetItem *new_cell_d2_raw =
+      new QTableWidgetItem(QString::number(msg->dephasage1_d2));
+    QTableWidgetItem *new_cell_d3_raw =
+      new QTableWidgetItem(QString::number(msg->dephasage1_d3));
+    QTableWidgetItem *new_cell_freq =
+      new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
+
+    // makes a part of the processing done by AUV6
+    if (msg->dephasage1_pinger_freq != 0) {
+      // distance in cm for all phase displacements
+      if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
+        pro_deph_1 = (pow(2, 15) - (msg->dephasage1_d1 & 0x8000)) * -1.0;
+      } else {
+        pro_deph_1 = msg->dephasage1_d1;
+      }
+
+      if ((msg->dephasage1_d2 & 0x8000) == 0x8000) {
+        pro_deph_2 = (pow(2, 15) - (msg->dephasage1_d2 & 0x8000)) * -1.0;
+      } else {
+        pro_deph_2 = msg->dephasage1_d2;
+      }
+
+      if ((msg->dephasage1_d3 & 0x8000) == 0x8000) {
+        pro_deph_3 = (pow(2, 15) - (msg->dephasage1_d3 & 0x8000)) * -1.0;
+      } else {
+        pro_deph_3 = msg->dephasage1_d3;
+      }
+
+      pro_deph_1 = (pro_deph_1 / NORMALIZING_VALUE) *
+                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+      pro_deph_2 = (pro_deph_2 / NORMALIZING_VALUE) *
+                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+      pro_deph_3 = (pro_deph_3 / NORMALIZING_VALUE) *
+                   (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
+    }
+
+    // shows processed values
+    QTableWidgetItem *new_cell_d1_pro =
+      new QTableWidgetItem(QString::number(pro_deph_1));
+    QTableWidgetItem *new_cell_d2_pro =
+      new QTableWidgetItem(QString::number(pro_deph_2));
+    QTableWidgetItem *new_cell_d3_pro =
+      new QTableWidgetItem(QString::number(pro_deph_3));
+
+    // deleting old table widget cells
+    for (uint16_t i = 0; i < 4; i++) {
+      delete (ui->tableWidget_Hydr_Deph->item(i, 0));
+      delete (ui->tableWidget_Hydr_Deph->item(i, 1));
+    }
+
+    // setting up new cells
+    ui->tableWidget_Hydr_Deph->setItem(0, 0, new_cell_d1_raw);
+    ui->tableWidget_Hydr_Deph->setItem(0, 1, new_cell_d1_pro);
+    ui->tableWidget_Hydr_Deph->setItem(1, 0, new_cell_d2_raw);
+    ui->tableWidget_Hydr_Deph->setItem(1, 1, new_cell_d2_pro);
+    ui->tableWidget_Hydr_Deph->setItem(2, 0, new_cell_d3_raw);
+    ui->tableWidget_Hydr_Deph->setItem(2, 1, new_cell_d3_pro);
+    ui->tableWidget_Hydr_Deph->setItem(3, 0, new_cell_freq);
+  }
+
+  // if a new maximum frequency was received
+  if (msg->hydro_freq_updated) {
+    freq_slowdwn_count++;
+    if (freq_slowdwn_count >= 50) {
+      ui->label_Hydr_Freq->setText(
+        QString::number(msg->hydro_freq_index * 813));
+      freq_slowdwn_count = 0;
+    }
+  }
+
+  // if FFT samples are received
+  if (msg->magn_samples_updated) {
+    QTableWidgetItem *new_cell_index;
+    QTableWidgetItem *new_cell_value;
+
+    // updates FFT curve points
+    for (uint16_t i = 0; i < 64; i++) {
+      mag_points_[i] = (double)msg->magnitude_values[i];
+    }
+
+    // updates table widget values
+    for (uint16_t i = 0; i < msg->magnitude_values.size(); i++) {
+      delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 0));
+      delete (ui->tableWidget_Hydr_Fft_Mag->item(i, 1));
+      new_cell_index = new QTableWidgetItem();
+      new_cell_value = new QTableWidgetItem();
+      new_cell_index->setData(Qt::DisplayRole, QString::number(i * 813));
+      new_cell_value->setData(Qt::DisplayRole, msg->magnitude_values[i]);
+      ui->tableWidget_Hydr_Fft_Mag->setItem(i, 0, new_cell_index);
+      ui->tableWidget_Hydr_Fft_Mag->setItem(i, 1, new_cell_value);
+    }
+
+    ui->tableWidget_Hydr_Fft_Mag->sortByColumn(1,
+                                               Qt::SortOrder::DescendingOrder);
+
+    // highlighting frequency values between the asked interval
+    for (uint32_t i = 0; i < msg->magnitude_values.size(); i++) {
+      if (ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->text().toDouble() / 1000 <
+          ui->label_Hydr_Ping_Freq->text().toDouble() +
+          ui->label_Hydr_Bw->text().toDouble() &&
+          ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->text().toDouble() / 1000 >
+          ui->label_Hydr_Ping_Freq->text().toDouble() -
+          ui->label_Hydr_Bw->text().toDouble()) {
+        ui->tableWidget_Hydr_Fft_Mag->item(i, 0)->setBackground(Qt::green);
+      }
+    }
+  }
+  if (msg->scope_samples_updated) {
+    QTableWidgetItem *new_cell_index;
+    QTableWidgetItem *new_cell_value1;
+    QTableWidgetItem *new_cell_value2;
+    QTableWidgetItem *new_cell_value3;
+    QTableWidgetItem *new_cell_value4;
+
+    for (uint16_t i = 0; i < msg->scope_values.size(); i++) {
+      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 0));
+      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 1));
+      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 2));
+      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 3));
+      delete (ui->tableWidget_Hydr_Scope_samp->item(i, 4));
+      new_cell_index = new QTableWidgetItem(QString::number(i));
+      new_cell_value1 = new QTableWidgetItem(
+        QString::number(msg->scope_values[i].samples[0]));
+      new_cell_value2 = new QTableWidgetItem(
+        QString::number(msg->scope_values[i].samples[1]));
+      new_cell_value3 = new QTableWidgetItem(
+        QString::number(msg->scope_values[i].samples[2]));
+      new_cell_value4 = new QTableWidgetItem(
+        QString::number(msg->scope_values[i].samples[3]));
+      ui->tableWidget_Hydr_Scope_samp->setItem(i, 0, new_cell_index);
+      ui->tableWidget_Hydr_Scope_samp->setItem(i, 1, new_cell_value1);
+      ui->tableWidget_Hydr_Scope_samp->setItem(i, 2, new_cell_value2);
+      ui->tableWidget_Hydr_Scope_samp->setItem(i, 3, new_cell_value3);
+      ui->tableWidget_Hydr_Scope_samp->setItem(i, 4, new_cell_value4);
+    }
+  }
+}
+void CanClient::PsuCallback(const sonia_msgs::PowerSupplyMsg::ConstPtr &msg) {
+  static uint64_t psu_msg_received = 0;
+
+  psu_msg_received++;
+
+  static double current_value;
+  static double voltage_value;
+
+  // sum to enable avergaing values for qwt plots.
+  current_value +=
+    (msg->actuator_bus_current + msg->dvl_current + msg->light_current +
+     msg->light_current + msg->motor_bus1_current + msg->motor_bus2_current +
+     msg->motor_bus3_current + msg->pc_current + msg->volt_bus1_current +
+     msg->volt_bus2_current) /
+    1000.0;
+
+  voltage_value += msg->light_voltage;
+
+  // limiting GUI update speed
+  if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD == 0) {
+    // updates all power supply values
+    ui->label_Psu_12V_Cur_1->setNum(msg->volt_bus1_current);
+    ui->label_Psu_12V_Cur_2->setNum(msg->volt_bus2_current);
+    ui->label_Psu_Motor_Cur_1->setNum(msg->motor_bus1_current);
+    ui->label_Psu_Motor_Cur_2->setNum(msg->motor_bus2_current);
+    ui->label_Psu_Motor_Cur_3->setNum(msg->motor_bus3_current);
+    ui->label_Psu_Act_Cur->setNum(msg->actuator_bus_current);
+    ui->label_Psu_Dvl_Cur->setNum(msg->dvl_current);
+    ui->label_Psu_PC_Cur->setNum(msg->pc_current);
+    ui->label_Psu_Light_Cur->setNum(msg->light_current);
+    ui->label_Psu_12V_Vol_1->setNum(msg->volt_bus1_voltage);
+    ui->label_Psu_12V_Vol_2->setNum(msg->volt_bus2_voltage);
+    ui->label_Psu_Motor_Vol_1->setNum(msg->motor_bus1_voltage);
+    ui->label_Psu_Motor_Vol_2->setNum(msg->motor_bus2_voltage);
+    ui->label_Psu_Motor_Vol_3->setNum(msg->motor_bus3_voltage);
+    ui->label_Psu_Pc_Vol->setNum(msg->pc_voltage);
+    ui->label_Psu_Dvl_Vol->setNum(msg->dvl_voltage);
+    ui->label_Psu_Act_Vol->setNum(msg->actuator_bus_voltage);
+    ui->label_Psu_light_Vol->setNum(msg->light_voltage);
+    ui->label_Psu_12V_State_1->setNum(msg->volt_bus1_state);
+    ui->label_Psu_12V_State_2->setNum(msg->volt_bus2_state);
+    ui->label_Psu_Motor_State_1->setNum(msg->motor_bus1_state);
+    ui->label_Psu_Motor_State_2->setNum(msg->motor_bus2_state);
+    ui->label_Psu_Motor_State_3->setNum(msg->motor_bus3_state);
+    ui->label_Psu_Dvl_State->setNum(msg->dvl_state);
+    ui->label_Psu_Act_State->setNum(msg->actuator_bus_state);
+    ui->label_Psu_Light_State->setNum(msg->light_state);
+    ui->label_Psu_Pc_State->setNum(msg->pc_state);
+
+    // labels and progress bar for battery level
+    ui->label_Batt_Voltage->setNum(msg->light_voltage);
+
+    int voltage_percent;
+
+    // setting the battery progress bar depending on voltage percentage
+    if (msg->light_voltage / 1000.0 > BATT_THRESHOLD)
+      voltage_percent =
+        (int)((((msg->light_voltage / 1000.0) - BATT_THRESHOLD) /
+               (BATT_MAX - BATT_THRESHOLD)) *
+              100.0);
+    else if ((msg->light_voltage / 1000.0 > 100))
+      voltage_percent = 100;
+    else
+      voltage_percent = 0;
+
+    QMetaObject::invokeMethod(ui->progressBar_Battery_Level, "setValue",
+                              Qt::QueuedConnection,
+                              Q_ARG(int, voltage_percent));
+
+    // Setting voltage text color o red or yellow when battery low
+    if (ui->progressBar_Battery_Level->value() < 20) {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString,
+                                                            "QLabel { "
+                                                              "color : red; }"));
+    } else if (ui->progressBar_Battery_Level->value() < 50) {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                        "color : yellow; }"));
+    } else {
+      QMetaObject::invokeMethod(ui->label_Batt_Voltage, "setStyleSheet",
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                        "color : green; }"));
+    }
+
+    // setting killswitch text and color depending on state
+    if (msg->kill_switch_state) {
+      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
+                                Qt::QueuedConnection,
+                                Q_ARG(QString,
+                                      "QLabel { "
+                                        "color : green; }"));
+      ui->label_Kill_State->setText("On");
+    } else {
+      QMetaObject::invokeMethod(ui->label_Kill_State, "setStyleSheet",
+                                Qt::QueuedConnection, Q_ARG(QString,
+                                                            "QLabel { "
+                                                              "color : red; }"));
+      ui->label_Kill_State->setText("Off");
+    }
+
+    // used to setup x axis values (time) for qwt plots
+    gettimeofday(&psu_monitor_end_time_, NULL);
+
+    // averaging the current
+    current_value = current_value / 20;
+
+    // sets plot values
+    current_time_values_.push_back(psu_monitor_end_time_.tv_sec -
+                                   psu_monitor_start_time_.tv_sec);
+    current_values_.push_back(current_value);
+    if (current_time_values_[current_time_values_.size() - 1] -
+        current_time_values_[0] >=
+        CURRENT_GRAPH_RECORD_TIME) {
+      current_values_.erase(current_values_.begin());
+      current_time_values_.erase(current_time_values_.begin());
+    }
+    // this is an invisible button. It is used to refresh qwt plot
+    ui->pushButton_Plot_Current->click();
+
+    // resets value for next averaging
+    current_value = 0;
+
+    // each 60 power supply messages received
+    if (psu_msg_received % PSU_VALUES_REFRESH_PERIOD * 5 == 0) {
+      voltage_value = (voltage_value / 1000.0) / 60.0;
+      // sets plot values
+      voltage_time_values_.push_back(
+        (psu_monitor_end_time_.tv_sec - psu_monitor_start_time_.tv_sec) /
+        60.0);
+      voltage_values_.push_back(msg->light_voltage / 1000.0);
+      if (voltage_time_values_[voltage_time_values_.size() - 1] -
+          voltage_time_values_[0] >=
+          VOLTAGE_GRAPH_RECORD_TIME) {
+        voltage_values_.erase(voltage_values_.begin());
+        voltage_time_values_.erase(voltage_time_values_.begin());
+      }
+      // this is an invisible button. It is used to refresh qwt plot
+      ui->pushButton_Plot_Voltage->click();
+      // resets value for next averaging
+      voltage_value = 0;
+    }
+  }
+}
+void CanClient::ThrusterBackDCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_Bd->setNum(msg->speed);
+}
+void CanClient::ThrusterFrontDCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_Fd->setNum(msg->speed);
+}
+void CanClient::ThrusterBackHCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_Bh->setNum(msg->speed);
+}
+void CanClient::ThrusterFrontHCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_Fh->setNum(msg->speed);
+}
+void CanClient::ThrusterStarCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_S->setNum(msg->speed);
+}
+void CanClient::ThrusterPortCallback(
+  const sonia_msgs::ThrusterMsg::ConstPtr &msg) {
+  ui->label_Thruster_Speed_P->setNum(msg->speed);
+}
+void CanClient::BarometerDepthCallback(
+  const sonia_msgs::BarometerMsg::ConstPtr &msg) {
+  ui->label_Baro_press_2->setNum((double)msg->depth);
+}
+void CanClient::BarometerPressCallback(
+  const sensor_msgs::FluidPressure::ConstPtr &msg) {
+  ui->label_Baro_press->setNum(msg->fluid_pressure);
 }
