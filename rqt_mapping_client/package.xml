@@ -1,27 +1,40 @@
 <package>
   <name>rqt_mapping_client</name>
-  <version>0.0.0</version>
-  <description>rqt_mapping_client is a GUI that let the user interact with the proc_mapping.</description>
+  <version>1.0.0</version>
+  <description>
+    rqt_mapping_client provides a GUI plugin for displaying
+    interracting with the proc_mapping software distributed by SONIA.
+  </description>
+
   <maintainer email="thibaut.mattio@gmail.com">Thibaut Mattio</maintainer>
 
   <license>GPLv3</license>
+
+  <url type="website">http://ros.org/wiki/rqt_mapping_client</url>
+  <url type="repository">https://github.com/ros-visualization/rqt_common_plugins</url>
+  <url type="bugtracker">https://github.com/ros-visualization/rqt_common_plugins/issues</url>
 
   <author>Thibaut Mattio</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>rqt_gui</build_depend>
+  <build_depend>rqt_gui_cpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
   <build_depend>sonia_msgs</build_depend>
 
-  <run_depend>python_qt_binding</run_depend>
-  <run_depend>python-rospkg</run_depend>
-  <run_depend>roslib</run_depend>
-  <run_depend>rospy</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>image_transport</run_depend>
   <run_depend>rqt_gui</run_depend>
-  <run_depend>rqt_gui_py</run_depend>
+  <run_depend>rqt_gui_cpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
   <run_depend>sonia_msgs</run_depend>
 
   <export>
-    <architecture_independent/>
     <rqt_gui plugin="${prefix}/plugin.xml"/>
   </export>
 </package>
