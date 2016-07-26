@@ -103,7 +103,7 @@ void CanClient::InitHydrosTools(){
   thresh_curve_ = new QwtPlotCurve();
 
   for (uint16_t i = 0; i < 64; i++) {
-    freq_points_[i] = i * 813;
+    freq_points_[i] = i * 813 + 813;
     mag_points_[i] = 100;
   }
   bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
@@ -151,7 +151,7 @@ void CanClient::InitPsuGraphs(){
   current_curve_->attach(ui->qwtPlot_Psu_Current);
 
   voltage_curve_ = new QwtPlotCurve();
-  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 0, 30, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 23, 30, 1);
   ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0,
                                         VOLTAGE_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::yLeft, "Voltage (V)");

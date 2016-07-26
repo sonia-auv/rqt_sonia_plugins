@@ -44,7 +44,7 @@ class CanClient : public QMainWindow {
 
   // battery progress bar threshold and max voltage value
   const double BATT_THRESHOLD = 25.6;
-  const double BATT_MAX = 28.5;
+  const double BATT_MAX = 28;
 
   // X axis maximum lenght
   const int CURRENT_GRAPH_RECORD_TIME = 60;
