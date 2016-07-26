@@ -62,11 +62,11 @@ Parameter::Parameter(const QString &name, const QVariant &value,
             SLOT(changeValue()));
   } else if (value.type() == QVariant::Double) {
     auto widget = new QDoubleSpinBox(_main_widget);
-    widget->setValue(_value.toDouble());
     if (min != INT_MIN && max != INT_MAX) {
       widget->setMinimum(min.toDouble());
       widget->setMaximum(max.toDouble());
     }
+    widget->setValue(_value.toDouble());
     _value_widget = widget;
 
     connect(_value_widget, SIGNAL(valueChanged(double)), this,
