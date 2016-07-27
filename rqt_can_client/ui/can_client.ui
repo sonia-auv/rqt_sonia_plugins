@@ -107,7 +107,7 @@
             <rect>
              <x>10</x>
              <y>10</y>
-             <width>461</width>
+             <width>457</width>
              <height>271</height>
             </rect>
            </property>
@@ -1575,22 +1575,6 @@
             </item>
            </layout>
           </widget>
-          <zorder>gridLayoutWidget_3</zorder>
-          <zorder>gridLayoutWidget_4</zorder>
-          <zorder>line</zorder>
-          <zorder>tableWidget_Hydr_Deph</zorder>
-          <zorder>label_Hydr_Mag</zorder>
-          <zorder>label_Hydr_Scope</zorder>
-          <zorder>label_Hydr_Freq_1</zorder>
-          <zorder>tableWidget_Hydr_Fft_Mag</zorder>
-          <zorder>tableWidget_Hydr_Scope_samp</zorder>
-          <zorder>label_Hydr_Freq</zorder>
-          <zorder>label_Hydr_Freq_2</zorder>
-          <zorder>plot_Hydr_Fft</zorder>
-          <zorder>horizontalLayoutWidget_2</zorder>
-          <zorder>label_Hydr_Deph</zorder>
-          <zorder>horizontalLayoutWidget</zorder>
-          <zorder>qwtPlot</zorder>
          </widget>
          <widget class="QWidget" name="thrusters">
           <attribute name="title">
