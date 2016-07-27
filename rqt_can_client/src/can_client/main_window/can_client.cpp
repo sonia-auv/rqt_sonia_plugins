@@ -449,6 +449,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 10 + cheby_or_elliptic;
       break;
     case 25:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 46+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 11 + cheby_or_elliptic;
       break;
     case 26:
@@ -464,6 +467,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 15 + cheby_or_elliptic;
       break;
     case 30:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 49+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 16 + cheby_or_elliptic;
       break;
     case 31:
@@ -479,6 +485,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 20 + cheby_or_elliptic;
       break;
     case 35:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 52+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 21 + cheby_or_elliptic;
       break;
     case 36:
@@ -494,6 +503,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 25 + cheby_or_elliptic;
       break;
     case 40:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 55+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 26 + cheby_or_elliptic;
       break;
   }
@@ -1481,6 +1493,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 11:
     case 32:
+    case 48:
+    case 49:
+    case 50:
       ui->label_Hydr_Ping_Freq->setNum(25);
       break;
     case 12:
@@ -1501,6 +1516,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 16:
     case 37:
+    case 51:
+    case 52:
+    case 53:
       ui->label_Hydr_Ping_Freq->setNum(30);
       break;
     case 17:
@@ -1521,6 +1539,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 21:
     case 42:
+    case 54:
+    case 55:
+    case 56:
       ui->label_Hydr_Ping_Freq->setNum(35);
       break;
     case 22:
@@ -1541,6 +1562,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 26:
     case 47:
+    case 57:
+    case 58:
+    case 59:
       ui->label_Hydr_Ping_Freq->setNum(40);
       break;
   }

@@ -308,6 +308,21 @@
                   <string>Chebyshev Filter</string>
                  </property>
                 </item>
+                <item>
+                 <property name="text">
+                  <string>Compe2016 Filters 200Hz</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Compe2016 Filters 600Hz</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Compe2016 Filters 1000Hz</string>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
@@ -573,14 +588,14 @@
             <item row="3" column="3">
              <widget class="QLabel" name="label_Hydr_Samp_Count_7">
               <property name="text">
-               <string>/48</string>
+               <string>/57</string>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
              <widget class="QComboBox" name="comboBox_FFT_Prefilt_Type">
               <property name="currentIndex">
-               <number>5</number>
+               <number>0</number>
               </property>
               <item>
                <property name="text">
@@ -820,6 +835,51 @@
               <item>
                <property name="text">
                 <string>Chebyshev 40kHz</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>25kHz200</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>25kHz600</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>25kHz1000</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>30kHz200</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>30kHz600</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>30kHz1000</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>35kHz200</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>35kHz600</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>35kHz1000</string>
                </property>
               </item>
              </widget>
