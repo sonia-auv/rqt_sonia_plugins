@@ -70,11 +70,17 @@ void ImageFrame::ChangeImage(const cv::Mat &image) {
   image_ = q_image->copy();
   emit delayed_update();
 }
+
 //------------------------------------------------------------------------------
 //
 void ImageFrame::ChangeImage(QImage *image) {
   std::lock_guard<std::mutex> guard{image_mutex_};
-  image_ = image->copy();
+  if (image != nullptr) {
+    image_ = image->copy();
+  } else {
+    image_ = QImage();
+    repaint();
+  }
   emit delayed_update();
 }
 
