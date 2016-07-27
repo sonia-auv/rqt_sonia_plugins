@@ -32,10 +32,10 @@
 #include <QPainter>
 #include <QRect>
 #include <QSize>
-#include <opencv2/highgui/highgui.hpp>
-#include "opencv2/opencv.hpp"
 #include <memory>
 #include <mutex>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/opencv.hpp"
 
 namespace gui_mapping_client {
 
@@ -70,17 +70,12 @@ class ImageFrame : public QFrame {
   //==========================================================================
   // P U B L I C   S I G N A L S
 
-  /** Delayed update. */
   void delayed_update();
 
  protected:
   //==========================================================================
   // P R O T E C T E D   M E T H O D S
 
-  /**
-   * TODO Comment this method/attribute.
-   * \param [in,out]	event	If non-null, the event.
-   */
   void paintEvent(QPaintEvent *event) override;
 
  private:

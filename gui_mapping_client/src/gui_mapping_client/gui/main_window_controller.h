@@ -36,6 +36,7 @@
 #include <ctime>
 #include "gui_mapping_client/gui/focused_frame_controller.h"
 #include "gui_mapping_client/ros/communication_line.h"
+#include "gui_mapping_client/widgets/parameter.h"
 
 namespace Ui {
 class MainWindow;
@@ -73,11 +74,9 @@ class MainWindowController : public QMainWindow {
   //==========================================================================
   // P U B L I C   S L O T S
 
-  void ChangeCurrentProcTree(const sonia_msgs::ProcTree &proc_tree);
+  void ChangeCurrentProcTree(const QString &);
 
-  void ChangeProcUnit(const sonia_msgs::ProcUnit &proc_unit);
-
-  void AddParameterToWidget(const sonia_msgs::ProcUnitParameter &parameter);
+  void ChangeCurrentProcUnit(const QString &);
 
   void ChangeFrameImage(const cv::Mat &);
 
@@ -85,6 +84,10 @@ class MainWindowController : public QMainWindow {
   /// The image view type can be either the raw map, the semantic map or a
   /// proc unit. If there is non of them, a blank image is displayed.
   const ImageViewType &GetCurrentImageViewType() const;
+
+  void ChangeServerParameter(
+      const Parameter *,
+      const std::shared_ptr<sonia_msgs::ProcUnitParameter> &);
 
  private:
   //==========================================================================
@@ -105,13 +108,11 @@ class MainWindowController : public QMainWindow {
   /// This will return nullptr whenever the current image view type is not
   std::shared_ptr<sonia_msgs::ProcTree> GetCurrentProcTree() const;
 
-  void ResetProcUnitList(std::vector<std::string> vector);
-  void SelectProcUnit(const std::string &string);
-
   void ResetUI();
   void ResetProcUnitComboBox();
   void ResetProcTreeComboBox();
   void ResetImageView();
+  void ResetParameterGroupWidget();
 
   //==========================================================================
   // P R I V A T E   M E M B E R S
@@ -136,6 +137,16 @@ class MainWindowController : public QMainWindow {
   /// Store the current state of the frame view.
   /// It can be either raw map, semantic map, proc_tree or blank image.
   ImageViewType current_image_view_type_;
+
+  /// The parameters that have been instanciated and displayed.
+  /// We want to keep a reference of the proc_unit name with it so we can
+  /// send the SetParameter to the communication when we receive a signal
+  /// from the parameter.
+  std::map<std::shared_ptr<Parameter>, std::string> parameters_;
+
+  /// We keep a reference toall the label that we added to the parameter
+  /// container as the Parameter class has no way to delete it by itself.
+  std::vector<QLabel *> proc_tree_label_list_;
 };
 
 //------------------------------------------------------------------------------

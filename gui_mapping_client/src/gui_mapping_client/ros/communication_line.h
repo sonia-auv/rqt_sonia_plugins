@@ -63,7 +63,7 @@ class CommunicationLine : public QObject {
   //==========================================================================
   // P U B L I C   M E T H O D S
 
-  void ChangeImageSubscriberTopic(const std::string exec_name);
+  void ChangeImageSubscriberTopic(const std::string &topic);
   void ImageCallback(const sensor_msgs::Image::ConstPtr &msg);
   void ShutdownImageSubscriber();
 

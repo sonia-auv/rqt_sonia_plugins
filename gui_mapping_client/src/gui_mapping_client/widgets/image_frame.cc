@@ -44,7 +44,7 @@ ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
 //
 void ImageFrame::paintEvent(QPaintEvent *event) {
   QPainter painter(this);
-  std::lock_guard<std::mutex> guard{image_mutex_};
+  image_mutex_.try_lock();
   if (!image_.isNull()) {
     painter.drawImage(contentsRect(), image_);
   } else {
@@ -55,6 +55,7 @@ void ImageFrame::paintEvent(QPaintEvent *event) {
     painter.setBrush(gradient);
     painter.drawRect(0, 0, frameRect().width() + 1, frameRect().height() + 1);
   }
+  image_mutex_.unlock();
 }
 
 //==============================================================================
@@ -70,11 +71,17 @@ void ImageFrame::ChangeImage(const cv::Mat &image) {
   image_ = q_image->copy();
   emit delayed_update();
 }
+
 //------------------------------------------------------------------------------
 //
 void ImageFrame::ChangeImage(QImage *image) {
   std::lock_guard<std::mutex> guard{image_mutex_};
-  image_ = image->copy();
+  if (image != nullptr) {
+    image_ = image->copy();
+  } else {
+    image_ = QImage();
+    repaint();
+  }
   emit delayed_update();
 }
 

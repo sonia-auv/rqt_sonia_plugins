@@ -30,6 +30,7 @@
 #include <sonia_msgs/GetProcTreeList.h>
 
 namespace gui_mapping_client {
+
 //==============================================================================
 // C / D T O R S   S E C T I O N
 
@@ -52,16 +53,12 @@ void CommunicationLine::ShutdownImageSubscriber() { image_sub_.shutdown(); }
 
 //------------------------------------------------------------------------------
 //
-void CommunicationLine::ChangeImageSubscriberTopic(
-    const std::string exec_name) {
+void CommunicationLine::ChangeImageSubscriberTopic(const std::string &topic) {
   ShutdownImageSubscriber();
-  // subscribe to the image topic compressed
   image_transport::TransportHints hints("compressed", ros::TransportHints());
-  std::string _topic_name = exec_name + "_image";
+  std::string topic_name = topic;
   image_sub_ = image_transport_.subscribe(
-      _topic_name, 1, &CommunicationLine::ImageCallback, this, hints);
-  // subscribe to the result topic
-  std::string _topic_result_name = exec_name + "_result";
+      topic_name, 1, &CommunicationLine::ImageCallback, this, hints);
 }
 
 //------------------------------------------------------------------------------
