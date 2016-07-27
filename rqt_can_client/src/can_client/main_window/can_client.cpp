@@ -1268,6 +1268,7 @@ void CanClient::on_pushButton_Device_Discover_clicked() {
 
     device_index++;
   }
+
 }
 
 
@@ -1363,6 +1364,23 @@ void CanClient::CarteNavPropertiesCallback(
 void CanClient::HydrosPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 2);
+
+  // if the firmware version is 2012
+  if(msg->firmware_version == 0x200){
+    ui->spinBox_Hydr_Acq_Thrs->setEnabled(true);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(true);
+    ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(true);
+    ui->comboBox_Cont_Filt_Freq->setEnabled(true);
+    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(true);
+    ui->pushButton_En_Fft->setEnabled(true);
+  }else{
+    ui->spinBox_Hydr_Acq_Thrs->setEnabled(false);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(false);
+    ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(false);
+    ui->comboBox_Cont_Filt_Freq->setEnabled(false);
+    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(false);
+    ui->pushButton_En_Fft->setEnabled(false);
+  }
 }
 void CanClient::PsuPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
@@ -1576,32 +1594,25 @@ void CanClient::HydrophonesMsgsCallback(
     double pro_deph_1;
     double pro_deph_2;
     double pro_deph_3;
-    int16_t* reinterpret;
 
     // sets table widget with values
-    reinterpret = (int16_t*)&msg->dephasage1_d1;
     QTableWidgetItem *new_cell_d1_raw =
-      new QTableWidgetItem(QString::number(*reinterpret));
-    reinterpret = (int16_t*)&msg->dephasage1_d2;
+      new QTableWidgetItem(QString::number(msg->dephasage1_d1));
     QTableWidgetItem *new_cell_d2_raw =
-      new QTableWidgetItem(QString::number(*reinterpret));
-    reinterpret = (int16_t*)&msg->dephasage1_d3;
+      new QTableWidgetItem(QString::number(msg->dephasage1_d2));
     QTableWidgetItem *new_cell_d3_raw =
-      new QTableWidgetItem(QString::number(*reinterpret));
+      new QTableWidgetItem(QString::number(msg->dephasage1_d3));
     QTableWidgetItem *new_cell_freq =
       new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
 
     // makes a part of the processing done by AUV6
     if (msg->dephasage1_pinger_freq != 0) {
       // distance in cm for all phase displacements
-      reinterpret = (int16_t*)&msg->dephasage1_d1;
-      pro_deph_1 = (*reinterpret / NORMALIZING_VALUE) *
+      pro_deph_1 = (msg->dephasage1_d1 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      reinterpret = (int16_t*)&msg->dephasage1_d2;
-      pro_deph_2 = (*reinterpret / NORMALIZING_VALUE) *
+      pro_deph_2 = (msg->dephasage1_d2 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      reinterpret = (int16_t*)&msg->dephasage1_d3;
-      pro_deph_3 = (*reinterpret / NORMALIZING_VALUE) *
+      pro_deph_3 = (msg->dephasage1_d3 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
     }
 
