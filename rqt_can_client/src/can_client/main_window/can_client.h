@@ -363,6 +363,8 @@ class CanClient : public QMainWindow {
   double thresh_freq_[2];
   double thresh_mag_[2];
 
+  QwtPlotCurve *dephasage_point_cloud_;
+
   QwtPlotCurve *current_curve_;
   std::vector<double> current_values_;
   std::vector<double> current_time_values_;

@@ -1045,9 +1045,7 @@ void CanClient::on_pushButton_psu_Off_Motor_3_clicked() {
 
 void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   static bool graph = true;
-
   graph = !graph;
-
   // show the hydrophone FFT graph. makes the tableWidgets behind disappear
   if (graph) {
     ui->tableWidget_Hydr_Fft_Mag->setVisible(false);
@@ -1578,43 +1576,32 @@ void CanClient::HydrophonesMsgsCallback(
     double pro_deph_1;
     double pro_deph_2;
     double pro_deph_3;
+    int16_t* reinterpret;
 
     // sets table widget with values
+    reinterpret = (int16_t*)&msg->dephasage1_d1;
     QTableWidgetItem *new_cell_d1_raw =
-      new QTableWidgetItem(QString::number(msg->dephasage1_d1));
+      new QTableWidgetItem(QString::number(*reinterpret));
+    reinterpret = (int16_t*)&msg->dephasage1_d2;
     QTableWidgetItem *new_cell_d2_raw =
-      new QTableWidgetItem(QString::number(msg->dephasage1_d2));
+      new QTableWidgetItem(QString::number(*reinterpret));
+    reinterpret = (int16_t*)&msg->dephasage1_d3;
     QTableWidgetItem *new_cell_d3_raw =
-      new QTableWidgetItem(QString::number(msg->dephasage1_d3));
+      new QTableWidgetItem(QString::number(*reinterpret));
     QTableWidgetItem *new_cell_freq =
       new QTableWidgetItem(QString::number(msg->dephasage1_pinger_freq));
 
     // makes a part of the processing done by AUV6
     if (msg->dephasage1_pinger_freq != 0) {
       // distance in cm for all phase displacements
-      if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
-        pro_deph_1 = (pow(2, 15) - (msg->dephasage1_d1 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_1 = msg->dephasage1_d1;
-      }
-
-      if ((msg->dephasage1_d2 & 0x8000) == 0x8000) {
-        pro_deph_2 = (pow(2, 15) - (msg->dephasage1_d2 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_2 = msg->dephasage1_d2;
-      }
-
-      if ((msg->dephasage1_d3 & 0x8000) == 0x8000) {
-        pro_deph_3 = (pow(2, 15) - (msg->dephasage1_d3 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_3 = msg->dephasage1_d3;
-      }
-
-      pro_deph_1 = (pro_deph_1 / NORMALIZING_VALUE) *
+      reinterpret = (int16_t*)&msg->dephasage1_d1;
+      pro_deph_1 = (*reinterpret / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_2 = (pro_deph_2 / NORMALIZING_VALUE) *
+      reinterpret = (int16_t*)&msg->dephasage1_d2;
+      pro_deph_2 = (*reinterpret / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_3 = (pro_deph_3 / NORMALIZING_VALUE) *
+      reinterpret = (int16_t*)&msg->dephasage1_d3;
+      pro_deph_3 = (*reinterpret / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
     }
 
