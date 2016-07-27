@@ -85,8 +85,9 @@ class MainWindowController : public QMainWindow {
   /// proc unit. If there is non of them, a blank image is displayed.
   const ImageViewType &GetCurrentImageViewType() const;
 
-  void ChangeServerParameter(const Parameter *,
-                   const std::shared_ptr<sonia_msgs::ProcUnitParameter> &);
+  void ChangeServerParameter(
+      const Parameter *,
+      const std::shared_ptr<sonia_msgs::ProcUnitParameter> &);
 
  private:
   //==========================================================================

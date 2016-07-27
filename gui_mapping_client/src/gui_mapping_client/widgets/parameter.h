@@ -115,7 +115,7 @@ class BoolParameter : public Parameter {
   virtual ~BoolParameter();
 
  private slots:
-  void OnParameterChanged(bool state);
+  void OnParameterChanged(int state);
 
  private:
   QCheckBox *widget_;

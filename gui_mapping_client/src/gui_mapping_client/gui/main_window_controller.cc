@@ -143,7 +143,7 @@ void MainWindowController::ResetParameterGroupWidget() {
 
   if (current_proc_tree_) {
     for (auto &&proc_unit : current_proc_tree_->proc_unit_list) {
-      if(proc_unit.proc_unit_parameter_list.size()) {
+      if (proc_unit.proc_unit_parameter_list.size()) {
         auto proc_unit_name_upper = proc_unit.name;
 
         std::transform(proc_unit_name_upper.begin(), proc_unit_name_upper.end(),
@@ -163,18 +163,28 @@ void MainWindowController::ResetParameterGroupWidget() {
         if (param.type == sonia_msgs::ProcUnitParameter::TYPE_INT) {
           param_widget = std::make_shared<IntParameter>(
               msg_param, ui_->parameter_container_widget);
+        } else if (param.type == sonia_msgs::ProcUnitParameter::TYPE_DOUBLE) {
+          param_widget = std::make_shared<DoubleParameter>(
+              msg_param, ui_->parameter_container_widget);
+        } else if (param.type == sonia_msgs::ProcUnitParameter::TYPE_BOOL) {
+          param_widget = std::make_shared<BoolParameter>(
+              msg_param, ui_->parameter_container_widget);
         }
 
+        connect(param_widget.get(),
+                SIGNAL(ParameterChanged(
+                    const Parameter *,
+                    const std::shared_ptr<sonia_msgs::ProcUnitParameter> &)),
+                this,
+                SLOT(ChangeServerParameter(
+                    const Parameter *,
+                    const std::shared_ptr<sonia_msgs::ProcUnitParameter> &)));
         parameters_.insert(std::pair<decltype(param_widget), std::string>(
             param_widget, proc_unit.name));
       }
     }
   }
 }
-
-//------------------------------------------------------------------------------
-//
-void MainWindowController::LoadProcTreeParameters() {}
 
 //------------------------------------------------------------------------------
 //
@@ -249,20 +259,21 @@ void MainWindowController::ChangeFrameImage(const cv::Mat &image) {
 
 //------------------------------------------------------------------------------
 //
-void MainWindowController::ChangeServerParameter(const Parameter *param,
-                                                 const std::shared_ptr<
-                                                     sonia_msgs::ProcUnitParameter> &msg) {
+void MainWindowController::ChangeServerParameter(
+    const Parameter *param,
+    const std::shared_ptr<sonia_msgs::ProcUnitParameter> &msg) {
   auto proc_tree = current_proc_tree_->name;
   std::string proc_unit = "";
   for (auto &&parameter : parameters_) {
-    if(parameter.first.get() == param) {
+    if (parameter.first.get() == param) {
       proc_unit = parameter.second;
     }
   }
 
-  if(proc_unit.compare("") != 0) {
+  if (proc_unit.compare("") != 0) {
     sonia_msgs::ProcUnitParameter parameter_msg{*msg};
-    communication_.SetProcUnitParameterValue(proc_tree, proc_unit, parameter_msg);
+    communication_.SetProcUnitParameterValue(proc_tree, proc_unit,
+                                             parameter_msg);
   } else {
     ROS_ERROR("Cannot find a proc unit associated with this parameter");
   }

@@ -32,10 +32,10 @@
 #include <QPainter>
 #include <QRect>
 #include <QSize>
-#include <opencv2/highgui/highgui.hpp>
-#include "opencv2/opencv.hpp"
 #include <memory>
 #include <mutex>
+#include <opencv2/highgui/highgui.hpp>
+#include "opencv2/opencv.hpp"
 
 namespace gui_mapping_client {
 

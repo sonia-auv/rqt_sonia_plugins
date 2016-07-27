@@ -97,14 +97,21 @@ DoubleParameter::DoubleParameter(
   container_widget_->layout()->addWidget(slider_widget_);
   container_widget_->layout()->addWidget(spinbox_widget_);
 
+  connect(slider_widget_, SIGNAL(valueChanged(int)), spinbox_widget_,
+          SLOT(setValue(int)));
+  connect(spinbox_widget_, SIGNAL(valueChanged(int)), slider_widget_,
+          SLOT(setValue(int)));
+
   connect(slider_widget_, SIGNAL(valueChanged(int)), this,
           SLOT(OnSliderChanged(int)));
-  connect(spinbox_widget_, SIGNAL(valueChanged(double)), this,
-          SLOT(OnSpinboxChanged(double)));
+  connect(spinbox_widget_, SIGNAL(valueChanged(int)), this,
+          SLOT(OnSpinboxChanged(int)));
 
   if (parent) {
     parent->layout()->addWidget(container_widget_);
   }
+
+  spinbox_widget_->setValue(std::stoi(parameter_->value));
 }
 
 //------------------------------------------------------------------------------
@@ -122,14 +129,15 @@ BoolParameter::BoolParameter(
   auto parameter_value = parameter->value;
   std::transform(parameter_value.begin(), parameter_value.end(),
                  parameter_value.begin(), ::tolower);
-  widget_->setChecked(parameter->value == "true");
 
-  connect(widget_, SIGNAL(stateChanged(bool)), this,
-          SLOT(OnParameterChanged(bool)));
+  connect(widget_, SIGNAL(stateChanged(int)), this,
+          SLOT(OnParameterChanged(int)));
 
   if (parent) {
     parent->layout()->addWidget(widget_);
   }
+
+  widget_->setChecked(parameter->value == "true");
 }
 
 //------------------------------------------------------------------------------
@@ -166,11 +174,11 @@ void DoubleParameter::OnSpinboxChanged(double value) {
 
 //------------------------------------------------------------------------------
 //
-void BoolParameter::OnParameterChanged(bool state) {
+void BoolParameter::OnParameterChanged(int state) {
   if (state) {
     parameter_->value = "true";
   } else {
-    parameter_->value = false;
+    parameter_->value = "false";
   }
   emit ParameterChanged(this, parameter_);
 }

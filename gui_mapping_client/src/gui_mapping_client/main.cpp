@@ -28,7 +28,7 @@
 
 int main(int argc, char *argv[]) {
   //** start ros */
-  ros::init(argc, argv, "vision_client");
+  ros::init(argc, argv, "gui_mapping_client");
   ros::NodeHandle nh("~");
 
   // Qt application
