@@ -263,6 +263,9 @@ void CanClient::SubscribeRosServices(){
   can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
     "/provider_can/send_can_message");
 
+  bot_light_srv_.request.device_id = bot_light_srv_.request.DEVICE_ID_lights;
+  bot_light_srv_.request.unique_id = bot_light_srv_.request.UNIQUE_ID_LIGHT_bottom_light;
+
   can_hydros_srv_.request.device_id = can_hydros_srv_.request.DEVICE_ID_sonars;
   can_hydros_srv_.request.unique_id =
     can_hydros_srv_.request.UNIQUE_ID_SONARS_hydrophones;
@@ -1315,6 +1318,17 @@ void CanClient::on_pushButton_Plot_Voltage_clicked() {
   ui->qwtPlot_Psu_Voltage->replot();
 }
 
+void CanClient::on_pushButton_Bot_Light_On_clicked(){
+  bot_light_srv_.request.method_number = bot_light_srv_.request.METHOD_BOTLIGTH_set_level;
+  bot_light_srv_.request.parameter_value = 100;
+  can_service_client_.call(bot_light_srv_);
+}
+
+void CanClient::on_pushButton_Bot_Light_Off_clicked(){
+  bot_light_srv_.request.method_number = bot_light_srv_.request.METHOD_BOTLIGTH_set_level;
+  bot_light_srv_.request.parameter_value = 00;
+  can_service_client_.call(bot_light_srv_);
+}
 
 
 

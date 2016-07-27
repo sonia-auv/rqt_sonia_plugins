@@ -235,6 +235,8 @@ class CanClient : public QMainWindow {
   void on_pushButton_Device_Discover_clicked();
   void on_pushButton_Plot_Current_clicked();
   void on_pushButton_Plot_Voltage_clicked();
+  void on_pushButton_Bot_Light_On_clicked();
+  void on_pushButton_Bot_Light_Off_clicked();
 
  private:
   //============================================================================
@@ -347,6 +349,7 @@ class CanClient : public QMainWindow {
   sonia_msgs::SendCanMessage diver_interface_srv_;
   sonia_msgs::SendCanMessage led_indicator_srv_;
   sonia_msgs::SendCanMessage psu_srv_;
+  sonia_msgs::SendCanMessage bot_light_srv_;
 
   sonia_msgs::SendCanMessage devices_discovery_srv_;
 

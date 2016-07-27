@@ -96,7 +96,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="hydrophones">
           <attribute name="title">
@@ -1225,7 +1225,7 @@
             <item row="7" column="3">
              <widget class="QLabel" name="label_Hydr_Samp_Count_3">
               <property name="text">
-               <string>/3</string>
+               <string>/2</string>
               </property>
              </widget>
             </item>
@@ -3502,6 +3502,52 @@
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QLabel" name="label_74">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>590</y>
+             <width>161</width>
+             <height>45</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Bottom Light</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_Bot_Light_On">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>670</y>
+             <width>81</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>On</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_Bot_Light_Off">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>670</y>
+             <width>81</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Off</string>
+           </property>
           </widget>
          </widget>
         </widget>
