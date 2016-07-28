@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
   // Qt application
   QApplication application(argc, argv);
   gui_mapping_client::MainWindowController main_window{nh};
-  main_window.setWindowState(Qt::WindowMaximized);
   main_window.show();
 
   //** ros spinner */

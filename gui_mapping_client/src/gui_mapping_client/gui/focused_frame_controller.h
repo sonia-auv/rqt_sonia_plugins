@@ -68,10 +68,6 @@ class FocusedFrameController : public QFrame {
 
   inline ImageFrame *const &GetImageFrame() const;
 
-  inline QToolButton *const &GetScreenshotButton() const;
-
-  inline QIcon GetIconFromTheme(const QString &str_icon) const;
-
  private:
   //==========================================================================
   // P R I V A T E   M E M B E R
@@ -86,25 +82,6 @@ class FocusedFrameController : public QFrame {
 //
 inline ImageFrame *const &FocusedFrameController::GetImageFrame() const {
   return ui_->video_image_frame;
-}
-
-//------------------------------------------------------------------------------
-//
-inline QToolButton *const &FocusedFrameController::GetScreenshotButton() const {
-  return ui_->video_screenshot_button;
-}
-
-//------------------------------------------------------------------------------
-//
-inline QIcon FocusedFrameController::GetIconFromTheme(
-    const QString &str_icon) const {
-  auto icon = QIcon{};
-  if (QIcon::hasThemeIcon(str_icon)) {
-    icon = QIcon::fromTheme(str_icon);
-  } else {
-    icon.addFile(QString::fromUtf8(""), QSize(), QIcon::Normal, QIcon::Off);
-  }
-  return icon;
 }
 
 }  // namespace gui_mapping_client
