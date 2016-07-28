@@ -28,6 +28,7 @@
 #include <sonia_msgs/ChangeProcTree.h>
 #include <sonia_msgs/GetCurrentProcTree.h>
 #include <sonia_msgs/GetProcTreeList.h>
+#include <sonia_msgs/ResetMap.h>
 
 namespace gui_mapping_client {
 
@@ -43,8 +44,12 @@ CommunicationLine::CommunicationLine(const ros::NodeHandle &nh,
       image_transport_(nh),
       rosout_sub_(nh_.subscribe("/rosout", 100,
                                 &CommunicationLine::RosOutCallback, this)),
+      reset_map_pub_(),
       image_sub_(),
-      image_() {}
+      image_() {
+  reset_map_pub_ =
+      nh_.advertise<sonia_msgs::ResetMap>("/proc_mapping/reset_map", 100);
+}
 
 //------------------------------------------------------------------------------
 //
@@ -185,6 +190,13 @@ void CommunicationLine::SetProcUnitParameterValue(
   if (!client.call(srv)) {
     ROS_ERROR("Failed to call service /proc_mapping/change_proc_tree");
   }
+}
+
+//------------------------------------------------------------------------------
+//
+void CommunicationLine::SendResetMapMessage() {
+  sonia_msgs::ResetMap msg;
+  reset_map_pub_.publish(msg);
 }
 
 }  // namespace gui_mapping_client

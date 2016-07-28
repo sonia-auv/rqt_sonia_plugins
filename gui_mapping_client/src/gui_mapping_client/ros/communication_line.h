@@ -73,6 +73,7 @@ class CommunicationLine : public QObject {
   std::shared_ptr<sonia_msgs::ProcTree> GetCurrentProcTree();
 
   void ChangeCurrentProcTree(unsigned char proc_tree_name);
+  void SendResetMapMessage();
 
   void SetProcUnitParameterValue(
       const std::string &proc_tree, const std::string &proc_unit,
@@ -94,6 +95,7 @@ class CommunicationLine : public QObject {
   image_transport::ImageTransport image_transport_;
 
   ros::Subscriber rosout_sub_;
+  ros::Publisher reset_map_pub_;
 
   image_transport::Subscriber image_sub_;
 

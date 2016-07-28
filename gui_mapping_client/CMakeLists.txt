@@ -84,9 +84,11 @@ set(UIS_FILES
 if("${qt_gui_cpp_USE_QT_MAJOR_VERSION} " STREQUAL "5 ")
   qt5_wrap_cpp(MOCS_FILES ${HDR_FILES})
   qt5_wrap_ui(UIS_H_FILES ${UIS_FILES})
+  qt5_add_resources(QRC_FILES resource/resources.rqc)
 else()
   qt4_wrap_cpp(MOCS_FILES ${HDR_FILES})
   qt4_wrap_ui(UIS_H_FILES ${UIS_FILES})
+  qt4_add_resources(QRC_FILES resource/resources.rqc)
 endif()
 
 include_directories(
@@ -105,7 +107,7 @@ else()
   set(DEPENDENCIES ${DEPENDENCIES} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY})
 endif()
 
-set(COMPILE_FILES ${SRC_FILES} ${MOCS_FILES} ${UIS_H_FILES})
+set(COMPILE_FILES ${SRC_FILES} ${MOCS_FILES} ${UIS_H_FILES} ${QRC_FILES})
 
 add_executable(${PROJECT_NAME}_node ${COMPILE_FILES})
 target_link_libraries(${PROJECT_NAME}_node ${DEPENDENCIES})
