@@ -1385,14 +1385,14 @@ void CanClient::HydrosPropertiesCallback(
     ui->comboBox_Acq_Thrs_Mode->setEnabled(true);
     ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(true);
     ui->comboBox_Cont_Filt_Freq->setEnabled(true);
-    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(true);
+    ui->label_24->setText("FFT Trigger Mode");
     ui->pushButton_En_Fft->setEnabled(true);
   }else{
     ui->spinBox_Hydr_Acq_Thrs->setEnabled(false);
     ui->comboBox_Acq_Thrs_Mode->setEnabled(false);
     ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(false);
     ui->comboBox_Cont_Filt_Freq->setEnabled(false);
-    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(false);
+    ui->label_24->setText("Use FFT Phase");
     ui->pushButton_En_Fft->setEnabled(false);
   }
 }
