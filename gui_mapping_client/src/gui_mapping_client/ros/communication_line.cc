@@ -38,7 +38,13 @@ namespace gui_mapping_client {
 //
 CommunicationLine::CommunicationLine(const ros::NodeHandle &nh,
                                      QObject *const parent)
-    : QObject(parent), nh_(nh), image_transport_(nh), image_sub_(), image_() {}
+    : QObject(parent),
+      nh_(nh),
+      image_transport_(nh),
+      rosout_sub_(nh_.subscribe("/rosout", 100,
+                                &CommunicationLine::RosOutCallback, this)),
+      image_sub_(),
+      image_() {}
 
 //------------------------------------------------------------------------------
 //
@@ -59,6 +65,54 @@ void CommunicationLine::ChangeImageSubscriberTopic(const std::string &topic) {
   std::string topic_name = topic;
   image_sub_ = image_transport_.subscribe(
       topic_name, 1, &CommunicationLine::ImageCallback, this, hints);
+}
+
+//------------------------------------------------------------------------------
+//
+void CommunicationLine::RosOutCallback(
+    const rosgraph_msgs::Log::ConstPtr &msg) {
+  if (msg->name == "/proc_mapping") {
+    std::string log{"["};
+
+    log += std::to_string(msg->header.stamp.sec) + "." +
+           std::to_string(msg->header.stamp.nsec);
+    log += "] ";
+
+    if (msg->level == msg->DEBUG) {
+      log += "[DEBUG] ";
+    } else if (msg->level == msg->INFO) {
+      log += "[INFO] ";
+    } else if (msg->level == msg->WARN) {
+      log += "[WARN] ";
+    } else if (msg->level == msg->ERROR) {
+      log += "[ERROR] ";
+    } else if (msg->level == msg->FATAL) {
+      log += "[FATAL] ";
+    }
+
+    log += msg->msg;
+
+    QString colored_log;
+    if (msg->level == msg->DEBUG) {
+      colored_log = QString(
+          "<span style=\" color:#ffcc66; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->INFO) {
+      colored_log = QString(
+          "<span style=\" color:#3399ff; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->WARN) {
+      colored_log = QString(
+          "<span style=\" color:#ffcc66; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->ERROR) {
+      colored_log = QString(
+          "<span style=\" color:#ff0000; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->FATAL) {
+      colored_log = QString(
+          "<span style=\" color:#ff0000; font-weight:bold;\">%1</span>");
+    }
+
+    colored_log = colored_log.arg(log.c_str());
+    emit ReceivedLogMessage(colored_log);
+  }
 }
 
 //------------------------------------------------------------------------------
