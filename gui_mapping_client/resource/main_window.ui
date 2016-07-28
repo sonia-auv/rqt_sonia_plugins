@@ -138,7 +138,7 @@
      </layout>
     </item>
     <item row="1" column="0">
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     <widget class="QPlainTextEdit" name="log_widget"/>
     </item>
    </layout>
   </widget>

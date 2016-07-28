@@ -37,6 +37,7 @@
 #include <opencv/cv.h>
 #include <sensor_msgs/Image.h>
 #include <sonia_msgs/ProcTree.h>
+#include "rosgraph_msgs/Log.h"
 
 namespace gui_mapping_client {
 
@@ -65,6 +66,7 @@ class CommunicationLine : public QObject {
 
   void ChangeImageSubscriberTopic(const std::string &topic);
   void ImageCallback(const sensor_msgs::Image::ConstPtr &msg);
+  void RosOutCallback(const rosgraph_msgs::Log::ConstPtr &msg);
   void ShutdownImageSubscriber();
 
   std::vector<sonia_msgs::ProcTree> GetProcTreeList();
@@ -75,11 +77,13 @@ class CommunicationLine : public QObject {
   void SetProcUnitParameterValue(
       const std::string &proc_tree, const std::string &proc_unit,
       const sonia_msgs::ProcUnitParameter &parameter);
+
  signals:
   //==========================================================================
   // P U B L I C   S I G N A L S
 
   void ReceivedNewImage(const cv::Mat &) const;
+  void ReceivedLogMessage(const QString &) const;
 
  private:
   //==========================================================================
@@ -88,6 +92,8 @@ class CommunicationLine : public QObject {
   ros::NodeHandle nh_;
 
   image_transport::ImageTransport image_transport_;
+
+  ros::Subscriber rosout_sub_;
 
   image_transport::Subscriber image_sub_;
 

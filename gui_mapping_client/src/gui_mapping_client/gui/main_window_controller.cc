@@ -47,6 +47,8 @@ MainWindowController::MainWindowController(const ros::NodeHandle &nh,
   // When the server send a new image, call method handleImageChange
   connect(&communication_, SIGNAL(ReceivedNewImage(const cv::Mat &)), this,
           SLOT(ChangeFrameImage(const cv::Mat &)));
+  connect(&communication_, SIGNAL(ReceivedLogMessage(const QString &)), this,
+          SLOT(AddMessageToLogWindow(const QString &)));
 
   current_proc_tree_ = communication_.GetCurrentProcTree();
 
@@ -277,6 +279,12 @@ void MainWindowController::ChangeServerParameter(
   } else {
     ROS_ERROR("Cannot find a proc unit associated with this parameter");
   }
+}
+
+//------------------------------------------------------------------------------
+//
+void MainWindowController::AddMessageToLogWindow(const QString &log) {
+  ui_->log_widget->appendPlainText(log);
 }
 
 }  // namespace gui_mapping_client

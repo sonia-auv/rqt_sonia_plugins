@@ -56,13 +56,6 @@ class MainWindowController : public QMainWindow {
   using PtrList = std::vector<MainWindowController::Ptr>;
   using ConstPtrList = std::vector<MainWindowController::ConstPtr>;
 
-  enum class ImageViewType {
-    RAW_MAP = 0,
-    PROC_UNIT = 1,
-    SEMANTIC_MAP = 2,
-    BLANK_IMAGE = 3
-  };
-
   //==========================================================================
   // C O N S T R U C T O R S   A N D   D E S T R U C T O R
 
@@ -80,24 +73,15 @@ class MainWindowController : public QMainWindow {
 
   void ChangeFrameImage(const cv::Mat &);
 
-  /// Return the current image view type.
-  /// The image view type can be either the raw map, the semantic map or a
-  /// proc unit. If there is non of them, a blank image is displayed.
-  const ImageViewType &GetCurrentImageViewType() const;
-
   void ChangeServerParameter(
       const Parameter *,
       const std::shared_ptr<sonia_msgs::ProcUnitParameter> &);
 
+  void AddMessageToLogWindow(const QString &);
+
  private:
   //==========================================================================
   // P R I V A T E   M E T H O D S
-
-  /// This method will delete every thing in the ParameterContainer widget
-  /// and recreate the parameters from the currently selected proc_tree.
-  /// If no proc_tree is set (the pointer is nullptr), this method will simply
-  /// delete everything and recreate nothing.
-  void LoadProcTreeParameters();
 
   /// This method will extract the name of all the proc_unit from a proc_tree
   /// message
@@ -134,10 +118,6 @@ class MainWindowController : public QMainWindow {
   /// currently selected proc_unit (from the last ROS message that we received).
   std::shared_ptr<sonia_msgs::ProcUnit> current_proc_unit_;
 
-  /// Store the current state of the frame view.
-  /// It can be either raw map, semantic map, proc_tree or blank image.
-  ImageViewType current_image_view_type_;
-
   /// The parameters that have been instanciated and displayed.
   /// We want to keep a reference of the proc_unit name with it so we can
   /// send the SetParameter to the communication when we receive a signal
@@ -165,13 +145,6 @@ inline std::vector<std::string> MainWindowController::GetProcUnitNames(
 inline std::shared_ptr<sonia_msgs::ProcTree>
 MainWindowController::GetCurrentProcTree() const {
   return current_proc_tree_;
-}
-
-//------------------------------------------------------------------------------
-//
-inline const MainWindowController::ImageViewType &
-MainWindowController::GetCurrentImageViewType() const {
-  return current_image_view_type_;
 }
 
 }  // namespace gui_mapping_client
