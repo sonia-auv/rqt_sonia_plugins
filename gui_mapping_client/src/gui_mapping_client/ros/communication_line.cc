@@ -91,7 +91,27 @@ void CommunicationLine::RosOutCallback(
     }
 
     log += msg->msg;
-    emit ReceivedLogMessage(log.c_str());
+
+    QString colored_log;
+    if (msg->level == msg->DEBUG) {
+      colored_log = QString(
+          "<span style=\" color:#ffcc66; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->INFO) {
+      colored_log = QString(
+          "<span style=\" color:#3399ff; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->WARN) {
+      colored_log = QString(
+          "<span style=\" color:#ffcc66; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->ERROR) {
+      colored_log = QString(
+          "<span style=\" color:#ff0000; font-weight:bold;\">%1</span>");
+    } else if (msg->level == msg->FATAL) {
+      colored_log = QString(
+          "<span style=\" color:#ff0000; font-weight:bold;\">%1</span>");
+    }
+
+    colored_log = colored_log.arg(log.c_str());
+    emit ReceivedLogMessage(colored_log);
   }
 }
 

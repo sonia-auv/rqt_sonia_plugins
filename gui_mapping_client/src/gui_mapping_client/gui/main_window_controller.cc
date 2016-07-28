@@ -284,7 +284,7 @@ void MainWindowController::ChangeServerParameter(
 //------------------------------------------------------------------------------
 //
 void MainWindowController::AddMessageToLogWindow(const QString &log) {
-  ui_->log_widget->appendPlainText(log);
+  ui_->log_widget->appendHtml(log);
 }
 
 }  // namespace gui_mapping_client
