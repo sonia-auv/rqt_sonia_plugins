@@ -1395,6 +1395,10 @@ void CanClient::HydrosPropertiesCallback(
     ui->label_24->setText("Use FFT Phase");
     ui->pushButton_En_Fft->setEnabled(false);
   }
+  ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(true);
+  if(msg->firmware_version == 0xE16A){
+    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(false);
+  }
 }
 void CanClient::PsuPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
