@@ -50,7 +50,7 @@ MainWindowController::MainWindowController(const ros::NodeHandle &nh,
   connect(&communication_, SIGNAL(ReceivedLogMessage(const QString &)), this,
           SLOT(AddMessageToLogWindow(const QString &)));
 
-  current_proc_tree_ = communication_.GetCurrentProcTree();
+  SetButtonsIcons();
 
   ResetUI();
 }
@@ -64,9 +64,24 @@ MainWindowController::~MainWindowController() {}
 
 //------------------------------------------------------------------------------
 //
+void MainWindowController::SetButtonsIcons() {
+  QIcon icon(":/icons/process-stop.png");
+  ui_->reset_map_button->setIcon(icon);
+  connect(ui_->reset_map_button, SIGNAL(released()), this,
+          SLOT(SendResetMapMessage()));
+
+  icon = QIcon(":/icons/view-refresh.png");
+  ui_->refresh_button->setIcon(icon);
+  connect(ui_->refresh_button, SIGNAL(released()), this, SLOT(ResetUI()));
+}
+
+//------------------------------------------------------------------------------
+//
 void MainWindowController::ResetUI() {
+  current_proc_tree_ = communication_.GetCurrentProcTree();
   ResetProcTreeComboBox();
   ResetProcUnitComboBox();
+  ui_->log_widget->setPlainText("");
 }
 
 //------------------------------------------------------------------------------
@@ -285,6 +300,12 @@ void MainWindowController::ChangeServerParameter(
 //
 void MainWindowController::AddMessageToLogWindow(const QString &log) {
   ui_->log_widget->appendHtml(log);
+}
+
+//------------------------------------------------------------------------------
+//
+void MainWindowController::SendResetMapMessage() {
+  communication_.SendResetMapMessage();
 }
 
 }  // namespace gui_mapping_client

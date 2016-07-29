@@ -77,7 +77,15 @@ class MainWindowController : public QMainWindow {
       const Parameter *,
       const std::shared_ptr<sonia_msgs::ProcUnitParameter> &);
 
+  void SendResetMapMessage();
+
   void AddMessageToLogWindow(const QString &);
+
+  void ResetUI();
+  void ResetProcUnitComboBox();
+  void ResetProcTreeComboBox();
+  void ResetImageView();
+  void ResetParameterGroupWidget();
 
  private:
   //==========================================================================
@@ -88,15 +96,11 @@ class MainWindowController : public QMainWindow {
   std::vector<std::string> GetProcUnitNames(
       const sonia_msgs::ProcTree &proc_tree) const;
 
+  void SetButtonsIcons();
+
   /// Getter for the current_proc_tree member.
   /// This will return nullptr whenever the current image view type is not
   std::shared_ptr<sonia_msgs::ProcTree> GetCurrentProcTree() const;
-
-  void ResetUI();
-  void ResetProcUnitComboBox();
-  void ResetProcTreeComboBox();
-  void ResetImageView();
-  void ResetParameterGroupWidget();
 
   //==========================================================================
   // P R I V A T E   M E M B E R S
