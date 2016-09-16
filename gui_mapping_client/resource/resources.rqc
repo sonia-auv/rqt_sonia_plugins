@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>icons/process-stop.png</file>
+    <file>icons/view-refresh.png</file>
+</qresource>
+</RCC>

@@ -1,3 +1,7 @@
+*.user
+*.pro
+qtcreator/
+
 # Compiled Object files
 *.slo
 *.lo
@@ -153,3 +157,9 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+# Coverring ROS ignores
+build/
+devel/
+/src/CMakeLists.txt
+test/*.xml
