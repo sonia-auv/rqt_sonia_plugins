@@ -44,7 +44,7 @@ class CanClient : public QMainWindow {
 
   // battery progress bar threshold and max voltage value
   const double BATT_THRESHOLD = 25.6;
-  const double BATT_MAX = 28.5;
+  const double BATT_MAX = 28;
 
   // X axis maximum lenght
   const int CURRENT_GRAPH_RECORD_TIME = 60;
@@ -235,6 +235,8 @@ class CanClient : public QMainWindow {
   void on_pushButton_Device_Discover_clicked();
   void on_pushButton_Plot_Current_clicked();
   void on_pushButton_Plot_Voltage_clicked();
+  void on_pushButton_Bot_Light_On_clicked();
+  void on_pushButton_Bot_Light_Off_clicked();
 
  private:
   //============================================================================
@@ -347,6 +349,7 @@ class CanClient : public QMainWindow {
   sonia_msgs::SendCanMessage diver_interface_srv_;
   sonia_msgs::SendCanMessage led_indicator_srv_;
   sonia_msgs::SendCanMessage psu_srv_;
+  sonia_msgs::SendCanMessage bot_light_srv_;
 
   sonia_msgs::SendCanMessage devices_discovery_srv_;
 
@@ -362,6 +365,8 @@ class CanClient : public QMainWindow {
   QwtPlotCurve *thresh_curve_;
   double thresh_freq_[2];
   double thresh_mag_[2];
+
+  QwtPlotCurve *dephasage_point_cloud_;
 
   QwtPlotCurve *current_curve_;
   std::vector<double> current_values_;

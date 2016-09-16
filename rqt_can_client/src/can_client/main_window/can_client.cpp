@@ -103,7 +103,7 @@ void CanClient::InitHydrosTools(){
   thresh_curve_ = new QwtPlotCurve();
 
   for (uint16_t i = 0; i < 64; i++) {
-    freq_points_[i] = i * 813;
+    freq_points_[i] = i * 813 + 813;
     mag_points_[i] = 100;
   }
   bw1_freq_[0] = ui->spinBox_Hydr_Pinger_Freq->value() * 1000 -
@@ -151,7 +151,7 @@ void CanClient::InitPsuGraphs(){
   current_curve_->attach(ui->qwtPlot_Psu_Current);
 
   voltage_curve_ = new QwtPlotCurve();
-  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 0, 30, 5);
+  ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::yLeft, 23, 30, 1);
   ui->qwtPlot_Psu_Voltage->setAxisScale(QwtPlot::xBottom, 0,
                                         VOLTAGE_GRAPH_RECORD_TIME, 5);
   ui->qwtPlot_Psu_Voltage->setAxisTitle(QwtPlot::yLeft, "Voltage (V)");
@@ -262,6 +262,9 @@ void CanClient::SubscribeRosMessages(){
 void CanClient::SubscribeRosServices(){
   can_service_client_ = nh_.serviceClient<sonia_msgs::SendCanMessage>(
     "/provider_can/send_can_message");
+
+  bot_light_srv_.request.device_id = bot_light_srv_.request.DEVICE_ID_lights;
+  bot_light_srv_.request.unique_id = bot_light_srv_.request.UNIQUE_ID_LIGHT_bottom_light;
 
   can_hydros_srv_.request.device_id = can_hydros_srv_.request.DEVICE_ID_sonars;
   can_hydros_srv_.request.unique_id =
@@ -449,6 +452,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 10 + cheby_or_elliptic;
       break;
     case 25:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 46+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 11 + cheby_or_elliptic;
       break;
     case 26:
@@ -464,6 +470,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 15 + cheby_or_elliptic;
       break;
     case 30:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 49+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 16 + cheby_or_elliptic;
       break;
     case 31:
@@ -479,6 +488,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 20 + cheby_or_elliptic;
       break;
     case 35:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 52+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 21 + cheby_or_elliptic;
       break;
     case 36:
@@ -494,6 +506,9 @@ void CanClient::on_spinBox_Hydr_Pinger_Freq_editingFinished() {
       can_hydros_srv_.request.parameter_value = 25 + cheby_or_elliptic;
       break;
     case 40:
+      if(ui->comboBox_Freq_Filter_Type->currentIndex() >= 2){
+        can_hydros_srv_.request.parameter_value = 55+ui->comboBox_Freq_Filter_Type->currentIndex();
+      }else
       can_hydros_srv_.request.parameter_value = 26 + cheby_or_elliptic;
       break;
   }
@@ -1033,9 +1048,7 @@ void CanClient::on_pushButton_psu_Off_Motor_3_clicked() {
 
 void CanClient::on_pushButton_Hydr_MagDeph_clicked() {
   static bool graph = true;
-
   graph = !graph;
-
   // show the hydrophone FFT graph. makes the tableWidgets behind disappear
   if (graph) {
     ui->tableWidget_Hydr_Fft_Mag->setVisible(false);
@@ -1258,6 +1271,7 @@ void CanClient::on_pushButton_Device_Discover_clicked() {
 
     device_index++;
   }
+
 }
 
 
@@ -1304,6 +1318,17 @@ void CanClient::on_pushButton_Plot_Voltage_clicked() {
   ui->qwtPlot_Psu_Voltage->replot();
 }
 
+void CanClient::on_pushButton_Bot_Light_On_clicked(){
+  bot_light_srv_.request.method_number = bot_light_srv_.request.METHOD_BOTLIGTH_set_level;
+  bot_light_srv_.request.parameter_value = 100;
+  can_service_client_.call(bot_light_srv_);
+}
+
+void CanClient::on_pushButton_Bot_Light_Off_clicked(){
+  bot_light_srv_.request.method_number = bot_light_srv_.request.METHOD_BOTLIGTH_set_level;
+  bot_light_srv_.request.parameter_value = 00;
+  can_service_client_.call(bot_light_srv_);
+}
 
 
 
@@ -1353,6 +1378,27 @@ void CanClient::CarteNavPropertiesCallback(
 void CanClient::HydrosPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
   SetDevicesFirmwareVersion(msg, ui->tableWidget_Devices_List->rowCount() - 2);
+
+  // if the firmware version is 2012
+  if(msg->firmware_version == 0x200){
+    ui->spinBox_Hydr_Acq_Thrs->setEnabled(true);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(true);
+    ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(true);
+    ui->comboBox_Cont_Filt_Freq->setEnabled(true);
+    ui->label_24->setText("FFT Trigger Mode");
+    ui->pushButton_En_Fft->setEnabled(true);
+  }else{
+    ui->spinBox_Hydr_Acq_Thrs->setEnabled(false);
+    ui->comboBox_Acq_Thrs_Mode->setEnabled(false);
+    ui->spinBox_Hydr_Phase_Calc_Alg->setEnabled(false);
+    ui->comboBox_Cont_Filt_Freq->setEnabled(false);
+    ui->label_24->setText("Use FFT Phase");
+    ui->pushButton_En_Fft->setEnabled(false);
+  }
+  ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(true);
+  if(msg->firmware_version == 0xE16A){
+    ui->spinBox_Hydr_Fft_Trig_Mode->setEnabled(false);
+  }
 }
 void CanClient::PsuPropertiesCallback(
   const sonia_msgs::CanDevicesProperties::ConstPtr &msg) {
@@ -1481,6 +1527,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 11:
     case 32:
+    case 48:
+    case 49:
+    case 50:
       ui->label_Hydr_Ping_Freq->setNum(25);
       break;
     case 12:
@@ -1501,6 +1550,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 16:
     case 37:
+    case 51:
+    case 52:
+    case 53:
       ui->label_Hydr_Ping_Freq->setNum(30);
       break;
     case 17:
@@ -1521,6 +1573,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 21:
     case 42:
+    case 54:
+    case 55:
+    case 56:
       ui->label_Hydr_Ping_Freq->setNum(35);
       break;
     case 22:
@@ -1541,6 +1596,9 @@ void CanClient::HydrophonesParamsCallback(
       break;
     case 26:
     case 47:
+    case 57:
+    case 58:
+    case 59:
       ui->label_Hydr_Ping_Freq->setNum(40);
       break;
   }
@@ -1568,29 +1626,11 @@ void CanClient::HydrophonesMsgsCallback(
     // makes a part of the processing done by AUV6
     if (msg->dephasage1_pinger_freq != 0) {
       // distance in cm for all phase displacements
-      if ((msg->dephasage1_d1 & 0x8000) == 0x8000) {
-        pro_deph_1 = (pow(2, 15) - (msg->dephasage1_d1 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_1 = msg->dephasage1_d1;
-      }
-
-      if ((msg->dephasage1_d2 & 0x8000) == 0x8000) {
-        pro_deph_2 = (pow(2, 15) - (msg->dephasage1_d2 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_2 = msg->dephasage1_d2;
-      }
-
-      if ((msg->dephasage1_d3 & 0x8000) == 0x8000) {
-        pro_deph_3 = (pow(2, 15) - (msg->dephasage1_d3 & 0x8000)) * -1.0;
-      } else {
-        pro_deph_3 = msg->dephasage1_d3;
-      }
-
-      pro_deph_1 = (pro_deph_1 / NORMALIZING_VALUE) *
+      pro_deph_1 = (msg->dephasage1_d1 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_2 = (pro_deph_2 / NORMALIZING_VALUE) *
+      pro_deph_2 = (msg->dephasage1_d2 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
-      pro_deph_3 = (pro_deph_3 / NORMALIZING_VALUE) *
+      pro_deph_3 = (msg->dephasage1_d3 / NORMALIZING_VALUE) *
                    (SPEED_OF_SOUND / msg->dephasage1_pinger_freq) * 100;
     }
 
