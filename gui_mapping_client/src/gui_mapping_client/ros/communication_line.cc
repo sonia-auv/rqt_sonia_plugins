@@ -24,6 +24,7 @@
 
 #include "gui_mapping_client/ros/communication_line.h"
 #include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
 #include <sonia_msgs/ChangeParameter.h>
 #include <sonia_msgs/ChangeProcTree.h>
 #include <sonia_msgs/GetCurrentProcTree.h>
