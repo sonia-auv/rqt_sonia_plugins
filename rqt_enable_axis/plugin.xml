@@ -9,6 +9,9 @@
         <label>&amp;SONIA</label>
         <icon type="theme">emblem-favorite</icon>
       </group>
+      <group>
+        <label>&amp;Control</label>
+      </group>
       
       <label>&amp;Enable Control</label>
       <icon type="theme">utilities-system-monitor</icon>

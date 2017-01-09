@@ -29,7 +29,7 @@ class ThrusterWidget(QMainWindow):
 
 
 
-        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_enable_axis'), 'resource', 'Mainwindow.ui')
+        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_thruster_control'), 'resource', 'Mainwindow.ui')
         loadUi(ui_file, self)
 
         self.setObjectName('MyThrusterControlWidget')
