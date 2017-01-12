@@ -1,9 +1,12 @@
 import struct
+import rospkg
+import os
 
 from Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
-    glVertex3f,glNormal3f, GL_LINES, GL_TRIANGLES, GL_QUADS
+    glVertex3f, glNormal3f, GL_LINES, GL_TRIANGLES, GL_QUADS
 from tf.transformations import quaternion_matrix
+
 
 class createpoint:
     def __init__(self, p, c=(1, 0, 0)):
@@ -45,6 +48,9 @@ class createtriangle:
 
 class loader:
     model = []
+    vehicle_size_x = 0.762 / 2
+    vehicle_size_y = 0.699 / 2
+    vehicle_size_z = 0.210 / 2
 
     # return the faces of the triangles
     def get_triangles(self):
@@ -53,13 +59,29 @@ class loader:
                 yield face
 
     # draw the models faces
-    def draw(self):
+    def draw(self, resolution_meter, position, orientation):
+
+        vehicle_position = (
+            position[0] * resolution_meter, position[1] * resolution_meter,
+            position[2] * resolution_meter)
+        glTranslatef(*vehicle_position)  # Translate Box
+
+        matrix = quaternion_matrix(orientation)  # convert quaternion to translation matrix
+        glMultMatrixf(matrix)  # Rotate Box
+
         glBegin(GL_TRIANGLES)
+        glColor3f(0.0078, 0.2588, 0.39607)
         for tri in self.get_triangles():
-            glNormal3f(tri.normal.x, tri.normal.y, tri.normal.z)
-            glVertex3f(tri.points[0].x, tri.points[0].y, tri.points[0].z)
-            glVertex3f(tri.points[1].x, tri.points[1].y, tri.points[1].z)
-            glVertex3f(tri.points[2].x, tri.points[2].y, tri.points[2].z)
+            glNormal3f(tri.normal.x, tri.normal.z, tri.normal.y)
+            glVertex3f((tri.points[0].x - self.vehicle_size_y) * resolution_meter,
+                       (tri.points[0].z - self.vehicle_size_x) * resolution_meter,
+                       (tri.points[0].y - self.vehicle_size_z) * resolution_meter)
+            glVertex3f((tri.points[1].x - self.vehicle_size_y) * resolution_meter,
+                       (tri.points[1].z - self.vehicle_size_x) * resolution_meter,
+                       (tri.points[1].y - self.vehicle_size_z) * resolution_meter)
+            glVertex3f((tri.points[2].x - self.vehicle_size_y) * resolution_meter,
+                       (tri.points[2].z - self.vehicle_size_x) * resolution_meter,
+                       (tri.points[2].y - self.vehicle_size_z) * resolution_meter)
         glEnd()
 
     # load stl file detects if the file is a text file or binary file
@@ -83,7 +105,6 @@ class loader:
         l = struct.unpack('I', fp.read(4))[0]
         count = 0
         while True:
-            print 'still reading'
             try:
                 p = fp.read(12)
                 if len(p) == 12:
@@ -117,26 +138,29 @@ class loader:
 
 
 class SubmarineLayer(Layer):
-    def __init__(self,resolution_meter,parent_widget):
-        Layer.__init__(self,'Submarine Layer',parent_widget)
+    def __init__(self, resolution_meter, parent_widget):
+        Layer.__init__(self, 'Submarine Layer', parent_widget)
         self._resolution_meters = resolution_meter
-        #self.subModel = loader()
-        #stl_file = os.path.join(rospkg.RosPack().get_path('rqt_navigation_map'), 'resource', 'sub.stl')
-        #self.subModel.load_binary_stl(stl_file)
+        self.subModel = loader()
+        stl_file = os.path.join(rospkg.RosPack().get_path('rqt_navigation_map'), 'resource', 'sub.stl')
+        self.subModel.load_binary_stl(stl_file)
 
-    def set_position(self,position):
+    def set_position(self, position):
         self._position = position
 
-    def set_orientation(self,orientation):
+    def set_orientation(self, orientation):
         self._orientation = orientation
 
     def _draw(self):
+        self.subModel.draw(self._resolution_meters, self._position, self._orientation)
+
+    def _draw1(self):
         vehicle_size_x = 0.54 * self._resolution_meters / 2.0
         vehicle_size_y = 1.45 * self._resolution_meters / 2.0
         vehicle_size_z = 0.45 * self._resolution_meters / 2.0
         position = (
-        self._position[0] * self._resolution_meters, self._position[1] * self._resolution_meters,
-        self._position[2] * self._resolution_meters)
+            self._position[0] * self._resolution_meters, self._position[1] * self._resolution_meters,
+            self._position[2] * self._resolution_meters)
         glTranslatef(*position)  # Translate Box
 
         matrix = quaternion_matrix(self._orientation)  # convert quaternion to translation matrix

@@ -48,7 +48,7 @@ class MapDrawer():
         # init and start update timer with 40ms (25fps)
         self._update_timer = QTimer(mainWidget)
         self._update_timer.timeout.connect(self.update_timeout)
-        self._update_timer.start(40)
+        self._update_timer.start(100)
 
     def get_layers(self):
         return self._layers

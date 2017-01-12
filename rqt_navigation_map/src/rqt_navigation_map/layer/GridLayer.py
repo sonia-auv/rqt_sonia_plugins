@@ -1,3 +1,4 @@
+import threading
 from Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
     glVertex3f,glNormal3f, GL_LINES
@@ -7,43 +8,49 @@ class GridLayer(Layer):
     def __init__(self,resolution_meter,parent_widget):
         Layer.__init__(self,'Grid Layer',parent_widget)
         self._resolution_meters = resolution_meter
+        self._lock = threading.Lock()
 
     def _draw(self):
-        gridded_area_size = 2000
+        try:
 
-        glLineWidth(1.0)
+            self._lock.acquire()
+            gridded_area_size = 1500
 
-        glBegin(GL_LINES)
+            glLineWidth(1.0)
 
-        glColor3f(0.7, 0.7, 0.7)
+            num_of_lines = int(gridded_area_size / self._resolution_meters)
+            glBegin(GL_LINES)
 
-        glVertex3f(gridded_area_size, 0, 0)
-        glVertex3f(-gridded_area_size, 0, 0)
-        glVertex3f(0, gridded_area_size, 0)
-        glVertex3f(0, -gridded_area_size, 0)
+            glColor3f(0.7, 0.7, 0.7)
 
-        num_of_lines = int(gridded_area_size / self._resolution_meters)
+            glVertex3f(gridded_area_size, 0, 0)
+            glVertex3f(-gridded_area_size, 0, 0)
+            glVertex3f(0, gridded_area_size, 0)
+            glVertex3f(0, -gridded_area_size, 0)
 
-        for i in range(num_of_lines):
-            glVertex3f(self._resolution_meters * i, -gridded_area_size, 0)
-            glVertex3f(self._resolution_meters * i, gridded_area_size, 0)
-            glVertex3f(gridded_area_size, self._resolution_meters * i, 0)
-            glVertex3f(-gridded_area_size, self._resolution_meters * i, 0)
 
-            glVertex3f(self._resolution_meters * (-i), -gridded_area_size, 0)
-            glVertex3f(self._resolution_meters * (-i), gridded_area_size, 0)
-            glVertex3f(gridded_area_size, self._resolution_meters * (-i), 0)
-            glVertex3f(-gridded_area_size, self._resolution_meters * (-i), 0)
+            for i in range(num_of_lines):
+                glVertex3f(self._resolution_meters * i, -gridded_area_size, 0)
+                glVertex3f(self._resolution_meters * i, gridded_area_size, 0)
+                glVertex3f(gridded_area_size, self._resolution_meters * i, 0)
+                glVertex3f(-gridded_area_size, self._resolution_meters * i, 0)
 
-        glEnd()
+                glVertex3f(self._resolution_meters * (-i), -gridded_area_size, 0)
+                glVertex3f(self._resolution_meters * (-i), gridded_area_size, 0)
+                glVertex3f(gridded_area_size, self._resolution_meters * (-i), 0)
+                glVertex3f(-gridded_area_size, self._resolution_meters * (-i), 0)
 
-        glLineWidth(3.0)
-        glBegin(GL_LINES)
+            glEnd()
 
-        glVertex3f(0, -gridded_area_size, 0)
-        glVertex3f(0, gridded_area_size, 0)
+            glLineWidth(3.0)
+            glBegin(GL_LINES)
 
-        glVertex3f(gridded_area_size, 0, 0)
-        glVertex3f(-gridded_area_size, 0, 0)
+            glVertex3f(0, -gridded_area_size, 0)
+            glVertex3f(0, gridded_area_size, 0)
 
-        glEnd()
+            glVertex3f(gridded_area_size, 0, 0)
+            glVertex3f(-gridded_area_size, 0, 0)
+
+            glEnd()
+        finally:
+            self._lock.release()

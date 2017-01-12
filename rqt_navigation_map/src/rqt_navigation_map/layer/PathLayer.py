@@ -26,8 +26,8 @@ class PathLayer(Layer):
 
         glBegin(GL_LINES)
 
-        glColor3f(1, 0, 0)
-        for path in self._path_queue:
+        glColor3f(119, 25, 25)
+        for path in list(self._path_queue):
             glVertex3f(path[0] * self._resolution_meter -4,path[1] * self._resolution_meter,5)
             glVertex3f(path[0]* self._resolution_meter+4,path[1] * self._resolution_meter,5)
 
