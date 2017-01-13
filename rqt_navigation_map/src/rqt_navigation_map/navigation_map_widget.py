@@ -47,7 +47,7 @@ class NavigationMapWidget(QWidget):
         self._position = (0.0, 0.0, 0.0)
         self._mapDrawer.set_position(self._position)
         self._orientation = quaternion_about_axis(45.0, (0.0, 0.0, 1.0))
-        self._mapDrawer.set_orientation(self._orientation)
+        self._mapDrawer.set_orientation(self._orientation,45)
         # add GL view to widget layout
         self.layout().addWidget(self._gl_view)
 
@@ -72,16 +72,16 @@ class NavigationMapWidget(QWidget):
         self._menu.addMenu(layer_menu)
         self._menu.addSeparator()
 
-        view2dAction = QAction(self._gl_view.tr("2D View"), self._gl_view, triggered=self._set_default_view)
-        self._menu.addAction(view2dAction)
+        self._view2dAction = QAction(self._gl_view.tr("2D View"), self._gl_view, triggered=self._set_default_view)
+        self._menu.addAction(self._view2dAction)
 
-        view3dAction = QAction(self._gl_view.tr("3D View"), self._gl_view, triggered=self._set_3d_view)
-        self._menu.addAction(view3dAction)
+        self._view3dAction = QAction(self._gl_view.tr("3D View"), self._gl_view, triggered=self._set_3d_view)
+        self._menu.addAction(self._view3dAction)
         self._menu.addSeparator()
 
-        # rotateAction = QAction(self._gl_view.tr("Rotate with Sub"), self, checkable=True,
+        #self._rotateSubAction = QAction(self._gl_view.tr("Rotate with Sub"), self, checkable=True,
         #                       triggered=self._rotate_with_sub)
-        # self._menu.addAction(rotateAction)
+        #self._menu.addAction(self._rotateSubAction)
 
         self._lockOnSubAction = QAction(self._gl_view.tr("Lock on Sub"), self, checkable=True,
                                         triggered=self._lock_on_sub)
@@ -104,23 +104,7 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.set_position(self._position)
         self._yaw = odom_data.pose.pose.orientation.z
         self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
-        self._mapDrawer.set_orientation(self._orientation)
-
-        if self._lock_on_sub_activated:
-            self._translate_on_vehicle(vehicle_position_x, vehicle_position_y)
-
-        if self._rotate_with_sub_activated:
-            self._gl_view.makeCurrent()
-            self._gl_view.reset_rotation()
-
-            self._gl_view.rotate((0, 0, 1), self._yaw)
-
-    def _translate_on_vehicle(self, vehicle_position_x, vehicle_position_y):
-        current_zoom = self._gl_view.get_view_matrix()[3][2] + 25
-        self._gl_view.makeCurrent()
-        self._gl_view.reset_view()
-        self._gl_view.translate((vehicle_position_x * self._mapDrawer.resolution_meters * -1,
-                                 vehicle_position_y * self._mapDrawer.resolution_meters * -1, current_zoom))
+        self._mapDrawer.set_orientation(self._orientation,self._yaw)
 
     def save_settings(self, plugin_settings, instance_settings):
         self._mapDrawer.save_settings(plugin_settings,instance_settings)
@@ -145,8 +129,15 @@ class NavigationMapWidget(QWidget):
         if lock_on_sub is None:
             print 'Nothing stored for lock_on_sub'
         else:
-            self._lock_on_sub_activated = lock_on_sub
+            self._lock_on_sub(lock_on_sub)
             self._lockOnSubAction.setChecked(lock_on_sub)
+
+        #rotate_with_sub = instance_settings.value('rotate_with_sub_activated') == 'True'
+        #if rotate_with_sub is None:
+        #    print 'Nothing stored for lock_on_sub'
+        #else:
+        #    self._rotate_with_sub(rotate_with_sub)
+        #    self._rotateSubAction.setChecked(rotate_with_sub)
 
     def _set_default_view(self):
         self._gl_view.makeCurrent()
@@ -162,10 +153,14 @@ class NavigationMapWidget(QWidget):
 
     def _rotate_with_sub(self, checked):
         self._rotate_with_sub_activated = checked
+        self._mapDrawer.set_rotate_with_sub_activated(checked)
 
     def _lock_on_sub(self, checked):
         self._lock_on_sub_activated = checked
-        self._translate_on_vehicle(self._position[0],self._position[1])
+        self._mapDrawer.set_lock_on_sub_activated(checked)
+
+        self._view2dAction.setEnabled(not checked)
+        self._view3dAction.setEnabled(not checked)
 
 
     def _gl_view_mouseReleaseEvent(self, event):

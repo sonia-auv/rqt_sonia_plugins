@@ -56,8 +56,8 @@ class MapDrawer():
         self._submarine_layer.set_position(position)
         self._path_layer.position_update(position)
 
-    def set_orientation(self,orientation):
-        self._submarine_layer.set_orientation(orientation)
+    def set_orientation(self,orientation,yaw):
+        self._submarine_layer.set_orientation(orientation,yaw)
 
     def _set_default_view(self):
         self._gl_view.makeCurrent()
@@ -83,6 +83,12 @@ class MapDrawer():
 
     def drawTarget(self, x, y, z):
         self._target_layer.set_target((x * self.resolution_meters, y * self.resolution_meters, z * self.resolution_meters))
+
+    def set_lock_on_sub_activated(self,activate):
+        self._submarine_layer.set_lock_on_sub(activate)
+
+    def set_rotate_with_sub_activated(self,activate):
+        self._submarine_layer.set_rotate_with_sub_activated(activate)
 
     def save_settings(self, plugin_settings, instance_settings):
         for layer in self._layers:

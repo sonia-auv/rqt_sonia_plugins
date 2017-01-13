@@ -1,10 +1,11 @@
 import struct
 import rospkg
 import os
+import threading
 
 from Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
-    glVertex3f, glNormal3f, GL_LINES, GL_TRIANGLES, GL_QUADS
+    glVertex3f, glNormal3f, GL_LINES, GL_TRIANGLES, GL_QUADS,glLoadMatrixd,glMatrixMode,GL_MODELVIEW,glGetDoublev,GL_MODELVIEW_MATRIX
 from tf.transformations import quaternion_matrix
 
 
@@ -51,6 +52,12 @@ class loader:
     vehicle_size_x = 0.762 / 2
     vehicle_size_y = 0.699 / 2
     vehicle_size_z = 0.210 / 2
+    _lock = threading.Lock()
+
+    def __init__(self,gl_view):
+        self.gl_view = gl_view
+        self._lock_on_sub = False
+        self._lock_rotate = False
 
     # return the faces of the triangles
     def get_triangles(self):
@@ -59,42 +66,56 @@ class loader:
                 yield face
 
     # draw the models faces
-    def draw(self, resolution_meter, position, orientation):
+    def draw(self, resolution_meter, position, orientation,yaw):
 
-        vehicle_position = (
-            position[0] * resolution_meter, position[1] * resolution_meter,
-            position[2] * resolution_meter)
-        glTranslatef(*vehicle_position)  # Translate Box
+        try:
+            self._lock.acquire()
+            vehicle_position = (
+                position[0] * resolution_meter, position[1] * resolution_meter,
+                position[2] * resolution_meter)
+            glTranslatef(vehicle_position[0],vehicle_position[1],vehicle_position[2])  # Translate Box
 
-        matrix = quaternion_matrix(orientation)  # convert quaternion to translation matrix
-        glMultMatrixf(matrix)  # Rotate Box
+            matrix = quaternion_matrix(orientation)  # convert quaternion to translation matrix
+            glMultMatrixf(matrix)  # Rotate Box
 
-        glBegin(GL_TRIANGLES)
-        glColor3f(0.0078, 0.2588, 0.39607)
-        for tri in self.get_triangles():
-            glNormal3f(tri.normal.x, tri.normal.z, tri.normal.y)
-            glVertex3f((tri.points[0].x - self.vehicle_size_y) * resolution_meter,
-                       (tri.points[0].z - self.vehicle_size_x) * resolution_meter,
-                       (tri.points[0].y - self.vehicle_size_z) * resolution_meter)
-            glVertex3f((tri.points[1].x - self.vehicle_size_y) * resolution_meter,
-                       (tri.points[1].z - self.vehicle_size_x) * resolution_meter,
-                       (tri.points[1].y - self.vehicle_size_z) * resolution_meter)
-            glVertex3f((tri.points[2].x - self.vehicle_size_y) * resolution_meter,
-                       (tri.points[2].z - self.vehicle_size_x) * resolution_meter,
-                       (tri.points[2].y - self.vehicle_size_z) * resolution_meter)
-        glEnd()
+            glBegin(GL_TRIANGLES)
+            glColor3f(0.0078, 0.2588, 0.39607)
+            for tri in self.get_triangles():
+                glNormal3f(tri.normal.x, tri.normal.z, tri.normal.y)
+                glVertex3f((tri.points[0].x - self.vehicle_size_y) * resolution_meter,
+                           (tri.points[0].z - self.vehicle_size_x) * resolution_meter,
+                           (tri.points[0].y - self.vehicle_size_z) * resolution_meter)
+                glVertex3f((tri.points[1].x - self.vehicle_size_y) * resolution_meter,
+                           (tri.points[1].z - self.vehicle_size_x) * resolution_meter,
+                           (tri.points[1].y - self.vehicle_size_z) * resolution_meter)
+                glVertex3f((tri.points[2].x - self.vehicle_size_y) * resolution_meter,
+                           (tri.points[2].z - self.vehicle_size_x) * resolution_meter,
+                           (tri.points[2].y - self.vehicle_size_z) * resolution_meter)
+            glEnd()
 
+            if self._lock_on_sub:
+                modelview_matrix = self.gl_view.get_view_matrix()
+                modelview_matrix[3] = [vehicle_position[0] * -1 , vehicle_position[1] * -1, modelview_matrix[3][2], modelview_matrix[3][3]]
+                self.gl_view.load_view_matrix(modelview_matrix)
+
+            if self._lock_rotate:
+                self.gl_view.rotate_absolute((0,0,1),yaw)
+        finally:
+                self._lock.release()
+
+    def set_lock_on_sub(self,activate):
+        self._lock_on_sub = activate
+
+    def set_rotate_with_sub_activated(self,activate):
+        self._lock_rotate = activate
     # load stl file detects if the file is a text file or binary file
     def load_stl(self, filename):
         # read start of file to determine if its a binay stl file or a ascii stl file
-        print 'open file'
         fp = open(filename, 'rb')
         h = fp.read(80)
         type = h[0:5]
         fp.close()
-        print "reading binary stl file " + str(filename, )
         self.load_binary_stl(filename)
-        print 'binary stl readed'
 
     # load binary stl file check wikipedia for the binary layout of the file
     # we use the struct library to read in and convert binary data into a format we can use
@@ -141,70 +162,22 @@ class SubmarineLayer(Layer):
     def __init__(self, resolution_meter, parent_widget):
         Layer.__init__(self, 'Submarine Layer', parent_widget)
         self._resolution_meters = resolution_meter
-        self.subModel = loader()
+        self.subModel = loader(parent_widget)
         stl_file = os.path.join(rospkg.RosPack().get_path('rqt_navigation_map'), 'resource', 'sub.stl')
         self.subModel.load_binary_stl(stl_file)
 
     def set_position(self, position):
         self._position = position
 
-    def set_orientation(self, orientation):
+    def set_orientation(self, orientation,yaw):
         self._orientation = orientation
+        self._yaw = yaw
 
     def _draw(self):
-        self.subModel.draw(self._resolution_meters, self._position, self._orientation)
+        self.subModel.draw(self._resolution_meters, self._position, self._orientation,self._yaw)
 
-    def _draw1(self):
-        vehicle_size_x = 0.54 * self._resolution_meters / 2.0
-        vehicle_size_y = 1.45 * self._resolution_meters / 2.0
-        vehicle_size_z = 0.45 * self._resolution_meters / 2.0
-        position = (
-            self._position[0] * self._resolution_meters, self._position[1] * self._resolution_meters,
-            self._position[2] * self._resolution_meters)
-        glTranslatef(*position)  # Translate Box
+    def set_lock_on_sub(self,activate):
+        self.subModel.set_lock_on_sub(activate)
 
-        matrix = quaternion_matrix(self._orientation)  # convert quaternion to translation matrix
-        glMultMatrixf(matrix)  # Rotate Box
-
-        glBegin(GL_QUADS)  # Start Drawing The Box
-
-        glColor3f(0.0, 0.0, 1.0)
-        # self.subModel.draw()
-        glVertex3f(vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Right Of The Quad (Top)
-        glVertex3f(-vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Left Of The Quad (Top)
-        glVertex3f(-vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Bottom Left Of The Quad (Top)
-        glVertex3f(vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Bottom Right Of The Quad (Top)
-
-        glVertex3f(vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Top Right Of The Quad (Bottom)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Top Left Of The Quad (Bottom)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Left Of The Quad (Bottom)
-        glVertex3f(vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Right Of The Quad (Bottom)
-
-        glVertex3f(vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Top Right Of The Quad (Front)
-        glVertex3f(-vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Top Left Of The Quad (Front)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Bottom Left Of The Quad (Front)
-        glVertex3f(vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Bottom Right Of The Quad (Front)
-
-        glVertex3f(vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Left Of The Quad (Back)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Right Of The Quad (Back)
-        glVertex3f(-vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Right Of The Quad (Back)
-        glVertex3f(vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Left Of The Quad (Back)
-
-        glVertex3f(-vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Top Right Of The Quad (Left)
-        glVertex3f(-vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Left Of The Quad (Left)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Left Of The Quad (Left)
-        glVertex3f(-vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Bottom Right Of The Quad (Left)
-
-        glVertex3f(vehicle_size_x, vehicle_size_y, -vehicle_size_z)  # Top Right Of The Quad (Right)
-        glVertex3f(vehicle_size_x, vehicle_size_y, vehicle_size_z)  # Top Left Of The Quad (Right)
-        glVertex3f(vehicle_size_x, -vehicle_size_y, vehicle_size_z)  # Bottom Left Of The Quad (Right)
-        glVertex3f(vehicle_size_x, -vehicle_size_y, -vehicle_size_z)  # Bottom Right Of The Quad (Right)
-
-        glEnd()  # Done Drawing The Quad
-        glLineWidth(6.0)
-
-        glBegin(GL_LINES)
-        glColor3f(0.0, 0.0, 1.0)
-        glVertex3f(0, vehicle_size_y - 2, 0)
-        glVertex3f(0, vehicle_size_y + 12, 0)
-        glEnd()
+    def set_rotate_with_sub_activated(self,activate):
+        self.subModel.set_rotate_with_sub_activated(activate)

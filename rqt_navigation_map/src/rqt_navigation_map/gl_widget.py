@@ -80,6 +80,12 @@ class GLWidget(QGLWidget):
 
     def set_view_matrix(self, matrix):
         self._modelview_matrix = numpy.array(matrix)
+    def load_view_matrix(self,view_matrix):
+        self.makeCurrent()
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        glLoadMatrixd(view_matrix)
+        self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
 
     def set_projection(self, near, far, fovy):
         self._near = near
@@ -116,6 +122,17 @@ class GLWidget(QGLWidget):
         # update _modelview_matrix
         self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
 
+    def translate_absolute(self, trans):
+        # translate the object
+        self.makeCurrent()
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        glTranslated(trans[0], trans[1], trans[2])
+        self._modelview_matrix[3] = [0, 0, 0, self._modelview_matrix[3][3]]
+        glMultMatrixd(self._modelview_matrix)
+        # update _modelview_matrix
+        self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
+
     def rotate(self, axis, angle):
         # rotate the object
         self.makeCurrent()
@@ -126,6 +143,21 @@ class GLWidget(QGLWidget):
         glRotated(angle, axis[0], axis[1], axis[2])
         glTranslatef(-t[0], -t[1], -t[2])
         glMultMatrixd(self._modelview_matrix)
+        # update _modelview_matrix
+        self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
+
+    def rotate_absolute(self,axis,angle):
+        # rotate the object
+        self.makeCurrent()
+        glMatrixMode(GL_MODELVIEW)
+        glLoadIdentity()
+        t = [self._modelview_matrix[3][0], self._modelview_matrix[3][1], self._modelview_matrix[3][2]]
+        glTranslatef(t[0], t[1], t[2])
+        glRotated(angle, axis[0], axis[1], axis[2])
+        glTranslatef(-t[0], -t[1], -t[2])
+        matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
+        matrix[3][0], matrix[3][1],matrix[3][2] = t
+        glLoadMatrixd(matrix)
         # update _modelview_matrix
         self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
 
