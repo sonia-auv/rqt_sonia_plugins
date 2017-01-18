@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>195</height>
+    <width>580</width>
+    <height>200</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>580</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="maximumSize">
    <size>
@@ -20,7 +26,7 @@
    <string notr="true">Thruster</string>
   </property>
   <property name="autoFillBackground">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
@@ -74,6 +80,16 @@
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
      </property>
+     <property name="leftMargin">
+      <number>10</number>
+     </property>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="yawPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="3">
       <widget class="QLabel" name="rollPositionLabel">
        <property name="text">
@@ -229,13 +245,6 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="5">
-      <widget class="QLineEdit" name="yawPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
   </widget>
@@ -244,7 +253,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>586</width>
+     <width>580</width>
      <height>19</height>
     </rect>
    </property>

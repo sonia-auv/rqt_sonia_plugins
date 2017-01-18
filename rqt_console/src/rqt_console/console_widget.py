@@ -720,6 +720,7 @@ class ConsoleWidget(QWidget):
             item[1].save_settings(filter_settings)
         instance_settings.set_value('highlight_filters', pack(highlight_filters))
         instance_settings.set_value('message_limit', self._model.get_message_limit())
+        instance_settings.set_value('hide_config',self.toggle_button.isChecked())
 
     def restore_settings(self, pluggin_settings, instance_settings):
         if instance_settings.contains('table_splitter'):
@@ -765,3 +766,8 @@ class ConsoleWidget(QWidget):
 
         if instance_settings.contains('message_limit'):
             self._model.set_message_limit(int(instance_settings.value('message_limit')))
+
+        if instance_settings.contains('hide_config'):
+            self.toggle_button.setChecked(bool(instance_settings.value('hide_config')))
+            self._handle_toggle_config(bool(instance_settings.value('hide_config')))
+

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Enable Axis</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <widget class="QComboBox" name="current_execution">

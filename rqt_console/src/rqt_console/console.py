@@ -66,6 +66,8 @@ class Console(Plugin):
         self._widget = ConsoleWidget(self._proxy_model, self._rospack)
         if context.serial_number() > 1:
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
+        self._widget.setPalette(context._handler._main_window.palette())
+        self._widget.setAutoFillBackground(True)
         context.add_widget(self._widget)
 
         # queue to store incoming data which get flushed periodically to the model

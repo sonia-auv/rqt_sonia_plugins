@@ -7,10 +7,11 @@
       
       <group>
         <label>&amp;SONIA</label>
-        <icon type="theme">emblem-favorite</icon>
+        <icon type="theme">folder</icon>
       </group>
       <group>
         <label>&amp;Control</label>
+        <icon type="theme">folder</icon>
       </group>
       
       <label>&amp;Thrusters Control</label>

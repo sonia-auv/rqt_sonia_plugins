@@ -32,6 +32,8 @@ class VisionStarter(Plugin):
         self.context_serial = context.serial_number()
         if context.serial_number() > 1:
             self._mainWindow.setWindowTitle(self._mainWindow.windowTitle() + (' (%d)' % context.serial_number()))
+        self._mainWindow.setPalette(context._handler._main_window.palette())
+        self._mainWindow.setAutoFillBackground(True)
         # Add widget to the user interface
         context.add_widget(self._mainWindow)
 

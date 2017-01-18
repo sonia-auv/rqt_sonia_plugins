@@ -32,26 +32,22 @@ class ThrusterAction():
 
     def _handle_thruster_effort0_clicked(self, checked):
         self._update_speed_slider(0)
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, 0)
 
     def _handle_thruster_effort50_clicked(self, checked):
         self._update_speed_slider(50)
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, 50)
 
     def _handle_thruster_effort100_clicked(self, checked):
         self._update_speed_slider(100)
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, 100)
 
     def _handle_thruster_effortm50_clicked(self, checked):
         self._update_speed_slider(-50)
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, -50)
 
     def _handle_thruster_effortm100_clicked(self, checked):
         self._update_speed_slider(-100)
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, -100)
 
     def _handle_thruster_slider_valueChanged(self):
         value = eval('self.mainwindow.'+self.thrusterName+'Slider.value()')
+        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, value)
         self._update_speed_text(value)
 
     def run_test(self):
