@@ -62,7 +62,7 @@ class GLWidget(QGLWidget):
 
 
     def initializeGL(self):
-        glClearColor(0.4, 0.4, 0.4, 0.0)
+        glClearColor(0.65, 0.65, 0.65, 0.0)
         glEnable(GL_DEPTH_TEST)
 
     def resizeGL(self, width, height):

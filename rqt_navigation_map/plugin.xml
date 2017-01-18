@@ -11,6 +11,7 @@
       </group>
       <group>
         <label>&amp;Navigation</label>
+        <icon type="theme">folder</icon>
       </group>
 
       <label>&amp;Map</label>

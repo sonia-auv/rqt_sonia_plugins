@@ -21,7 +21,7 @@ class GridLayer(Layer):
             num_of_lines = int(gridded_area_size / self._resolution_meters)
             glBegin(GL_LINES)
 
-            glColor3f(0.7, 0.7, 0.7)
+            glColor3f(0.188, 0.188, 0.188)
 
             glVertex3f(gridded_area_size, 0, 0)
             glVertex3f(-gridded_area_size, 0, 0)
