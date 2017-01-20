@@ -62,9 +62,12 @@ find_path(QWT_INCLUDE_DIR
         NAMES qwt.h
         PATHS ${QWT_SEARCH_PATHS})
 
-find_package(Qt4 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
-include( ${QT_USE_FILE} )
+include_directories(${Qt5Widgets_INCLUDES})
+
+ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
+SET(CMAKE_CXX_FLAGS "${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
 catkin_package(
     INCLUDE_DIRS ${can_client_SRC_DIR}
@@ -77,7 +80,6 @@ catkin_package(
     provider_can
     sonia_msgs
 )
-
 #===============================================================================
 # I N C L U D E   F I L E S
 
@@ -95,8 +97,8 @@ include_directories(
 )
 link_directories(${QWT_INCLUDE_DIR}/lib)
 
-qt4_wrap_cpp( can_client_QT_MOC ${can_client_HDR_FILES} )
-qt4_wrap_ui( can_client_QT_UIS ${can_client_UIS} )
+qt5_wrap_cpp( can_client_QT_MOC ${can_client_HDR_FILES} )
+qt5_wrap_ui( can_client_QT_UIS ${can_client_UIS} )
 
 #===============================================================================
 # C R E A T E   E X E C U T A B L E
@@ -110,9 +112,7 @@ add_executable( ${PROJECT_NAME}_node
 
 target_link_libraries( ${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
-  ${QT4_LIBRARIES}
-  ${QT_QTCORE_LIBRARY}
-  ${QT_QTGUI_LIBRARY}
+  ${Qt5Widgets_LIBRARIES}
   qwt
   )
 

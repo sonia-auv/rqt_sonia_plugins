@@ -41,7 +41,7 @@ class ImageFrame : public QFrame {
    * \param	flags		  	The flags.
    */
   explicit ImageFrame(QWidget *const parent = nullptr,
-                      Qt::WFlags flags = nullptr);
+                      Qt::WindowFlags flags = nullptr);
 
   /** Destructor */
   virtual ~ImageFrame() = default;

@@ -19,7 +19,7 @@ namespace gui_vision_client {
 
 //------------------------------------------------------------------------------
 //
-ImageFrame::ImageFrame(QWidget *const parent, Qt::WFlags flags)
+ImageFrame::ImageFrame(QWidget *const parent, Qt::WindowFlags flags)
     : QFrame(parent),
       _aspect_ratio(),
       _image(),
