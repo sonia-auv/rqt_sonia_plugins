@@ -27,7 +27,7 @@ class DepthIndicatorWidget(QWidget):
 
     def _handle_result(self, z_depth):
         depth = int(float(z_depth) * 10)
-        self.depthSilder.setValue(depth)
+        self.depthSlider.setValue(depth)
         self.depthValue.setText(str(depth / 10.0))
 
     def shutdown_plugin(self):

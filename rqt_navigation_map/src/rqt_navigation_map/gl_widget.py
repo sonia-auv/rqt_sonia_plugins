@@ -68,7 +68,7 @@ class GLWidget(QGLWidget):
     def resizeGL(self, width, height):
         glViewport(0, 0, width, height)
         self.set_projection(self._near, self._far, self._fovy)
-        self.updateGL()
+        self.update()
 
     def paintGL(self):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -96,7 +96,7 @@ class GLWidget(QGLWidget):
         glLoadIdentity()
         height = max(self.height(), 1)
         gluPerspective(self._fovy, float(self.width()) / float(height), self._near, self._far)
-        self.updateGL()
+        self.update()
 
     def reset_view(self):
         # scene pos and size
@@ -173,7 +173,7 @@ class GLWidget(QGLWidget):
                 delta = event.delta()
             d = float(delta) / 200.0 * self._radius
             self.translate([0.0, 0.0, d])
-            self.updateGL()
+            self.update()
             event.accept()
 
     def mousePressEvent(self, event):
@@ -220,7 +220,7 @@ class GLWidget(QGLWidget):
         self._last_point_3d_ok = new_point_3d_ok
 
         # trigger redraw
-        self.updateGL()
+        self.update()
 
     def mouseReleaseEvent(self, _event):
         self._last_point_3d_ok = False

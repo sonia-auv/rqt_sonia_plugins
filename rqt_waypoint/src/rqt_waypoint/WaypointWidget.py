@@ -48,10 +48,16 @@ class WaypointWidget(QMainWindow):
         self.actionReset_Position.triggered.connect(self._reset_position)
 
     def _reset_depth(self):
-        self.set_initial_depth()
+        try:
+            self.set_initial_depth()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _reset_position(self):
-        self.set_initial_position()
+        try:
+            self.set_initial_position()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _odom_callback(self, data):
         self.xPositionCurrent.setText('%.2f' % data.pose.pose.position.x)
@@ -78,5 +84,7 @@ class WaypointWidget(QMainWindow):
         roll_target = float(self.rollPositionTarget.text())
         pitch_target = float(self.pitchPositionTarget.text())
         yaw_target = float(self.yawPositionTarget.text())
-
-        self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
+        try:
+            self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)

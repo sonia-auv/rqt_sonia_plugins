@@ -38,6 +38,7 @@ class VisionMainWidget(QWidget):
         self._current_execution = None
         self._current_execution_subscriber = None
         self._current_execution_subscriber_result = None
+        self._filterchain = None
         self._is_recording = False
         self._video_writer = None
         self._cv_image = None
@@ -77,13 +78,16 @@ class VisionMainWidget(QWidget):
         deleteAction = QAction(self.imageFrame.tr("Delete this execution"), self.imageFrame, triggered=self.delete_current_execution)
         self._menu.addAction(deleteAction)
 
-
     def fill_execution_list(self):
         self._refresh_clean()
         self._current_execution = None
         self.current_execution.clear()
 
-        execution_string = self._srv_get_information_list(1)
+        try:
+            execution_string = self._srv_get_information_list(1)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
         execution_list = execution_string.list.split(';')
         if len(execution_list) == 0:
             return
@@ -101,7 +105,10 @@ class VisionMainWidget(QWidget):
 
         new_execution = self.current_execution.itemText(index)
         self._current_execution = new_execution
-        self._filterchain = self._srv_get_filterchain_from_execution(self._current_execution)
+        try:
+            self._filterchain = self._srv_get_filterchain_from_execution(self._current_execution)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         self._current_execution_subscriber = rospy.Subscriber('/provider_vision/' + new_execution + '_image',
                                                               SensorImage, self.current_execution_callback)
         self._current_execution_subscriber_result = rospy.Subscriber('/provider_vision/' + new_execution + '_result',
@@ -163,16 +170,20 @@ class VisionMainWidget(QWidget):
 
     def delete_current_execution(self):
 
-        if self._current_execution is None :
+        if self._current_execution is None or self._filterchain is None:
             return
 
-        media = self._srv_get_media_from_execution(self._current_execution)
-
-        self._srv_execute_cmd(self._current_execution,self._filterchain.list,media.list,2)
+        try:
+            media = self._srv_get_media_from_execution(self._current_execution)
+            self._srv_execute_cmd(self._current_execution,self._filterchain.list,media.list,2)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
         self.fill_execution_list()
 
     def configure_filterchain_action(self):
+        if self._filterchain is None:
+            return
         self._widget = ConfigureFilterchainWidget(self._current_execution, self._filterchain)
         self._widget.show()
 

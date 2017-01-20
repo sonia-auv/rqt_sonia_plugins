@@ -5,7 +5,6 @@ import math
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint
-from python_qt_binding.QtGui import QCursor
 from python_qt_binding.QtWidgets import QAction, QMenu, QWidget
 
 import rospy
@@ -175,7 +174,10 @@ class NavigationMapWidget(QWidget):
         position_z = z / self._mapDrawer.resolution_meters
         self._mapDrawer.drawTarget(position_x, position_y, position_z)
         rospy.loginfo('Set Target selected at (%.2f, %.2f)', position_x, position_y)
-        self.set_global_target(X=position_x, Y=position_y, Z=position_z, ROLL=0, PITCH=0, YAW=self._yaw)
+        try:
+            self.set_global_target(X=position_x, Y=position_y, Z=position_z, ROLL=0, PITCH=0, YAW=self._yaw)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def shutdown_plugin(self):
         print 'Shutting down'

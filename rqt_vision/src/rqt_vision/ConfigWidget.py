@@ -55,7 +55,11 @@ class ConfigWidget(QWidget):
         self.filterchain_list.clear()
         self.filterchains.clear()
 
-        filterchain_string = self._srv_get_information_list(3)
+        try:
+            filterchain_string = self._srv_get_information_list(3)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
         filterchain_list = filterchain_string.list.split(';')
         if len(filterchain_list) == 0:
             return
@@ -71,7 +75,11 @@ class ConfigWidget(QWidget):
         self._current_media = None
         self.media_list.clear()
 
-        media_string = self._srv_get_information_list(2)
+        try:
+            media_string = self._srv_get_information_list(2)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
         media_list = media_string.list.split(';')
         if len(media_list) == 0:
             return
@@ -93,7 +101,11 @@ class ConfigWidget(QWidget):
         media = self.video_text.text()
         if len(media) == 0:
             media = self._current_media
-        self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
+        try:
+            self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
         self._main_window.fill_execution_list()
         self._main_window.current_execution.setCurrentIndex(self._main_window.current_execution.count() -1)
         self.close()
@@ -115,15 +127,25 @@ class ConfigWidget(QWidget):
     def _handle_copy_filterchain(self):
         if len(self.filterchain_name.text()) == 0:
             return;
-        self._srv_copy_filterchain(self._current_selected_filterchain, 'filterchain/' + self.filterchain_name.text())
-        self.fill_filterchain_list()
+        try:
+            self._srv_copy_filterchain(self._current_selected_filterchain, 'filterchain/' + self.filterchain_name.text())
+            self.fill_filterchain_list()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _handle_delete_filterchain(self):
-        self._srv_manage_filterchain('filterchain/' + self._current_selected_filterchain, 2)
-        self.fill_filterchain_list()
+        try:
+            self._srv_manage_filterchain('filterchain/' + self._current_selected_filterchain, 2)
+            self.fill_filterchain_list()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _handle_add_filterchain(self):
         if len(self.filterchain_name.text()) == 0:
             return;
-        self._srv_manage_filterchain(self.filterchain_name.text(), 1)
-        self.fill_filterchain_list()
+
+        try:
+            self._srv_manage_filterchain(self.filterchain_name.text(), 1)
+            self.fill_filterchain_list()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)

@@ -4,6 +4,7 @@ import rospkg
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtGui import QColor
 
 from proc_control.srv import EnableControl
 
@@ -34,6 +35,8 @@ class EnableAxisWidget(QWidget):
         self.depthAxis.clicked[bool].connect(self._handle_depthAxis_clicked)
         self.yawAxis.clicked[bool].connect(self._handle_yawAxis_clicked)
 
+        self.allAxis.click()
+
     def _handle_allAxis_clicked(self, checked):
         if self.xyAxis.isChecked() != checked:
             self.xyAxis.toggle()
@@ -43,25 +46,44 @@ class EnableAxisWidget(QWidget):
             self.yawAxis.toggle()
 
         if checked:
-            self.enable_axis(X=1, Y=1,Z=1,PITCH=1,ROLL=1, YAW=1)
+            self.xyAxis.setPalette(self.paletteChecked.palette())
+            self.depthAxis.setPalette(self.paletteChecked.palette())
+            self.yawAxis.setPalette(self.paletteChecked.palette())
+            self.allAxis.setPalette(self.paletteChecked.palette())
+            self._enable_axis(X=1, Y=1,Z=1,PITCH=1,ROLL=1, YAW=1)
         else:
-            self.enable_axis(X=0, Y=0,Z=0,PITCH=0,ROLL=0, YAW=0)
+            self.xyAxis.setPalette(self.paletteUnchecked.palette())
+            self.depthAxis.setPalette(self.paletteUnchecked.palette())
+            self.yawAxis.setPalette(self.paletteUnchecked.palette())
+            self.allAxis.setPalette(self.paletteUnchecked.palette())
+            self._enable_axis(X=0, Y=0,Z=0,PITCH=0,ROLL=0, YAW=0)
 
     def _handle_xyAxis_clicked(self, checked):
         if checked:
-            self.enable_axis(X=1, Y=1,Z=-1,PITCH=-1,ROLL=-1, YAW=-1)
+            self.xyAxis.setPalette(self.paletteChecked.palette())
+            self._enable_axis(X=1, Y=1,Z=-1,PITCH=-1,ROLL=-1, YAW=-1)
         else :
-
-            self.enable_axis(X=0, Y=0,Z=-1,PITCH=-1,ROLL=-1, YAW=-1)
+            self.xyAxis.setPalette(self.paletteUnchecked.palette())
+            self._enable_axis(X=0, Y=0,Z=-1,PITCH=-1,ROLL=-1, YAW=-1)
 
     def _handle_depthAxis_clicked(self, checked):
         if checked:
-            self.enable_axis(X=-1, Y=-1,Z=1,PITCH=-1,ROLL=-1, YAW=-1)
+            self.depthAxis.setPalette(self.paletteChecked.palette())
+            self._enable_axis(X=-1, Y=-1,Z=1,PITCH=-1,ROLL=-1, YAW=-1)
         else :
-            self.enable_axis(X=-1, Y=-1,Z=0,PITCH=-1,ROLL=-1, YAW=-1)
+            self.depthAxis.setPalette(self.paletteUnchecked.palette())
+            self._enable_axis(X=-1, Y=-1,Z=0,PITCH=-1,ROLL=-1, YAW=-1)
 
     def _handle_yawAxis_clicked(self, checked):
         if checked:
-            self.enable_axis(X=-1, Y=-1,Z=-1,PITCH=-1,ROLL=-1, YAW=1)
+            self.yawAxis.setPalette(self.paletteChecked.palette())
+            self._enable_axis(X=-1, Y=-1,Z=-1,PITCH=-1,ROLL=-1, YAW=1)
         else :
-            self.enable_axis(X=-1, Y=-1,Z=-1,PITCH=-1,ROLL=-1, YAW=0)
+            self.yawAxis.setPalette(self.paletteUnchecked.palette())
+            self._enable_axis(X=-1, Y=-1,Z=-1,PITCH=-1,ROLL=-1, YAW=0)
+
+    def _enable_axis(self, X, Y, Z, PITCH, ROLL, YAW):
+        try:
+            self.enable_axis(X=X, Y=Y, Z=Z, PITCH=PITCH, ROLL=ROLL, YAW=YAW)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
