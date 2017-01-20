@@ -3,7 +3,7 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QMainWindow
+from python_qt_binding.QtWidgets import QMainWindow
 
 from proc_control.msg import PositionTarget
 from proc_control.srv import SetPositionTarget

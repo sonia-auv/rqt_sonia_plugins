@@ -1,11 +1,4 @@
-import os
-import rospy
-import rospkg
 import time
-
-from qt_gui.plugin import Plugin
-from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QMainWindow
 
 from sonia_msgs.msg import SendCanMsg
 

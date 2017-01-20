@@ -6,9 +6,9 @@ import threading
 import time
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget, QPainter, QImage
-from python_qt_binding.QtCore import Qt, SIGNAL
-from python_qt_binding.QtWidgets import QMenu,QAction
+from python_qt_binding.QtGui import QPainter, QImage
+from python_qt_binding.QtCore import Qt, pyqtSignal
+from python_qt_binding.QtWidgets import QMenu,QAction,QWidget
 from sensor_msgs.msg import Image as SensorImage
 from sonia_msgs.msg import VisionTarget
 from sonia_msgs.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd
@@ -21,6 +21,7 @@ from sonia_msgs.srv import get_information_list
 
 
 class VisionMainWidget(QWidget):
+    result_change = pyqtSignal('QString')
     def __init__(self):
         super(VisionMainWidget, self).__init__()
         try:
@@ -42,7 +43,7 @@ class VisionMainWidget(QWidget):
         self._cv_image = None
         self._widget = None
         self.bridge = CvBridge()
-        self.connect(self, SIGNAL("result_change(QString)"), self._handle_result)
+        self.result_change.connect(self._handle_result)
         ##### Service
         self._srv_get_information_list = rospy.ServiceProxy('/provider_vision/get_information_list', get_information_list)
         self._srv_get_filterchain_from_execution = rospy.ServiceProxy('/provider_vision/get_filterchain_from_execution', get_filterchain_from_execution)
@@ -151,7 +152,7 @@ class VisionMainWidget(QWidget):
                                                                                                       visionTarget.angle,
                                                                                                       visionTarget.desc_1,
                                                                                                       visionTarget.desc_2)
-        self.emit(SIGNAL("result_change(QString)"), result)
+        self.result_change.emit(result)
 
     def _handle_result(self,result):
         self.result_text.setText(result)

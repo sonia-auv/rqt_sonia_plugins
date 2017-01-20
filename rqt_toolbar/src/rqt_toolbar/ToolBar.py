@@ -3,7 +3,7 @@ import rospy
 import rospkg
 
 from qt_gui.plugin import Plugin
-from python_qt_binding.QtGui import QMainWindow, QToolBar
+from python_qt_binding.QtWidgets import QMainWindow, QToolBar
 
 from ToolbarEnableAxisWidget import EnableAxisWidget
 from ToolbarBatteryWidget import BatteryWidget

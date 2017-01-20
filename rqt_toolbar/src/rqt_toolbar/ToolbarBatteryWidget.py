@@ -3,8 +3,8 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget
-from python_qt_binding.QtCore import SIGNAL
+from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtCore import pyqtSignal
 
 
 from proc_control.srv import EnableControl
@@ -15,6 +15,7 @@ class BatteryWidget(QWidget):
 
     BATT_MAX = 28
     BATT_THRESHOLD = 25.6
+    psu_received = pyqtSignal('QString')
 
     def __init__(self):
         super(BatteryWidget, self).__init__()
@@ -26,10 +27,10 @@ class BatteryWidget(QWidget):
 
         self.setObjectName('MyEnableAxisWidget')
         self._power_supply = rospy.Subscriber('/provider_can/power_supply_msgs', PowerSupplyMsg, self._power_supply_callback)
-        self.connect(self, SIGNAL("psu_received(QString)"), self._handle_result)
+        self.psu_received.connect(self._handle_result)
 
     def _power_supply_callback(self, data):
-        self.emit(SIGNAL('psu_received'), str(data.light_voltage))
+        self.psu_received.emit(str(data.light_voltage))
 
     def _handle_result(self,light_voltage):
         voltage = float(light_voltage)

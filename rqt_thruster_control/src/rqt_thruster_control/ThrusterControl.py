@@ -1,10 +1,4 @@
-import os
-import rospy
-import rospkg
-
 from qt_gui.plugin import Plugin
-from python_qt_binding.QtGui import QMainWindow
-
 from ThrusterWidget import ThrusterWidget
 
 

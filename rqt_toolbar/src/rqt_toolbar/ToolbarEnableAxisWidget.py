@@ -3,7 +3,7 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget
+from python_qt_binding.QtWidgets import QWidget
 
 from proc_control.srv import EnableControl
 

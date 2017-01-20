@@ -5,21 +5,17 @@ import math
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint
-from python_qt_binding.QtWidgets import QAction, QMenu, QWidget, QCursor
+from python_qt_binding.QtGui import QCursor
+from python_qt_binding.QtWidgets import QAction, QMenu, QWidget
 
 import rospy
-from tf.transformations import quaternion_matrix, quaternion_about_axis
-from geometry_msgs.msg import Quaternion, Pose, Point
+from tf.transformations import quaternion_about_axis
 
-from OpenGL.GL import glBegin, glColor3f, glReadPixels, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
-    glVertex3f, GL_LINES, GL_QUADS, GL_DEPTH_COMPONENT, GL_FLOAT
 from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
 from MapDrawer import MapDrawer
-from geometry_msgs.msg import Pose, Quaternion
 from proc_control.msg import PositionTarget
 from proc_control.srv import SetPositionTarget
-from OpenGL.GLU import gluUnProject
 
 
 # main class inherits from the ui window class

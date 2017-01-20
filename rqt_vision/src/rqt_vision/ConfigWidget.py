@@ -6,7 +6,7 @@ from Tkinter import Tk
 from tkFileDialog import askopenfilename
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget
+from python_qt_binding.QtWidgets import QWidget
 from sonia_msgs.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain
 
 

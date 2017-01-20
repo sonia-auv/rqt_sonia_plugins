@@ -3,15 +3,14 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget, QColor
-from python_qt_binding.QtCore import SIGNAL
+from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtCore import pyqtSignal
 
 from nav_msgs.msg import Odometry
-from proc_control.srv import EnableControl
-from sonia_msgs.msg import SendCanMsg
 
 
 class DepthIndicatorWidget(QWidget):
+    odometry_received = pyqtSignal('QString')
     def __init__(self):
         super(DepthIndicatorWidget, self).__init__()
 
@@ -21,10 +20,10 @@ class DepthIndicatorWidget(QWidget):
 
         self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
 
-        self.connect(self, SIGNAL("odometry_received(QString)"), self._handle_result)
+        self.odometry_received.connect(self._handle_result)
 
     def _odom_callback(self, data):
-        self.emit(SIGNAL('odometry_received'), str(data.pose.pose.position.z))
+        self.odometry_received.emit(str(data.pose.pose.position.z))
 
     def _handle_result(self, z_depth):
         depth = int(float(z_depth) * 10)

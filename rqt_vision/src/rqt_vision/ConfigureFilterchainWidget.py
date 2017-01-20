@@ -1,13 +1,12 @@
 import os
 import rospy
 import rospkg
-import random
 
 from functools import partial
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt
-from python_qt_binding.QtGui import QWidget, QLabel, QCheckBox, QSlider,QSpinBox, QDoubleSpinBox, QLineEdit
+from python_qt_binding.QtWidgets import QWidget, QLabel, QCheckBox, QSlider,QSpinBox, QDoubleSpinBox, QLineEdit
 from sonia_msgs.srv import get_information_list, get_filterchain_filter, get_filterchain_filter_all_param, set_filterchain_filter_param, manage_filterchain_filter, set_filterchain_filter_observer, save_filterchain, set_filterchain_filter_order
 
 

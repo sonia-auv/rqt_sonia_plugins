@@ -4,9 +4,8 @@ import rospkg
 import threading
 from ThrusterAction import ThrusterAction
 
-from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QMainWindow
+from python_qt_binding.QtWidgets import QMainWindow
 
 from sonia_msgs.msg import SendCanMsg
 

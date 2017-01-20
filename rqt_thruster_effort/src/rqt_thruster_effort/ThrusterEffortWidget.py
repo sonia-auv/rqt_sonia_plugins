@@ -3,15 +3,15 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtGui import QWidget, QColor
-from python_qt_binding.QtCore import SIGNAL
+from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtCore import pyqtSignal
 
-from proc_control.srv import EnableControl
 from sonia_msgs.msg import SendCanMsg
 
 
 class ThrusterEffortWidget(QWidget):
 
+    monitor_can_msg = pyqtSignal('PyQt_PyObject')
     def __init__(self):
         super(ThrusterEffortWidget, self).__init__()
 
@@ -21,7 +21,7 @@ class ThrusterEffortWidget(QWidget):
 
         self._can_subscriber = rospy.Subscriber('/provider_can/send_can_msg', SendCanMsg,self._handle_can_msg)
 
-        self.connect(self, SIGNAL("changeUI(PyQt_PyObject)"), self._monitoring_can_msg)
+        self.monitor_can_msg.connect(self._monitoring_can_msg)
 
     def _handle_can_msg(self,msg):
         if msg.device_id <> SendCanMsg.DEVICE_ID_actuators:
@@ -31,7 +31,7 @@ class ThrusterEffortWidget(QWidget):
         if msg.method_number <> SendCanMsg.METHOD_MOTOR_set_speed:
             return
 
-        self.emit(SIGNAL("changeUI(PyQt_PyObject)"), msg)
+        self.monitor_can_msg.emit(msg)
 
 
     def _monitoring_can_msg(self, msg):
