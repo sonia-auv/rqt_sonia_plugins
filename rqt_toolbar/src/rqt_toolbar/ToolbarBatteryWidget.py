@@ -33,7 +33,7 @@ class BatteryWidget(QWidget):
         self.psu_received.emit(str(data.light_voltage))
 
     def _handle_result(self,light_voltage):
-        voltage = float(light_voltage)
+        voltage = float(light_voltage) /1000.0
         self.battery_slider.setValue(int(voltage*10))
         self.battery_value.setText('{:.2f} V'.format(voltage))
 
