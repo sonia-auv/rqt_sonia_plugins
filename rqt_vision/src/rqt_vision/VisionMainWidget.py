@@ -84,16 +84,17 @@ class VisionMainWidget(QWidget):
 
         try:
             execution_string = self._srv_get_information_list(1)
+            execution_list = execution_string.list.split(';')
+            if len(execution_list) == 0:
+                return
+            self._current_execution = execution_list[0]
+            for execution in execution_list:
+                if len(execution) > 0:
+                    self.current_execution.addItem(execution)
+
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
-        execution_list = execution_string.list.split(';')
-        if len(execution_list) == 0:
-            return
-        self._current_execution = execution_list[0]
-        for execution in execution_list:
-            if len(execution) > 0:
-                self.current_execution.addItem(execution)
 
     def current_execution_index_changed(self, index):
         self._refresh_clean()
