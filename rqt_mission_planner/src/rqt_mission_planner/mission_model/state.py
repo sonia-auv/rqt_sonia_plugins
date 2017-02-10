@@ -35,6 +35,11 @@ class State:
     def add_transition_model(self, outcome_name, state_name):
         self.transitions.append(Transition(outcome_name,state_name))
 
+    def remove_transition_model(self, outcome_name, state_name):
+        for transition in list(self.transitions):
+            if transition.outcome == outcome_name and transition.state == state_name:
+                self.transitions.remove(transition)
+
     def add_parameter(self, name, value, desc):
         self.parameters.append(Parameter(name, value, desc))
 

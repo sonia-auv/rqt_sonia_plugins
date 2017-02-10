@@ -72,6 +72,10 @@ class StateUI:
         self.state.add_transition_model(transition.name,transition.state2.state.name)
         self.transitions.append(transition)
 
+    def remove_transition(self,transition):
+        self.state.remove_transition_model(transition.name,transition.state2.state.name)
+        self.transitions.remove(transition)
+
     def get_x(self):
         return self.position[0] + self.radius / 2
 
@@ -157,8 +161,8 @@ class Renderer:
         menu.addMenu(transition_delete)
         return menu
 
-    def delete_transition(self,state,transition):
-        state.transitions.remove(transition)
+    def delete_transition(self,stateui,transition):
+        stateui.remove_transition(transition)
         self.paint_panel.update()
 
     def create_transition(self, outcome_name, state):
