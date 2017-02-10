@@ -71,7 +71,7 @@ class loader:
         try:
             self._lock.acquire()
             vehicle_position = (
-                position[0] * resolution_meter, position[1] * resolution_meter,
+                position[1] * resolution_meter, position[0] * resolution_meter,
                 position[2] * resolution_meter)
             glTranslatef(vehicle_position[0],vehicle_position[1],vehicle_position[2])  # Translate Box
 

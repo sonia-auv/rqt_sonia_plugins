@@ -169,8 +169,8 @@ class NavigationMapWidget(QWidget):
 
         x, y, z = self._gl_view.unproject_mouse_on_scene(QPoint(x_cursor, y_cursor))
 
-        position_x = x / self._mapDrawer.resolution_meters
-        position_y = y / self._mapDrawer.resolution_meters
+        position_x = y / self._mapDrawer.resolution_meters
+        position_y = x / self._mapDrawer.resolution_meters
         position_z = z / self._mapDrawer.resolution_meters
         self._mapDrawer.drawTarget(position_x, position_y, position_z)
         rospy.loginfo('Set Target selected at (%.2f, %.2f)', position_x, position_y)
