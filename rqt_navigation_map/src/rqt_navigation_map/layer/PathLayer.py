@@ -8,7 +8,7 @@ class PathLayer(Layer):
     def __init__(self,resolution_meter,parent_widget):
         Layer.__init__(self,'Path Layer', parent_widget)
         self._resolution_meter = resolution_meter
-        self._path_queue = deque( maxlen=60)
+        self._path_queue = deque( maxlen=1000)
         self._last_pos = (0,0,0)
 
     def reset_path(self):
@@ -28,7 +28,7 @@ class PathLayer(Layer):
 
         glColor3f(119, 25, 25)
         for path in list(self._path_queue):
-            glVertex3f(path[0] * self._resolution_meter -4,path[1] * self._resolution_meter,5)
-            glVertex3f(path[0]* self._resolution_meter+4,path[1] * self._resolution_meter,5)
+            glVertex3f(path[1] * self._resolution_meter -4,path[0] * self._resolution_meter,1)
+            glVertex3f(path[1]* self._resolution_meter+4,path[0] * self._resolution_meter,1)
 
         glEnd()

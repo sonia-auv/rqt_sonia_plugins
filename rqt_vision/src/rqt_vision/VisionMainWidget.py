@@ -2,7 +2,6 @@ import os
 import rospy
 import rospkg
 import cv2
-import threading
 import time
 
 from python_qt_binding import loadUi
@@ -85,30 +84,29 @@ class VisionMainWidget(QWidget):
 
         try:
             execution_string = self._srv_get_information_list(1)
+            execution_list = execution_string.list.split(';')
+            if len(execution_list) == 0:
+                return
+            self._current_execution = execution_list[0]
+            for execution in execution_list:
+                if len(execution) > 0:
+                    self.current_execution.addItem(execution)
+
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
-        execution_list = execution_string.list.split(';')
-        if len(execution_list) == 0:
-            return
-        self._current_execution = execution_list[0]
-        for execution in execution_list:
-            if len(execution) > 0:
-                self.current_execution.addItem(execution)
 
     def current_execution_index_changed(self, index):
         self._refresh_clean()
 
-        if self._current_execution_subscriber is not None:
-            self._current_execution_subscriber.unregister()
-            self._current_execution_subscriber_result.unregister()
-
         new_execution = self.current_execution.itemText(index)
         self._current_execution = new_execution
+
         try:
             self._filterchain = self._srv_get_filterchain_from_execution(self._current_execution)
         except rospy.ServiceException as err:
             rospy.logerr(err)
+
         self._current_execution_subscriber = rospy.Subscriber('/provider_vision/' + new_execution + '_image',
                                                               SensorImage, self.current_execution_callback)
         self._current_execution_subscriber_result = rospy.Subscriber('/provider_vision/' + new_execution + '_result',
@@ -119,7 +117,10 @@ class VisionMainWidget(QWidget):
     def _refresh_clean(self):
         if self._current_execution_subscriber is not None:
             self._current_execution_subscriber.unregister()
+
+        if self._current_execution_subscriber_result is not None:
             self._current_execution_subscriber_result.unregister()
+
         self.result_text.setText('')
         self._cv_image = None
         self.imageFrame.update()

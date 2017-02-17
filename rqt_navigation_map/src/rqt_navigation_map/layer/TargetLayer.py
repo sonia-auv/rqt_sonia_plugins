@@ -18,9 +18,9 @@ class TargetLayer(Layer):
         glBegin(GL_LINES)
 
         glColor3f(1.0, 0.0, 0.0)
-        glVertex3f(self._cross[0] - 20, self._cross[1] - 20, 10)
-        glVertex3f(self._cross[0] + 20, self._cross[1] + 20, 10)
-        glVertex3f(self._cross[0] - 20, self._cross[1] + 20, 10)
-        glVertex3f(self._cross[0] + 20, self._cross[1] - 20, 10)
+        glVertex3f(self._cross[1] - 20, self._cross[0] - 20, 1)
+        glVertex3f(self._cross[1] + 20, self._cross[0] + 20, 1)
+        glVertex3f(self._cross[1] - 20, self._cross[0] + 20, 1)
+        glVertex3f(self._cross[1] + 20, self._cross[0] - 20, 1)
 
         glEnd()

@@ -145,10 +145,12 @@ class ConfigureFilterchainWidget(QWidget):
     def _load_parameter(self,param_index,param_name, param_type,param_value, param_min, param_max, param_desc):
         x_check = 160
         x ,y ,w ,h = 4,4 + 40 * param_index,150,20
+        self.parameters.resize(self.parameters.width(),h + y + 20)
         label = QLabel(param_name,self.parameters)
         label.setGeometry(x,y,w,h)
         label.setToolTip(param_desc)
         label.show()
+
         if param_type == 'Boolean':
             checkbox = QCheckBox('',self.parameters)
             checkbox.setGeometry(x_check,y,w,h)
@@ -242,26 +244,21 @@ class ConfigureFilterchainWidget(QWidget):
 
     def _handle_cancel_button(self):
         try:
-            self._srv_save_filterchain(self._current_execution_name,self._current_filterchain,2)
-            self.fill_filters_list()
+            execution_string = self._srv_get_information_list(1)
         except rospy.ServiceException as err:
             rospy.logerr(err)
+            self._srv_save_filterchain(self._current_execution_name,self._current_filterchain,2)
+        self.fill_filters_list()
 
     def _handle_move_up_button(self):
         current_index = self.filters.currentRow()
-        try:
-            self._srv_set_filterchain_filter_order(self._current_execution_name,self._current_filterchain,current_index,1 )
-            self.fill_filters_list()
-            self.filters.setCurrentRow(current_index -1)
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        self._srv_set_filterchain_filter_order(self._current_execution_name,self._current_filterchain,current_index,1 )
+        self.fill_filters_list()
+        self.filters.setCurrentRow(current_index -1)
 
     def _handle_move_down_button(self):
-        try:
-            current_index = self.filters.currentRow()
-            self._srv_set_filterchain_filter_order(self._current_execution_name,self._current_filterchain,current_index,2 )
-            self.fill_filters_list()
-            self.filters.setCurrentRow(current_index +1)
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        current_index = self.filters.currentRow()
+        self._srv_set_filterchain_filter_order(self._current_execution_name,self._current_filterchain,current_index,2 )
+        self.fill_filters_list()
+        self.filters.setCurrentRow(current_index +1)
 
