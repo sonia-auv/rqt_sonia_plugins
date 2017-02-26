@@ -6,9 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-
-from proc_control.srv import EnableControl
-from sonia_msgs.msg import MissionSwitchMsg,PowerSupplyMsg
+from sonia_msgs.msg import MissionSwitchMsg, PowerSupplyMsg
 
 
 class KillMissionWidget(QWidget):
@@ -32,7 +30,7 @@ class KillMissionWidget(QWidget):
     def _mission_switch_callback(self, data):
         self.mission_received.emit(data.state)
 
-    def _kill_switch_callback(self,data):
+    def _kill_switch_callback(self, data):
         self.kill_received.emit(data.kill_switch_state)
 
     def _handle_mission_result(self,mission):
