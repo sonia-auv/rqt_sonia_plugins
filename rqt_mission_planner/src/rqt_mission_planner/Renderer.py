@@ -123,18 +123,27 @@ class Renderer:
         self.current_selected_stateui = None
 
         self.state_listeners = []
-        self.states = []
+        self.statesui = []
         self.painter = QPainter()
 
         self.transitions = []
 
         self.translated_position = QPointF()
 
+    def set_as_root_state(self):
+        if self.current_selected_stateui:
+            for stateui in self.statesui:
+                stateui.state.is_root=False
+            self.current_selected_stateui.state.is_root=True
+            self.paint_panel.update()
+
+
+
     def _handle_key_press_event(self,event):
         if event.key() == Qt.Key_Delete:
             if self.current_selected_stateui:
-                self.states.remove(self.current_selected_stateui)
-                for state in self.states:
+                self.statesui.remove(self.current_selected_stateui)
+                for state in self.statesui:
                     for transition in list(state.transitions):
                         if transition.state2 == self.current_selected_stateui:
                             state.transitions.remove(transition)
@@ -172,11 +181,11 @@ class Renderer:
 
     def add_state(self, state_name):
         state = StateUI(state_name, (10, 10))
-        self.states.append(state)
+        self.statesui.append(state)
         self.paint_panel.update()
 
     def find_stateui_by_name(self, name):
-        for stateui in self.states:
+        for stateui in self.statesui:
             if stateui.state.name == name:
                 return stateui
 
@@ -194,7 +203,7 @@ class Renderer:
     def my_mouse_press_event(self, mouseEvent):
         self.mouse_pressed = True
         current_mouse_position = mouseEvent.pos() - self.translated_position
-        for state in self.states:
+        for state in self.statesui:
             if state.contains(current_mouse_position, self.scale_value):
                 if self.current_paint_mode == self.TRANSITION:
                     self.current_selected_stateui.add_transition(TransitionUI(self.current_transition,self.current_selected_stateui,state))
@@ -258,14 +267,19 @@ class Renderer:
         # Draw state
         self.painter.setPen(QColor(0, 0, 0))
         self.painter.setBrush(QColor(255, 255, 255))
-        for state in list(self.states):
-            if (self.current_selected_stateui and state == self.current_selected_stateui) or (
-                                self.current_paint_mode == self.TRANSITION and self.current_mouse_position and state.contains(
+        for stateui in list(self.statesui):
+            if (self.current_selected_stateui and stateui == self.current_selected_stateui) or (
+                                self.current_paint_mode == self.TRANSITION and self.current_mouse_position and stateui.contains(
                         self.current_mouse_position, self.scale_value)):
                 self.painter.setPen(QPen(QBrush(QColor(0, 0, 255)), 3))
             else:
                 self.painter.setPen(QColor(0, 0, 0))
-            state.draw(self.painter)
+
+            if stateui.state.is_root:
+                self.painter.setBrush(QColor(255, 153, 102))
+            else:
+                self.painter.setBrush(QColor(255, 255, 255))
+            stateui.draw(self.painter)
 
         if self.dummy_transition_line:
             self.dummy_transition_line.draw(self.painter)

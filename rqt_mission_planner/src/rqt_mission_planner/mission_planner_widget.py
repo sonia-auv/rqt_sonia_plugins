@@ -41,16 +41,17 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.actionLoad.triggered.connect(self._handle_load)
 
         self.add_state.clicked.connect(self.handle_add_state)
+        self.rootState.clicked.connect(self.set_as_root_state)
         self.renderer = Renderer(self.paint_panel)
         self.renderer.add_state_listener(self)
 
     def _handle_load(self):
         with open('data.yml', 'r') as inputfile:
-            self.renderer.states = yaml.load(inputfile)
+            self.renderer.statesui = yaml.load(inputfile)
 
     def _handle_save_as(self):
         with open('data.yml', 'w') as outfile:
-            yaml.dump(self.renderer.states, outfile, default_flow_style=False)
+            yaml.dump(self.renderer.statesui, outfile, default_flow_style=False)
 
     def load_states(self, directory):
         for file in os.listdir(directory):
@@ -70,6 +71,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def state_selection_changed(self, state):
         self.table_model.state_selection_changed(state)
+        self.rootState.setEnabled(state is not None)
+
+    def set_as_root_state(self):
+        self.renderer.set_as_root_state()
 
 
     def handle_add_state(self):

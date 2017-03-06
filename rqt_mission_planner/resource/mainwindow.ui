@@ -84,8 +84,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>211</width>
-            <height>588</height>
+            <width>98</width>
+            <height>28</height>
            </rect>
           </property>
           <attribute name="label">
@@ -97,8 +97,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>211</width>
-            <height>588</height>
+            <width>98</width>
+            <height>28</height>
            </rect>
           </property>
           <attribute name="label">
@@ -121,7 +121,15 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QWidget" name="widget_2" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_4"/>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QPushButton" name="rootState">
+            <property name="text">
+             <string>Set as Root state</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item>
@@ -135,7 +143,7 @@
             <x>0</x>
             <y>0</y>
             <width>553</width>
-            <height>646</height>
+            <height>624</height>
            </rect>
           </property>
           <property name="palette">

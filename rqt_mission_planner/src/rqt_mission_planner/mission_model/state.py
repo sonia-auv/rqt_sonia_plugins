@@ -12,6 +12,7 @@ class Transition:
 
 
 class State:
+    is_root = False
     def __init__(self, name):
         self._name = name
         self.parameters = []
@@ -92,5 +93,8 @@ def fill_state_from_path(file):
             for state_parameter in parameters_description:
                 tab = state_parameter.split(',')
                 name, value, desc = tab
-                s.add_parameter(name.strip("'"), value, desc)
+                try:
+                    s.add_parameter(name.strip("'"), float(value), desc)
+                except ValueError:
+                    s.add_parameter(name.strip("'"), value, desc)
         return s
