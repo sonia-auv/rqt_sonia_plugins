@@ -5,7 +5,7 @@ import rospy
 import time
 from std_msgs.msg import String
 from smach_msgs.msg import SmachContainerStatus
-from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest
+from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest, CurrentMission
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -30,7 +30,7 @@ class MissionPlannerWidget(QWidget):
                                                            self._handle_started_mission_name_changed)
         self.mission_loaded_subscriber = rospy.Subscriber("/mission_executor/mission_loaded_name", String,
                                                           self._handle_loaded_mission_name_changed)
-        self.mission_loaded_subscriber = rospy.Subscriber("/mission_executor_server/smach/container_status", SmachContainerStatus,
+        self.mission_container_subscriber = rospy.Subscriber("/mission_executor_server/smach/container_status", SmachContainerStatus,
                                                           self._handle_smach_container_status)
 
         self.end_mission = rospy.Subscriber('/mission_executor/mission_ended', String, self._handle_mission_ended)
@@ -41,6 +41,19 @@ class MissionPlannerWidget(QWidget):
         self.started_mission_name_received.connect(self._handle_started_mission_name_result)
         self.current_state_name_received.connect(self._handle_mission_state_result)
         self.mission_ended_received.connect(self._handle_mission_ended_result)
+
+        self.initialize_label()
+
+    def initialize_label(self):
+        try:
+            current_mission_srv = rospy.ServiceProxy('mission_executor/current_mission', CurrentMission)
+            current_mission_resp = current_mission_srv()
+            if current_mission_resp.mission:
+                self.loaded_mission_name_received.emit(current_mission_resp.mission)
+        except rospy.ServiceException, e:
+            print e
+            rospy.logerr('Controller Mission Node is not started')
+
     def _handle_mission_ended(self,data):
         self.mission_ended_received.emit('*Finished*')
         self.started_mission_name_received.emit('---')
@@ -100,4 +113,5 @@ class MissionPlannerWidget(QWidget):
     def shutdown_plugin(self):
         self.mission_loaded_subscriber.unregister()
         self.mission_started_subscriber.unregister()
+        self.mission_container_subscriber.unregister()
         print 'Shutting down'
