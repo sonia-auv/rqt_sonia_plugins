@@ -1,13 +1,13 @@
 from rqt_gui_py.plugin import Plugin
 
-from mission_planner_widget import MissionPlannerWidget
+from mission_loader_widget import MissionPlannerWidget
 
 
-class MissionPlanner(Plugin):
+class MissionLoader(Plugin):
 
     def __init__(self, context):
-        super(MissionPlanner, self).__init__(context)
-        self.setObjectName('MissionPlanner')
+        super(MissionLoader, self).__init__(context)
+        self.setObjectName('MissionLoader')
 
         self._widget = MissionPlannerWidget()
         if context.serial_number() > 1:
