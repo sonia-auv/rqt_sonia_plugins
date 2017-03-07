@@ -74,7 +74,6 @@ class WaypointWidget(QMainWindow):
         self.yawPositionCurrent.setText('%.2f' % yaw)
 
     def _position_target_callback(self,data):
-        print 'received target'
         self.xPositionTarget.setText('%.2f' % data.X)
         self.yPositionTarget.setText('%.2f' % data.Y)
         self.zPositionTarget.setText('%.2f' % data.Z)
@@ -83,7 +82,6 @@ class WaypointWidget(QMainWindow):
         self.yawPositionTarget.setText('%.2f' % data.YAW)
 
     def send_position(self):
-        print 'Sending position'
         x_target = float(self.xPositionTarget.text())
         y_target = float(self.yPositionTarget.text())
         z_target = float(self.zPositionTarget.text())
