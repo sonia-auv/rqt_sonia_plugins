@@ -144,6 +144,38 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <widget class="QWidget" name="widget_4" native="true">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Current mission :</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_mission_name">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>3</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>---</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
@@ -167,7 +199,7 @@
             <x>0</x>
             <y>0</y>
             <width>553</width>
-            <height>563</height>
+            <height>525</height>
            </rect>
           </property>
           <property name="palette">
@@ -666,6 +698,8 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionNew_mission"/>
+    <addaction name="separator"/>
     <addaction name="actionSave_as_local"/>
     <addaction name="actionLoad_local"/>
     <addaction name="separator"/>
@@ -689,10 +723,21 @@
    <property name="text">
     <string>Load from CM</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
   <action name="actionSave_to_mission_controller_remote">
    <property name="text">
     <string>Save to CM</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionNew_mission">
+   <property name="text">
+    <string>Create a new mission ...</string>
    </property>
   </action>
  </widget>

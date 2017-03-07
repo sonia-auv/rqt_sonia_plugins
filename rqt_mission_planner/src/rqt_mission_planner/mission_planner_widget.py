@@ -4,7 +4,9 @@ import rospkg
 import copy
 import yaml
 import rospy
+import tkMessageBox
 from Tkinter import Tk
+
 from tkFileDialog import asksaveasfilename, askopenfilename
 from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest
 
@@ -40,12 +42,14 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.load_submissions(submission_directory)
 
         self.table_model = ParameterTableModel()
+        self.table_model.dataChanged.connect(self._table_model_data_changed)
         self.property_table.setModel(self.table_model)
 
         self.actionSave_as_local.triggered.connect(self._handle_save_as)
         self.actionLoad_local.triggered.connect(self._handle_load)
         self.actionSave_to_mission_controller_remote.triggered.connect(self._handle_save_remotely)
         self.actionLoad_from_mission_service_remote.triggered.connect(self._handle_load_remotely)
+        self.actionNew_mission.triggered.connect(self._handle_create_new_mission)
 
         self.add_state.clicked.connect(self.handle_add_state)
         self.add_submission.clicked.connect(self.handle_add_submission)
@@ -53,11 +57,38 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.renderer = Renderer(self.paint_panel)
         self.renderer.add_state_listener(self)
 
+    def validate_mission_has_root_state(self):
+        for stateui in self.renderer.statesui:
+            if stateui.state.is_root:
+                return True
+        return False
+
+    def valid_mission(self):
+        if not self.validate_mission_has_root_state():
+            root = Tk()
+            root.withdraw()
+            tkMessageBox.showerror("Root State", 'Please select a Root State !')
+            return False
+        return True
+
+    def _table_model_data_changed(self, a, b):
+        self.paint_panel.update()
+
+    def _handle_create_new_mission(self):
+        self.renderer.statesui = []
+        self.label_mission_name.setText('---')
+        self.paint_panel.update()
+
     def _handle_save_remotely(self):
+        if not self.valid_mission():
+            return
+
         self.save_mission_widget = SaveMissionWidget()
         self.save_mission_widget.select_mission(self._save_mission_remotely)
 
     def _save_mission_remotely(self, mission_name):
+        if not self.valid_mission():
+            return
 
         try:
             rospy.wait_for_service('mission_executor/set_mission_content', timeout=2)
@@ -66,6 +97,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             received_mission_request.name = mission_name
             received_mission_request.content = yaml.dump(self.renderer.statesui)
             set_mission_client(received_mission_request)
+            self.label_mission_name.setText(mission_name)
+            self.paint_panel.update()
         except rospy.ServiceException, e:
             print 'Mission Executor is not started'
             return
@@ -84,6 +117,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             get_mission_request.name = mission_name
             mission_content = get_mission_client(get_mission_request)
             self.renderer.statesui = yaml.load(mission_content.content)
+            self.label_mission_name.setText(mission_name)
+            self.paint_panel.update()
         except rospy.ServiceException, e:
             print "Service call failed: %s" % e
 
@@ -95,12 +130,18 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         if fin:
             with open(fin, 'r') as inputfile:
                 self.renderer.statesui = yaml.load(inputfile)
+                self.label_mission_name.setText(os.path.basename(fin))
+                self.paint_panel.update()
 
     def _handle_save_as(self):
+        root = Tk()
+        root.withdraw()
         fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fout:
             with open(fout, 'w') as output:
                 yaml.dump(self.renderer.statesui, output, default_flow_style=False)
+                self.label_mission_name.setText(os.path.basename(fout))
+                self.paint_panel.update()
 
     def load_states(self, directory):
         for file in os.listdir(directory):

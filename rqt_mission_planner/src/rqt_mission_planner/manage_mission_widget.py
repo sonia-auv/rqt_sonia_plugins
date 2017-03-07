@@ -36,6 +36,8 @@ class SaveMissionWidget(QWidget):
     def _handle_ok_press(self):
         if self.new_mission_name.text():
             mission_name = self.new_mission_name.text().strip()
+            if mission_name[-4:] != '.yml':
+                mission_name += '.yml'
         else:
             mission_name = self.mission_names.currentText()
         self.callback_function(mission_name)

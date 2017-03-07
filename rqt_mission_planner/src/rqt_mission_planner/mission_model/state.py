@@ -1,6 +1,11 @@
 import re
 import os
 
+SUB_MISSION_FILE = 'SubMission_file'
+
+STATE_NAME = 'state_name'
+
+
 class Parameter:
     def __init__(self, variable_name, value, description):
         self.variable_name, self.value, self.description = variable_name, value, description
@@ -21,9 +26,23 @@ class State:
         self.outcome_states = []
 
     @property
+    def submission_file(self):
+        for parameter in self.parameters:
+            if parameter.variable_name == SUB_MISSION_FILE:
+                return parameter.value
+        return self._name
+
+    @submission_file.setter
+    def submission_file(self,value):
+        self._name = value
+        for parameter in self.parameters:
+            if parameter.variable_name == STATE_NAME:
+                parameter.value = value
+
+    @property
     def name(self):
         for parameter in self.parameters:
-            if parameter.variable_name == 'state_name':
+            if parameter.variable_name == STATE_NAME:
                 return parameter.value
         return self._name
 
@@ -31,7 +50,7 @@ class State:
     def name(self, value):
         self._name = value
         for parameter in self.parameters:
-            if parameter.variable_name == 'state_name':
+            if parameter.variable_name == STATE_NAME:
                 parameter.value = value
 
     def add_transition_model(self, outcome_name, state_name):
@@ -106,7 +125,7 @@ def fill_submission_from_path(file):
     if sub_mission_name:
         s = State(os.path.basename(file)[:-4])
         s.is_submission = True
-        s.add_parameter('state_name', sub_mission_name, 'state_name')
-        s.add_parameter('SubMission_file', os.path.basename(file), 'SubMission_file')
+        s.add_parameter(STATE_NAME, sub_mission_name, '%s' % STATE_NAME)
+        s.add_parameter(SUB_MISSION_FILE, os.path.basename(file), '%s' % SUB_MISSION_FILE)
         s.outcome_states = ['succeeded', 'aborted']
         return s
