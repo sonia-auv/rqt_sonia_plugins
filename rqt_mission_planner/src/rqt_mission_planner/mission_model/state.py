@@ -107,5 +107,6 @@ def fill_submission_from_path(file):
         s = State(os.path.basename(file)[:-4])
         s.is_submission = True
         s.add_parameter('state_name', sub_mission_name, 'state_name')
+        s.add_parameter('SubMission_file', os.path.basename(file), 'SubMission_file')
         s.outcome_states = ['succeeded', 'aborted']
         return s

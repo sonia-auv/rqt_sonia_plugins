@@ -275,8 +275,12 @@ class Renderer:
             else:
                 self.painter.setPen(QColor(0, 0, 0))
 
-            if stateui.state.is_root:
-                self.painter.setBrush(QColor(255, 153, 102))
+            if stateui.state.is_root and stateui.state.is_submission:
+                self.painter.setBrush(QColor(61, 203, 152))
+            elif stateui.state.is_root:
+                self.painter.setBrush(QColor(61, 163, 203))
+            elif stateui.state.is_submission:
+                self.painter.setBrush(QColor(109, 205, 61))
             else:
                 self.painter.setBrush(QColor(255, 255, 255))
             stateui.draw(self.painter)

@@ -119,7 +119,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             if not os.path.isfile(file_path):
                 self.load_states(file_path)
                 continue
-            print file_path
             submission = fill_submission_from_path(file_path)
             if submission:
                 self.submissions.append(submission)
