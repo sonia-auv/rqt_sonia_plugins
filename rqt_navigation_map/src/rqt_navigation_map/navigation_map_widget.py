@@ -138,6 +138,7 @@ class NavigationMapWidget(QWidget):
         self._gl_view.makeCurrent()
         self._gl_view.reset_view()
         self._gl_view.translate((0, 0, -800))
+        self._mapDrawer.is_using_2d_view(True)
 
     def _set_3d_view(self):
         self._gl_view.makeCurrent()
@@ -145,6 +146,7 @@ class NavigationMapWidget(QWidget):
         self._gl_view.rotate((0, 0, 1), 0)
         self._gl_view.rotate((1, 0, 0), -75)
         self._gl_view.translate((-100, -100, -500))
+        self._mapDrawer.is_using_2d_view(False)
 
     def _rotate_with_sub(self, checked):
         self._rotate_with_sub_activated = checked

@@ -52,6 +52,7 @@ class loader:
     vehicle_size_x = 0.762 / 2
     vehicle_size_y = 0.699 / 2
     vehicle_size_z = 0.210 / 2
+    is_using_2d_view = False
     _lock = threading.Lock()
 
     def __init__(self,gl_view):
@@ -70,9 +71,16 @@ class loader:
 
         try:
             self._lock.acquire()
+
+            if self.is_using_2d_view:
+                z_pos = 5
+            else :
+                z_pos = (1 - (position[2]/5)) * resolution_meter
+
             vehicle_position = (
                 position[1] * resolution_meter, position[0] * resolution_meter,
-                position[2] * resolution_meter)
+                z_pos)
+
             glTranslatef(vehicle_position[0],vehicle_position[1],vehicle_position[2])  # Translate Box
 
             matrix = quaternion_matrix(orientation)  # convert quaternion to translation matrix
@@ -102,6 +110,9 @@ class loader:
                 self.gl_view.rotate_absolute((0,0,1),yaw)
         finally:
                 self._lock.release()
+
+    def is_2d_view(self,is_2d_view):
+        self.is_using_2d_view = is_2d_view
 
     def set_lock_on_sub(self,activate):
         self._lock_on_sub = activate
@@ -181,3 +192,6 @@ class SubmarineLayer(Layer):
 
     def set_rotate_with_sub_activated(self,activate):
         self.subModel.set_rotate_with_sub_activated(activate)
+
+    def is_2d_view(self,is_2d_view):
+        self.subModel.is_2d_view(is_2d_view)
