@@ -9,7 +9,7 @@ class MissionPlanner(Plugin):
         super(MissionPlanner, self).__init__(context)
         self.setObjectName('MissionPlanner')
 
-        self._widget = MissionPlannerWidget(self)
+        self._widget = MissionPlannerWidget()
         if context.serial_number() > 1:
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         self._widget.setPalette(context._handler._main_window.palette())

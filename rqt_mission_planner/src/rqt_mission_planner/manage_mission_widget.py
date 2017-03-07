@@ -15,6 +15,7 @@ class SaveMissionWidget(QWidget):
 
         ui_file = os.path.join(rp.get_path('rqt_mission_planner'), 'resource', 'save_mission.ui')
         loadUi(ui_file, self)
+        self.setWindowTitle('Save mission to CM')
 
         self.ok_button.clicked.connect(self._handle_ok_press)
 
@@ -48,6 +49,7 @@ class LoadMissionWidget(QWidget):
 
         ui_file = os.path.join(rp.get_path('rqt_mission_planner'), 'resource', 'load_mission.ui')
         loadUi(ui_file, self)
+        self.setWindowTitle('Load mission from CM')
 
         self.ok_button.clicked.connect(self._handle_ok_press)
 

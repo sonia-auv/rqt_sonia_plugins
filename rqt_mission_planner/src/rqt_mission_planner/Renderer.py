@@ -236,8 +236,8 @@ class Renderer:
         if self.current_paint_mode == self.TRANSITION:
             # draw transition following mouse.
             self.dummy_transition_line = DummyTransition(self.current_selected_stateui,
-                                                         (mouseEvent.x() - self.translated_position.x(),
-                                                          mouseEvent.y() - self.translated_position.y()))
+                                                         (mouseEvent.x() / self.scale_value - self.translated_position.x(),
+                                                          mouseEvent.y() / self.scale_value - self.translated_position.y()))
         else:
             if self.mouse_pressed:
                 if self.last_position_moved and self.current_selected_stateui:

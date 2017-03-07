@@ -84,8 +84,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>98</width>
-            <height>28</height>
+            <width>211</width>
+            <height>588</height>
            </rect>
           </property>
           <attribute name="label">
@@ -97,8 +97,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>98</width>
-            <height>28</height>
+            <width>211</width>
+            <height>588</height>
            </rect>
           </property>
           <attribute name="label">
@@ -265,21 +265,33 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionSave_as"/>
+    <addaction name="actionSave_as_local"/>
+    <addaction name="actionLoad_local"/>
     <addaction name="separator"/>
-    <addaction name="actionLoad"/>
+    <addaction name="actionSave_to_mission_controller_remote"/>
+    <addaction name="actionLoad_from_mission_service_remote"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionSave_as">
+  <action name="actionSave_as_local">
    <property name="text">
     <string>Save as ...</string>
    </property>
   </action>
-  <action name="actionLoad">
+  <action name="actionLoad_local">
    <property name="text">
-    <string>Load</string>
+    <string>Load from local file</string>
+   </property>
+  </action>
+  <action name="actionLoad_from_mission_service_remote">
+   <property name="text">
+    <string>Load from CM</string>
+   </property>
+  </action>
+  <action name="actionSave_to_mission_controller_remote">
+   <property name="text">
+    <string>Save to CM</string>
    </property>
   </action>
  </widget>
