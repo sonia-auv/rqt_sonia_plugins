@@ -8,7 +8,7 @@ from Tkinter import Tk
 from tkFileDialog import asksaveasfilename, askopenfilename
 from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest
 
-from mission_model.state import fill_state_from_path
+from mission_model.state import fill_state_from_path, fill_submission_from_path
 from mission_model.parameter_table_model import ParameterTableModel
 from manage_mission_widget import SaveMissionWidget, LoadMissionWidget
 
@@ -32,9 +32,13 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.mission_executor_mission_state_default_folder = os.path.join(rp.get_path('controller_mission'), 'missions')
         loadUi(ui_file, self)
         state_directory = os.path.join(rp.get_path('controller_mission'), 'src', 'controller_mission', 'state')
+        submission_directory = os.path.join(rp.get_path('controller_mission'), 'missions')
 
         self.states = []
         self.load_states(state_directory)
+        self.submissions = []
+        self.load_submissions(submission_directory)
+
         self.table_model = ParameterTableModel()
         self.property_table.setModel(self.table_model)
 
@@ -44,6 +48,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.actionLoad_from_mission_service_remote.triggered.connect(self._handle_load_remotely)
 
         self.add_state.clicked.connect(self.handle_add_state)
+        self.add_submission.clicked.connect(self.handle_add_submission)
         self.rootState.clicked.connect(self.set_as_root_state)
         self.renderer = Renderer(self.paint_panel)
         self.renderer.add_state_listener(self)
@@ -52,7 +57,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.save_mission_widget = SaveMissionWidget()
         self.save_mission_widget.select_mission(self._save_mission_remotely)
 
-    def _save_mission_remotely(self,mission_name):
+    def _save_mission_remotely(self, mission_name):
 
         try:
             rospy.wait_for_service('mission_executor/set_mission_content', timeout=2)
@@ -70,8 +75,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.save_mission_widget.select_mission(self._load_mission_remotely)
         pass
 
-
-    def _load_mission_remotely(self,mission_name):
+    def _load_mission_remotely(self, mission_name):
 
         try:
             rospy.wait_for_service('mission_executor/get_mission_content', timeout=2)
@@ -87,13 +91,13 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         # instantiate a Tk window
         root = Tk()
         root.withdraw()
-        fin = askopenfilename(defaultextension='.yml',initialdir=self.mission_executor_mission_state_default_folder)
+        fin = askopenfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fin:
             with open(fin, 'r') as inputfile:
                 self.renderer.statesui = yaml.load(inputfile)
 
     def _handle_save_as(self):
-        fout = asksaveasfilename(defaultextension='.yml',initialdir=self.mission_executor_mission_state_default_folder)
+        fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fout:
             with open(fout, 'w') as output:
                 yaml.dump(self.renderer.statesui, output, default_flow_style=False)
@@ -109,10 +113,27 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 self.states.append(state)
         self.refresh_state_list()
 
+    def load_submissions(self, directory):
+        for file in os.listdir(directory):
+            file_path = os.path.join(directory, file)
+            if not os.path.isfile(file_path):
+                self.load_states(file_path)
+                continue
+            print file_path
+            submission = fill_submission_from_path(file_path)
+            if submission:
+                self.submissions.append(submission)
+        self.refresh_submission_list()
+
     def refresh_state_list(self):
         self.list_states.clear()
         for state in self.states:
             self.list_states.addItem(state.name)
+
+    def refresh_submission_list(self):
+        self.list_submissions.clear()
+        for submission in self.submissions:
+            self.list_submissions.addItem(submission.name)
 
     def state_selection_changed(self, state):
         self.table_model.state_selection_changed(state)
@@ -121,16 +142,25 @@ class MissionPlannerWidget(QMainWindow, StateListener):
     def set_as_root_state(self):
         self.renderer.set_as_root_state()
 
-
     def handle_add_state(self):
         if self.list_states.currentItem():
             state_name = self.list_states.currentItem().text()
             self.renderer.add_state(copy.deepcopy(self.find_state_by_name(state_name)))
 
+    def handle_add_submission(self):
+        if self.list_submissions.currentItem():
+            submission_name = self.list_submissions.currentItem().text()
+            self.renderer.add_state(copy.deepcopy(self.find_submission_by_name(submission_name)))
+
     def find_state_by_name(self, name):
         for state in self.states:
             if state.name == name:
                 return state
+
+    def find_submission_by_name(self, name):
+        for submission in self.submissions:
+            if submission.name == name:
+                return submission
 
     def save_settings(self, plugin_settings, instance_settings):
         None

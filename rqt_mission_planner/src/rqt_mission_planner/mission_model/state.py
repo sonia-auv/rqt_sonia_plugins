@@ -13,6 +13,7 @@ class Transition:
 
 class State:
     is_root = False
+    is_submission = False
     def __init__(self, name):
         self._name = name
         self.parameters = []
@@ -97,4 +98,14 @@ def fill_state_from_path(file):
                     s.add_parameter(name.strip("'"), float(value), desc)
                 except ValueError:
                     s.add_parameter(name.strip("'"), value, desc)
+        return s
+
+def fill_submission_from_path(file):
+
+    sub_mission_name = os.path.basename(file)[:-4]
+    if sub_mission_name:
+        s = State(os.path.basename(file)[:-4])
+        s.is_submission = True
+        s.add_parameter('state_name', sub_mission_name, 'state_name')
+        s.outcome_states = ['succeeded', 'aborted']
         return s

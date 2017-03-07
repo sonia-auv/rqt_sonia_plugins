@@ -27,7 +27,7 @@
        <item>
         <widget class="QToolBox" name="toolBox">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="state">
           <property name="geometry">
@@ -35,7 +35,7 @@
             <x>0</x>
             <y>0</y>
             <width>211</width>
-            <height>588</height>
+            <height>616</height>
            </rect>
           </property>
           <attribute name="label">
@@ -53,7 +53,7 @@
                 <x>0</x>
                 <y>0</y>
                 <width>191</width>
-                <height>522</height>
+                <height>550</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -85,25 +85,49 @@
             <x>0</x>
             <y>0</y>
             <width>211</width>
-            <height>588</height>
+            <height>616</height>
            </rect>
           </property>
           <attribute name="label">
            <string>Sub-mission</string>
           </attribute>
-         </widget>
-         <widget class="QWidget" name="page_3">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>211</width>
-            <height>588</height>
-           </rect>
-          </property>
-          <attribute name="label">
-           <string>Page 2</string>
-          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QScrollArea" name="scrollArea_3">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>191</width>
+                <height>550</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <widget class="QListWidget" name="list_submissions"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="widget_3" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QPushButton" name="add_submission">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>
