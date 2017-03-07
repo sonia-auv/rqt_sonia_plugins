@@ -69,11 +69,11 @@ class StateUI:
         self.position = (x - self.radius / 2, y - self.radius / 2)
 
     def add_transition(self,transition):
-        self.state.add_transition_model(transition.name,transition.state2.state.name)
+        self.state.add_transition_model(transition.name,transition.state2.state)
         self.transitions.append(transition)
 
     def remove_transition(self,transition):
-        self.state.remove_transition_model(transition.name,transition.state2.state.name)
+        self.state.remove_transition_model(transition.name,transition.state2.state)
         self.transitions.remove(transition)
 
     def get_x(self):
