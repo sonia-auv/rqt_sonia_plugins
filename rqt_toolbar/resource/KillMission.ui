@@ -44,6 +44,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
        <number>4</number>
@@ -121,37 +124,10 @@
         <property name="palette">
          <palette>
           <active>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
            <colorrole role="ButtonText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>190</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
               <green>0</green>
               <blue>0</blue>
              </color>
@@ -159,37 +135,10 @@
            </colorrole>
           </active>
           <inactive>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
            <colorrole role="ButtonText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>190</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
               <green>0</green>
               <blue>0</blue>
              </color>
@@ -197,39 +146,12 @@
            </colorrole>
           </inactive>
           <disabled>
-           <colorrole role="Button">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
            <colorrole role="ButtonText">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>190</red>
               <green>190</green>
               <blue>190</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>0</red>
-              <green>0</green>
-              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -242,115 +164,155 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="MissionSwitch_label">
-        <property name="minimumSize">
+       <widget class="QWidget" name="mission_switch_widget" native="true">
+        <property name="maximumSize">
          <size>
-          <width>35</width>
-          <height>0</height>
+          <width>16777215</width>
+          <height>35</height>
          </size>
         </property>
         <property name="palette">
          <palette>
           <active>
-           <colorrole role="Base">
+           <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>235</green>
-              <blue>231</blue>
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
              </color>
             </brush>
            </colorrole>
           </active>
           <inactive>
-           <colorrole role="Base">
+           <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>235</green>
-              <blue>231</blue>
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
              </color>
             </brush>
            </colorrole>
           </inactive>
           <disabled>
-           <colorrole role="Base">
+           <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
-              <red>239</red>
-              <green>235</green>
-              <blue>231</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="Window">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>235</green>
-              <blue>231</blue>
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
              </color>
             </brush>
            </colorrole>
           </disabled>
          </palette>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>19</pointsize>
-         </font>
-        </property>
         <property name="autoFillBackground">
          <bool>true</bool>
         </property>
-        <property name="text">
-         <string>M</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="MissionSwitch_label">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>19</pointsize>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>M</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="KillSwitch_label">
-        <property name="minimumSize">
+       <widget class="QWidget" name="widget_2" native="true">
+        <property name="maximumSize">
          <size>
-          <width>35</width>
-          <height>0</height>
+          <width>16777215</width>
+          <height>35</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>19</pointsize>
-         </font>
+        <property name="palette">
+         <palette>
+          <active>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>33</red>
+              <green>33</green>
+              <blue>33</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
+         </palette>
         </property>
         <property name="autoFillBackground">
          <bool>true</bool>
         </property>
-        <property name="text">
-         <string>K</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="KillSwitch_label">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>19</pointsize>
+            </font>
+           </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>K</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

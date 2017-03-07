@@ -3,10 +3,11 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QWidget
-from python_qt_binding.QtCore import pyqtSignal
+from python_qt_binding.QtWidgets import QAction, QMenu, QWidget,QActionGroup
+from python_qt_binding.QtCore import pyqtSignal, Qt
 
-from provider_kill_mission.msg import MissionSwitchMsg,KillSwitchMsg
+from provider_kill_mission.msg import MissionSwitchMsg, KillSwitchMsg
+from provider_kill_mission.srv import OverrideMissionSwitch,OverrideMissionSwitchRequest, SetMissionSwitch, SetMissionSwitchRequest
 
 
 class KillMissionWidget(QWidget):
@@ -21,11 +22,79 @@ class KillMissionWidget(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'KillMission.ui')
         loadUi(ui_file, self)
 
-        self._mission_switch = rospy.Subscriber('/provider_kill_mission/mission_switch_msg', MissionSwitchMsg, self._mission_switch_callback)
+        self._mission_switch = rospy.Subscriber('/provider_kill_mission/mission_switch_msg', MissionSwitchMsg,
+                                                self._mission_switch_callback)
         self.mission_received.connect(self._handle_mission_result)
 
-        self.kill_switch = rospy.Subscriber('/provider_kill_mission/kill_switch_msg',KillSwitchMsg, self._kill_switch_callback)
+        self.kill_switch = rospy.Subscriber('/provider_kill_mission/kill_switch_msg', KillSwitchMsg,
+                                            self._kill_switch_callback)
         self.kill_received.connect(self._handle_kill_result)
+
+        self.mission_switch_widget_mouse_release_original = self.mission_switch_widget.mouseReleaseEvent
+        self.mission_switch_widget.mouseReleaseEvent = self._mission_switch_mouseReleaseEvent
+
+        self._create_contextual_menu()
+
+    def _create_contextual_menu(self):
+        self._menu = QMenu(self.mission_switch_widget)
+
+        self._override_action = QAction(self.mission_switch_widget.tr("Override mission switch"), self, checkable=True,
+                                        triggered=self._override_mission_switch)
+        self._menu.addAction(self._override_action)
+        self._override_action.setChecked(False)
+        self._menu.addSeparator()
+
+        self._mission_switch_on_action = QAction(self.mission_switch_widget.tr("On"), self, checkable=True,
+                                                 triggered=self._override_mission_switch_on)
+        self._menu.addAction(self._mission_switch_on_action)
+        self._mission_switch_on_action.setEnabled(False)
+
+        self._mission_switch_off_action = QAction(self.mission_switch_widget.tr("Off"), self, checkable=True,
+                                                  triggered=self._override_mission_switch_off)
+        self._menu.addAction(self._mission_switch_off_action)
+
+        self.action_group = QActionGroup(self.mission_switch_widget)
+        self.action_group.addAction(self._mission_switch_on_action)
+        self.action_group.addAction(self._mission_switch_off_action)
+        self._mission_switch_off_action.setEnabled(False)
+        self._mission_switch_off_action.setChecked(True)
+
+    def _override_mission_switch(self,checked):
+        try:
+            override_mission_srv = rospy.ServiceProxy('/provider_kill_mission/override_mission_switch', OverrideMissionSwitch)
+            override_mission_req = OverrideMissionSwitchRequest()
+            override_mission_req.state = int(checked)
+            override_mission_srv(override_mission_req)
+            print 'hey'
+
+            self._mission_switch_on_action.setEnabled(checked)
+            self._mission_switch_off_action.setEnabled(checked)
+
+        except rospy.ServiceException, e:
+            rospy.logerr('provider Kill mission is not started')
+
+
+    def _override_mission_switch_on(self):
+        try:
+            set_mission_srv = rospy.ServiceProxy('/provider_kill_mission/set_mission_switch', SetMissionSwitch)
+            set_mission_req = SetMissionSwitchRequest()
+            set_mission_req.state = 1
+            set_mission_srv(set_mission_req)
+        except rospy.ServiceException, e:
+            rospy.logerr('provider Kill mission is not started')
+
+    def _override_mission_switch_off(self):
+        try:
+            set_mission_srv = rospy.ServiceProxy('/provider_kill_mission/set_mission_switch', SetMissionSwitch)
+            set_mission_req = SetMissionSwitchRequest()
+            set_mission_req.state = 0
+            set_mission_srv(set_mission_req)
+        except rospy.ServiceException, e:
+            rospy.logerr('provider Kill mission is not started')
+
+    def _mission_switch_mouseReleaseEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self._menu.exec_(self.MissionSwitch_label.mapToGlobal(event.pos()))
 
     def _mission_switch_callback(self, data):
         self.mission_received.emit(data.state)
@@ -33,19 +102,14 @@ class KillMissionWidget(QWidget):
     def _kill_switch_callback(self, data):
         self.kill_received.emit(data.state)
 
-    def _handle_mission_result(self,mission):
+    def _handle_mission_result(self, mission):
         if mission:
-            print 'in true'
             self.MissionSwitch_label.setPalette(self.paletteChecked.palette())
         else:
             self.MissionSwitch_label.setPalette(self.paletteUnchecked.palette())
 
-    def _handle_kill_result(self,kill_switch_state):
+    def _handle_kill_result(self, kill_switch_state):
         if kill_switch_state:
             self.KillSwitch_label.setPalette(self.paletteChecked.palette())
         else:
             self.KillSwitch_label.setPalette(self.paletteUnchecked.palette())
-
-
-
-
