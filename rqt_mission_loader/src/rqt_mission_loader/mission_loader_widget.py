@@ -17,6 +17,7 @@ class MissionPlannerWidget(QWidget):
     loaded_mission_name_received = pyqtSignal(str)
     started_mission_name_received = pyqtSignal(str)
     current_state_name_received = pyqtSignal(str)
+    mission_ended_received = pyqtSignal(str)
 
     def __init__(self):
         super(MissionPlannerWidget, self).__init__()
@@ -32,11 +33,18 @@ class MissionPlannerWidget(QWidget):
         self.mission_loaded_subscriber = rospy.Subscriber("/mission_executor_server/smach/container_status", SmachContainerStatus,
                                                           self._handle_smach_container_status)
 
+        self.end_mission = rospy.Subscriber('/mission_executor/mission_ended', String, self._handle_mission_ended)
+
         self.load_mission_names()
         self.load_button.clicked.connect(self._handle_load_button)
         self.loaded_mission_name_received.connect(self._handle_loaded_mission_name_result)
         self.started_mission_name_received.connect(self._handle_started_mission_name_result)
         self.current_state_name_received.connect(self._handle_mission_state_result)
+        self.mission_ended_received.connect(self._handle_mission_ended_result)
+    def _handle_mission_ended(self,data):
+        self.mission_ended_received.emit('*Finished*')
+    def _handle_mission_ended_result(self,string):
+        self.current_state_name_label.setText(string)
 
     def _handle_started_mission_name_changed(self, mission_name):
         self.started_mission_name_received.emit(mission_name.data)
