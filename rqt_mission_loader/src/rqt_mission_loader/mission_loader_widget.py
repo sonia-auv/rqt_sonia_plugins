@@ -43,6 +43,7 @@ class MissionPlannerWidget(QWidget):
         self.mission_ended_received.connect(self._handle_mission_ended_result)
     def _handle_mission_ended(self,data):
         self.mission_ended_received.emit('*Finished*')
+        self.started_mission_name_received.emit('---')
     def _handle_mission_ended_result(self,string):
         self.current_state_name_label.setText(string)
 
@@ -58,7 +59,7 @@ class MissionPlannerWidget(QWidget):
         self.current_state_name_received.emit(str(smach_container_status.active_states))
 
     def _handle_mission_state_result(self,state_name):
-        self.current_state_name_label.setText(state_name)
+        self.current_state_name_label.setText(state_name.replace('|',u'\u2192'))
 
 
     def _handle_loaded_mission_name_result(self, mission_name):

@@ -138,7 +138,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Mission currently started:</string>
+            <string>Mission currently running:</string>
            </property>
           </widget>
          </item>
