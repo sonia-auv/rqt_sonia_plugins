@@ -65,7 +65,7 @@ void ImageSubscriber::imageCallback(const sensor_msgs::Image::ConstPtr &msg) {
 //------------------------------------------------------------------------------
 //
 void ImageSubscriber::resultCallback(
-    const sonia_msgs::VisionTarget::ConstPtr &msg) const {
+    const proc_image_processing::VisionTarget::ConstPtr &msg) const {
   std::string x_pos{std::to_string(msg->x)};
   std::string y_pos{std::to_string(msg->y)};
   std::string target_msg{"Detected " + msg->header + " at [" +

@@ -9,14 +9,14 @@ from python_qt_binding.QtGui import QPainter, QImage
 from python_qt_binding.QtCore import Qt, pyqtSignal
 from python_qt_binding.QtWidgets import QMenu,QAction,QWidget
 from sensor_msgs.msg import Image as SensorImage
-from sonia_msgs.msg import VisionTarget
-from sonia_msgs.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd
+from proc_image_processing.msg import VisionTarget
+from proc_image_processing.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd
 from cv_bridge import CvBridge, CvBridgeError
 from ConfigureFilterchainWidget import ConfigureFilterchainWidget
 from Tkinter import Tk
 from tkFileDialog import asksaveasfilename
 
-from sonia_msgs.srv import get_information_list
+from proc_image_processing.srv import get_information_list
 
 
 class VisionMainWidget(QWidget):
@@ -24,10 +24,10 @@ class VisionMainWidget(QWidget):
     def __init__(self):
         super(VisionMainWidget, self).__init__()
         try:
-            rospy.wait_for_service('/provider_vision/get_information_list', timeout=2)
-            rospy.wait_for_service('/provider_vision/get_filterchain_from_execution', timeout=2)
-            rospy.wait_for_service('/provider_vision/get_media_from_execution', timeout=2)
-            rospy.wait_for_service('/provider_vision/execute_cmd', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_information_list', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_filterchain_from_execution', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_media_from_execution', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/execute_cmd', timeout=2)
         except rospy.ROSException:
             rospy.loginfo('Services unavailable')
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_vision'), 'resource', 'mainwidget.ui')
@@ -45,10 +45,10 @@ class VisionMainWidget(QWidget):
         self.bridge = CvBridge()
         self.result_change.connect(self._handle_result)
         ##### Service
-        self._srv_get_information_list = rospy.ServiceProxy('/provider_vision/get_information_list', get_information_list)
-        self._srv_get_filterchain_from_execution = rospy.ServiceProxy('/provider_vision/get_filterchain_from_execution', get_filterchain_from_execution)
-        self._srv_get_media_from_execution = rospy.ServiceProxy('/provider_vision/get_media_from_execution', get_media_from_execution)
-        self._srv_execute_cmd = rospy.ServiceProxy('/provider_vision/execute_cmd', execute_cmd)
+        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
+        self._srv_get_filterchain_from_execution = rospy.ServiceProxy('/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
+        self._srv_get_media_from_execution = rospy.ServiceProxy('/proc_image_processing/get_media_from_execution', get_media_from_execution)
+        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
 
         ###
         self.image_frame_mouse_release_event_original = self.imageFrame.mouseReleaseEvent
@@ -107,9 +107,9 @@ class VisionMainWidget(QWidget):
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
-        self._current_execution_subscriber = rospy.Subscriber('/provider_vision/' + new_execution + '_image',
+        self._current_execution_subscriber = rospy.Subscriber('/proc_image_processing/' + new_execution + '_image',
                                                               SensorImage, self.current_execution_callback)
-        self._current_execution_subscriber_result = rospy.Subscriber('/provider_vision/' + new_execution + '_result',
+        self._current_execution_subscriber_result = rospy.Subscriber('/proc_image_processing/' + new_execution + '_result',
                                                                      VisionTarget,
                                                                      self.current_execution_result_callback)
 

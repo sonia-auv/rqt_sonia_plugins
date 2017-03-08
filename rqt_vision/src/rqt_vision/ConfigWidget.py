@@ -7,18 +7,18 @@ from tkFileDialog import askopenfilename
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from sonia_msgs.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain
+from proc_image_processing.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain
 
 
 class ConfigWidget(QWidget):
     def __init__(self,main_window):
         super(ConfigWidget, self).__init__()
         try:
-            rospy.wait_for_service('/provider_vision/get_information_list', timeout=2)
-            rospy.wait_for_service('/provider_vision/execute_cmd', timeout=2)
-            rospy.wait_for_service('/provider_vision/manage_filterchain', timeout=2)
-            rospy.wait_for_service('/provider_vision/copy_filterchain', timeout=2)
-            rospy.wait_for_service('/provider_vision/save_filterchain', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_information_list', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/execute_cmd', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/manage_filterchain', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/copy_filterchain', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/save_filterchain', timeout=2)
         except rospy.ROSException:
             rospy.loginfo('Services unavailable')
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_vision'), 'resource', 'config.ui')
@@ -30,11 +30,11 @@ class ConfigWidget(QWidget):
         self._main_window = main_window
 
         ##### Service
-        self._srv_get_information_list = rospy.ServiceProxy('/provider_vision/get_information_list', get_information_list)
-        self._srv_execute_cmd = rospy.ServiceProxy('/provider_vision/execute_cmd', execute_cmd)
-        self._srv_manage_filterchain = rospy.ServiceProxy('/provider_vision/manage_filterchain', manage_filterchain)
-        self._srv_copy_filterchain = rospy.ServiceProxy('/provider_vision/copy_filterchain', copy_filterchain)
-        self._srv_save_filterchain = rospy.ServiceProxy('/provider_vision/save_filterchain', save_filterchain)
+        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
+        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
+        self._srv_manage_filterchain = rospy.ServiceProxy('/proc_image_processing/manage_filterchain', manage_filterchain)
+        self._srv_copy_filterchain = rospy.ServiceProxy('/proc_image_processing/copy_filterchain', copy_filterchain)
+        self._srv_save_filterchain = rospy.ServiceProxy('/proc_image_processing/save_filterchain', save_filterchain)
 
         self.filterchain_list.currentIndexChanged[int].connect(self.current_filterchain_index_changed)
         self.filterchains.itemSelectionChanged.connect(self._handle_filterchains_selection_changed)

@@ -13,7 +13,7 @@
 #include <image_transport/image_transport.h>
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
-#include <sonia_msgs/VisionTarget.h>
+#include <proc_image_processing/VisionTarget.h>
 #include <QObject>
 #include <QString>
 #include <opencv2/opencv.hpp>
@@ -129,7 +129,7 @@ class ImageSubscriber : public QObject, public image_transport::Subscriber {
    * \param	msg	The result published on the topic.
    */
   inline void resultCallback(
-      const sonia_msgs::VisionTarget::ConstPtr &msg) const;
+      const proc_image_processing::VisionTarget::ConstPtr &msg) const;
 
   //==========================================================================
   // P R I V A T E   M E M B E R S

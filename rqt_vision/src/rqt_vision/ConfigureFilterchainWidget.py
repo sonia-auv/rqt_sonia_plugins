@@ -7,21 +7,21 @@ from functools import partial
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt
 from python_qt_binding.QtWidgets import QWidget, QLabel, QCheckBox, QSlider,QSpinBox, QDoubleSpinBox, QLineEdit
-from sonia_msgs.srv import get_information_list, get_filterchain_filter, get_filterchain_filter_all_param, set_filterchain_filter_param, manage_filterchain_filter, set_filterchain_filter_observer, save_filterchain, set_filterchain_filter_order
+from proc_image_processing.srv import get_information_list, get_filterchain_filter, get_filterchain_filter_all_param, set_filterchain_filter_param, manage_filterchain_filter, set_filterchain_filter_observer, save_filterchain, set_filterchain_filter_order
 
 
 class ConfigureFilterchainWidget(QWidget):
     def __init__(self, execution_name,filterchain):
         super(ConfigureFilterchainWidget, self).__init__()
         try:
-            rospy.wait_for_service('/provider_vision/get_information_list', timeout=2)
-            rospy.wait_for_service('/provider_vision/get_filterchain_filter', timeout=2)
-            rospy.wait_for_service('/provider_vision/get_filterchain_filter_all_param', timeout=2)
-            rospy.wait_for_service('/provider_vision/set_filterchain_filter_param', timeout=2)
-            rospy.wait_for_service('/provider_vision/manage_filterchain_filter', timeout=2)
-            rospy.wait_for_service('/provider_vision/set_filterchain_filter_observer', timeout=2)
-            rospy.wait_for_service('/provider_vision/save_filterchain', timeout=2)
-            rospy.wait_for_service('/provider_vision/set_filterchain_filter_order', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_information_list', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_filterchain_filter', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/get_filterchain_filter_all_param', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/set_filterchain_filter_param', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/manage_filterchain_filter', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/set_filterchain_filter_observer', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/save_filterchain', timeout=2)
+            rospy.wait_for_service('/proc_image_processing/set_filterchain_filter_order', timeout=2)
         except rospy.ROSException:
             rospy.loginfo('Services unavailable')
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_vision'), 'resource', 'filters_parameter.ui')
@@ -35,14 +35,14 @@ class ConfigureFilterchainWidget(QWidget):
         self._current_filter_to_add = None
 
         ##### Service
-        self._srv_get_information_list = rospy.ServiceProxy('/provider_vision/get_information_list', get_information_list)
-        self._srv_get_filterchain_filter = rospy.ServiceProxy('/provider_vision/get_filterchain_filter', get_filterchain_filter)
-        self._srv_get_filterchain_filter_all_param = rospy.ServiceProxy('/provider_vision/get_filterchain_filter_all_param', get_filterchain_filter_all_param)
-        self._srv_set_filterchain_filter_param = rospy.ServiceProxy('/provider_vision/set_filterchain_filter_param', set_filterchain_filter_param)
-        self._srv_manage_filterchain_filter = rospy.ServiceProxy('/provider_vision/manage_filterchain_filter', manage_filterchain_filter)
-        self._srv_set_filterchain_filter_observer = rospy.ServiceProxy('/provider_vision/set_filterchain_filter_observer', set_filterchain_filter_observer)
-        self._srv_save_filterchain = rospy.ServiceProxy('/provider_vision/save_filterchain', save_filterchain)
-        self._srv_set_filterchain_filter_order = rospy.ServiceProxy('/provider_vision/set_filterchain_filter_order', set_filterchain_filter_order)
+        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
+        self._srv_get_filterchain_filter = rospy.ServiceProxy('/proc_image_processing/get_filterchain_filter', get_filterchain_filter)
+        self._srv_get_filterchain_filter_all_param = rospy.ServiceProxy('/proc_image_processing/get_filterchain_filter_all_param', get_filterchain_filter_all_param)
+        self._srv_set_filterchain_filter_param = rospy.ServiceProxy('/proc_image_processing/set_filterchain_filter_param', set_filterchain_filter_param)
+        self._srv_manage_filterchain_filter = rospy.ServiceProxy('/proc_image_processing/manage_filterchain_filter', manage_filterchain_filter)
+        self._srv_set_filterchain_filter_observer = rospy.ServiceProxy('/proc_image_processing/set_filterchain_filter_observer', set_filterchain_filter_observer)
+        self._srv_save_filterchain = rospy.ServiceProxy('/proc_image_processing/save_filterchain', save_filterchain)
+        self._srv_set_filterchain_filter_order = rospy.ServiceProxy('/proc_image_processing/set_filterchain_filter_order', set_filterchain_filter_order)
 
         self.filters.itemSelectionChanged.connect(self.current_filter_index_changed)
         self.all_filters.currentIndexChanged[int].connect(self._current_filter_to_add_selection_changed)

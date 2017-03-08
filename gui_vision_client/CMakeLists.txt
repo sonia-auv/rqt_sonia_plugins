@@ -52,7 +52,7 @@ find_package( catkin REQUIRED COMPONENTS
     message_generation
     image_transport
     cv_bridge
-    sonia_msgs
+    proc_image_processing
 )
 
 find_package(Qt5Widgets REQUIRED)
@@ -70,7 +70,7 @@ catkin_package(
     message_runtime
     cv_bridge
     image_transport
-    sonia_msgs
+    proc_image_processing
 )
 
 #===============================================================================
@@ -104,4 +104,4 @@ target_link_libraries( ${PROJECT_NAME}_node
   ${Qt5Widgets_LIBRARIES}
   )
 
-add_dependencies(${PROJECT_NAME}_node sonia_msgs_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME}_node proc_image_processing_generate_messages_cpp)

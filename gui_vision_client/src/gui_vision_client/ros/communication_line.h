@@ -16,25 +16,25 @@
 #include <QVector>
 #include "ros/ros.h"
 
-#include <sonia_msgs/copy_filterchain.h>
-#include <sonia_msgs/execute_cmd.h>
-#include <sonia_msgs/get_filterchain_filter.h>
-#include <sonia_msgs/get_filterchain_filter_all_param.h>
-#include <sonia_msgs/get_filterchain_filter_param.h>
-#include <sonia_msgs/get_filterchain_from_execution.h>
-#include <sonia_msgs/get_information_list.h>
-#include <sonia_msgs/get_media_from_execution.h>
-#include <sonia_msgs/manage_filterchain.h>
-#include <sonia_msgs/manage_filterchain_filter.h>
-#include <sonia_msgs/save_filterchain.h>
-#include <sonia_msgs/set_filterchain_filter_observer.h>
-#include <sonia_msgs/set_filterchain_filter_order.h>
-#include <sonia_msgs/set_filterchain_filter_param.h>
+#include <proc_image_processing/copy_filterchain.h>
+#include <proc_image_processing/execute_cmd.h>
+#include <proc_image_processing/get_filterchain_filter.h>
+#include <proc_image_processing/get_filterchain_filter_all_param.h>
+#include <proc_image_processing/get_filterchain_filter_param.h>
+#include <proc_image_processing/get_filterchain_from_execution.h>
+#include <proc_image_processing/get_information_list.h>
+#include <proc_image_processing/get_media_from_execution.h>
+#include <proc_image_processing/manage_filterchain.h>
+#include <proc_image_processing/manage_filterchain_filter.h>
+#include <proc_image_processing/save_filterchain.h>
+#include <proc_image_processing/set_filterchain_filter_observer.h>
+#include <proc_image_processing/set_filterchain_filter_order.h>
+#include <proc_image_processing/set_filterchain_filter_param.h>
 
 #include "gui_vision_client/ros/image_subscriber.h"
 
 namespace gui_vision_client {
-using namespace sonia_msgs;
+using namespace proc_image_processing;
 
 //==============================================================================
 // G L O B A L   V A R I A B L E S   A N D   S T R U C T
