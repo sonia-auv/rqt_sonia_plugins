@@ -120,11 +120,12 @@ class Renderer:
     current_paint_mode = EDIT
     dummy_transition_line = None
 
-    def __init__(self, paint_panel,controller_mission_directory):
+    def __init__(self, paint_panel,controller_mission_directory, load_submission_in_other_tab_function):
         self.paint_panel = paint_panel
         self.paint_panel.paintEvent_original = self.paint_panel.paintEvent
         self.paint_panel.paintEvent = self.my_paint_event
         self.controller_mission_directory = controller_mission_directory
+        self.load_submission_in_other_tab_function = load_submission_in_other_tab_function
 
         # Mouse event
         self.paint_panel.mousePressEvent = self.my_mouse_press_event
@@ -189,12 +190,20 @@ class Renderer:
         menu.addMenu(transition_delete)
 
         menu.addSeparator()
-        if not self.current_selected_stateui.state.is_submission:
+        if self.current_selected_stateui.state.is_submission:
+            action_open_sub_mission = QAction(self.paint_panel.tr('Open Sub-Mission from CM...'),self.paint_panel,triggered=functools.partial(self.load_submission_from_cm,self.current_selected_stateui))
+            menu.addAction(action_open_sub_mission)
+        else:
             action_open_file = QAction(self.paint_panel.tr('Open in Editor...'),self.paint_panel,triggered=functools.partial(self.open_state_file,self.current_selected_stateui))
             menu.addAction(action_open_file)
             action_push_state = QAction(self.paint_panel.tr('Push State Code to CM...'),self.paint_panel,triggered=functools.partial(self.push_state_to_CM,self.current_selected_stateui))
             menu.addAction(action_push_state)
+
         return menu
+
+    def load_submission_from_cm(self,stateui):
+        self.load_submission_in_other_tab_function(stateui.state.submission_file)
+        pass
     def open_state_file(self,stateui):
         subprocess.call(["xdg-open", self.controller_mission_directory + stateui.state.base_file])
 
