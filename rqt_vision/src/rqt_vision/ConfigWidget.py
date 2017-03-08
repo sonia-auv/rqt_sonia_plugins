@@ -98,7 +98,11 @@ class ConfigWidget(QWidget):
     def _handle_create_new_execution(self):
         if len(self.name_text.text()) == 0:
             return;
-        media = self.video_text.text()
+
+
+        media = self.topic_name.text()
+        if len(media) == 0:
+            media = self.video_text.text()
         if len(media) == 0:
             media = self._current_media
         try:

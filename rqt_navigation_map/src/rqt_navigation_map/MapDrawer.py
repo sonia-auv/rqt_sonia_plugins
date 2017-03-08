@@ -87,6 +87,9 @@ class MapDrawer():
     def set_lock_on_sub_activated(self,activate):
         self._submarine_layer.set_lock_on_sub(activate)
 
+    def is_using_2d_view(self,activate):
+        self._submarine_layer.is_2d_view(activate)
+
     def set_rotate_with_sub_activated(self,activate):
         self._submarine_layer.set_rotate_with_sub_activated(activate)
 

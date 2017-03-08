@@ -33,10 +33,13 @@ class ParameterTableModel(QAbstractTableModel):
     def setData(self, index, value, role):
         if role == Qt.EditRole and index.column() == 1:
             if len(value):
+                name = self._current_state.name
                 try:
                     self._current_state.parameters[index.row()].value = float(value)
                 except ValueError:
                     self._current_state.parameters[index.row()].value = value
+                if name != self._current_state.name:
+                    self._current_state.notify_name_changed(name,self._current_state.name)
                 self.dataChanged.emit(index,index)
             return True
 

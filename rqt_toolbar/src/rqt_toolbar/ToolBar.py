@@ -7,6 +7,7 @@ from python_qt_binding.QtWidgets import QMainWindow, QToolBar
 
 from ToolbarEnableAxisWidget import EnableAxisWidget
 from ToolbarBatteryWidget import BatteryWidget
+from ToolbarKillmissionWidget import KillMissionWidget
 from Palette import Palette
 
 
@@ -16,7 +17,7 @@ class ToolBar(Plugin):
         super(ToolBar, self).__init__(context)
 
 
-        # Give QObjects reasonable names
+        # Give QObjects reasonable namesBatteryWidget
         self.setObjectName('EnableAxis')
 
         # Process standalone plugin command-line arguments
@@ -35,11 +36,13 @@ class ToolBar(Plugin):
         self._toolbar = QToolBar()
         self._palette = Palette()
         self._enableAxisWidget = EnableAxisWidget()
+        self._killMissionWidget = KillMissionWidget()
         context._handler._main_window.setPalette(self._palette.palette())
         self._batteryWidget = BatteryWidget()
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
+        self._toolbar.addWidget(self._killMissionWidget)
         self._toolbar.addWidget(self._batteryWidget)
         context.add_toolbar(self._toolbar)
 
