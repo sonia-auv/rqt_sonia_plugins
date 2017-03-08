@@ -31,15 +31,12 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         rp = rospkg.RosPack()
 
         ui_file = os.path.join(rp.get_path('rqt_mission_planner'), 'resource', 'mainwindow.ui')
+        self.controller_mission_directory = os.path.join(rp.get_path('controller_mission'))
         self.mission_executor_mission_state_default_folder = os.path.join(rp.get_path('controller_mission'), 'missions')
         loadUi(ui_file, self)
-        state_directory = os.path.join(rp.get_path('controller_mission'), 'src', 'controller_mission', 'state')
-        submission_directory = os.path.join(rp.get_path('controller_mission'), 'missions')
-
-        self.states = []
-        self.load_states(state_directory)
-        self.submissions = []
-        self.load_submissions(submission_directory)
+        self.state_directory = os.path.join(rp.get_path('controller_mission'), 'src', 'controller_mission', 'state')
+        self.submission_directory = os.path.join(rp.get_path('controller_mission'), 'missions')
+        self._handle_refresh_lists()
 
         self.table_model = ParameterTableModel()
         self.table_model.dataChanged.connect(self._table_model_data_changed)
@@ -50,12 +47,19 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.actionSave_to_mission_controller_remote.triggered.connect(self._handle_save_remotely)
         self.actionLoad_from_mission_service_remote.triggered.connect(self._handle_load_remotely)
         self.actionNew_mission.triggered.connect(self._handle_create_new_mission)
+        self.actionRefresh_lists.triggered.connect(self._handle_refresh_lists)
 
         self.add_state.clicked.connect(self.handle_add_state)
         self.add_submission.clicked.connect(self.handle_add_submission)
         self.rootState.clicked.connect(self.set_as_root_state)
-        self.renderer = Renderer(self.paint_panel)
+        self.renderer = Renderer(self.paint_panel,self.controller_mission_directory)
         self.renderer.add_state_listener(self)
+
+    def _handle_refresh_lists(self):
+        self.states = []
+        self.load_states(self.state_directory)
+        self.submissions = []
+        self.load_submissions(self.submission_directory)
 
     def validate_mission_has_root_state(self):
         for stateui in self.renderer.statesui:
@@ -149,7 +153,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             if not os.path.isfile(file_path):
                 self.load_states(file_path)
                 continue
-            state = fill_state_from_path(file_path)
+            state = fill_state_from_path(file_path,self.controller_mission_directory)
             if state:
                 self.states.append(state)
         self.refresh_state_list()
@@ -160,7 +164,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             if not os.path.isfile(file_path):
                 self.load_states(file_path)
                 continue
-            submission = fill_submission_from_path(file_path)
+            submission = fill_submission_from_path(file_path,self.controller_mission_directory)
             if submission:
                 self.submissions.append(submission)
         self.refresh_submission_list()
@@ -178,6 +182,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
     def state_selection_changed(self, state):
         self.table_model.state_selection_changed(state)
         self.rootState.setEnabled(state is not None)
+        if state and not state.is_submission:
+            self.state_type_label.setText(state._name)
+        else:
+            self.state_type_label.setText('---')
 
     def set_as_root_state(self):
         self.renderer.set_as_root_state()
