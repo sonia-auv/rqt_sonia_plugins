@@ -6,17 +6,16 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 from provider_power.msg import powerMsg
-
+from PowerCardButtonAction import PowerCardButtonAction
 
 
 class PowerWidget(QMainWindow):
     power_result_received = pyqtSignal(powerMsg)
+
     def __init__(self):
         super(PowerWidget, self).__init__()
         # Give QObjects reasonable names
         self.setObjectName('PowerControlWidget')
-
-
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_power'), 'resource', 'mainwindow.ui')
         loadUi(ui_file, self)
@@ -28,76 +27,23 @@ class PowerWidget(QMainWindow):
         self.power_result_received.connect(self._power_result_received)
 
         # Subscribe to slot
-#--------------------------------------------------card1---------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
-        self.OutEnable1611.setEnabled(True)
-        self.OutEnable1611.clicked[bool].connect(self._handle_enableButton_16_1_clicked_Card1)
-        self.OutDisable1611.setEnabled(False)
-        self.OutDisable1611.clicked[bool].connect(self._handle_disableButton_16_1_clicked_Card1)
+        # --------------------------------------------------card1---------------------------------------------------------------#
+        # ---------------------------------------------------------------------------------------------------------------------#
+        self.card_1_buttons = PowerCardButtonAction(self, '1')
+        # --------------------------------------------------card2--------------------------------------------------------------#
+        # ---------------------------------------------------------------------------------------------------------------------#
+        self.card_2_buttons = PowerCardButtonAction(self, '2')
+        # --------------------------------------------------card3--------------------------------------------------------------#
+        # ---------------------------------------------------------------------------------------------------------------------#
+        self.card_3_buttons = PowerCardButtonAction(self, '3')
+        # --------------------------------------------------card4--------------------------------------------------------------#
+        # ---------------------------------------------------------------------------------------------------------------------#
+        self.card_4_buttons = PowerCardButtonAction(self, '4')
 
-        self.OutEnable1621.setEnabled(True)
-        self.OutEnable1621.clicked[bool].connect(self._handle_enableButton_16_2_clicked_Card1)
-        self.OutDisable1621.setEnabled(False)
-        self.OutDisable1621.clicked[bool].connect(self._handle_disableButton_16_2_clicked_Card1)
-
-        self.OutEnable121.setEnabled(True)
-        self.OutEnable121.clicked[bool].connect(self._handle_enableButton_12_clicked_Card1)
-        self.OutDisable121.setEnabled(False)
-        self.OutDisable121.clicked[bool].connect(self._handle_disableButton_12_clicked_Card1)
-# --------------------------------------------------card2--------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
-        self.OutEnable1612.setEnabled(True)
-        self.OutEnable1612.clicked[bool].connect(self._handle_enableButton_16_1_clicked_Card2)
-        self.OutDisable1612.setEnabled(False)
-        self.OutDisable1612.clicked[bool].connect(self._handle_disableButton_16_1_clicked_Card2)
-
-        self.OutEnable1622.setEnabled(True)
-        self.OutEnable1622.clicked[bool].connect(self._handle_enableButton_16_2_clicked_Card2)
-        self.OutDisable1622.setEnabled(False)
-        self.OutDisable1622.clicked[bool].connect(self._handle_disableButton_16_2_clicked_Card2)
-
-        self.OutEnable122.setEnabled(True)
-        self.OutEnable122.clicked[bool].connect(self._handle_enableButton_12_clicked_Card2)
-        self.OutDisable122.setEnabled(False)
-        self.OutDisable122.clicked[bool].connect(self._handle_disableButton_12_clicked_Card2)
-# --------------------------------------------------card3--------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
-        self.OutEnable1613.setEnabled(True)
-        self.OutEnable1613.clicked[bool].connect(self._handle_enableButton_16_1_clicked_Card3)
-        self.OutDisable1613.setEnabled(False)
-        self.OutDisable1613.clicked[bool].connect(self._handle_disableButton_16_1_clicked_Card3)
-
-        self.OutEnable1623.setEnabled(True)
-        self.OutEnable1623.clicked[bool].connect(self._handle_enableButton_16_2_clicked_Card3)
-        self.OutDisable1623.setEnabled(False)
-        self.OutDisable1623.clicked[bool].connect(self._handle_disableButton_16_2_clicked_Card3)
-
-        self.OutEnable123.setEnabled(True)
-        self.OutEnable123.clicked[bool].connect(self._handle_enableButton_12_clicked_Card3)
-        self.OutDisable123.setEnabled(False)
-        self.OutDisable123.clicked[bool].connect(self._handle_disableButton_12_clicked_Card3)
-# --------------------------------------------------card4--------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
-        self.OutEnable1614.setEnabled(True)
-        self.OutEnable1614.clicked[bool].connect(self._handle_enableButton_16_1_clicked_Card4)
-        self.OutDisable1614.setEnabled(False)
-        self.OutDisable1614.clicked[bool].connect(self._handle_disableButton_16_1_clicked_Card4)
-
-        self.OutEnable1624.setEnabled(True)
-        self.OutEnable1624.clicked[bool].connect(self._handle_enableButton_16_2_clicked_Card4)
-        self.OutDisable1624.setEnabled(False)
-        self.OutDisable1624.clicked[bool].connect(self._handle_disableButton_16_2_clicked_Card4)
-
-        self.OutEnable124.setEnabled(True)
-        self.OutEnable124.clicked[bool].connect(self._handle_enableButton_12_clicked_Card4)
-        self.OutDisable124.setEnabled(False)
-        self.OutDisable124.clicked[bool].connect(self._handle_disableButton_12_clicked_Card4)
-
-# --------------------------------------------------card1---------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
+    # --------------------------------------------------card1---------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
     def _power_callback(self, data):
         self.power_result_received.emit(data)
-
 
     def _power_result_received(self, powerData):
         self.Temperature1.display(powerData.temperature1)
@@ -133,7 +79,6 @@ class PowerWidget(QMainWindow):
         self.Current124.display(powerData.volt12card4)
         self.Battery4.display(powerData.battery4)
 
-
     def _handle_enableButton_16_1_clicked_Card1(self, checked):
         self.OutEnable1611.setEnabled(False)
         self.OutDisable1611.setEnabled(True)
@@ -163,8 +108,9 @@ class PowerWidget(QMainWindow):
         self.OutEnable121.setEnabled(True)
         self.OutDisable121.setEnabled(False)
         pass
-# --------------------------------------------------card2--------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
+
+    # --------------------------------------------------card2--------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
     def _handle_enableButton_16_1_clicked_Card2(self, checked):
         self.OutEnable1612.setEnabled(False)
         self.OutDisable1612.setEnabled(True)
@@ -194,8 +140,9 @@ class PowerWidget(QMainWindow):
         self.OutEnable122.setEnabled(True)
         self.OutDisable122.setEnabled(False)
         pass
-# ---------------------------------------------------card3-------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
+
+    # ---------------------------------------------------card3-------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
     def _handle_enableButton_16_1_clicked_Card3(self, checked):
         self.OutEnable1613.setEnabled(False)
         self.OutDisable1613.setEnabled(True)
@@ -225,8 +172,9 @@ class PowerWidget(QMainWindow):
         self.OutEnable123.setEnabled(True)
         self.OutDisable123.setEnabled(False)
         pass
-# --------------------------------------------------card4--------------------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------------#
+
+    # --------------------------------------------------card4--------------------------------------------------------------#
+    # ---------------------------------------------------------------------------------------------------------------------#
     def _handle_enableButton_16_1_clicked_Card4(self, checked):
         self.OutEnable1614.setEnabled(False)
         self.OutDisable1614.setEnabled(True)
@@ -256,15 +204,15 @@ class PowerWidget(QMainWindow):
         self.OutEnable124.setEnabled(True)
         self.OutDisable124.setEnabled(False)
         pass
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+
+    # ----------------------------------------------------------------------------------------------------------------------#
+    # ----------------------------------------------------------------------------------------------------------------------#
 
     def _handle_start_test_triggered(self):
         pass
 
     def _execute_test(self):
         pass
-
 
     def shutdown_plugin(self):
         self._power_subscriber.unregister()
@@ -279,6 +227,3 @@ class PowerWidget(QMainWindow):
         # TODO restore intrinsic configuration, usually using:
         # v = instance_settings.value(k)
         pass
-
-
-
