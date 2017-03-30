@@ -18,7 +18,7 @@ class PowerWidget(QMainWindow):
 
 
 
-        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_provider_power'), 'resource', 'mainwindow.ui')
+        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_power'), 'resource', 'mainwindow.ui')
         loadUi(ui_file, self)
 
         self.setObjectName('MyPowerControlWidget')
