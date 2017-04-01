@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import rospy
 from qt_gui.plugin import Plugin
 from PowerWidget import PowerWidget
 

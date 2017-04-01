@@ -12,6 +12,15 @@ from PowerCardButtonAction import PowerCardButtonAction
 class PowerWidget(QMainWindow):
     power_result_received = pyqtSignal(powerMsg)
 
+    CMD_PS_V16_1 = 0
+    CMD_PS_V16_2 = 1
+    CMD_PS_V12 = 2
+    CMD_PS_C16_1 = 3
+    CMD_PS_C16_2 = 4
+    CMD_PS_C12 = 5
+    CMD_PS_temperature = 6
+    CMD_PS_VBatt = 7
+
     def __init__(self):
         super(PowerWidget, self).__init__()
         # Give QObjects reasonable names
@@ -24,189 +33,69 @@ class PowerWidget(QMainWindow):
 
         self._power_subscriber = rospy.Subscriber("/provider_power/power", powerMsg, self._power_callback)
 
-        self.power_result_received.connect(self._power_result_received)
+        self.power_result_received.connect(self.show_Data)
 
         # Subscribe to slot
         # --------------------------------------------------card1---------------------------------------------------------------#
         # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_1_buttons = PowerCardButtonAction(self, '1')
+        self.card_1_buttons = PowerCardButtonAction(self, '0')
         # --------------------------------------------------card2--------------------------------------------------------------#
         # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_2_buttons = PowerCardButtonAction(self, '2')
+        self.card_2_buttons = PowerCardButtonAction(self, '1')
         # --------------------------------------------------card3--------------------------------------------------------------#
         # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_3_buttons = PowerCardButtonAction(self, '3')
+        self.card_3_buttons = PowerCardButtonAction(self, '2')
         # --------------------------------------------------card4--------------------------------------------------------------#
         # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_4_buttons = PowerCardButtonAction(self, '4')
+        self.card_4_buttons = PowerCardButtonAction(self, '3')
 
-    # --------------------------------------------------card1---------------------------------------------------------------#
-    # ---------------------------------------------------------------------------------------------------------------------#
+
     def _power_callback(self, data):
         self.power_result_received.emit(data)
 
-    def _power_result_received(self, powerData):
-        self.Temperature1.display(powerData.temperature1)
-        self.Current1611.display(powerData.cur16Pin1card1)
-        self.Current1621.display(powerData.cur16Pin2card1)
-        self.Current121.display(powerData.cur12card1)
-        self.Voltage1611.display(powerData.volt16Pin1card1)
-        self.Current1621.display(powerData.volt16Pin2card1)
-        self.Current121.display(powerData.volt12card1)
-        self.Battery1.display(powerData.battery1)
-        self.Temperature2.display(powerData.temperature2)
-        self.Current1612.display(powerData.cur16Pin1card2)
-        self.Current1622.display(powerData.cur16Pin2card2)
-        self.Current122.display(powerData.cur12card2)
-        self.Voltage1612.display(powerData.volt16Pin1card2)
-        self.Current1622.display(powerData.volt16Pin2card2)
-        self.Current122.display(powerData.volt12card2)
-        self.Battery2.display(powerData.battery2)
-        self.Temperature3.display(powerData.temperature3)
-        self.Current1613.display(powerData.cur16Pin1card3)
-        self.Current1623.display(powerData.cur16Pin2card3)
-        self.Current123.display(powerData.cur12card3)
-        self.Voltage1613.display(powerData.volt16Pin1card3)
-        self.Current1623.display(powerData.volt16Pin2card3)
-        self.Current123.display(powerData.volt12card3)
-        self.Battery3.display(powerData.battery3)
-        self.Temperature4.display(powerData.temperature4)
-        self.Current1614.display(powerData.cur16Pin1card4)
-        self.Current1624.display(powerData.cur16Pin2card4)
-        self.Current124.display(powerData.cur12card4)
-        self.Voltage1614.display(powerData.volt16Pin1card4)
-        self.Current1624.display(powerData.volt16Pin2card4)
-        self.Current124.display(powerData.volt12card4)
-        self.Battery4.display(powerData.battery4)
+    def show_Data(self, powerData):
 
-    def _handle_enableButton_16_1_clicked_Card1(self, checked):
-        self.OutEnable1611.setEnabled(False)
-        self.OutDisable1611.setEnabled(True)
-        pass
+        if powerData.cmd == self.CMD_PS_V16_1:
 
-    def _handle_disableButton_16_1_clicked_Card1(self, checked):
-        self.OutEnable1611.setEnabled(True)
-        self.OutDisable1611.setEnabled(False)
-        pass
+            eval('self.Voltage161' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage161Card' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_16_2_clicked_Card1(self, checked):
-        self.OutEnable1621.setEnabled(False)
-        self.OutDisable1621.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_V16_2:
 
-    def _handle_disableButton_16_2_clicked_Card1(self, checked):
-        self.OutEnable1621.setEnabled(True)
-        self.OutDisable1621.setEnabled(False)
-        pass
+            eval('self.Voltage162' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage162Card' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_12_clicked_Card1(self, checked):
-        self.OutEnable121.setEnabled(False)
-        self.OutDisable121.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_V12:
 
-    def _handle_disableButton_12_clicked_Card1(self, checked):
-        self.OutEnable121.setEnabled(True)
-        self.OutDisable121.setEnabled(False)
-        pass
+            eval('self.Voltage12' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage12Card' + str(powerData.slave)).display(powerData.Data)
 
-    # --------------------------------------------------card2--------------------------------------------------------------#
-    # ---------------------------------------------------------------------------------------------------------------------#
-    def _handle_enableButton_16_1_clicked_Card2(self, checked):
-        self.OutEnable1612.setEnabled(False)
-        self.OutDisable1612.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_C16_1:
 
-    def _handle_disableButton_16_1_clicked_Card2(self, checked):
-        self.OutEnable1612.setEnabled(True)
-        self.OutDisable1612.setEnabled(False)
-        pass
+            eval('self.Current161' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current161Card' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_16_2_clicked_Card2(self, checked):
-        self.OutEnable1622.setEnabled(False)
-        self.OutDisable1622.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_C16_2:
 
-    def _handle_disableButton_16_2_clicked_Card2(self, checked):
-        self.OutEnable1622.setEnabled(True)
-        self.OutDisable1622.setEnabled(False)
-        pass
+            eval('self.Current162' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current162Card' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_12_clicked_Card2(self, checked):
-        self.OutEnable122.setEnabled(False)
-        self.OutDisable122.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_C12:
 
-    def _handle_disableButton_12_clicked_Card2(self, checked):
-        self.OutEnable122.setEnabled(True)
-        self.OutDisable122.setEnabled(False)
-        pass
+            eval('self.Current12' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current12Card' + str(powerData.slave)).display(powerData.Data)
 
-    # ---------------------------------------------------card3-------------------------------------------------------------#
-    # ---------------------------------------------------------------------------------------------------------------------#
-    def _handle_enableButton_16_1_clicked_Card3(self, checked):
-        self.OutEnable1613.setEnabled(False)
-        self.OutDisable1613.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_temperature:
 
-    def _handle_disableButton_16_1_clicked_Card3(self, checked):
-        self.OutEnable1613.setEnabled(True)
-        self.OutDisable1613.setEnabled(False)
-        pass
+            eval('self.Temperature' + str(powerData.slave)).display(powerData.Data)
+            eval('self.TemperatureCard' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_16_2_clicked_Card3(self, checked):
-        self.OutEnable1623.setEnabled(False)
-        self.OutDisable1623.setEnabled(True)
-        pass
+        elif powerData.cmd == self.CMD_PS_VBatt:
 
-    def _handle_disableButton_16_2_clicked_Card3(self, checked):
-        self.OutEnable1623.setEnabled(True)
-        self.OutDisable1623.setEnabled(False)
-        pass
+            eval('self.Battery' + str(powerData.slave)).display(powerData.Data)
+            eval('self.BatteryCard' + str(powerData.slave)).display(powerData.Data)
 
-    def _handle_enableButton_12_clicked_Card3(self, checked):
-        self.OutEnable123.setEnabled(False)
-        self.OutDisable123.setEnabled(True)
-        pass
 
-    def _handle_disableButton_12_clicked_Card3(self, checked):
-        self.OutEnable123.setEnabled(True)
-        self.OutDisable123.setEnabled(False)
-        pass
-
-    # --------------------------------------------------card4--------------------------------------------------------------#
-    # ---------------------------------------------------------------------------------------------------------------------#
-    def _handle_enableButton_16_1_clicked_Card4(self, checked):
-        self.OutEnable1614.setEnabled(False)
-        self.OutDisable1614.setEnabled(True)
-        pass
-
-    def _handle_disableButton_16_1_clicked_Card4(self, checked):
-        self.OutEnable1614.setEnabled(True)
-        self.OutDisable1614.setEnabled(False)
-        pass
-
-    def _handle_enableButton_16_2_clicked_Card4(self, checked):
-        self.OutEnable1624.setEnabled(False)
-        self.OutDisable1624.setEnabled(True)
-        pass
-
-    def _handle_disableButton_16_2_clicked_Card4(self, checked):
-        self.OutEnable1624.setEnabled(True)
-        self.OutDisable1624.setEnabled(False)
-        pass
-
-    def _handle_enableButton_12_clicked_Card4(self, checked):
-        self.OutEnable124.setEnabled(False)
-        self.OutDisable124.setEnabled(True)
-        pass
-
-    def _handle_disableButton_12_clicked_Card4(self, checked):
-        self.OutEnable124.setEnabled(True)
-        self.OutDisable124.setEnabled(False)
-        pass
-
-    # ----------------------------------------------------------------------------------------------------------------------#
-    # ----------------------------------------------------------------------------------------------------------------------#
 
     def _handle_start_test_triggered(self):
         pass
@@ -227,3 +116,5 @@ class PowerWidget(QMainWindow):
         # TODO restore intrinsic configuration, usually using:
         # v = instance_settings.value(k)
         pass
+
+

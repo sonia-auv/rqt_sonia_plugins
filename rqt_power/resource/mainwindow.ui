@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Power</string>
   </property>
-  <widget class="QTabWidget" name="tabWidget">
+  <widget class="QTabWidget" name="tab5">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -42,7 +42,7 @@
       <string>A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1611">
+    <widget class="QPushButton" name="OutDisable1610">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -55,7 +55,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current121">
+    <widget class="QLCDNumber" name="Current120">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -104,7 +104,7 @@
       <string>Voltage 12V</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable121">
+    <widget class="QPushButton" name="OutDisable120">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -117,7 +117,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage121">
+    <widget class="QLCDNumber" name="Voltage120">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -130,7 +130,7 @@
       <double>0.000000000000000</double>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1621">
+    <widget class="QPushButton" name="OutDisable1620">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -143,7 +143,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1611">
+    <widget class="QPushButton" name="OutEnable1610">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -156,7 +156,7 @@
       <string>Enable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1621">
+    <widget class="QLCDNumber" name="Current1620">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -218,7 +218,7 @@
       <string>Current 16V-1</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Temperature1">
+    <widget class="QLCDNumber" name="Temperature0">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -231,7 +231,7 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1611">
+    <widget class="QLCDNumber" name="Current1610">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -319,7 +319,7 @@
       <string>V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1611">
+    <widget class="QLCDNumber" name="Voltage1610">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -329,7 +329,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1621">
+    <widget class="QLCDNumber" name="Voltage1620">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -352,7 +352,7 @@
       <string>Voltage 16V-2</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1621">
+    <widget class="QPushButton" name="OutEnable1620">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -365,7 +365,7 @@
       <string>Enable</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable121">
+    <widget class="QPushButton" name="OutEnable120">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -430,7 +430,7 @@
       <string>Battery</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Battery1">
+    <widget class="QLCDNumber" name="Battery0">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -461,7 +461,7 @@
     <attribute name="title">
      <string>Power 2</string>
     </attribute>
-    <widget class="QLCDNumber" name="Voltage122">
+    <widget class="QLCDNumber" name="Voltage121">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -471,7 +471,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1622">
+    <widget class="QLCDNumber" name="Voltage1621">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -481,7 +481,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable122">
+    <widget class="QPushButton" name="OutEnable121">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -494,7 +494,7 @@
       <string>Enable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current122">
+    <widget class="QLCDNumber" name="Current121">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -504,7 +504,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1612">
+    <widget class="QPushButton" name="OutDisable1611">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -517,7 +517,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1612">
+    <widget class="QPushButton" name="OutEnable1611">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -569,7 +569,7 @@
       <string>Power supply 2</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Temperature2">
+    <widget class="QLCDNumber" name="Temperature1">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -592,7 +592,7 @@
       <string>Current 16V-1</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1622">
+    <widget class="QPushButton" name="OutDisable1621">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -618,7 +618,7 @@
       <string>Output 12V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1612">
+    <widget class="QLCDNumber" name="Current1611">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -654,7 +654,7 @@
       <string>A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable122">
+    <widget class="QPushButton" name="OutDisable121">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -732,7 +732,7 @@
       <string>Temperature</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1622">
+    <widget class="QPushButton" name="OutEnable1621">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -810,7 +810,7 @@
       <string>Output 16V-2</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1622">
+    <widget class="QLCDNumber" name="Current1621">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -833,7 +833,7 @@
       <string>V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1612">
+    <widget class="QLCDNumber" name="Voltage1611">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -869,7 +869,7 @@
       <string>Battery</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Battery2">
+    <widget class="QLCDNumber" name="Battery1">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -887,7 +887,7 @@
     <attribute name="title">
      <string>Power 3</string>
     </attribute>
-    <widget class="QLCDNumber" name="Voltage123">
+    <widget class="QLCDNumber" name="Voltage122">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -897,7 +897,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1623">
+    <widget class="QLCDNumber" name="Voltage1622">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -907,7 +907,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable123">
+    <widget class="QPushButton" name="OutEnable122">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -920,7 +920,7 @@
       <string>Enable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current123">
+    <widget class="QLCDNumber" name="Current122">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -930,7 +930,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1613">
+    <widget class="QPushButton" name="OutDisable1612">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -943,7 +943,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1613">
+    <widget class="QPushButton" name="OutEnable1612">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -995,7 +995,7 @@
       <string>Power supply 3</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Temperature3">
+    <widget class="QLCDNumber" name="Temperature2">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1018,7 +1018,7 @@
       <string>Current 16V-1</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1623">
+    <widget class="QPushButton" name="OutDisable1622">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1044,7 +1044,7 @@
       <string>Output 12V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1613">
+    <widget class="QLCDNumber" name="Current1612">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1080,7 +1080,7 @@
       <string>A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable123">
+    <widget class="QPushButton" name="OutDisable122">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1158,7 +1158,7 @@
       <string>Temperature</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1623">
+    <widget class="QPushButton" name="OutEnable1622">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -1236,7 +1236,7 @@
       <string>Output 16V-2</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1623">
+    <widget class="QLCDNumber" name="Current1622">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1259,7 +1259,7 @@
       <string>V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1613">
+    <widget class="QLCDNumber" name="Voltage1612">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1295,7 +1295,7 @@
       <string>Battery</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Battery3">
+    <widget class="QLCDNumber" name="Battery2">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1313,7 +1313,7 @@
     <attribute name="title">
      <string>Power 4</string>
     </attribute>
-    <widget class="QLCDNumber" name="Voltage124">
+    <widget class="QLCDNumber" name="Voltage123">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1323,7 +1323,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1624">
+    <widget class="QLCDNumber" name="Voltage1623">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1333,7 +1333,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable124">
+    <widget class="QPushButton" name="OutEnable123">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -1346,7 +1346,7 @@
       <string>Enable</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current124">
+    <widget class="QLCDNumber" name="Current123">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1356,7 +1356,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1614">
+    <widget class="QPushButton" name="OutDisable1613">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1369,7 +1369,7 @@
       <string>Disable</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1614">
+    <widget class="QPushButton" name="OutEnable1613">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -1421,7 +1421,7 @@
       <string>Power supply 4</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Temperature4">
+    <widget class="QLCDNumber" name="Temperature3">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1444,7 +1444,7 @@
       <string>Current 16V-1</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable1624">
+    <widget class="QPushButton" name="OutDisable1623">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1470,7 +1470,7 @@
       <string>Output 12V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1614">
+    <widget class="QLCDNumber" name="Current1613">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1506,7 +1506,7 @@
       <string>A</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutDisable124">
+    <widget class="QPushButton" name="OutDisable123">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1584,7 +1584,7 @@
       <string>Temperature</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="OutEnable1624">
+    <widget class="QPushButton" name="OutEnable1623">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -1662,7 +1662,7 @@
       <string>Output 16V-2</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Current1624">
+    <widget class="QLCDNumber" name="Current1623">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1685,7 +1685,7 @@
       <string>V</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Voltage1614">
+    <widget class="QLCDNumber" name="Voltage1613">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1721,7 +1721,7 @@
       <string>Battery</string>
      </property>
     </widget>
-    <widget class="QLCDNumber" name="Battery4">
+    <widget class="QLCDNumber" name="Battery3">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -1732,6 +1732,627 @@
      </property>
      <property name="value" stdset="0">
       <double>0.000000000000000</double>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_5">
+    <attribute name="title">
+     <string>All Data</string>
+    </attribute>
+    <widget class="QLCDNumber" name="Current12Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>160</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current162Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>120</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage161Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>200</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="TemperatureCard0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>40</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage162Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>240</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="BatteryCard0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>320</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current161Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>80</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage12Card0">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>280</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_89">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Card 1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_106">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>280</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_107">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>240</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_108">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>320</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_109">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>80</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>A</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_110">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>160</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>A</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_111">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>40</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_112">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>200</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_113">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>120</y>
+       <width>16</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>A</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_114">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>10</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Card 2</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_115">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>10</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Card 3</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_116">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>10</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Card 4</string>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current161Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>80</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage162Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>240</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current12Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>160</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current162Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>120</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage161Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>200</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="BatteryCard1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>320</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="TemperatureCard1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>40</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage12Card1">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>280</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="BatteryCard2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>320</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="TemperatureCard2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>40</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage12Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>280</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage161Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>200</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current12Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>160</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage162Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>240</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current162Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>120</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current161Card2">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>80</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="BatteryCard3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>320</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="TemperatureCard3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>40</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage12Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>280</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value" stdset="0">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage161Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>200</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current12Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>160</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Voltage162Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>240</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current162Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>120</y>
+       <width>64</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLCDNumber" name="Current161Card3">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>80</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_81">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Temperature</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_82">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>240</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Voltage 16V-2</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_83">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current 16V-2</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_84">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>280</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Voltage 12V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_85">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>320</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Battery</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_86">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>160</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current 12V</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_87">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>80</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Current 16V-1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_88">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>200</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Voltage 16V-1</string>
      </property>
     </widget>
    </widget>

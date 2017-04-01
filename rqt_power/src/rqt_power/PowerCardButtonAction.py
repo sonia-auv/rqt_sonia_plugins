@@ -1,9 +1,15 @@
 import rospy
-from provider_power.srv import ManagePowerSupplyBus, ManagePowerSupplyBusRequest
+import tkMessageBox
+
+from provider_power.srv import ManagePowerSupplyBus
+from Tkinter import Tk
+
 class PowerCardButtonAction():
     def __init__(self, mainwindow, card_name):
-        self.card_name = card_name
+        self.slave_number = card_name
         self.mainwindow = mainwindow
+
+        self.result = 'no'
 
         self.outdisable12 = eval('mainwindow.OutDisable12' + card_name)
         self.outdisable12.setEnabled(False)
@@ -32,9 +38,13 @@ class PowerCardButtonAction():
         self.manage_power_supply_srv = rospy.ServiceProxy('/provider_power/manage_power_supply_bus', ManagePowerSupplyBus)
 
     def _handle_out_disable_12_clicked(self):
-        self.outenable12.setEnabled(True)
-        self.outdisable12.setEnabled(False)
-        self._set_bus_state(0,0)
+        root = Tk()
+        root.withdraw()
+        self.result = tkMessageBox.askquestion("ATTENTION",'Are you sure, this action should be shutdown PC!!')
+        if self.result == 'yes':
+            self.outenable12.setEnabled(True)
+            self.outdisable12.setEnabled(False)
+            self._set_bus_state(0,0)
         pass
 
     def _handle_out_disable_16v1_clicked(self):
@@ -69,10 +79,6 @@ class PowerCardButtonAction():
 
     def _set_bus_state(self, bus, state):
         try:
-            request = ManagePowerSupplyBusRequest()
-            request.slave = 1
-            request.bus = bus
-            request.state = state
-            self.manage_power_supply_srv(request)
+            self.manage_power_supply_srv(int(self.slave_number), bus, state)
         except rospy.ServiceException, e:
             rospy.logerr('Service call failed to manage bus')
