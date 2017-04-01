@@ -6,7 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-from proc_control.msg import ThrusterEffort
+from provider_thruster.msg import ThrusterEffort
 
 
 class ThrusterEffortWidget(QWidget):
@@ -20,7 +20,7 @@ class ThrusterEffortWidget(QWidget):
         loadUi(ui_file, self)
         self.setWindowTitle('Thruster Effort')
 
-        self._thruster_subscriber = rospy.Subscriber('/proc_control/thruster_effort', ThrusterEffort,
+        self._thruster_subscriber = rospy.Subscriber('/provider_thruster/thruster_effort', ThrusterEffort,
                                                      self._handle_thruster_msg)
 
     def _handle_thruster_msg(self, msg):
