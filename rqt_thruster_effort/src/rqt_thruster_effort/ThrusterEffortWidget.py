@@ -24,22 +24,22 @@ class ThrusterEffortWidget(QWidget):
                                                      self._handle_thruster_msg)
 
     def _handle_thruster_msg(self, msg):
-        if msg.unique_id == ThrusterEffort.UNIQUE_ID_T1:
-            self._set_thruster_value('T1', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T2:
-            self._set_thruster_value('T2', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T3:
-            self._set_thruster_value('T3', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T4:
-            self._set_thruster_value('T4', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T5:
-            self._set_thruster_value('T5', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T6:
-            self._set_thruster_value('T6', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T7:
-            self._set_thruster_value('T7', msg.parameter_value)
-        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T8:
-            self._set_thruster_value('T8', msg.parameter_value)
+        if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
+            self._set_thruster_value('T1_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
+            self._set_thruster_value('T2_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T3:
+            self._set_thruster_value('T3_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T4:
+            self._set_thruster_value('T4_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T5:
+            self._set_thruster_value('T5_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T6:
+            self._set_thruster_value('T6_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T7:
+            self._set_thruster_value('T7_', msg.effort)
+        elif msg.ID == ThrusterEffort.UNIQUE_ID_T8:
+            self._set_thruster_value('T8_', msg.effort)
 
     def _set_thruster_value(self, thruster_name, value):
         eval('self.' + thruster_name + 'value').setText('{}'.format(int(value)) + ' %')
