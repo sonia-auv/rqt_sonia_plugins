@@ -437,7 +437,7 @@ QSlider::handle:vertical {
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="QLabel" name="depth_front_label">
+       <widget class="QLabel" name="T5_label">
         <property name="font">
          <font>
           <pointsize>10</pointsize>
@@ -452,7 +452,7 @@ QSlider::handle:vertical {
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="depth_front_value">
+       <widget class="QLabel" name="T5_value">
         <property name="text">
          <string>- %</string>
         </property>
@@ -462,7 +462,7 @@ QSlider::handle:vertical {
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="depth_front_slider">
+       <widget class="QSlider" name="T5_slider">
         <property name="enabled">
          <bool>false</bool>
         </property>
