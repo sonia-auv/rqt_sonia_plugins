@@ -6,12 +6,13 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-from sonia_msgs.msg import SendCanMsg
+from proc_control.msg import ThrusterEffort
 
 
 class ThrusterEffortWidget(QWidget):
 
-    monitor_can_msg = pyqtSignal('PyQt_PyObject')
+    monitor_thruster_msg = pyqtSignal('PyQt_PyObject')
+
     def __init__(self):
         super(ThrusterEffortWidget, self).__init__()
 
@@ -19,36 +20,28 @@ class ThrusterEffortWidget(QWidget):
         loadUi(ui_file, self)
         self.setWindowTitle('Thruster Effort')
 
-        self._can_subscriber = rospy.Subscriber('/provider_can/send_can_msg', SendCanMsg,self._handle_can_msg)
+        self._thruster_subscriber = rospy.Subscriber('/proc_control/thruster_effort', ThrusterEffort,
+                                                     self._handle_thruster_msg)
 
-        self.monitor_can_msg.connect(self._monitoring_can_msg)
+    def _handle_thruster_msg(self, msg):
+        if msg.unique_id == ThrusterEffort.UNIQUE_ID_T1:
+            self._set_thruster_value('T1', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T2:
+            self._set_thruster_value('T2', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T3:
+            self._set_thruster_value('T3', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T4:
+            self._set_thruster_value('T4', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T5:
+            self._set_thruster_value('T5', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T6:
+            self._set_thruster_value('T6', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T7:
+            self._set_thruster_value('T7', msg.parameter_value)
+        elif msg.unique_id == ThrusterEffort.UNIQUE_ID_T8:
+            self._set_thruster_value('T8', msg.parameter_value)
 
-    def _handle_can_msg(self,msg):
-        if msg.device_id <> SendCanMsg.DEVICE_ID_actuators:
-            return
-        if msg.unique_id > 6:
-            return
-        if msg.method_number <> SendCanMsg.METHOD_MOTOR_set_speed:
-            return
-
-        self.monitor_can_msg.emit(msg)
-
-
-    def _monitoring_can_msg(self, msg):
-        if msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_heading_motor:
-            self._set_thruster_value('heading_front_',msg.parameter_value)
-        elif msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_heading_motor:
-            self._set_thruster_value('heading_back_',msg.parameter_value)
-        elif msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_starboard_motor:
-            self._set_thruster_value('starboard_',msg.parameter_value)
-        elif msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_port_motor:
-            self._set_thruster_value('port_',msg.parameter_value)
-        elif msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_front_depth_motor:
-            self._set_thruster_value('depth_front_',msg.parameter_value)
-        elif msg.unique_id == SendCanMsg.UNIQUE_ID_ACT_back_depth_motor:
-            self._set_thruster_value('depth_back_',msg.parameter_value)
-
-    def _set_thruster_value(self,thruster_name, value):
+    def _set_thruster_value(self, thruster_name, value):
         eval('self.' + thruster_name + 'value').setText('{}'.format(int(value)) + ' %')
         eval('self.' + thruster_name + 'slider').setValue(int(value))
 
