@@ -7,8 +7,8 @@ from ThrusterAction import ThrusterAction
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 
-from sonia_msgs.msg import SendCanMsg
-
+#from sonia_msgs.msg import SendCanMsg
+from provider_thruster.msg import ThrusterEffort
 
 
 class ThrusterWidget(QMainWindow):
@@ -17,16 +17,6 @@ class ThrusterWidget(QMainWindow):
         super(ThrusterWidget, self).__init__()
         # Give QObjects reasonable names
         self.setObjectName('ThrusterControlWidget')
-
-
-        self.request_device_id = SendCanMsg.DEVICE_ID_actuators
-        self.request_unique_id = [SendCanMsg.UNIQUE_ID_ACT_port_motor, SendCanMsg.UNIQUE_ID_ACT_starboard_motor,
-                                  SendCanMsg.UNIQUE_ID_ACT_back_depth_motor, SendCanMsg.UNIQUE_ID_ACT_front_depth_motor,
-                                  SendCanMsg.UNIQUE_ID_ACT_back_heading_motor,
-                                  SendCanMsg.UNIQUE_ID_ACT_front_heading_motor]
-        self.request_method_number = SendCanMsg.METHOD_MOTOR_set_speed
-
-
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_thruster_control'), 'resource', 'Mainwindow.ui')
         loadUi(ui_file, self)
@@ -39,14 +29,17 @@ class ThrusterWidget(QMainWindow):
         self.disableButton.clicked[bool].connect(self._handle_disableButton_clicked)
         self.actionStart_test.triggered.connect(self._handle_start_test_triggered)
 
-        self.thruster_heading_front = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_front_heading_motor,'headingFront')
-        self.thruster_heading_back = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_back_heading_motor,'headingBack')
-        self.thruster_Starboard = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_starboard_motor,'Starboard')
-        self.thruster_Port = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_port_motor,'Port')
-        self.thruster_depthFront = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_front_depth_motor,'depthFront')
-        self.thruster_depthBack = ThrusterAction(self,SendCanMsg.UNIQUE_ID_ACT_back_depth_motor,'depthBack')
+        self.thruster_1 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T1, 'T1')
+        self.thruster_2 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T2, 'T2')
+        self.thruster_3 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T3, 'T3')
+        self.thruster_4 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T4, 'T4')
+        self.thruster_5 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T5, 'T5')
+        self.thruster_6 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T6, 'T6')
+        self.thruster_7 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T7, 'T7')
+        self.thruster_8 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T8, 'T8')
 
-        self.publisher = rospy.Publisher("/provider_can/send_can_msg", SendCanMsg, queue_size=10)
+
+        self.publisher = rospy.Publisher("/provider_thruster/thruster_effort", ThrusterEffort, queue_size=10)
 
         #self.publisher.publish(self.request_device_id, self.request_unique_id[i], self.request_method_number,self.values[i])
 
@@ -69,12 +62,14 @@ class ThrusterWidget(QMainWindow):
         t.start()
 
     def _execute_test(self):
-        self.thruster_heading_front.run_test()
-        self.thruster_heading_back.run_test()
-        self.thruster_Starboard.run_test()
-        self.thruster_Port.run_test()
-        self.thruster_depthFront.run_test()
-        self.thruster_depthBack.run_test()
+        self.thruster_1.run_test()
+        self.thruster_2.run_test()
+        self.thruster_3.run_test()
+        self.thruster_4.run_test()
+        self.thruster_5.run_test()
+        self.thruster_6.run_test()
+        self.thruster_7.run_test()
+        self.thruster_8.run_test()
 
 
     def shutdown_plugin(self):

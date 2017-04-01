@@ -40,7 +40,7 @@ class ThrusterAction():
 
     def _handle_thruster_slider_valueChanged(self):
         value = eval('self.mainwindow.'+self.thrusterName+'Slider.value()')
-        self.mainwindow.publisher.publish(self.request_device_id, self.thruster_id, self.request_method_number, value)
+        self.mainwindow.publisher.publish(ID=self.thruster_id, effort=value)
         self._update_speed_text(value)
 
     def run_test(self):
