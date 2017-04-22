@@ -9,6 +9,7 @@ from python_qt_binding.QtWidgets import QMainWindow
 
 #from sonia_msgs.msg import SendCanMsg
 from provider_thruster.msg import ThrusterEffort
+from proc_control.srv import EnableThrusters
 
 
 class ThrusterWidget(QMainWindow):
@@ -17,6 +18,10 @@ class ThrusterWidget(QMainWindow):
         super(ThrusterWidget, self).__init__()
         # Give QObjects reasonable names
         self.setObjectName('ThrusterControlWidget')
+        try:
+            rospy.wait_for_service('/proc_control/enable_thrusters',timeout=2)
+        except rospy.ROSException:
+            pass
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_thruster_control'), 'resource', 'Mainwindow.ui')
         loadUi(ui_file, self)
@@ -24,10 +29,12 @@ class ThrusterWidget(QMainWindow):
         self.setObjectName('MyThrusterControlWidget')
 
         # Subscribe to slot
-        self.enableButton.setEnabled(False)
+        self.enableButton.setEnabled(True)
+        self.disableButton.setEnabled(False)
         self.enableButton.clicked[bool].connect(self._handle_enableButton_clicked)
         self.disableButton.clicked[bool].connect(self._handle_disableButton_clicked)
         self.actionStart_test.triggered.connect(self._handle_start_test_triggered)
+        self._handle_disableButton_clicked(False)
 
         self.thruster_1 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T1, 'T1')
         self.thruster_2 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T2, 'T2')
@@ -38,24 +45,36 @@ class ThrusterWidget(QMainWindow):
         self.thruster_7 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T7, 'T7')
         self.thruster_8 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T8, 'T8')
 
-
         self.publisher = rospy.Publisher("/provider_thruster/thruster_effort", ThrusterEffort, queue_size=10)
+        self.enableThrusterService = rospy.ServiceProxy('/proc_control/enable_thrusters', EnableThrusters)
 
         #self.publisher.publish(self.request_device_id, self.request_unique_id[i], self.request_method_number,self.values[i])
 
     def _handle_enableButton_clicked(self, checked):
         self.enableButton.setEnabled(False)
         self.disableButton.setEnabled(True)
-        self.depth.setEnabled(True)
-        self.propulsion.setEnabled(True)
-        self.heading.setEnabled(True)
+        self.T1_T2.setEnabled(True)
+        self.T3_T4.setEnabled(True)
+        self.T5_T6.setEnabled(True)
+        self.T7_T8.setEnabled(True)
+
+        try:
+            self.enableThrusterService(isEnable=False)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _handle_disableButton_clicked(self, checked):
-        self.disableButton.setEnabled(False)
         self.enableButton.setEnabled(True)
-        self.depth.setEnabled(False)
-        self.propulsion.setEnabled(False)
-        self.heading.setEnabled(False)
+        self.disableButton.setEnabled(False)
+        self.T1_T2.setEnabled(False)
+        self.T3_T4.setEnabled(False)
+        self.T5_T6.setEnabled(False)
+        self.T7_T8.setEnabled(False)
+
+        try:
+            self.enableThrusterService(isEnable=True)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _handle_start_test_triggered(self):
         t = threading.Thread(target=self._execute_test)
