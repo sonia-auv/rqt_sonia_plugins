@@ -44,7 +44,3 @@ class ThrusterEffortWidget(QWidget):
     def _set_thruster_value(self, thruster_name, value):
         eval('self.' + thruster_name + 'value').setText('{}'.format(int(value)) + ' %')
         eval('self.' + thruster_name + 'slider').setValue(int(value))
-
-
-    def shutdown_plugin(self):
-        self._can_subscriber.unregister()
