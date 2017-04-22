@@ -34,7 +34,6 @@ class ThrusterWidget(QMainWindow):
         self.enableButton.clicked[bool].connect(self._handle_enableButton_clicked)
         self.disableButton.clicked[bool].connect(self._handle_disableButton_clicked)
         self.actionStart_test.triggered.connect(self._handle_start_test_triggered)
-        self._handle_disableButton_clicked(False)
 
         self.thruster_1 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T1, 'T1')
         self.thruster_2 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T2, 'T2')
@@ -46,7 +45,14 @@ class ThrusterWidget(QMainWindow):
         self.thruster_8 = ThrusterAction(self, ThrusterEffort.UNIQUE_ID_T8, 'T8')
 
         self.publisher = rospy.Publisher("/provider_thruster/thruster_effort", ThrusterEffort, queue_size=10)
-        self.enableThrusterService = rospy.ServiceProxy('/proc_control/enable_thrusters', EnableThrusters)
+        self.enable_thrusters_service = rospy.ServiceProxy('/proc_control/enable_thrusters', EnableThrusters)
+
+        self.enableButton.setEnabled(True)
+        self.disableButton.setEnabled(False)
+        self.T1_T2.setEnabled(False)
+        self.T3_T4.setEnabled(False)
+        self.T5_T6.setEnabled(False)
+        self.T7_T8.setEnabled(False)
 
         #self.publisher.publish(self.request_device_id, self.request_unique_id[i], self.request_method_number,self.values[i])
 
@@ -59,7 +65,7 @@ class ThrusterWidget(QMainWindow):
         self.T7_T8.setEnabled(True)
 
         try:
-            self.enableThrusterService(isEnable=False)
+            self.enable_thrusters_service(isEnable=False)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
@@ -72,7 +78,7 @@ class ThrusterWidget(QMainWindow):
         self.T7_T8.setEnabled(False)
 
         try:
-            self.enableThrusterService(isEnable=True)
+            self.enable_thrusters_service(isEnable=True)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
