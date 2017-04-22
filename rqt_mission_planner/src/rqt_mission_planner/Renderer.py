@@ -252,7 +252,7 @@ class Renderer:
         if self.scale_value < 0.2:
             self.scale_value = 0.2
         elif self.scale_value > 5:
-            self.scale_value = 4
+            self.scale_value = 4.0
 
         self.paint_panel.update()
 
