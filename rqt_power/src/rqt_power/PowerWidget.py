@@ -55,46 +55,47 @@ class PowerWidget(QMainWindow):
 
     def show_Data(self, powerData):
 
+        format_data = '{:.2f}'.format(powerData.data)
+
         if powerData.cmd == self.CMD_PS_V16_1:
 
-            eval('self.Voltage161' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Voltage161Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage161' + str(powerData.slave)).display(format_data)
+            eval('self.Voltage161Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_V16_2:
 
-            eval('self.Voltage162' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Voltage162Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage162' + str(powerData.slave)).display(format_data)
+            eval('self.Voltage162Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_V12:
 
-            eval('self.Voltage12' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Voltage12Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Voltage12' + str(powerData.slave)).display(format_data)
+            eval('self.Voltage12Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_C16_1:
 
-            eval('self.Current161' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Current161Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current161' + str(powerData.slave)).display(format_data)
+            eval('self.Current161Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_C16_2:
 
-            eval('self.Current162' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Current162Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current162' + str(powerData.slave)).display(format_data)
+            eval('self.Current162Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_C12:
 
-            eval('self.Current12' + str(powerData.slave)).display(powerData.Data)
-            eval('self.Current12Card' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Current12' + str(powerData.slave)).display(format_data)
+            eval('self.Current12Card' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_temperature:
 
-            eval('self.Temperature' + str(powerData.slave)).display(powerData.Data)
-            eval('self.TemperatureCard' + str(powerData.slave)).display(powerData.Data)
+            eval('self.Temperature' + str(powerData.slave)).display(format_data)
+            eval('self.TemperatureCard' + str(powerData.slave)).display(format_data)
 
         elif powerData.cmd == self.CMD_PS_VBatt:
 
-            eval('self.Battery' + str(powerData.slave)).display(powerData.Data)
-            eval('self.BatteryCard' + str(powerData.slave)).display(powerData.Data)
-
+            eval('self.Battery' + str(powerData.slave)).display(format_data)
+            eval('self.BatteryCard' + str(powerData.slave)).display(format_data)
 
 
     def _handle_start_test_triggered(self):

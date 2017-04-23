@@ -6,2357 +6,2426 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>807</width>
-    <height>477</height>
+    <width>589</width>
+    <height>499</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Power</string>
   </property>
-  <widget class="QTabWidget" name="tab5">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>561</width>
-     <height>391</height>
-    </rect>
-   </property>
-   <property name="currentIndex">
-    <number>0</number>
-   </property>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Power 1</string>
-    </attribute>
-    <widget class="QLabel" name="label_18">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>70</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1610">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current120">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>150</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_20">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>150</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_19">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>110</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>270</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 12V</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable120">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage120">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>270</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1620">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1610">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1620">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>110</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_17">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Temperature</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Temperature0">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1610">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>70</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_26">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>240</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>150</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_21">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>190</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_8">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>111</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Power supply 1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>190</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_23">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>270</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1610">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>190</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1620">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>230</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1620">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable120">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_25">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>140</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_22">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>230</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_24">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>40</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_73">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Battery0">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>310</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_74">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>310</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_2">
-    <attribute name="title">
-     <string>Power 2</string>
-    </attribute>
-    <widget class="QLCDNumber" name="Voltage121">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>270</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1621">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>230</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable121">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current121">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>150</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1611">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1611">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_9">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_27">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>150</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_10">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>111</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Power supply 2</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Temperature1">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_11">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1621">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_28">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>240</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 12V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1611">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>70</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_12">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_29">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>110</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable121">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_13">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>190</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_14">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>150</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_15">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>270</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_30">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>40</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_16">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Temperature</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1621">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_31">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>230</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_32">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_33">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>70</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_34">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>270</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_35">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>140</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1621">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>110</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_36">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>190</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1611">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>190</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_75">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>310</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_76">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Battery1">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>310</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_3">
-    <attribute name="title">
-     <string>Power 3</string>
-    </attribute>
-    <widget class="QLCDNumber" name="Voltage122">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>270</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1622">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>230</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable122">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current122">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>150</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1612">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1612">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_37">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_38">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>150</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_39">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>111</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Power supply 3</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Temperature2">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_40">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1622">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_41">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>240</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 12V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1612">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>70</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_42">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_43">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>110</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable122">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_44">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>190</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_45">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>150</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_46">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>270</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_47">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>40</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_48">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Temperature</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1622">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_49">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>230</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_50">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_51">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>70</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_52">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>270</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_53">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>140</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1622">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>110</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_54">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>190</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1612">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>190</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_77">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>310</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_78">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Battery2">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>310</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_4">
-    <attribute name="title">
-     <string>Power 4</string>
-    </attribute>
-    <widget class="QLCDNumber" name="Voltage123">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>270</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1623">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>230</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable123">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current123">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>150</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1613">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1613">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>90</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_55">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>230</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_56">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>150</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_57">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>111</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Power supply 4</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Temperature3">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>30</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_58">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>70</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable1623">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_59">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>240</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 12V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1613">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>70</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_60">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>110</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_61">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>110</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutDisable123">
-     <property name="geometry">
-      <rect>
-       <x>430</x>
-       <y>290</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Disable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_62">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>190</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_63">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>150</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_64">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>270</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_65">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>40</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_66">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Temperature</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="OutEnable1623">
-     <property name="geometry">
-      <rect>
-       <x>290</x>
-       <y>190</y>
-       <width>85</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Enable</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_67">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>230</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_68">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>30</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_69">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>70</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_70">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>270</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_71">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>140</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Output 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current1623">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>110</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_72">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>190</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage1613">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>190</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_79">
-     <property name="geometry">
-      <rect>
-       <x>210</x>
-       <y>310</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_80">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>310</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Battery3">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>310</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_5">
-    <attribute name="title">
-     <string>All Data</string>
-    </attribute>
-    <widget class="QLCDNumber" name="Current12Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>160</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current162Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>120</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage161Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>200</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="TemperatureCard0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>40</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage162Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>240</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="BatteryCard0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>320</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current161Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>80</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage12Card0">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>280</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_89">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Card 1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_106">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>280</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_107">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>240</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_108">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>320</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_109">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>80</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_110">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>160</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_111">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>40</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_112">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>200</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_113">
-     <property name="geometry">
-      <rect>
-       <x>510</x>
-       <y>120</y>
-       <width>16</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_114">
-     <property name="geometry">
-      <rect>
-       <x>240</x>
-       <y>10</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Card 2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_115">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>10</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Card 3</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_116">
-     <property name="geometry">
-      <rect>
-       <x>450</x>
-       <y>10</y>
-       <width>51</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Card 4</string>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current161Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>80</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage162Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>240</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current12Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>160</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current162Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>120</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage161Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>200</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="BatteryCard1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>320</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="TemperatureCard1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>40</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage12Card1">
-     <property name="geometry">
-      <rect>
-       <x>230</x>
-       <y>280</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="BatteryCard2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>320</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="TemperatureCard2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>40</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage12Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>280</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage161Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>200</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current12Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>160</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage162Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>240</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current162Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>120</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current161Card2">
-     <property name="geometry">
-      <rect>
-       <x>340</x>
-       <y>80</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="BatteryCard3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>320</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="TemperatureCard3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>40</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage12Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>280</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value" stdset="0">
-      <double>0.000000000000000</double>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage161Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>200</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current12Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>160</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Voltage162Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>240</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current162Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>120</y>
-       <width>64</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLCDNumber" name="Current161Card3">
-     <property name="geometry">
-      <rect>
-       <x>440</x>
-       <y>80</y>
-       <width>61</width>
-       <height>23</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_81">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Temperature</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_82">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>240</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_83">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>120</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-2</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_84">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>280</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_85">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>320</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Battery</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_86">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>160</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 12V</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_87">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Current 16V-1</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_88">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>101</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Voltage 16V-1</string>
-     </property>
-    </widget>
-   </widget>
-  </widget>
+  <layout class="QHBoxLayout" name="horizontalLayout_71">
+   <item>
+    <widget class="QWidget" name="widget_78" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>571</width>
+       <height>481</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>841</width>
+       <height>511</height>
+      </size>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_70">
+      <item>
+       <widget class="QTabWidget" name="tab5">
+        <property name="minimumSize">
+         <size>
+          <width>551</width>
+          <height>471</height>
+         </size>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab_6">
+         <attribute name="title">
+          <string>Power 1</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QWidget" name="widget" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <item>
+              <widget class="QWidget" name="widget_10" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QWidget" name="widget_5" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <item>
+                    <widget class="QLabel" name="label_95">
+                     <property name="text">
+                      <string>Temperature</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Temperature0">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_94">
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="text">
+                      <string>C</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_5">
+                   <item>
+                    <widget class="QLabel" name="label_97">
+                     <property name="text">
+                      <string>Current 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1610">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_90">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_4" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_6">
+                   <item>
+                    <widget class="QLabel" name="label_96">
+                     <property name="text">
+                      <string>Current 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1620">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_92">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_3" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <item>
+                    <widget class="QLabel" name="label_99">
+                     <property name="text">
+                      <string>Current 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_4">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current120">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_91">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_6" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <item>
+                    <widget class="QLabel" name="label_102">
+                     <property name="text">
+                      <string>Voltage 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_5">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1610">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_100">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_7" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <item>
+                    <widget class="QLabel" name="label_104">
+                     <property name="text">
+                      <string>Voltage 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_6">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1620">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_117">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_8" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <item>
+                    <widget class="QLabel" name="label_93">
+                     <property name="text">
+                      <string>Voltage 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_7">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage120">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_103">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_9" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <item>
+                    <widget class="QLabel" name="label_119">
+                     <property name="text">
+                      <string>Battery</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_8">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Battery0">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_120">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_14" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <widget class="QLabel" name="label_118">
+                  <property name="text">
+                   <string>Output 16V-1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_11" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>203</width>
+                    <height>47</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1610">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1610">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_105">
+                  <property name="text">
+                   <string>Output 16V-2</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_12" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1620">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1620">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_98">
+                  <property name="text">
+                   <string>Output 12V</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_13" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable120">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable120">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_7">
+         <attribute name="title">
+          <string>Power 2</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QWidget" name="widget_2" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_25">
+             <item>
+              <widget class="QWidget" name="widget_29" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QWidget" name="widget_30" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_26">
+                   <item>
+                    <widget class="QLabel" name="label_121">
+                     <property name="text">
+                      <string>Temperature</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_16">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Temperature1">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_123">
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="text">
+                      <string>C</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_31" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_27">
+                   <item>
+                    <widget class="QLabel" name="label_124">
+                     <property name="text">
+                      <string>Current 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_17">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1611">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_125">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_32" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_28">
+                   <item>
+                    <widget class="QLabel" name="label_126">
+                     <property name="text">
+                      <string>Current 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_18">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1621">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_128">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_33" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_29">
+                   <item>
+                    <widget class="QLabel" name="label_129">
+                     <property name="text">
+                      <string>Current 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_19">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current121">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_130">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_34" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_30">
+                   <item>
+                    <widget class="QLabel" name="label_131">
+                     <property name="text">
+                      <string>Voltage 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_20">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1611">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_132">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_35" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_31">
+                   <item>
+                    <widget class="QLabel" name="label_137">
+                     <property name="text">
+                      <string>Voltage 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_21">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1621">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_139">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_36" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_32">
+                   <item>
+                    <widget class="QLabel" name="label_140">
+                     <property name="text">
+                      <string>Voltage 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_22">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage121">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_201">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_37" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_33">
+                   <item>
+                    <widget class="QLabel" name="label_202">
+                     <property name="text">
+                      <string>Battery</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_23">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Battery1">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_203">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_38" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QLabel" name="label_204">
+                  <property name="text">
+                   <string>Output 16V-1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_39" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>203</width>
+                    <height>47</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_34">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1611">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1611">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_205">
+                  <property name="text">
+                   <string>Output 16V-2</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_40" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_35">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1621">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1621">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_206">
+                  <property name="text">
+                   <string>Output 12V</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_41" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_36">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable121">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable121">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_8">
+         <attribute name="title">
+          <string>Power 3</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="QWidget" name="widget_42" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_37">
+             <item>
+              <widget class="QWidget" name="widget_43" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QWidget" name="widget_44" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_38">
+                   <item>
+                    <widget class="QLabel" name="label_141">
+                     <property name="text">
+                      <string>Temperature</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_24">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Temperature2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_142">
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="text">
+                      <string>C</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_45" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_39">
+                   <item>
+                    <widget class="QLabel" name="label_143">
+                     <property name="text">
+                      <string>Current 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_25">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1612">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_144">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_46" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_40">
+                   <item>
+                    <widget class="QLabel" name="label_145">
+                     <property name="text">
+                      <string>Current 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_26">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1622">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_146">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_47" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_41">
+                   <item>
+                    <widget class="QLabel" name="label_147">
+                     <property name="text">
+                      <string>Current 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_27">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current122">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_148">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_48" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_42">
+                   <item>
+                    <widget class="QLabel" name="label_149">
+                     <property name="text">
+                      <string>Voltage 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_28">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1612">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_150">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_49" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_43">
+                   <item>
+                    <widget class="QLabel" name="label_151">
+                     <property name="text">
+                      <string>Voltage 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_29">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1622">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_152">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_50" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_44">
+                   <item>
+                    <widget class="QLabel" name="label_153">
+                     <property name="text">
+                      <string>Voltage 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_30">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage122">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_207">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_51" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_45">
+                   <item>
+                    <widget class="QLabel" name="label_208">
+                     <property name="text">
+                      <string>Battery</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_31">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Battery2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_209">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_52" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QLabel" name="label_210">
+                  <property name="text">
+                   <string>Output 16V-1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_53" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>203</width>
+                    <height>47</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_46">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1612">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1612">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_211">
+                  <property name="text">
+                   <string>Output 16V-2</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_54" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_47">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1622">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1622">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_212">
+                  <property name="text">
+                   <string>Output 12V</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_55" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_48">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable122">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable122">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_9">
+         <attribute name="title">
+          <string>Power 4</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_12">
+          <item>
+           <widget class="QWidget" name="widget_56" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayout_49">
+             <item>
+              <widget class="QWidget" name="widget_57" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item>
+                 <widget class="QWidget" name="widget_58" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_50">
+                   <item>
+                    <widget class="QLabel" name="label_154">
+                     <property name="text">
+                      <string>Temperature</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_32">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Temperature3">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="autoFillBackground">
+                      <bool>false</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_155">
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="text">
+                      <string>C</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_59" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_51">
+                   <item>
+                    <widget class="QLabel" name="label_156">
+                     <property name="text">
+                      <string>Current 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_33">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1613">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_157">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_60" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_52">
+                   <item>
+                    <widget class="QLabel" name="label_158">
+                     <property name="text">
+                      <string>Current 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_34">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current1623">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_159">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_61" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_53">
+                   <item>
+                    <widget class="QLabel" name="label_160">
+                     <property name="text">
+                      <string>Current 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_35">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Current123">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_161">
+                     <property name="text">
+                      <string>A</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_62" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_54">
+                   <item>
+                    <widget class="QLabel" name="label_162">
+                     <property name="text">
+                      <string>Voltage 16V-1</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_36">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1613">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_163">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_63" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_55">
+                   <item>
+                    <widget class="QLabel" name="label_164">
+                     <property name="text">
+                      <string>Voltage 16V-2</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_37">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage1623">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_165">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_64" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_56">
+                   <item>
+                    <widget class="QLabel" name="label_166">
+                     <property name="text">
+                      <string>Voltage 12V</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_38">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Voltage123">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_213">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_65" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_57">
+                   <item>
+                    <widget class="QLabel" name="label_214">
+                     <property name="text">
+                      <string>Battery</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_39">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLCDNumber" name="Battery3">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="value" stdset="0">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_215">
+                     <property name="text">
+                      <string>V</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_66" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QLabel" name="label_216">
+                  <property name="text">
+                   <string>Output 16V-1</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_67" native="true">
+                  <property name="minimumSize">
+                   <size>
+                    <width>203</width>
+                    <height>47</height>
+                   </size>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_58">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1613">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1613">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_217">
+                  <property name="text">
+                   <string>Output 16V-2</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_68" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_59">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable1623">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable1623">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_218">
+                  <property name="text">
+                   <string>Output 12V</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_69" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_60">
+                   <item>
+                    <widget class="QPushButton" name="OutEnable123">
+                     <property name="text">
+                      <string>Enable</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="OutDisable123">
+                     <property name="text">
+                      <string>Disable</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tab_10">
+         <attribute name="title">
+          <string>All Data</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_69">
+          <item>
+           <widget class="QWidget" name="widget_77" native="true">
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <widget class="QWidget" name="widget_15" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_68">
+                <item>
+                 <widget class="QLabel" name="label_193">
+                  <property name="text">
+                   <string>Temperature</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_40">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="TemperatureCard0">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="TemperatureCard1">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="TemperatureCard2">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="TemperatureCard3">
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_187">
+                  <property name="text">
+                   <string>C</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_70" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_67">
+                <item>
+                 <widget class="QLabel" name="label_199">
+                  <property name="text">
+                   <string>Current 16V-1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_48">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current161Card0"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current161Card1"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current161Card2"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current161Card3"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_185">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_71" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_66">
+                <item>
+                 <widget class="QLabel" name="label_195">
+                  <property name="text">
+                   <string>Current 16V-2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_47">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current162Card0"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current162Card1"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current162Card2"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current162Card3"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_189">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_72" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_65">
+                <item>
+                 <widget class="QLabel" name="label_198">
+                  <property name="text">
+                   <string>Current 12V</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_52">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current12Card0"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current12Card1"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current12Card2"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Current12Card3"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_186">
+                  <property name="text">
+                   <string>A</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_73" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_64">
+                <item>
+                 <widget class="QLabel" name="label_200">
+                  <property name="text">
+                   <string>Voltage 16V-1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_56">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage161Card0"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage161Card1"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage161Card2"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage161Card3"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_188">
+                  <property name="text">
+                   <string>V</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_74" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_63">
+                <item>
+                 <widget class="QLabel" name="label_194">
+                  <property name="text">
+                   <string>Voltage 16V-2</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_60">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage162Card0"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage162Card1"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage162Card2"/>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage162Card3"/>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_183">
+                  <property name="text">
+                   <string>V</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_75" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_62">
+                <item>
+                 <widget class="QLabel" name="label_196">
+                  <property name="text">
+                   <string>Voltage 12V</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_41">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage12Card0">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage12Card1">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage12Card2">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="Voltage12Card3">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_182">
+                  <property name="text">
+                   <string>V</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_76" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_61">
+                <item>
+                 <widget class="QLabel" name="label_197">
+                  <property name="text">
+                   <string>Battery</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_42">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="BatteryCard0">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="BatteryCard1">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="BatteryCard2">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLCDNumber" name="BatteryCard3">
+                  <property name="value" stdset="0">
+                   <double>0.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_184">
+                  <property name="text">
+                   <string>V</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+  <zorder>label_123</zorder>
+  <zorder>OutDisable121</zorder>
+  <zorder>label_130</zorder>
+  <zorder>OutDisable1621</zorder>
+  <zorder>label_140</zorder>
+  <zorder>Current1621</zorder>
+  <zorder>OutDisable1611</zorder>
+  <zorder>label_125</zorder>
+  <zorder>label_132</zorder>
+  <zorder>OutEnable1611</zorder>
+  <zorder>OutEnable121</zorder>
+  <zorder>Voltage1621</zorder>
+  <zorder>label_131</zorder>
+  <zorder>label_126</zorder>
+  <zorder>label_124</zorder>
+  <zorder>Current121</zorder>
+  <zorder>label_129</zorder>
+  <zorder>Temperature1</zorder>
+  <zorder>Voltage1611</zorder>
+  <zorder>label_121</zorder>
+  <zorder>label_137</zorder>
+  <zorder>OutEnable1621</zorder>
+  <zorder>Battery1</zorder>
+  <zorder>Current1611</zorder>
+  <zorder>Voltage121</zorder>
+  <zorder>label_128</zorder>
+  <zorder>widget_78</zorder>
  </widget>
  <resources/>
  <connections/>
