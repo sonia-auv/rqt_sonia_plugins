@@ -1,6 +1,7 @@
 import re
 import os
 import rospkg
+import yaml
 
 SUB_MISSION_FILE = 'SubMission_file'
 
@@ -12,7 +13,7 @@ class Parameter:
 
     def __init__(self, variable_name, value, description):
         self.variable_name, self.value, self.description = variable_name, value, description
-        if isinstance(self.value,basestring):
+        if isinstance(self.value, basestring):
             self.value = self.value.replace('\'','').replace('"','')
 
 class Transition:
@@ -27,8 +28,10 @@ class Transition:
 class State:
     is_root = False
     is_submission = False
+    global_params = []
     base_file = None
     subscribers = []
+    
 
     def notify_name_changed(self, old_name, new_name):
         for subscriber in self.subscribers:
@@ -84,7 +87,7 @@ class State:
         self.parameters.append(Parameter(name, value, desc))
 
 
-def fill_state_from_path(file,controller_mission_directory):
+def fill_state_from_path(file, controller_mission_directory):
     pattern_classname = re.compile(r'^class\s+(\w+)')
     pattern_parameter = re.compile(r'^.*[#]{0}.*\(Parameter\((.*)\)\)')
     pattern_outcomes = re.compile(r'^\s*def get_outcomes\(self\):$')
@@ -139,12 +142,17 @@ def fill_state_from_path(file,controller_mission_directory):
         return s
 
 
-def fill_submission_from_path(file,controller_mission_directory):
+def fill_submission_from_path(file, controller_mission_directory):
     rp = rospkg.RosPack()
-
     sub_mission_name = os.path.basename(file)[:-4]
     if sub_mission_name:
+
         s = State(os.path.basename(file)[:-4], file.replace(controller_mission_directory,''))
+
+        with open(file, 'r') as inputfile:
+            mission_container = yaml.load(inputfile)
+            if hasattr(mission_container, 'globalparams'):
+                s.global_params = mission_container.globalparams
         s.is_submission = True
         s.add_parameter(STATE_NAME, sub_mission_name, '%s' % STATE_NAME)
         s.add_parameter(SUB_MISSION_FILE, os.path.basename(file), '%s' % SUB_MISSION_FILE)

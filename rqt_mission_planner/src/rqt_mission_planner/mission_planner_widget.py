@@ -4,6 +4,7 @@ import rospkg
 import copy
 import yaml
 import rospy
+import time
 import tkMessageBox
 from Tkinter import Tk
 
@@ -11,8 +12,8 @@ from tkFileDialog import asksaveasfilename, askopenfilename
 from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest
 
 from mission_model.state import fill_state_from_path, fill_submission_from_path
-from mission_model.parameter_table_model import ParameterTableModel
-from manage_mission_widget import SaveMissionWidget, LoadMissionWidget
+from mission_model.parameter_table_model import ParameterTableModel, GlobalParameterTableModel
+from manage_mission_widget import SaveMissionWidget, LoadMissionWidget, LoadParameterWidget
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow, QWidget
@@ -43,7 +44,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
         self.table_model = ParameterTableModel()
         self.table_model.dataChanged.connect(self._table_model_data_changed)
-        self.property_table.setModel(self.table_model)
+        self.params_table.setModel(self.table_model)
+
+        self.global_table_model = GlobalParameterTableModel()
+        self.global_params_table.setModel(self.global_table_model)
 
         self.actionSave_as_local.triggered.connect(self._handle_save_as)
         self.actionLoad_local.triggered.connect(self._handle_load)
@@ -51,6 +55,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.actionLoad_from_mission_service_remote.triggered.connect(self._handle_load_remotely)
         self.actionNew_mission.triggered.connect(self._handle_create_new_mission)
         self.actionRefresh_lists.triggered.connect(self._handle_refresh_lists)
+        self.actionAdd_parameter.triggered.connect(self._handle_add_parameter)
 
         self.tabWidget.currentChanged.connect(self._handle_tab_changed)
         self.tabWidget.tabCloseRequested.connect(self._handle_tab_close_requested)
@@ -60,22 +65,26 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         new_tab.rootState.clicked.connect(self.set_as_root_state)
         new_tab.my_renderer = Renderer(new_tab.paint_panel, self.controller_mission_directory, self._load_mission_in_new_tab)
         self.renderer = new_tab.my_renderer
-
-        self.tabWidget.addTab(new_tab,'Main')
+        self.add_in_list = []
+        self.current_selected_globalparam = None
+        self.tabWidget.addTab(new_tab, 'Main')
         self.renderer.add_state_listener(self)
+
+        self.i = 0
 
     def clean_tabs(self):
         while self.tabWidget.count() > 1:
             self.tabWidget.removeTab(self.tabWidget.count()-1)
         self.state_selection_changed(None)
+        self.global_table_model.global_params_changed(None)
 
-    def _handle_tab_close_requested(self,index):
-        if index == 0 :
+    def _handle_tab_close_requested(self, index):
+        if index == 0:
             return
         self.tabWidget.removeTab(index)
         self.state_selection_changed(None)
 
-    def _handle_tab_changed(self,index):
+    def _handle_tab_changed(self, index):
         self.renderer = self.tabWidget.currentWidget().my_renderer
 
     def _load_mission_in_new_tab(self, mission_name):
@@ -115,6 +124,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
     def _handle_create_new_mission(self):
         self.clean_tabs()
         self.renderer.statesui = []
+        self.renderer.globalparams = []
         self.tabWidget.currentWidget().label_mission_name.setText('---')
         self.tabWidget.currentWidget().paint_panel.update()
 
@@ -134,7 +144,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             set_mission_client = rospy.ServiceProxy('mission_executor/set_mission_content', ReceivedMission)
             received_mission_request = ReceivedMissionRequest()
             received_mission_request.name = mission_name
-            received_mission_request.content = yaml.dump(self.renderer.statesui)
+
+            received_mission_request.content = yaml.dump(self.renderer.create_container())
             set_mission_client(received_mission_request)
             self.tabWidget.currentWidget().label_mission_name.setText(mission_name)
             self.tabWidget.currentWidget().paint_panel.update()
@@ -148,6 +159,14 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.save_mission_widget.select_mission(self._load_mission_remotely)
         pass
 
+    def _handle_add_parameter(self):
+        self.save_mission_widget = LoadParameterWidget()
+        self.save_mission_widget.select_mission(self._add_global_param_remotely)
+        
+    def _add_global_param_remotely(self, value, name):
+        self.renderer.add_global_parameters(name, value)
+        self.global_table_model.global_params_changed(self.renderer.globalparams)
+
     def _load_mission_remotely(self, mission_name):
 
         try:
@@ -156,7 +175,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             get_mission_request = SendMissionRequest()
             get_mission_request.name = mission_name
             mission_content = get_mission_client(get_mission_request)
-            self.renderer.statesui = yaml.load(mission_content.content)
+            self.renderer.missionContainer = yaml.load(mission_content.content)
+            self.renderer.statesui = self.renderer.missionContainer.statesui
+            self.renderer.globalparams = self.renderer.missionContainer.globalparams
+            self.global_table_model.global_params_changed(self.renderer.globalparams)
             self.tabWidget.currentWidget().label_mission_name.setText(mission_name)
             self.tabWidget.currentWidget().paint_panel.update()
         except rospy.ServiceException, e:
@@ -170,7 +192,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         fin = askopenfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fin:
             with open(fin, 'r') as inputfile:
-                self.renderer.statesui = yaml.load(inputfile)
+                self.renderer.missionContainer = yaml.load(inputfile)
+                self.renderer.statesui = self.renderer.missionContainer.statesui
+                self.renderer.globalparams = self.renderer.missionContainer.globalparams
+                self.global_table_model.global_params_changed(self.renderer.globalparams)
                 self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(fin))
                 self.tabWidget.currentWidget().paint_panel.update()
 
@@ -180,7 +205,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fout:
             with open(fout, 'w') as output:
-                yaml.dump(self.renderer.statesui, output, default_flow_style=False)
+                print "allo"
+                yaml.dump(self.renderer.create_container(), output, default_flow_style=False)
                 self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(fout))
                 self.tabWidget.currentWidget().paint_panel.update()
 
@@ -190,7 +216,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             if not os.path.isfile(file_path):
                 self.load_states(file_path)
                 continue
-            state = fill_state_from_path(file_path,self.controller_mission_directory)
+            state = fill_state_from_path(file_path, self.controller_mission_directory)
             if state:
                 self.states.append(state)
         self.refresh_state_list()
@@ -201,7 +227,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             if not os.path.isfile(file_path):
                 self.load_states(file_path)
                 continue
-            submission = fill_submission_from_path(file_path,self.controller_mission_directory)
+            submission = fill_submission_from_path(file_path, self.controller_mission_directory)
             if submission:
                 self.submissions.append(submission)
         self.refresh_submission_list()
@@ -217,9 +243,10 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             self.list_submissions.addItem(submission.name)
 
     def state_selection_changed(self, state):
-        self.table_model.state_selection_changed(state)
+        self.table_model.state_selection_changed(state, 0)
         self.tabWidget.currentWidget().rootState.setEnabled(state is not None)
         if state and state.is_submission:
+            self.table_model.state_selection_changed(state, 1)
             self.state_type_label.setText('Sub-Mission')
         elif state:
             self.state_type_label.setText(state._name)
@@ -238,6 +265,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         if self.list_submissions.currentItem():
             submission_name = self.list_submissions.currentItem().text()
             self.renderer.add_state(copy.deepcopy(self.find_submission_by_name(submission_name)))
+            
 
     def find_state_by_name(self, name):
         for state in self.states:

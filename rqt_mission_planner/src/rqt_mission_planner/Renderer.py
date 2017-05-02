@@ -2,10 +2,13 @@ import math
 import functools
 import subprocess
 import rospy
+import yaml
 
 import tkMessageBox
 from Tkinter import Tk
-from controller_mission.srv import ReceivedState,ReceivedStateRequest
+
+from mission_model.state import Parameter
+from controller_mission.srv import ReceivedState, ReceivedStateRequest, SendMission, SendMissionRequest
 from python_qt_binding.QtGui import QPainter, QColor, QPen, QBrush
 from python_qt_binding.QtWidgets import QAction, QMenu
 from python_qt_binding.QtCore import QPointF, QRect, Qt
@@ -62,7 +65,7 @@ class DummyTransition:
 
 
 class StateUI:
-    radius = 100
+    radius = 1000
     PX_LETTER = 8
 
     def __init__(self, state, position):
@@ -72,18 +75,18 @@ class StateUI:
         state.subscribers.append(self.state_name_changed)
         self.calculate_radius()
 
-    def state_name_changed(self,old,new):
+    def state_name_changed(self, old, new):
         self.calculate_radius()
 
     def setPosition(self, x, y):
         self.position = (x - self.radius / 2, y - self.radius / 2)
 
-    def add_transition(self,transition):
-        self.state.add_transition_model(transition.name,transition.state2.state)
+    def add_transition(self, transition):
+        self.state.add_transition_model(transition.name, transition.state2.state)
         self.transitions.append(transition)
 
-    def remove_transition(self,transition):
-        self.state.remove_transition_model(transition.name,transition.state2.state)
+    def remove_transition(self, transition):
+        self.state.remove_transition_model(transition.name, transition.state2.state)
         self.transitions.remove(transition)
 
     def get_x(self):
@@ -113,14 +116,13 @@ class StateUI:
         return math.pow(pos.x() - self.get_x() * scale, 2) + math.pow(pos.y() - self.get_y() * scale, 2) < math.pow(
             self.radius * scale / 2, 2)
 
-
 class Renderer:
     EDIT = 0
     TRANSITION = 1
     current_paint_mode = EDIT
     dummy_transition_line = None
 
-    def __init__(self, paint_panel,controller_mission_directory, load_submission_in_other_tab_function):
+    def __init__(self, paint_panel, controller_mission_directory, load_submission_in_other_tab_function):
         self.paint_panel = paint_panel
         self.paint_panel.paintEvent_original = self.paint_panel.paintEvent
         self.paint_panel.paintEvent = self.my_paint_event
@@ -141,25 +143,31 @@ class Renderer:
         self.paint_panel.setMouseTracking(True)
         self.current_mouse_position = None
         self.current_selected_stateui = None
+        self.current_selected_globalparam = None
 
         self.state_listeners = []
+        
+        self.missionContainer = []
         self.statesui = []
+        self.globalparams = []
         self.painter = QPainter()
+
+        self.missionContainer = MissionContainer
 
         self.transitions = []
 
         self.translated_position = QPointF()
 
+        self.container = None
+
     def set_as_root_state(self):
         if self.current_selected_stateui:
             for stateui in self.statesui:
-                stateui.state.is_root=False
-            self.current_selected_stateui.state.is_root=True
+                stateui.state.is_root = False
+            self.current_selected_stateui.state.is_root = True
             self.paint_panel.update()
 
-
-
-    def _handle_key_press_event(self,event):
+    def _handle_key_press_event(self, event):
         if event.key() == Qt.Key_Delete:
             if self.current_selected_stateui:
                 self.statesui.remove(self.current_selected_stateui)
@@ -184,7 +192,7 @@ class Renderer:
 
         menu.addMenu(transition_menu)
         menu.addSeparator()
-        transition_delete = QMenu('Remove Transition',self.paint_panel)
+        transition_delete = QMenu('Remove Transition', self.paint_panel)
         for transition in self.current_selected_stateui.transitions:
             transition_delete.addAction(QAction(self.paint_panel.tr(transition.name + ' : ' + transition.state2.state.name),self.paint_panel,triggered=functools.partial(self.delete_transition,self.current_selected_stateui,transition)))
         menu.addMenu(transition_delete)
@@ -201,9 +209,10 @@ class Renderer:
 
         return menu
 
-    def load_submission_from_cm(self,stateui):
+    def load_submission_from_cm(self, stateui):
         self.load_submission_in_other_tab_function(stateui.state.submission_file)
         pass
+
     def open_state_file(self,stateui):
         subprocess.call(["xdg-open", self.controller_mission_directory + stateui.state.base_file])
 
@@ -236,7 +245,7 @@ class Renderer:
         self.paint_panel.setCursor(Qt.CrossCursor)
 
     def add_state(self, state_name):
-        state = StateUI(state_name, (10, 10))
+        state = StateUI(state_name, (100, 100))
         self.statesui.append(state)
         self.paint_panel.update()
 
@@ -262,17 +271,18 @@ class Renderer:
         for state in self.statesui:
             if state.contains(current_mouse_position, self.scale_value):
                 if self.current_paint_mode == self.TRANSITION:
-                    self.current_selected_stateui.add_transition(TransitionUI(self.current_transition,self.current_selected_stateui,state))
+                    self.current_selected_stateui.add_transition(TransitionUI(self.current_transition, self.current_selected_stateui, state))
                     self.dummy_transition_line = None
                     self.paint_panel.setCursor(Qt.ArrowCursor)
                     self.current_paint_mode = self.EDIT
                     return
+
                 else:
                     self.current_selected_stateui = state
                     self._state_selection_changed(self.current_selected_stateui.state)
                     self.paint_panel.update()
                     return
-
+                
         self.dummy_transition_line = None
         self.paint_panel.setCursor(Qt.ArrowCursor)
         self.current_paint_mode = self.EDIT
@@ -352,3 +362,16 @@ class Renderer:
     def _state_selection_changed(self, state):
         for listener in list(self.state_listeners):
             listener.state_selection_changed(state)
+
+    def add_global_parameters(self, name, value):
+        self.globalparams.append(Parameter(name, value, ''))
+
+    def create_container(self):
+        return MissionContainer(self.statesui, self.globalparams)
+        
+        
+class MissionContainer:
+    def __init__(self,statesui, globalparams):
+        self.statesui = statesui
+        self.globalparams = globalparams
+

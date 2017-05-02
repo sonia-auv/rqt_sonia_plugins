@@ -55,9 +55,9 @@ class LoadMissionWidget(QWidget):
 
         self.ok_button.clicked.connect(self._handle_ok_press)
 
-    def select_mission(self,callback_function):
+    def select_mission(self, callback_function):
         try:
-            list_missions_srv = rospy.ServiceProxy('mission_executor/list_missions', ListMissions )
+            list_missions_srv = rospy.ServiceProxy('mission_executor/list_missions', ListMissions)
             list_missions_resp = list_missions_srv()
             missions_list = list_missions_resp.missions.split(',')
             self.mission_names.clear()
@@ -72,4 +72,37 @@ class LoadMissionWidget(QWidget):
     def _handle_ok_press(self):
         mission_name = self.mission_names.currentText()
         self.callback_function(mission_name)
+        self.hide()
+
+
+class LoadParameterWidget(QWidget):
+    def __init__(self):
+        super(LoadParameterWidget, self).__init__()
+        rp = rospkg.RosPack()
+
+        ui_file = os.path.join(rp.get_path('rqt_mission_planner'), 'resource', 'sub_param.ui')
+        loadUi(ui_file, self)
+        self.setWindowTitle('Adding Sub_mission Parameter')
+
+        self.add_button.clicked.connect(self._handle_add_press)
+
+        self.show()
+
+        self.value = None
+        self.name = None
+        self.oui = 0
+
+    def select_mission(self, callback_function):
+
+        self.callback_function = callback_function
+        
+    def _handle_add_press(self):
+        try:
+            self.value = float(self.def_value.text())
+        except ValueError:
+            self.value = self.def_value.text()
+
+        self.name = str(self.param_name.text())
+        self.callback_function(self.value, self.name)
+
         self.hide()
