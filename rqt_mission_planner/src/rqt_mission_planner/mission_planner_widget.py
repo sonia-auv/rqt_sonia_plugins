@@ -217,47 +217,56 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             updated_state = self.find_state_by_name(stateui.state._name)
             old_state = stateui.state
             if updated_state:
-                #Add new parameters
-                for updated_parameter in updated_state.parameters:
-                    found = False
-                    for old_parameter in old_state.parameters:
-                        if updated_parameter.variable_name == old_parameter.variable_name:
-                            found = True
-                    if not found:
-                        old_state.parameters.append(updated_parameter)
-                        diff_list.append('State {} had parameter {} missing.'.format(old_state.name,updated_parameter.variable_name))
-                #Remove old parameters
-                for old_parameter in old_state.parameters:
-                    found = False
-                    for updated_parameter in updated_state.parameters:
-                        if updated_parameter.variable_name == old_parameter.variable_name:
-                            found = True
-                    if not found:
-                        old_state.parameters.remove(old_parameter)
-                        diff_list.append('State {} had parameter {} obsolete.'.format(old_state.name,old_parameter.variable_name))
-            #Check diff of global param compare with submission
+                self.check_diff_state(diff_list, old_state, updated_state)#Check diff of global param compare with submission
             if stateui.state.is_submission:
-                updated_submission = self.find_submission_by_name(stateui.state._name)
-                if updated_submission:
-                    for updated_parameter in updated_submission.global_params:
-                        found = False
-                        for old_parameter in old_state.global_params:
-                            if updated_parameter.variable_name == old_parameter.variable_name:
-                                found = True
-                        if not found:
-                            old_state.global_params.append(updated_parameter)
-                            diff_list.append(
-                                'State {} had global parameter {} missing.'.format(old_state.name, updated_parameter.variable_name))
-                    for old_parameter in old_state.global_params:
-                        found = False
-                        for updated_parameter in updated_submission.global_params:
-                            if old_parameter.variable_name == updated_parameter.variable_name:
-                                found = True
-                        if not found:
-                            old_state.global_params.remove(old_parameter)
-                            diff_list.append('State {} had parameter {} obsolete.'.format(old_state.name,old_parameter.variable_name))
+                self.check_diff_submission(diff_list, old_state, stateui)
 
         return diff_list
+
+    def check_diff_state(self, diff_list, old_state, updated_state):
+        # Add new parameters
+        for updated_parameter in updated_state.parameters:
+            found = False
+            for old_parameter in old_state.parameters:
+                if updated_parameter.variable_name == old_parameter.variable_name:
+                    found = True
+            if not found:
+                old_state.parameters.append(updated_parameter)
+                diff_list.append(
+                    'State {} had parameter {} missing.'.format(old_state.name, updated_parameter.variable_name))
+        # Remove old parameters
+        for old_parameter in old_state.parameters:
+            found = False
+            for updated_parameter in updated_state.parameters:
+                if updated_parameter.variable_name == old_parameter.variable_name:
+                    found = True
+            if not found:
+                old_state.parameters.remove(old_parameter)
+                diff_list.append(
+                    'State {} had parameter {} obsolete.'.format(old_state.name, old_parameter.variable_name))
+
+    def check_diff_submission(self, diff_list, old_state, stateui):
+        updated_submission = self.find_submission_by_name(stateui.state._name)
+        if updated_submission:
+            for updated_parameter in updated_submission.global_params:
+                found = False
+                for old_parameter in old_state.global_params:
+                    if updated_parameter.variable_name == old_parameter.variable_name:
+                        found = True
+                if not found:
+                    old_state.global_params.append(updated_parameter)
+                    diff_list.append(
+                        'State {} had global parameter {} missing.'.format(old_state.name,
+                                                                           updated_parameter.variable_name))
+            for old_parameter in old_state.global_params:
+                found = False
+                for updated_parameter in updated_submission.global_params:
+                    if old_parameter.variable_name == updated_parameter.variable_name:
+                        found = True
+                if not found:
+                    old_state.global_params.remove(old_parameter)
+                    diff_list.append(
+                        'State {} had parameter {} obsolete.'.format(old_state.name, old_parameter.variable_name))
 
     def _handle_load(self):
         self.clean_tabs()
