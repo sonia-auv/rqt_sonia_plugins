@@ -117,7 +117,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 if state1.state.name == state2.state.name:
                     count += 1
             if count > 1:
-                return True
+                return False
+        return True
 
     def valid_mission(self):
         if not self.validate_mission_has_root_state():
@@ -285,6 +286,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 self.tabWidget.currentWidget().paint_panel.update()
 
     def _handle_save_as(self):
+        if not self.valid_mission():
+            return
         root = Tk()
         root.withdraw()
         fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
