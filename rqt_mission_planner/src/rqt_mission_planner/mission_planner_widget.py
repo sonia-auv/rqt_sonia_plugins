@@ -110,12 +110,27 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 return True
         return False
 
+    def validate_unique_state_name(self):
+        for state1 in self.renderer.statesui:
+            count = 0;
+            for state2 in self.renderer.statesui:
+                if state1.state.name == state2.state.name:
+                    count += 1
+            if count > 1:
+                return True
+
     def valid_mission(self):
         if not self.validate_mission_has_root_state():
             root = Tk()
             root.withdraw()
             tkMessageBox.showerror("Root State", 'Please select a Root State !')
             return False
+        if not self.validate_unique_state_name():
+            root = Tk()
+            root.withdraw()
+            tkMessageBox.showerror("State name", 'State names must be unique !')
+            return False
+
         return True
 
     def _table_model_data_changed(self, a, b):
@@ -176,6 +191,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             get_mission_request.name = mission_name
             mission_content = get_mission_client(get_mission_request)
             self.renderer.missionContainer = yaml.load(mission_content.content)
+            self.verify_difference_with_current_states()
             self.renderer.statesui = self.renderer.missionContainer.statesui
             self.renderer.globalparams = self.renderer.missionContainer.globalparams
             self.global_table_model.global_params_changed(self.renderer.globalparams)
@@ -183,6 +199,65 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             self.tabWidget.currentWidget().paint_panel.update()
         except rospy.ServiceException, e:
             print "Service call failed: %s" % e
+
+    def verify_difference_with_current_states(self):
+        diff_list = self.check_mission_diff_with_updated_mission(self.renderer.missionContainer)
+        if len(diff_list):
+            root = Tk()
+            root.withdraw()
+            message = 'Theses changes has been detected : \n'
+            for msg in diff_list:
+                message += '-- ' + msg + '\n'
+            tkMessageBox.showerror("State updated", message )
+
+    def check_mission_diff_with_updated_mission(self,mission_container):
+        diff_list = []
+        for stateui in mission_container.statesui:
+            print stateui.state.name, stateui.state._name
+            updated_state = self.find_state_by_name(stateui.state._name)
+            old_state = stateui.state
+            if updated_state:
+                #Add new parameters
+                for updated_parameter in updated_state.parameters:
+                    found = False
+                    for old_parameter in old_state.parameters:
+                        if updated_parameter.variable_name == old_parameter.variable_name:
+                            found = True
+                    if not found:
+                        old_state.parameters.append(updated_parameter)
+                        diff_list.append('State {} had parameter {} missing.'.format(old_state.name,updated_parameter.variable_name))
+                #Remove old parameters
+                for old_parameter in old_state.parameters:
+                    found = False
+                    for updated_parameter in updated_state.parameters:
+                        if updated_parameter.variable_name == old_parameter.variable_name:
+                            found = True
+                    if not found:
+                        old_state.parameters.remove(old_parameter)
+                        diff_list.append('State {} had parameter {} obsolete.'.format(old_state.name,old_parameter.variable_name))
+            #Check diff of global param compare with submission
+            if stateui.state.is_submission:
+                updated_submission = self.find_submission_by_name(stateui.state._name)
+                if updated_submission:
+                    for updated_parameter in updated_submission.global_params:
+                        found = False
+                        for old_parameter in old_state.global_params:
+                            if updated_parameter.variable_name == old_parameter.variable_name:
+                                found = True
+                        if not found:
+                            old_state.global_params.append(updated_parameter)
+                            diff_list.append(
+                                'State {} had global parameter {} missing.'.format(old_state.name, updated_parameter.variable_name))
+                    for old_parameter in old_state.global_params:
+                        found = False
+                        for updated_parameter in updated_submission.global_params:
+                            if old_parameter.variable_name == updated_parameter.variable_name:
+                                found = True
+                        if not found:
+                            old_state.global_params.remove(old_parameter)
+                            diff_list.append('State {} had parameter {} obsolete.'.format(old_state.name,old_parameter.variable_name))
+
+        return diff_list
 
     def _handle_load(self):
         self.clean_tabs()
@@ -193,6 +268,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         if fin:
             with open(fin, 'r') as inputfile:
                 self.renderer.missionContainer = yaml.load(inputfile)
+                self.verify_difference_with_current_states()
                 self.renderer.statesui = self.renderer.missionContainer.statesui
                 self.renderer.globalparams = self.renderer.missionContainer.globalparams
                 self.global_table_model.global_params_changed(self.renderer.globalparams)
@@ -205,7 +281,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
         if fout:
             with open(fout, 'w') as output:
-                print "allo"
                 yaml.dump(self.renderer.create_container(), output, default_flow_style=False)
                 self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(fout))
                 self.tabWidget.currentWidget().paint_panel.update()
@@ -269,7 +344,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def find_state_by_name(self, name):
         for state in self.states:
-            if state.name == name:
+            if state.name == name or state._name == name:
                 return state
 
     def find_submission_by_name(self, name):

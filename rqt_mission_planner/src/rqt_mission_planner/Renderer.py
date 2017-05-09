@@ -244,8 +244,8 @@ class Renderer:
         self.current_transition = outcome_name
         self.paint_panel.setCursor(Qt.CrossCursor)
 
-    def add_state(self, state_name):
-        state = StateUI(state_name, (100, 100))
+    def add_state(self, state):
+        state = StateUI(state, (100, 100))
         self.statesui.append(state)
         self.paint_panel.update()
 
