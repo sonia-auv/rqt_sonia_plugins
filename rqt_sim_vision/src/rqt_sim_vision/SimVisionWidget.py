@@ -12,8 +12,8 @@ from nav_msgs.msg import Odometry
 
 class SimVisionWidget(QMainWindow):
     odom_result_data = pyqtSignal(Odometry)
-    width = 100
-    height = 100
+    width = 300
+    height = 300
 
     buoy_diameter = 0.23
 
@@ -37,8 +37,8 @@ class SimVisionWidget(QMainWindow):
         self.position_x = 0
         self.position_y = 0
 
-        self.data_y = 0
-        self.data_z = 0
+        self.last_position_y = 0
+        self.last_position_z = 0
 
         self.painter = QPainter()
 
@@ -58,8 +58,11 @@ class SimVisionWidget(QMainWindow):
 
     def my_mouse_press_event(self, mouseEvent):
         self.displayed = 1
-        self.position_x = mouseEvent.x() - 10
-        self.position_y = mouseEvent.y() - 10
+        self.position_x = mouseEvent.x()
+        self.position_y = mouseEvent.y()
+        self.posx_sub = self.position_x
+        self.posy_sub = self.position_y
+        self.update()
         print mouseEvent.x() - 10
         print mouseEvent.y() - 10
 
@@ -72,7 +75,7 @@ class SimVisionWidget(QMainWindow):
         sub_y = self.posy_sub
 
         self.painter.setBrush(QBrush(QColor(100, 100, 255)))
-        self.painter.drawEllipse(sub_x, sub_y, self.width, self.height)
+        self.painter.drawEllipse(sub_x - self.width / 2, sub_y - self.width/2, self.width, self.height)
 
         self.painter.end()
 
@@ -92,26 +95,38 @@ class SimVisionWidget(QMainWindow):
 
     def show_buoys_position(self, posData):
         if self.displayed == 1:
-            self.data_y = int(posData.pose.pose.position.y)
-            self.data_z = int(posData.pose.pose.position.z)
-            self.test()
+            buoy_position_x = self.posx_sub
+            buoy_position_y = self.posy_sub
 
-    def test(self):
-        posy = self.data_y
-        posz = self.data_z
-        mouse_x = self.position_x
-        mouse_y = self.position_y
-        posx_bouy_sub = 300 + (mouse_x - (posy * self.pixel_to_meter + 300))
-        posy_bouy_sub = 250 + (mouse_y - (posz * self.pixel_to_meter + 250))
+            posy = posData.pose.pose.position.y
+            posz = posData.pose.pose.position.z
 
-        data = self.set_data(posx_bouy_sub, posy_bouy_sub)
-        self.posx_sub = posx_bouy_sub
-        self.posy_sub = posy_bouy_sub
+            self.posx_sub = buoy_position_x - (posy - self.last_position_y) * self.pixel_to_meter
+            self.posy_sub = buoy_position_y - (posz - self.last_position_z) * self.pixel_to_meter
 
-        self._publish_image_data.publish(data)
+            self.last_position_y = posy
+            self.last_position_z = posz
+            
+            data = self.set_data(self.posx_sub, self.posy_sub)
 
-        self.update()
+            self._publish_image_data.publish(data)
 
+            self.update()
+            #posy = self.data_y
+            #posz = self.data_z
+            #mouse_x = self.position_x
+            #mouse_y = self.position_y
+            #posx_bouy_sub = 300 + (mouse_x - (posy * self.pixel_to_meter + 300))
+            #posy_bouy_sub = 250 + (mouse_y - (posz * self.pixel_to_meter + 250))
+            #
+            #data = self.set_data(posx_bouy_sub, posy_bouy_sub)
+            #self.posx_sub = posx_bouy_sub
+            #self.posy_sub = posy_bouy_sub
+            #
+            #self._publish_image_data.publish(data)
+            #
+            #self.update()
+           
     def _handle_start_test_triggered(self):
         pass
 
