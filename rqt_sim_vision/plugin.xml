@@ -1,0 +1,21 @@
+<library path="lib/libagent_gui">
+  <class name="SimulateVision" type="rqt_sim_vision.sim_vision_control.SimulateVisionControl" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A Python GUI plugin for simulate vision
+    </description>
+    <qtgui>
+      <group>
+        <label>&amp;SONIA</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to visualization.</statustip>
+      </group>
+      <group>
+        <label>&amp;Control</label>
+        <icon type="theme">folder</icon>
+      </group>
+      <label>&amp;Sim</label>
+      <icon type="theme">view-fullscreen</icon>
+      <statustip>A convivial interface for simulate vision</statustip>
+    </qtgui>
+  </class>
+</library>
