@@ -12,8 +12,8 @@ from nav_msgs.msg import Odometry
 
 class SimVisionWidget(QMainWindow):
     odom_result_data = pyqtSignal(Odometry)
-    width = 300
-    height = 300
+    width = 100
+    height = 100
 
     buoy_diameter = 0.23
 
@@ -112,20 +112,6 @@ class SimVisionWidget(QMainWindow):
             self._publish_image_data.publish(data)
 
             self.update()
-            #posy = self.data_y
-            #posz = self.data_z
-            #mouse_x = self.position_x
-            #mouse_y = self.position_y
-            #posx_bouy_sub = 300 + (mouse_x - (posy * self.pixel_to_meter + 300))
-            #posy_bouy_sub = 250 + (mouse_y - (posz * self.pixel_to_meter + 250))
-            #
-            #data = self.set_data(posx_bouy_sub, posy_bouy_sub)
-            #self.posx_sub = posx_bouy_sub
-            #self.posy_sub = posy_bouy_sub
-            #
-            #self._publish_image_data.publish(data)
-            #
-            #self.update()
            
     def _handle_start_test_triggered(self):
         pass
