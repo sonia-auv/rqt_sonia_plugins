@@ -112,7 +112,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def validate_unique_state_name(self):
         for state1 in self.renderer.statesui:
-            count = 0;
+            count = 0
             for state2 in self.renderer.statesui:
                 if state1.state.name == state2.state.name:
                     count += 1
@@ -312,7 +312,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         for file in os.listdir(directory):
             file_path = os.path.join(directory, file)
             if not os.path.isfile(file_path):
-                self.load_states(file_path)
+                self.load_submissions(file_path)
                 continue
             submission = fill_submission_from_path(file_path, self.controller_mission_directory)
             if submission:
@@ -327,7 +327,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
     def refresh_submission_list(self):
         self.list_submissions.clear()
         for submission in self.submissions:
-            self.list_submissions.addItem(submission.name)
+            self.list_submissions.addItem(submission._name)
 
     def state_selection_changed(self, state):
         self.table_model.state_selection_changed(state, 0)
@@ -352,7 +352,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         if self.list_submissions.currentItem():
             submission_name = self.list_submissions.currentItem().text()
             self.renderer.add_state(copy.deepcopy(self.find_submission_by_name(submission_name)))
-            
 
     def find_state_by_name(self, name):
         for state in self.states:
@@ -361,7 +360,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def find_submission_by_name(self, name):
         for submission in self.submissions:
-            if submission.name == name:
+            if submission.name == name or submission._name == name:
                 return submission
 
     def save_settings(self, plugin_settings, instance_settings):

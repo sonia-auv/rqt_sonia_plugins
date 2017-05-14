@@ -146,8 +146,8 @@ def fill_submission_from_path(file, controller_mission_directory):
     rp = rospkg.RosPack()
     sub_mission_name = os.path.basename(file)[:-4]
     if sub_mission_name:
-
-        s = State(os.path.basename(file)[:-4], file.replace(controller_mission_directory,''))
+        filename_with_directory = file.replace(controller_mission_directory,'').replace('/missions/','')
+        s = State(filename_with_directory[:-4], file.replace(controller_mission_directory,''))
 
         with open(file, 'r') as inputfile:
             mission_container = yaml.load(inputfile)
@@ -155,6 +155,6 @@ def fill_submission_from_path(file, controller_mission_directory):
                 s.global_params = mission_container.globalparams
         s.is_submission = True
         s.add_parameter(STATE_NAME, sub_mission_name, '%s' % STATE_NAME)
-        s.add_parameter(SUB_MISSION_FILE, os.path.basename(file), '%s' % SUB_MISSION_FILE)
+        s.add_parameter(SUB_MISSION_FILE, filename_with_directory, '%s' % SUB_MISSION_FILE)
         s.outcome_states = ['succeeded', 'aborted']
         return s

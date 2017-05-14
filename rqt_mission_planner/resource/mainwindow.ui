@@ -27,7 +27,7 @@
        <item>
         <widget class="QToolBox" name="toolBox">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="state">
           <property name="geometry">
@@ -58,7 +58,11 @@
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QListWidget" name="list_states"/>
+                <widget class="QListWidget" name="list_states">
+                 <property name="sortingEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -84,8 +88,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>116</width>
-            <height>140</height>
+            <width>157</width>
+            <height>595</height>
            </rect>
           </property>
           <attribute name="label">
@@ -102,13 +106,17 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>88</height>
+                <width>137</width>
+                <height>523</height>
                </rect>
               </property>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
-                <widget class="QListWidget" name="list_submissions"/>
+                <widget class="QListWidget" name="list_submissions">
+                 <property name="sortingEnabled">
+                  <bool>true</bool>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
