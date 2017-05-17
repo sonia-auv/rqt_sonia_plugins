@@ -12,8 +12,8 @@ from nav_msgs.msg import Odometry
 
 class SimVisionWidget(QMainWindow):
     odom_result_data = pyqtSignal(Odometry)
-    width = 100
-    height = 100
+    width = 40
+    height = 40
 
     buoy_diameter = 0.23
 
@@ -37,8 +37,10 @@ class SimVisionWidget(QMainWindow):
         self.position_x = 0
         self.position_y = 0
 
+        self.last_position_x = 0
         self.last_position_y = 0
         self.last_position_z = 0
+        self.last_yaw = 0
 
         self.painter = QPainter()
 
@@ -63,8 +65,6 @@ class SimVisionWidget(QMainWindow):
         self.posx_sub = self.position_x
         self.posy_sub = self.position_y
         self.update()
-        print mouseEvent.x() - 10
-        print mouseEvent.y() - 10
 
     def paintEvent(self, event):
         self.painter.begin(self)
@@ -75,20 +75,22 @@ class SimVisionWidget(QMainWindow):
         sub_y = self.posy_sub
 
         self.painter.setBrush(QBrush(QColor(100, 100, 255)))
-        self.painter.drawEllipse(sub_x - self.width / 2, sub_y - self.width/2, self.width, self.height)
+        self.painter.drawEllipse(sub_x - self.width / 2, sub_y - self.height/2, self.width, self.height)
 
         self.painter.end()
 
-    def set_data(self, pos_x, pos_y):
+    def set_data(self, pos_x, pos_y, width, height):
         data = VisionTarget()
 
         data.header = 'simulation'
-        data.x = pos_y
-        data.y = pos_x
-        data.width = self.width
-        data.height = self.height
+        data.x = pos_x - 320
+        data.y = pos_y - 240
+        print data.x
+        print data.y
+        data.width = width
+        data.height = height
         data.angle = 0.0
-        data.desc_1 = 'simulation'
+        data.desc_1 = ' green'
         data.desc_2 = 'simulation'
 
         return data
@@ -98,16 +100,31 @@ class SimVisionWidget(QMainWindow):
             buoy_position_x = self.posx_sub
             buoy_position_y = self.posy_sub
 
+            posx = posData.pose.pose.position.x
             posy = posData.pose.pose.position.y
             posz = posData.pose.pose.position.z
+            yaw = posData.twist.twist.angular.z
 
-            self.posx_sub = buoy_position_x - (posy - self.last_position_y) * self.pixel_to_meter
-            self.posy_sub = buoy_position_y - (posz - self.last_position_z) * self.pixel_to_meter
+            self.height += (posx - self.last_position_x) * self.pixel_to_meter / 2
+            self.width += (posx - self.last_position_x) * self.pixel_to_meter / 2
+            delta = yaw - self.last_yaw
 
+            if delta < 0:
+                offset = 10
+            else:
+                offset = -10
+
+            self.posx_sub = (buoy_position_x - (posy - self.last_position_y) * self.pixel_to_meter) + offset / self.pixel_to_meter
+            self.posy_sub = (buoy_position_y - (posz - self.last_position_z) * self.pixel_to_meter)
+
+            self.last_position_x = posx
             self.last_position_y = posy
             self.last_position_z = posz
+            self.last_yaw = yaw
+
+            self.pixel_to_meter = (self.width / self.buoy_diameter + self.height / self.buoy_diameter) / 2
             
-            data = self.set_data(self.posx_sub, self.posy_sub)
+            data = self.set_data(self.posx_sub, self.posy_sub, self.width, self.height)
 
             self._publish_image_data.publish(data)
 
