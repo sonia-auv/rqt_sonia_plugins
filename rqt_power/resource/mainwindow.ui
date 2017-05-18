@@ -38,7 +38,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab_6">
          <attribute name="title">
@@ -2399,33 +2399,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>label_123</zorder>
-  <zorder>OutDisable121</zorder>
-  <zorder>label_130</zorder>
-  <zorder>OutDisable1621</zorder>
-  <zorder>label_140</zorder>
-  <zorder>Current1621</zorder>
-  <zorder>OutDisable1611</zorder>
-  <zorder>label_125</zorder>
-  <zorder>label_132</zorder>
-  <zorder>OutEnable1611</zorder>
-  <zorder>OutEnable121</zorder>
-  <zorder>Voltage1621</zorder>
-  <zorder>label_131</zorder>
-  <zorder>label_126</zorder>
-  <zorder>label_124</zorder>
-  <zorder>Current121</zorder>
-  <zorder>label_129</zorder>
-  <zorder>Temperature1</zorder>
-  <zorder>Voltage1611</zorder>
-  <zorder>label_121</zorder>
-  <zorder>label_137</zorder>
-  <zorder>OutEnable1621</zorder>
-  <zorder>Battery1</zorder>
-  <zorder>Current1611</zorder>
-  <zorder>Voltage121</zorder>
-  <zorder>label_128</zorder>
-  <zorder>widget_78</zorder>
  </widget>
  <resources/>
  <connections/>
