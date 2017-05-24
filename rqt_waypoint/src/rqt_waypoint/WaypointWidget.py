@@ -63,7 +63,8 @@ class WaypointWidget(QMainWindow):
             rospy.logerr(err)
 
     def _odom_callback(self, data):
-        self.odom_result_received.emit(data.twist.twist.linear.x, data.twist.twist.linear.y,data.twist.twist.linear.z,data.twist.twist.angular.x, data.twist.twist.angular.y,data.twist.twist.angular.z)
+        self.odom_result_received.emit(data.pose.pose.position.x, data.pose.pose.position.y,data.pose.pose.position.z,
+                                       data.pose.pose.orientation.x, data.pose.pose.orientation.y,data.pose.pose.orientation.z)
 
     def _odom_result_received(self,x,y,z,roll,pitch,yaw):
         self.xPositionCurrent.setText('%.2f' % x)
