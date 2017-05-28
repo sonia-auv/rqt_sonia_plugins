@@ -81,6 +81,7 @@ class WaypointWidget(QMainWindow):
     def _clear_waypoint_and_reset_position(self):
         try:
             self.set_initial_position()
+            rospy.sleep(0.05)
             self.clear_waypoint_srv()
         except rospy.ServiceException as err:
             rospy.logerr(err)
