@@ -46,7 +46,7 @@ class ThrusterAction():
     def run_test(self):
         self._handle_thruster_effort0_clicked(False)
         time.sleep(0.5)
-        self._handle_thruster_effort50_clicked(False)
+        self._update_speed_slider(20)
         time.sleep(1.5)
         self._handle_thruster_effort0_clicked(False)
 
