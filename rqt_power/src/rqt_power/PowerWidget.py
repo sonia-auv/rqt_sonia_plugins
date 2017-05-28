@@ -7,6 +7,7 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 from provider_power.msg import powerMsg
 from PowerCardButtonAction import PowerCardButtonAction
+from provider_power.srv import CheckPowerSupplyActivation
 
 
 class PowerWidget(QMainWindow):
@@ -21,6 +22,10 @@ class PowerWidget(QMainWindow):
     CMD_PS_temperature = 6
     CMD_PS_VBatt = 7
 
+    check_ps_16v_2 = 21
+    check_ps_16v_1 = 20
+    check_ps_12v = 19
+
     def __init__(self):
         super(PowerWidget, self).__init__()
         # Give QObjects reasonable names
@@ -32,6 +37,10 @@ class PowerWidget(QMainWindow):
         self.setObjectName('MyPowerControlWidget')
 
         self._power_subscriber = rospy.Subscriber("/provider_power/power", powerMsg, self._power_callback)
+
+        rospy.wait_for_service('/provider_power/check_power_supply_bus')
+        self.check_power_supply_srv = rospy.ServiceProxy('/provider_power/check_power_supply_bus', CheckPowerSupplyActivation)
+        self.check_power_supply_srv(1)
 
         self.power_result_received.connect(self.show_Data)
 
@@ -97,6 +106,29 @@ class PowerWidget(QMainWindow):
             eval('self.Battery' + str(powerData.slave)).display(format_data)
             eval('self.BatteryCard' + str(powerData.slave)).display(format_data)
 
+        elif powerData.cmd == self.check_ps_12v:
+            if powerData.data == 0:
+                eval('self.OutEnable12' + str(powerData.slave)).setEnabled(True)
+                eval('self.OutDisable12' + str(powerData.slave)).setEnabled(False)
+            else:
+                eval('self.OutEnable12' + str(powerData.slave)).setEnabled(False)
+                eval('self.OutDisable12' + str(powerData.slave)).setEnabled(True)
+
+        elif powerData.cmd == self.check_ps_16v_1:
+            if powerData.data == 0:
+                eval('self.OutEnable161' + str(powerData.slave)).setEnabled(True)
+                eval('self.OutDisable161' + str(powerData.slave)).setEnabled(False)
+            else:
+                eval('self.OutEnable161' + str(powerData.slave)).setEnabled(False)
+                eval('self.OutDisable161' + str(powerData.slave)).setEnabled(True)
+
+        elif powerData.cmd == self.check_ps_16v_2:
+            if powerData.data == 0:
+                eval('self.OutEnable162' + str(powerData.slave)).setEnabled(True)
+                eval('self.OutDisable162' + str(powerData.slave)).setEnabled(False)
+            else:
+                eval('self.OutEnable162' + str(powerData.slave)).setEnabled(False)
+                eval('self.OutDisable162' + str(powerData.slave)).setEnabled(True)
 
     def _handle_start_test_triggered(self):
         pass
