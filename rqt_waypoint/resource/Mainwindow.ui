@@ -61,7 +61,7 @@
         <bool>true</bool>
        </property>
        <property name="text">
-        <string>Initial Position and Clear Waypoint</string>
+        <string>Set Initial Position</string>
        </property>
       </widget>
      </item>
