@@ -13,7 +13,9 @@ from nav_msgs.msg import Odometry
 
 
 class WaypointWidget(QMainWindow):
-    odom_result_received = pyqtSignal(float,float,float,float,float,float)
+
+    odom_result_received = pyqtSignal('PyQt_PyObject')
+
     def __init__(self):
         super(WaypointWidget, self).__init__()
         # Give QObjects reasonable names
@@ -63,16 +65,21 @@ class WaypointWidget(QMainWindow):
             rospy.logerr(err)
 
     def _odom_callback(self, data):
-        self.odom_result_received.emit(data.pose.pose.position.x, data.pose.pose.position.y,data.pose.pose.position.z,
-                                       data.pose.pose.orientation.x, data.pose.pose.orientation.y,data.pose.pose.orientation.z)
+        self.odom_result_received.emit(data)
 
-    def _odom_result_received(self,x,y,z,roll,pitch,yaw):
-        self.xPositionCurrent.setText('%.2f' % x)
-        self.yPositionCurrent.setText('%.2f' % y)
-        self.zPositionCurrent.setText('%.2f' % z)
-        self.rollPositionCurrent.setText('%.2f' % roll)
-        self.pitchPositionCurrent.setText('%.2f' % pitch)
-        self.yawPositionCurrent.setText('%.2f' % yaw)
+    def _odom_result_received(self, odom):
+        self.xPositionCurrent.setText('%.2f' % odom.pose.pose.position.x)
+        self.yPositionCurrent.setText('%.2f' % odom.pose.pose.position.y)
+        self.zPositionCurrent.setText('%.2f' % odom.pose.pose.position.z)
+        self.rollPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.x)
+        self.pitchPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.y)
+        self.yawPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.z)
+        self.xVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.x)
+        self.yVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.y)
+        self.zVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.z)
+        self.rollVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.x)
+        self.pitchVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.y)
+        self.yawVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.z)
 
     def _position_target_callback(self,data):
         self.xPositionTarget.setText('%.2f' % data.X)
