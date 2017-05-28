@@ -97,7 +97,7 @@ class NavigationMapWidget(QWidget):
         vehicle_position_z = odom_data.pose.pose.position.z
         self._position = (vehicle_position_x, vehicle_position_y, vehicle_position_z)
         self._mapDrawer.set_position(self._position)
-        self._yaw = odom_data.twist.twist.angular.z
+        self._yaw = odom_data.pose.pose.orientation.z
         self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
         self._mapDrawer.set_orientation(self._orientation,self._yaw)
 
