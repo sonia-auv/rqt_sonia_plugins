@@ -15,6 +15,7 @@ from nav_msgs.msg import Odometry
 class WaypointWidget(QMainWindow):
 
     odom_result_received = pyqtSignal('PyQt_PyObject')
+    current_target_received = pyqtSignal('PyQt_PyObject')
 
     def __init__(self):
         super(WaypointWidget, self).__init__()
@@ -39,6 +40,8 @@ class WaypointWidget(QMainWindow):
                                                            self._position_target_callback)
 
         self.odom_result_received.connect(self._odom_result_received)
+        self.current_target_received.connect(self._current_target_received)
+
         self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
         self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
         self.set_initial_depth = rospy.ServiceProxy('/proc_navigation/set_depth_offset', SetDepthOffset)
@@ -101,6 +104,9 @@ class WaypointWidget(QMainWindow):
         self.yawVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.z)
 
     def _position_target_callback(self,data):
+        self.current_target_received.emit(data)
+
+    def _current_target_received(self,data):
         self.xPositionTarget.setText('%.2f' % data.X)
         self.yPositionTarget.setText('%.2f' % data.Y)
         self.zPositionTarget.setText('%.2f' % data.Z)
