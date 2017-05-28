@@ -57,6 +57,7 @@ class MissionPlannerWidget(QWidget):
     def _handle_mission_ended(self,data):
         self.mission_ended_received.emit('*Finished*')
         self.started_mission_name_received.emit('---')
+
     def _handle_mission_ended_result(self,string):
         self.current_state_name_label.setText(string)
 

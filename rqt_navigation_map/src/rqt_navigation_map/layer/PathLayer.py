@@ -9,7 +9,7 @@ class PathLayer(Layer):
         Layer.__init__(self,'Path Layer', parent_widget)
         self._resolution_meter = resolution_meter
         self._path_queue = deque( maxlen=1000)
-        self._last_pos = (0,0,0)
+        self._last_pos = (0, 0, 0)
 
     def reset_path(self):
         self._path_queue.clear()
