@@ -5,7 +5,7 @@ import rospy
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
-from provider_power.msg import powerMsg
+from provider_power.msg import powerMsg, activateAllPS
 from PowerCardButtonAction import PowerCardButtonAction
 
 
@@ -37,7 +37,15 @@ class PowerWidget(QMainWindow):
 
         self._power_subscriber = rospy.Subscriber("/provider_power/power", powerMsg, self._power_callback)
 
+        self.activate_all_ps = rospy.Publisher('/provider_power/activate_all_ps', activateAllPS, queue_size=100)
+
         self.power_result_received.connect(self.show_Data)
+
+        self.EnableAll.setEnabled(True)
+        self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
+
+        self.DisableAll.setEnabled(False)
+        self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
 
         # Subscribe to slot
         # --------------------------------------------------card1---------------------------------------------------------------#
@@ -126,6 +134,25 @@ class PowerWidget(QMainWindow):
             else:
                 eval('self.OutEnable162' + str(powerData.slave)).setEnabled(False)
                 eval('self.OutDisable162' + str(powerData.slave)).setEnabled(True)
+
+    def _handle_out_enable_all_clicked(self):
+        self._set_all_bus_state(1)
+        self.DisableAll.setEnabled(True)
+        self.EnableAll.setEnabled(False)
+
+    def _handle_out_disable_all_clicked(self):
+        self._set_all_bus_state(0)
+        self.DisableAll.setEnabled(False)
+        self.EnableAll.setEnabled(True)
+
+    def _set_all_bus_state(self, state):
+        activation = activateAllPS()
+        activation.data = bool(state)
+        for i in range(0, 4):
+            activation.slave = i
+            for j in range(1, 3):
+                activation.bus = j
+                self.activate_all_ps.publish(activation)
 
     def _handle_start_test_triggered(self):
         pass

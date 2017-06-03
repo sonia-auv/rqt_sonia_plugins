@@ -28,7 +28,7 @@
        <height>511</height>
       </size>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_70">
+     <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
        <widget class="QTabWidget" name="tab5">
         <property name="minimumSize">
@@ -1976,10 +1976,10 @@
          <attribute name="title">
           <string>All Data</string>
          </attribute>
-         <layout class="QHBoxLayout" name="horizontalLayout_69">
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
           <item>
            <widget class="QWidget" name="widget_77" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_13">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
               <widget class="QWidget" name="widget_15" native="true">
                <layout class="QHBoxLayout" name="horizontalLayout_68">
@@ -2382,6 +2382,26 @@
                  <widget class="QLabel" name="label_184">
                   <property name="text">
                    <string>V</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget_16" native="true">
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="EnableAll">
+                  <property name="text">
+                   <string>Enable</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="DisableAll">
+                  <property name="text">
+                   <string>Disable</string>
                   </property>
                  </widget>
                 </item>
