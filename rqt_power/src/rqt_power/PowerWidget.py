@@ -7,7 +7,6 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 from provider_power.msg import powerMsg
 from PowerCardButtonAction import PowerCardButtonAction
-from provider_power.srv import CheckPowerSupplyActivation
 
 
 class PowerWidget(QMainWindow):
