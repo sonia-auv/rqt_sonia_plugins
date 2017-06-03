@@ -31,20 +31,12 @@ class PowerWidget(QMainWindow):
         # Give QObjects reasonable names
         self.setObjectName('PowerControlWidget')
 
-        try:
-            rospy.wait_for_service('/provider_power/check_power_supply_bus', timeout=2)
-        except rospy.ROSException:
-            pass
-
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_power'), 'resource', 'mainwindow.ui')
         loadUi(ui_file, self)
 
         self.setObjectName('MyPowerControlWidget')
 
         self._power_subscriber = rospy.Subscriber("/provider_power/power", powerMsg, self._power_callback)
-
-        self.check_power_supply_srv = rospy.ServiceProxy('/provider_power/check_power_supply_bus', CheckPowerSupplyActivation)
-        self.check_power_supply_srv(1)
 
         self.power_result_received.connect(self.show_Data)
 
@@ -120,9 +112,11 @@ class PowerWidget(QMainWindow):
 
         elif powerData.cmd == self.check_ps_16v_1:
             if powerData.data == 0:
+                print "salut"
                 eval('self.OutEnable161' + str(powerData.slave)).setEnabled(True)
                 eval('self.OutDisable161' + str(powerData.slave)).setEnabled(False)
             else:
+                print powerData.data
                 eval('self.OutEnable161' + str(powerData.slave)).setEnabled(False)
                 eval('self.OutDisable161' + str(powerData.slave)).setEnabled(True)
 

@@ -40,41 +40,41 @@ class PowerCardButtonAction():
     def _handle_out_disable_12_clicked(self):
         root = Tk()
         root.withdraw()
-        self.result = tkMessageBox.askquestion("ATTENTION",'Are you sure, this action should be shutdown PC!!')
+        self.result = tkMessageBox.askquestion("ATTENTION", 'Are you sure, this action should be shutdown PC!!')
         if self.result == 'yes':
             self.outenable12.setEnabled(True)
             self.outdisable12.setEnabled(False)
-            self._set_bus_state(0,0)
+            self._set_bus_state(0, 0)
         pass
 
     def _handle_out_disable_16v1_clicked(self):
         self.outenable161.setEnabled(True)
         self.outdisable161.setEnabled(False)
-        self._set_bus_state(1,0)
+        self._set_bus_state(1, 0)
         pass
 
     def _handle_out_disable_16v2_clicked(self):
         self.outenable162.setEnabled(True)
         self.outdisable162.setEnabled(False)
-        self._set_bus_state(2,0)
+        self._set_bus_state(2, 0)
         pass
 
     def _handle_out_enable_12_clicked(self):
         self.outdisable12.setEnabled(True)
         self.outenable12.setEnabled(False)
-        self._set_bus_state(0,1)
+        self._set_bus_state(0, 1)
         pass
 
     def _handle_out_enable_16v1_clicked(self):
         self.outdisable161.setEnabled(True)
         self.outenable161.setEnabled(False)
-        self._set_bus_state(1,1)
+        self._set_bus_state(1, 1)
         pass
 
     def _handle_out_enable_16v2_clicked(self):
         self.outdisable162.setEnabled(True)
         self.outenable162.setEnabled(False)
-        self._set_bus_state(2,1)
+        self._set_bus_state(2, 1)
         pass
 
     def _set_bus_state(self, bus, state):
