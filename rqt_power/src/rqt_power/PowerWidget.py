@@ -119,11 +119,9 @@ class PowerWidget(QMainWindow):
 
         elif powerData.cmd == self.check_ps_16v_1:
             if powerData.data == 0:
-                print "salut"
                 eval('self.OutEnable161' + str(powerData.slave)).setEnabled(True)
                 eval('self.OutDisable161' + str(powerData.slave)).setEnabled(False)
             else:
-                print powerData.data
                 eval('self.OutEnable161' + str(powerData.slave)).setEnabled(False)
                 eval('self.OutDisable161' + str(powerData.slave)).setEnabled(True)
 
