@@ -53,6 +53,7 @@ class ThrusterWidget(QMainWindow):
         self.T3_T4.setEnabled(False)
         self.T5_T6.setEnabled(False)
         self.T7_T8.setEnabled(False)
+        self.actionStart_test.setEnabled(False)
 
         #self.publisher.publish(self.request_device_id, self.request_unique_id[i], self.request_method_number,self.values[i])
 
@@ -63,6 +64,7 @@ class ThrusterWidget(QMainWindow):
         self.T3_T4.setEnabled(True)
         self.T5_T6.setEnabled(True)
         self.T7_T8.setEnabled(True)
+        self.actionStart_test.setEnabled(True)
 
         try:
             self.enable_thrusters_service(isEnable=False)
@@ -76,6 +78,7 @@ class ThrusterWidget(QMainWindow):
         self.T3_T4.setEnabled(False)
         self.T5_T6.setEnabled(False)
         self.T7_T8.setEnabled(False)
+        self.actionStart_test.setEnabled(False)
 
         try:
             self.enable_thrusters_service(isEnable=True)

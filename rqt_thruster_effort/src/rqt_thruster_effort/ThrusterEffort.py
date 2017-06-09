@@ -37,6 +37,7 @@ class ThrusterEffort(Plugin):
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
+        self._mainWindow.shutdown_plugin()
         pass
 
     def save_settings(self, plugin_settings, instance_settings):

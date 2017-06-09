@@ -4,7 +4,7 @@ import rospkg
 import math
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint
+from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint, pyqtSignal
 from python_qt_binding.QtWidgets import QAction, QMenu, QWidget
 
 import rospy
@@ -19,6 +19,11 @@ from proc_control.srv import SetPositionTarget
 
 # main class inherits from the ui window class
 class NavigationMapWidget(QWidget):
+
+    odom_result_received = pyqtSignal('PyQt_PyObject')
+    current_target_received = pyqtSignal('PyQt_PyObject')
+
+
     def __init__(self, plugin):
         super(NavigationMapWidget, self).__init__()
         rp = rospkg.RosPack()
@@ -54,6 +59,8 @@ class NavigationMapWidget(QWidget):
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', PositionTarget,
                                                            self._position_target_callback)
 
+        self.odom_result_received.connect(self._odom_callback_signal)
+        self.current_target_received.connect(self._position_target_callback_signal)
         self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
 
         self._define_menu()
@@ -89,9 +96,12 @@ class NavigationMapWidget(QWidget):
         self._menu.addAction(setLocationAction)
 
     def _position_target_callback(self, target):
+        self.current_target_received.emit(target)
+
+    def _position_target_callback_signal(self, target):
         self._mapDrawer.drawTarget(target.X, target.Y, target.Z)
 
-    def _odom_callback(self, odom_data):
+    def _odom_callback_signal(self,odom_data):
         vehicle_position_x = odom_data.pose.pose.position.x
         vehicle_position_y = odom_data.pose.pose.position.y
         vehicle_position_z = odom_data.pose.pose.position.z
@@ -99,7 +109,10 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.set_position(self._position)
         self._yaw = odom_data.pose.pose.orientation.z
         self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
-        self._mapDrawer.set_orientation(self._orientation,self._yaw)
+        self._mapDrawer.set_orientation(self._orientation, self._yaw)
+
+    def _odom_callback(self, odom_data):
+        self.odom_result_received.emit(odom_data)
 
     def save_settings(self, plugin_settings, instance_settings):
         self._mapDrawer.save_settings(plugin_settings,instance_settings)
@@ -182,4 +195,5 @@ class NavigationMapWidget(QWidget):
             rospy.logerr(err)
 
     def shutdown_plugin(self):
-        print 'Shutting down'
+        self._odom_subscriber.unregister()
+        self.position_target_subscriber.unregister()

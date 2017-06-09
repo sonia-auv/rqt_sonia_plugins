@@ -23,7 +23,12 @@ class ThrusterEffortWidget(QWidget):
         self._thruster_subscriber = rospy.Subscriber('/provider_thruster/thruster_effort', ThrusterEffort,
                                                      self._handle_thruster_msg)
 
-    def _handle_thruster_msg(self, msg):
+        self.monitor_thruster_msg.connect(self._received_thruster_msg)
+
+    def _handle_thruster_msg(self,msg):
+        self.monitor_thruster_msg.emit(msg)
+
+    def _received_thruster_msg(self, msg):
         if msg.ID == ThrusterEffort.UNIQUE_ID_T1:
             self._set_thruster_value('T1_', msg.effort)
         elif msg.ID == ThrusterEffort.UNIQUE_ID_T2:
@@ -44,3 +49,6 @@ class ThrusterEffortWidget(QWidget):
     def _set_thruster_value(self, thruster_name, value):
         eval('self.' + thruster_name + 'value').setText('{}'.format(int(value)) + ' %')
         eval('self.' + thruster_name + 'slider').setValue(int(value))
+
+    def shutdown_plugin(self):
+        self._thruster_subscriber.unregister()
