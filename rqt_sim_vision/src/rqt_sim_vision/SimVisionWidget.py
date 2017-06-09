@@ -85,8 +85,6 @@ class SimVisionWidget(QMainWindow):
         data.header = 'simulation'
         data.x = pos_x - 320
         data.y = pos_y - 240
-        print data.x
-        print data.y
         data.width = width
         data.height = height
         data.angle = 0.0
@@ -137,7 +135,6 @@ class SimVisionWidget(QMainWindow):
         pass
 
     def shutdown_plugin(self):
-        self._publish_image_data.unregister()
         self._odom_subscriber.unregister()
         pass
 
