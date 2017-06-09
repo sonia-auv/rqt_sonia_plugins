@@ -8,6 +8,7 @@ from tkFileDialog import askopenfilename
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from proc_image_processing.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain
+from provider_vision.srv import start_stop_media
 
 
 class ConfigWidget(QWidget):
@@ -32,6 +33,7 @@ class ConfigWidget(QWidget):
         ##### Service
         self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
         self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
+        self._srv_start_media_cmd = rospy.ServiceProxy('/provider_vision/start_stop_camera', start_stop_media)
         self._srv_manage_filterchain = rospy.ServiceProxy('/proc_image_processing/manage_filterchain', manage_filterchain)
         self._srv_copy_filterchain = rospy.ServiceProxy('/proc_image_processing/copy_filterchain', copy_filterchain)
         self._srv_save_filterchain = rospy.ServiceProxy('/proc_image_processing/save_filterchain', save_filterchain)
@@ -99,12 +101,18 @@ class ConfigWidget(QWidget):
         if len(self.name_text.text()) == 0:
             return;
 
-
         media = self.topic_name.text()
-        if len(media) == 0:
+        if len(media) == 0 and len(self.video_text.text()) > 0:
             media = self.video_text.text()
+
         if len(media) == 0:
             media = self._current_media
+
+        try:
+            self._srv_start_media_cmd(media,1)
+            media = '/provider_vision' + media.replace('.','')
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         try:
             self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
         except rospy.ServiceException as err:
