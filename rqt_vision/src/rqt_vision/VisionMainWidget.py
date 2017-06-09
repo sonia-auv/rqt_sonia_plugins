@@ -21,6 +21,7 @@ from proc_image_processing.srv import get_information_list
 
 class VisionMainWidget(QWidget):
     result_change = pyqtSignal('QString')
+    image_change = pyqtSignal('PyQt_PyObject')
     def __init__(self):
         super(VisionMainWidget, self).__init__()
         try:
@@ -44,6 +45,7 @@ class VisionMainWidget(QWidget):
         self._widget = None
         self.bridge = CvBridge()
         self.result_change.connect(self._handle_result)
+        self.image_change.connect(self._handle_new_image)
         ##### Service
         self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
         self._srv_get_filterchain_from_execution = rospy.ServiceProxy('/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
@@ -126,6 +128,10 @@ class VisionMainWidget(QWidget):
         self.imageFrame.update()
 
     def current_execution_callback(self, img):
+        self.image_change.emit(img)
+        
+
+    def _handle_new_image(self,img):
         try:
             cv_image = self.bridge.imgmsg_to_cv2(img, desired_encoding="rgb8")
             height, width, channel = cv_image.shape
