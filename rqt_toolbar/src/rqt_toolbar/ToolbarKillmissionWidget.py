@@ -141,3 +141,7 @@ class KillMissionWidget(QWidget):
             self.KillSwitch_label.setPalette(self.paletteChecked.palette())
         else:
             self.KillSwitch_label.setPalette(self.paletteUnchecked.palette())
+
+    def shutdown_plugin(self):
+        self._mission_switch.unregister()
+        self.kill_switch.unregister()
