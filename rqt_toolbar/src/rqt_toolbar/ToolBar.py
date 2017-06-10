@@ -7,6 +7,7 @@ from python_qt_binding.QtWidgets import QMainWindow, QToolBar
 
 from ToolbarEnableAxisWidget import EnableAxisWidget
 from ToolbarBatteryWidget import BatteryWidget
+from ToolbarCpuTempWidget import CpuTempWidget
 from ToolbarKillmissionWidget import KillMissionWidget
 from Palette import Palette
 
@@ -40,12 +41,15 @@ class ToolBar(Plugin):
         context._handler._main_window.setPalette(self._palette.palette())
         self._batteryWidget1 = BatteryWidget(1, 1)
         self._batteryWidget2 = BatteryWidget(2, 3)
+        self._tempWidget = CpuTempWidget()
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
+        self._toolbar.addWidget(self._tempWidget)
         self._toolbar.addWidget(self._batteryWidget1)
         self._toolbar.addWidget(self._batteryWidget2)
         self._toolbar.addWidget(self._killMissionWidget)
+
         context.add_toolbar(self._toolbar)
 
     def shutdown_plugin(self):
