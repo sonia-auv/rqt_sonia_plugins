@@ -138,7 +138,7 @@ def fill_state_from_path(file, controller_mission_directory):
                 try:
                     s.add_parameter(name.strip("'"), float(value), desc)
                 except ValueError:
-                    s.add_parameter(name.strip("'"), value, desc)
+                    s.add_parameter(name.strip("'"), value.strip(), desc)
         return s
 
 
