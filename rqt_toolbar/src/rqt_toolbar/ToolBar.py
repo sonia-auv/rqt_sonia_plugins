@@ -38,12 +38,14 @@ class ToolBar(Plugin):
         self._enableAxisWidget = EnableAxisWidget()
         self._killMissionWidget = KillMissionWidget()
         context._handler._main_window.setPalette(self._palette.palette())
-        self._batteryWidget = BatteryWidget()
+        self._batteryWidget1 = BatteryWidget(1, 1)
+        self._batteryWidget2 = BatteryWidget(2, 3)
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
         self._toolbar.addWidget(self._killMissionWidget)
-        self._toolbar.addWidget(self._batteryWidget)
+        self._toolbar.addWidget(self._batteryWidget1)
+        self._toolbar.addWidget(self._batteryWidget2)
         context.add_toolbar(self._toolbar)
 
     def shutdown_plugin(self):
