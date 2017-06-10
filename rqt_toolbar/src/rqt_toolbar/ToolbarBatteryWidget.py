@@ -28,7 +28,7 @@ class BatteryWidget(QWidget):
         self._power_supply = rospy.Subscriber('/provider_power/power', powerMsg, self._power_supply_callback)
         self.psu_received.connect(self._handle_result)
 
-        self.battery_label.setText('Battery{}'.format(no_batt))
+        self.battery_label.setText('Battery {} :'.format(no_batt))
 
         self.slave = slave
 

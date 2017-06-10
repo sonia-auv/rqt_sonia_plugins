@@ -43,9 +43,9 @@ class ToolBar(Plugin):
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
-        self._toolbar.addWidget(self._killMissionWidget)
         self._toolbar.addWidget(self._batteryWidget1)
         self._toolbar.addWidget(self._batteryWidget2)
+        self._toolbar.addWidget(self._killMissionWidget)
         context.add_toolbar(self._toolbar)
 
     def shutdown_plugin(self):
