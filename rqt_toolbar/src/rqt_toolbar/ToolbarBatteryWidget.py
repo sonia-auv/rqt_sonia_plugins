@@ -37,6 +37,6 @@ class BatteryWidget(QWidget):
 
     def _handle_result(self, msg):
         if msg.cmd == self.cmd_ps_vbatt and msg.slave == self.slave:
-            self.battery_slider.setValue(int(msg.data))
+            self.battery_slider.setValue(int(msg.data * 100))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 

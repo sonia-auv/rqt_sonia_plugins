@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>170</width>
-    <height>60</height>
+    <width>284</width>
+    <height>57</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,54 +24,33 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
+       <width>68</width>
        <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
    <item>
-    <widget class="QWidget" name="widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="maximumSize">
+    <widget class="QWidget" name="widget_2" native="true">
+     <property name="minimumSize">
       <size>
-       <width>500</width>
-       <height>16777215</height>
+       <width>160</width>
+       <height>35</height>
       </size>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
       <item>
        <widget class="QLabel" name="temp_label">
         <property name="minimumSize">
          <size>
-          <width>80</width>
-          <height>35</height>
+          <width>85</width>
+          <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>16777215</height>
+          <width>85</width>
+          <height>30</height>
          </size>
         </property>
         <property name="font">
@@ -82,20 +61,23 @@
         <property name="text">
          <string>CPU Temp :</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="temp_value">
         <property name="minimumSize">
          <size>
-          <width>35</width>
-          <height>0</height>
+          <width>80</width>
+          <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
-          <height>16777215</height>
+          <width>80</width>
+          <height>30</height>
          </size>
         </property>
         <property name="font">
