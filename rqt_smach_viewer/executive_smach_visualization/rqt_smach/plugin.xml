@@ -5,7 +5,12 @@
     </description>
     <qtgui>
       <group>
-        <label>Control</label>
+        <label>&amp;SONIA</label>
+        <icon type="theme">folder</icon>
+      </group>
+      <group>
+        <label>&amp;Mission</label>
+        <icon type="theme">folder</icon>
       </group>
       <label>Smach</label>
       <icon type="theme">system-help</icon>
