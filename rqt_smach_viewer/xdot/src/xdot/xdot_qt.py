@@ -1676,9 +1676,9 @@ class DotWidget(QWidget):
             delta = event.delta()
 
         if delta > 0:
-            self.zoom_image( self.zoom_ratio * self.ZOOM_INCREMENT)
+            self.zoom_image( self.zoom_ratio * self.ZOOM_INCREMENT, pos=(event.x(), event.y()))
         if delta < 0:
-            self.zoom_image(self.zoom_ratio / self.ZOOM_INCREMENT)
+            self.zoom_image(self.zoom_ratio / self.ZOOM_INCREMENT, pos=(event.x(), event.y()))
 
     def mouseMoveEvent(self, event):
         self.drag_action.on_motion_notify(event)
