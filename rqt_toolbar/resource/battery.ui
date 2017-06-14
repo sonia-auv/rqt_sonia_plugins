@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
-    <height>83</height>
+    <width>291</width>
+    <height>60</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>386</width>
-    <height>83</height>
+    <width>291</width>
+    <height>60</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>500</width>
-    <height>16777215</height>
+    <width>291</width>
+    <height>60</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -28,7 +28,7 @@
   <property name="autoFillBackground">
    <bool>false</bool>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QWidget" name="widget" native="true">
      <property name="sizePolicy">
@@ -50,17 +50,32 @@
       </size>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QLabel" name="battery_label">
         <property name="minimumSize">
          <size>
-          <width>70</width>
-          <height>0</height>
+          <width>80</width>
+          <height>35</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>70</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
         </property>
@@ -78,7 +93,7 @@
        <widget class="QLabel" name="battery_value">
         <property name="minimumSize">
          <size>
-          <width>33</width>
+          <width>30</width>
           <height>0</height>
          </size>
         </property>
@@ -109,7 +124,7 @@
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>40</height>
+          <height>35</height>
          </size>
         </property>
         <property name="maximumSize">
@@ -118,6 +133,9 @@
           <height>16777215</height>
          </size>
         </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
@@ -125,7 +143,7 @@
          <string notr="true">QSlider::groove:horizontal {
     background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, 
                             stop: 0 #e41500, 
-                            stop: 0.5 #e4d414,
+                            stop: 0.3 #e4d414,
                             stop: 1 #0be400);
     position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */
     top: 10px; bottom: 10px;
@@ -140,19 +158,19 @@ QSlider::handle:horizontal {
 }</string>
         </property>
         <property name="minimum">
-         <number>11</number>
+         <number>1330</number>
         </property>
         <property name="maximum">
-         <number>16</number>
+         <number>1690</number>
         </property>
         <property name="singleStep">
          <number>1</number>
         </property>
         <property name="value">
-         <number>16</number>
+         <number>1330</number>
         </property>
         <property name="sliderPosition">
-         <number>16</number>
+         <number>1330</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
