@@ -5,11 +5,10 @@ import math
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow, QWidget
-from python_qt_binding.QtGui import QPainter, QColor, QPen, QBrush
 from python_qt_binding.QtCore import pyqtSignal, QPointF
 from proc_image_processing.msg import VisionTarget
 from nav_msgs.msg import Odometry
-
+from Renderer import Buoy, Path
 
 
 class SimVisionWidget(QMainWindow):
@@ -22,6 +21,7 @@ class SimVisionWidget(QMainWindow):
 
     rect_width = 50
     rect_height = 100
+    angle = 30
 
     buoy_diameter = 0.23
 
@@ -53,8 +53,6 @@ class SimVisionWidget(QMainWindow):
         self.last_position_z = 0
         self.last_yaw = 0
 
-        self.painter = QPainter()
-
         self.posx_sub = -20
         self.posy_sub = -20
 
@@ -74,7 +72,7 @@ class SimVisionWidget(QMainWindow):
         self.actionFence.triggered.connect(self._handle_fence)
         self.actionPath_finder.triggered.connect(self._handle_path_finder)
 
-        self.object_type = 'drawEllipse'
+        self.object_type = Buoy(self)
         self.object_width = 0
         self.object_height = 0
 
@@ -95,29 +93,18 @@ class SimVisionWidget(QMainWindow):
         self.update()
 
     def paintEvent(self, event):
-        self.painter.begin(self)
-        self.painter.setRenderHint(QPainter.Antialiasing)
-        self.painter.setPen(QColor(0, 0, 0))
 
         sub_x = self.posx_sub
         sub_y = self.posy_sub
 
-        self.painter.setBrush(QBrush(QColor(100, 100, 255)))
-
+        print sub_x, sub_y
+        angle = self.angle
+        if self.Buoy:
+            self.object_type.paint_object(sub_x - self.object_width / 2, sub_y - self.object_height / 2, self.object_width, self.object_height, angle)
         if self.Path_fender:
-            angle = -20
+            self.object_type.paint_object(sub_x, sub_y, self.object_width, self.object_height, angle)
 
-            dy = self.object_height - self.object_height * math.cos(math.radians(angle))
-            dx = self.object_height * math.sin(math.radians(angle))
-
-            self.painter.translate(QPointF(-40, 40))
-            self.painter.rotate(angle)
-
-        exec ('self.painter.{}(sub_x - self.object_width / 2, sub_y - self.object_height / 2, self.object_width, self.object_height)'.format(self.object_type))
-
-        self.painter.end()
-
-    def set_data(self, pos_x, pos_y, width, height):
+    def set_data(self, pos_x, pos_y, width, height, angle=0):
         data = VisionTarget()
 
         data.header = 'simulation'
@@ -125,7 +112,7 @@ class SimVisionWidget(QMainWindow):
         data.y = pos_y - 240
         data.width = width
         data.height = height
-        data.angle = 0.0
+        data.angle = angle
         data.desc_1 = 'red'
         data.desc_2 = 'simulation'
 
@@ -134,8 +121,39 @@ class SimVisionWidget(QMainWindow):
     def show_fence_position(self):
         pass
 
-    def show_path_finder_position(self):
-        pass
+    def show_path_finder_position(self, posData):
+        if self.displayed == 1:
+            path_position_x = self.posx_sub
+            path_position_y = self.posy_sub
+
+            posx = posData.pose.pose.position.x
+            posy = posData.pose.pose.position.y
+            posz = posData.pose.pose.position.z
+            yaw = posData.pose.pose.orientation.z
+
+            self.rect_height += (posz - self.last_position_z) * float(self.pixel_to_meter) / 2.0
+            self.rect_width += (posz - self.last_position_z) * float(self.pixel_to_meter) / 2.0
+
+            self.object_width = self.rect_height
+            self.object_height = self.rect_width
+
+            self.angle += (yaw - self.last_yaw)
+
+            self.posx_sub = (path_position_x - (posx - self.last_position_x) * self.pixel_to_meter)
+            self.posy_sub = (path_position_y - (posy - self.last_position_y) * self.pixel_to_meter)
+
+            self.last_position_x = posx
+            self.last_position_y = posy
+            self.last_position_z = posz
+            self.last_yaw = yaw
+
+            self.pixel_to_meter = (self.rect_height / self.path_width + self.rect_height / self.path_height) / 2
+
+            data = self.set_data(self.posx_sub, self.posy_sub, self.rect_width, self.rect_height, int(self.angle))
+
+            self._publish_image_data.publish(data)
+
+            self.update()
 
     def show_buoys_position(self, posData):
         if self.displayed == 1:
@@ -152,6 +170,8 @@ class SimVisionWidget(QMainWindow):
 
             self.object_width = self.ellipse_width
             self.object_height = self.ellipse_height
+
+            self.angle = 0.0
 
             delta = yaw - self.last_yaw
 
@@ -171,7 +191,7 @@ class SimVisionWidget(QMainWindow):
             self.last_yaw = yaw
 
             self.pixel_to_meter = (self.ellipse_width / self.buoy_diameter + self.ellipse_height / self.buoy_diameter) / 2
-            
+
             data = self.set_data(self.posx_sub, self.posy_sub, self.ellipse_width, self.ellipse_height)
 
             self._publish_image_data.publish(data)
@@ -182,7 +202,7 @@ class SimVisionWidget(QMainWindow):
         self.Buoy = True
         self.Path_fender = False
         self.Fence = False
-        self.object_type = 'drawEllipse'
+        self.object_type = Buoy(self)
         self.pixel_to_meter = (self.ellipse_width / self.buoy_diameter + self.ellipse_height / self.buoy_diameter) / 2
         self.object_width = self.ellipse_width
         self.object_height = self.ellipse_height
@@ -196,7 +216,7 @@ class SimVisionWidget(QMainWindow):
         self.Path_fender = True
         self.Fence = False
         self.Buoy = False
-        self.object_type = 'drawRect'
+        self.object_type = Path(self)
         self.pixel_to_meter = (self.rect_width / self.path_width + self.rect_height / self.path_height) / 2
         self.object_width = self.rect_width
         self.object_height = self.rect_height
