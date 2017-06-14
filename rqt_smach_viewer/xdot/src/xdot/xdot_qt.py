@@ -1352,7 +1352,7 @@ class DotWidget(QWidget):
 #        self.add_events(gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK)
 #        self.connect("button-press-event", self.on_area_button_press)
 #        self.connect("button-release-event", self.on_area_button_release)
-#        self.add_events(gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.POINTER_MOTION_HINT_MASK | gtk.gdk.BUTTON_RELEASE_MASK)
+#        self.add_events(gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.POscrollINTER_MOTION_HINT_MASK | gtk.gdk.BUTTON_RELEASE_MASK)
 #        self.connect("motion-notify-event", self.on_area_motion_notify)
 #        self.connect("scroll-event", self.on_area_scroll_event)
 #        self.connect("size-allocate", self.on_area_size_allocate)
@@ -1655,9 +1655,9 @@ class DotWidget(QWidget):
             x, y = event.x(), event.y()
             url = self.get_url(x, y)
             if url is not None:
-                self.emit(SIGNAL("right_clicked"), unicode(url.url), event)
+                self.clicked.emit("right_clicked", event)
             else:
-                self.emit(SIGNAL("right_clicked"), 'none', event)
+                self.clicked.emit("right_clicked",event)
                 jump = self.get_jump(x, y)
                 if jump is not None:
                     self.animate_to(jump.x, jump.y)
@@ -1670,12 +1670,15 @@ class DotWidget(QWidget):
         return False
 
     def wheelEvent(self, event):
-        print(event.angleDelta())
-        if event.angleDelta() > 0:
-            self.zoom_image(self.zoom_ratio * self.ZOOM_INCREMENT, pos=(event.x(), event.y()))
-        if event.angleDelta() < 0:
-            self.zoom_image(self.zoom_ratio / self.ZOOM_INCREMENT,
-                            pos=(event.x(), event.y()))
+        try:
+            delta = event.angleDelta().y()
+        except AttributeError:
+            delta = event.delta()
+
+        if delta > 0:
+            self.zoom_image( self.zoom_ratio * self.ZOOM_INCREMENT, pos=(event.x(), event.y()))
+        if delta < 0:
+            self.zoom_image(self.zoom_ratio / self.ZOOM_INCREMENT, pos=(event.x(), event.y()))
 
     def mouseMoveEvent(self, event):
         self.drag_action.on_motion_notify(event)
