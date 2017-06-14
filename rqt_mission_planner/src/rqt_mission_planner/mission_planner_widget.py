@@ -86,6 +86,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def _handle_tab_changed(self, index):
         self.renderer = self.tabWidget.currentWidget().my_renderer
+        self.global_table_model.global_params_changed(self.renderer.globalparams)
 
     def _load_mission_in_new_tab(self, mission_name):
         new_tab = QWidget()
