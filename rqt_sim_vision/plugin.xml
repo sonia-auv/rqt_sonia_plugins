@@ -10,10 +10,10 @@
         <statustip>Plugins related to visualization.</statustip>
       </group>
       <group>
-        <label>&amp;Control</label>
+        <label>&amp;Vision</label>
         <icon type="theme">folder</icon>
       </group>
-      <label>&amp;Sim</label>
+      <label>&amp;Vision simulation</label>
       <icon type="theme">view-fullscreen</icon>
       <statustip>A convivial interface for simulate vision</statustip>
     </qtgui>
