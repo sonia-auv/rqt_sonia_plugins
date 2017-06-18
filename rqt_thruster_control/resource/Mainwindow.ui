@@ -170,7 +170,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -375,7 +375,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -565,7 +565,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -770,7 +770,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -960,7 +960,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -1165,7 +1165,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -1355,7 +1355,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -1560,7 +1560,7 @@ QSlider::handle:vertical {
       <number>100</number>
      </property>
      <property name="singleStep">
-      <number>5</number>
+      <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
@@ -1642,7 +1642,7 @@ QSlider::handle:vertical {
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>22</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="StartTestMenu">
