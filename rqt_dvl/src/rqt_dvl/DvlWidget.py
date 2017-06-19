@@ -14,7 +14,7 @@ from geometry_msgs.msg import TwistStamped
 
 class DvlWidget(QMainWindow, QWidget):
 
-    dvl_received_status = pyqtSignal(uint64)
+    dvl_received_status = pyqtSignal(int)
     dvl_received_twist = pyqtSignal(TwistStamped)
 
     def __init__(self):
@@ -162,37 +162,37 @@ class DvlWidget(QMainWindow, QWidget):
         else:
             self.BeamVely.setPalette(self.red)
 
-    def _handel_fig_xyz(self, status):
-        if status & (1 << 12):
-            self.BeamFigx.setPalette(self.green)
-        else:
-            self.BeamFigx.setPalette(self.red)
-
-        if status & (1 << 13):
-            self.BeamFigy.setPalette(self.green)
-        else:
-            self.BeamFigy.setPalette(self.red)
-
-        if status & (1 << 14):
-            self.BeamFigz.setPalette(self.green)
-        else:
-            self.BeamFigz.setPalette(self.red)
-
     def _handel_capacity(self, status):
-        if status & (1 << 20):
+        if status & (1 << 12):
             self.BeamVelx.setPalette(self.green)
         else:
             self.BeamVelx.setPalette(self.red)
 
-        if status & (1 << 21):
+        if status & (1 << 13):
             self.BeamVely.setPalette(self.green)
         else:
             self.BeamVely.setPalette(self.red)
 
-        if status & (1 << 22):
+        if status & (1 << 14):
             self.BeamVely.setPalette(self.green)
         else:
             self.BeamVely.setPalette(self.red)
+
+    def _handel_fig_xyz(self, status):
+        if status & (1 << 20):
+            self.BeamFigx.setPalette(self.green)
+        else:
+            self.BeamFigx.setPalette(self.red)
+
+        if status & (1 << 21):
+            self.BeamFigy.setPalette(self.green)
+        else:
+            self.BeamFigy.setPalette(self.red)
+
+        if status & (1 << 22):
+            self.BeamFigz.setPalette(self.green)
+        else:
+            self.BeamFigz.setPalette(self.red)
 
     def _handle_start_test_triggered(self):
         pass

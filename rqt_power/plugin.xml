@@ -10,7 +10,7 @@
         <statustip>Plugins related to visualization.</statustip>
       </group>
       <group>
-        <label>&amp;Control</label>
+        <label>&amp;Devices</label>
         <icon type="theme">folder</icon>
       </group>
       <label>&amp;Power</label>

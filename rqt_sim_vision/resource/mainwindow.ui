@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Power</string>
+   <string>Vision simulation</string>
   </property>
   <widget class="Line" name="line">
    <property name="geometry">
