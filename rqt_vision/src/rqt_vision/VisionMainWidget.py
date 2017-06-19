@@ -38,6 +38,7 @@ class VisionMainWidget(QWidget):
         self._current_execution = None
         self._current_execution_subscriber = None
         self._current_execution_subscriber_result = None
+        self._image_seq = 0
         self._filterchain = None
         self._is_recording = False
         self._video_writer = None
@@ -125,25 +126,27 @@ class VisionMainWidget(QWidget):
 
         self.result_text.setText('')
         self._cv_image = None
+        self._image_seq = 0
         self.imageFrame.update()
 
     def current_execution_callback(self, img):
         self.image_change.emit(img)
-        
 
     def _handle_new_image(self,img):
         try:
-            cv_image = self.bridge.imgmsg_to_cv2(img, desired_encoding="rgb8")
-            height, width, channel = cv_image.shape
-            bytesPerLine = 3 * width
-            self._cv_image = QImage(cv_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
+            if self._image_seq < img.header.seq:
+                cv_image = self.bridge.imgmsg_to_cv2(img, desired_encoding="rgb8")
+                self._image_seq = img.header.seq
+                height, width, channel = cv_image.shape
+                bytesPerLine = 3 * width
+                self._cv_image = QImage(cv_image.data, width, height, bytesPerLine, QImage.Format_RGB888)
 
-            if self._is_recording:
-                if self._video_writer is None:
-                    four_cc = cv2.cv.CV_FOURCC(*'HFYU')
-                    self._video_writer = cv2.VideoWriter(self._recording_file_name, four_cc, float(15), (width,height))
-                temp = cv2.cvtColor(cv_image,cv2.cv.CV_BGR2RGB)
-                self._video_writer.write(temp)
+                if self._is_recording:
+                    if self._video_writer is None:
+                        four_cc = cv2.cv.CV_FOURCC(*'HFYU')
+                        self._video_writer = cv2.VideoWriter(self._recording_file_name, four_cc, float(15), (width,height))
+                    temp = cv2.cvtColor(cv_image,cv2.cv.CV_BGR2RGB)
+                    self._video_writer.write(temp)
         except CvBridgeError as e:
             print(e)
         self.imageFrame.update()

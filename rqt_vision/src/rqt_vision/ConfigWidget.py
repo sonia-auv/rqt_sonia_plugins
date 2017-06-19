@@ -101,18 +101,23 @@ class ConfigWidget(QWidget):
         if len(self.name_text.text()) == 0:
             return;
 
+        #Topic mode
         media = self.topic_name.text()
+        #Video mode
         if len(media) == 0 and len(self.video_text.text()) > 0:
             media = self.video_text.text()
 
+            try:
+                self._srv_start_media_cmd(media,1)
+                media = '/provider_vision' + media.replace('.','')
+                print 'media : ' ,media
+            except rospy.ServiceException as err:
+                rospy.logerr(err)
+        #Normal Mode
         if len(media) == 0:
             media = self._current_media
 
-        try:
-            self._srv_start_media_cmd(media,1)
-            media = '/provider_vision' + media.replace('.','')
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        print 'Media for start' , media
         try:
             self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
         except rospy.ServiceException as err:
