@@ -146,17 +146,16 @@ class GLWidget(QGLWidget):
         # update _modelview_matrix
         self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
 
-    def rotate_absolute(self,axis,angle):
+    def rotate_translate_absolute(self,axis,angle, translate):
         # rotate the object
         self.makeCurrent()
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         t = [self._modelview_matrix[3][0], self._modelview_matrix[3][1], self._modelview_matrix[3][2]]
-        glTranslatef(t[0], t[1], t[2])
         glRotated(angle, axis[0], axis[1], axis[2])
-        glTranslatef(-t[0], -t[1], -t[2])
+        glTranslatef(translate[0],translate[1],translate[2])
         matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
-        matrix[3][0], matrix[3][1],matrix[3][2] = t
+        matrix[3][2] = t[2]
         glLoadMatrixd(matrix)
         # update _modelview_matrix
         self._modelview_matrix = glGetDoublev(GL_MODELVIEW_MATRIX)
@@ -206,7 +205,7 @@ class GLWidget(QGLWidget):
             if self._last_point_3d_ok and new_point_3d_ok:
                 cos_angle = numpy.dot(self._last_point_3d, new_point_3d)
                 if abs(cos_angle) < 1.0:
-                    axis = numpy.cross(self._last_point_3d, new_point_3d)
+                    axis = (0,0,1)#numpy.cross(self._last_point_3d, new_point_3d)
                     angle = 2.0 * math.acos(cos_angle) * 180.0 / math.pi
                     self.rotate(axis, angle)
         # middle button (or left + shift): move in z-direction

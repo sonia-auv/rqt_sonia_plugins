@@ -107,7 +107,10 @@ class loader:
                 self.gl_view.load_view_matrix(modelview_matrix)
 
             if self._lock_rotate:
-                self.gl_view.rotate_absolute((0,0,1),yaw)
+                self.gl_view.rotate_translate_absolute((0, 0, 1), yaw,
+                                                           (vehicle_position[0] * -1, vehicle_position[1] * -1, 0))
+
+
         finally:
                 self._lock.release()
 

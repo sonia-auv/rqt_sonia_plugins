@@ -81,9 +81,9 @@ class NavigationMapWidget(QWidget):
         self._menu.addAction(self._view3dAction)
         self._menu.addSeparator()
 
-        #self._rotateSubAction = QAction(self._gl_view.tr("Rotate with Sub"), self, checkable=True,
-        #                       triggered=self._rotate_with_sub)
-        #self._menu.addAction(self._rotateSubAction)
+        self._rotateSubAction = QAction(self._gl_view.tr("Rotate with Sub"), self, checkable=True,
+                               triggered=self._rotate_with_sub)
+        self._menu.addAction(self._rotateSubAction)
 
         self._lockOnSubAction = QAction(self._gl_view.tr("Lock on Sub"), self, checkable=True,
                                         triggered=self._lock_on_sub)
@@ -119,6 +119,7 @@ class NavigationMapWidget(QWidget):
         view_matrix_string = repr(self._gl_view.get_view_matrix())
         instance_settings.set_value('view_matrix', view_matrix_string)
         instance_settings.set_value('lock_on_sub_activated', str(self._lock_on_sub_activated))
+        instance_settings.set_value('rotate_with_sub_activated', str(self._rotate_with_sub_activated))
 
     def restore_settings(self, plugin_settings, instance_settings):
         self._mapDrawer.restore_settings(plugin_settings,instance_settings)
@@ -140,12 +141,12 @@ class NavigationMapWidget(QWidget):
             self._lock_on_sub(lock_on_sub)
             self._lockOnSubAction.setChecked(lock_on_sub)
 
-        #rotate_with_sub = instance_settings.value('rotate_with_sub_activated') == 'True'
-        #if rotate_with_sub is None:
-        #    print 'Nothing stored for lock_on_sub'
-        #else:
-        #    self._rotate_with_sub(rotate_with_sub)
-        #    self._rotateSubAction.setChecked(rotate_with_sub)
+        rotate_with_sub = instance_settings.value('rotate_with_sub_activated') == 'True'
+        if rotate_with_sub is None:
+            print 'Nothing stored for lock_on_sub'
+        else:
+            self._rotate_with_sub(rotate_with_sub)
+            self._rotateSubAction.setChecked(rotate_with_sub)
 
     def _set_default_view(self):
         self._gl_view.makeCurrent()
@@ -162,6 +163,8 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.is_using_2d_view(False)
 
     def _rotate_with_sub(self, checked):
+        self._lock_on_sub(checked)
+        self._lockOnSubAction.setChecked(checked)
         self._rotate_with_sub_activated = checked
         self._mapDrawer.set_rotate_with_sub_activated(checked)
 
@@ -190,7 +193,7 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.drawTarget(position_x, position_y, position_z)
         rospy.loginfo('Set Target selected at (%.2f, %.2f)', position_x, position_y)
         try:
-            self.set_global_target(X=position_x, Y=position_y, Z=position_z, ROLL=0, PITCH=0, YAW=self._yaw)
+            self.set_global_target(X=position_x, Y=position_y, Z=self._position[2], ROLL=0, PITCH=0, YAW=self._yaw)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
