@@ -143,7 +143,7 @@ class VisionMainWidget(QWidget):
 
                 if self._is_recording:
                     if self._video_writer is None:
-                        four_cc = cv2.cv.CV_FOURCC(*'HFYU')
+                        four_cc = cv2.VideoWriter_fourcc(*'HFYU')
                         self._video_writer = cv2.VideoWriter(self._recording_file_name, four_cc, float(15), (width,height))
                     temp = cv2.cvtColor(cv_image,cv2.cv.CV_BGR2RGB)
                     self._video_writer.write(temp)
