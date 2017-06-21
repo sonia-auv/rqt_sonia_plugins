@@ -59,7 +59,7 @@ class ConfigWidget(QWidget):
 
         try:
             filterchain_string = self._srv_get_information_list(3)
-            if len(filterchain_string) == 0:
+            if len(filterchain_string.list) == 0:
                 return;
         except rospy.ServiceException as err:
             rospy.logerr(err)
@@ -81,7 +81,7 @@ class ConfigWidget(QWidget):
 
         try:
             media_string = self._srv_get_information_list(2)
-            if len(media_string) == 0:
+            if len(media_string.list) == 0:
                 return;
         except rospy.ServiceException as err:
             rospy.logerr(err)
