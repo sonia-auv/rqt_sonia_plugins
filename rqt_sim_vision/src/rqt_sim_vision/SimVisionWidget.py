@@ -16,8 +16,8 @@ class SimVisionWidget(QMainWindow):
     odom_result_data_fence = pyqtSignal(Odometry)
     odom_result_data_path_finder = pyqtSignal(Odometry)
 
-    ellipse_width = 40
-    ellipse_height = 40
+    ellipse_width = 30
+    ellipse_height = 30
 
     rect_width = 50
     rect_height = 100
@@ -64,7 +64,7 @@ class SimVisionWidget(QMainWindow):
 
         self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
 
-        self._publish_image_data = rospy.Publisher('/proc_image_processing/data', VisionTarget, queue_size=10)
+        self._publish_image_data = rospy.Publisher('/proc_image_processing/buoy_red_result', VisionTarget, queue_size=10)
 
         self.setObjectName('MySimVisionWidget')
 
@@ -96,9 +96,8 @@ class SimVisionWidget(QMainWindow):
 
         sub_x = self.posx_sub
         sub_y = self.posy_sub
-
-        print sub_x, sub_y
         angle = self.angle
+
         if self.Buoy:
             self.object_type.paint_object(sub_x - self.object_width / 2, sub_y - self.object_height / 2, self.object_width, self.object_height, angle)
         if self.Path_fender:
