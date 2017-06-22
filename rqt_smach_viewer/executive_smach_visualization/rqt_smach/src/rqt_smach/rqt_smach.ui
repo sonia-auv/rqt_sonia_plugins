@@ -27,7 +27,7 @@
        <property name="flat">
         <bool>false</bool>
        </property>
-       <property name="hidden">
+       <property name="hidden" stdset="0">
         <bool>true</bool>
        </property>
       </widget>
@@ -55,7 +55,7 @@
        <property name="sizeAdjustPolicy">
         <enum>QComboBox::AdjustToMinimumContentsLength</enum>
        </property>
-       <property name="hidden">
+       <property name="hidden" stdset="0">
         <bool>true</bool>
        </property>
       </widget>
@@ -77,7 +77,7 @@
        <property name="shortcut">
         <string>Ctrl+S</string>
        </property>
-       <property name="hidden">
+       <property name="hidden" stdset="0">
         <bool>true</bool>
        </property>
       </widget>
@@ -261,11 +261,11 @@
                   <property name="checkable">
                    <bool>true</bool>
                   </property>
-                  <property name="flat">
-                   <bool>false</bool>
-                  </property>
                   <property name="checked">
                    <bool>true</bool>
+                  </property>
+                  <property name="flat">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>
@@ -301,15 +301,19 @@
                   </property>
                  </widget>
                 </item>
+                <item>
+                 <widget class="QPushButton" name="save_image_as_file">
+                  <property name="text">
+                   <string>Img Export</string>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </item>
               <item>
                <widget class="QFrame" name="frame_2">
                 <property name="frameShape">
                  <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameStyle">
-                 <enum>QFrame::NoFrame</enum>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
                  <property name="leftMargin">
@@ -377,13 +381,21 @@
           </layout>
          </widget>
          <widget class="QWidget" name="preferences_tab">
+          <property name="autoFillBackground">
+           <bool>true</bool>
+          </property>
           <attribute name="title">
            <string>Tree View</string>
           </attribute>
-          <property name="autoFillBackground">
-            <bool>true</bool>
-          </property>
           <widget class="QTreeWidget" name="tree">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>2000</width>
+             <height>2000</height>
+            </rect>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
@@ -392,10 +404,10 @@
            </property>
            <property name="minimumSize">
             <size>
-            <width>2000</width>
-            <height>2000</height>
-           </size>
-          </property>
+             <width>2000</width>
+             <height>2000</height>
+            </size>
+           </property>
            <property name="maximumSize">
             <size>
              <width>2000</width>
@@ -405,9 +417,11 @@
            <property name="autoFillBackground">
             <bool>true</bool>
            </property>
-           <property name="frameStyle">
-            <enum>QFrame::NoFrame</enum>
-           </property>
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
           </widget>
          </widget>
         </widget>

@@ -6,7 +6,7 @@ import time
 
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QWidget, QStyle, QApplication, QItemDelegate, QStyleOptionButton, QTreeWidgetItem
+from python_qt_binding.QtWidgets import QWidget, QStyle, QApplication, QItemDelegate, QStyleOptionButton, QTreeWidgetItem, QFileDialog
 from python_qt_binding.QtGui import QPalette
 from python_qt_binding.QtGui import QMouseEvent
 from python_qt_binding.QtCore import Qt
@@ -193,7 +193,7 @@ class Smach(Plugin):
         self._widget.help_button.setIcon(QIcon.fromTheme('help-contents'))
         self._widget.help_button.clicked.connect(self._handle_help)
         self._widget.tree.clicked.connect(self._handle_tree_clicked)
-
+        self._widget.save_image_as_file.clicked.connect(self._handle_save_image_as_file)
         #Depth and width spinners:
         self._widget.depth_input.setRange(-1, 1337)
         self._widget.depth_input.setValue(-1)
@@ -265,6 +265,18 @@ class Smach(Plugin):
         self._tree_timer = QTimer(self)
         self._tree_timer.timeout.connect(self._update_tree)
         self._tree_timer.start(1217)
+    def _handle_save_image_as_file(self):
+        file_name, _ = QFileDialog.getSaveFileName(self._widget, self.tr('Save as image'), 'rosgraph.png',
+                                                   self.tr('Image (*.bmp *.jpg *.png *.tiff)'))
+        if file_name is None or file_name == '':
+            return
+
+        img = QImage(self._widget.xdot_widget.rect().size(), QImage.Format_ARGB32_Premultiplied)
+        painter = QPainter(img)
+        painter.setRenderHint(QPainter.Antialiasing)
+        self._widget.xdot_widget.render(painter)
+        painter.end()
+        img.save(file_name)
 
     def _handle_tree_clicked(self):
         selected = self._widget.tree.selectedItems()[0]
