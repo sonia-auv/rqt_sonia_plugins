@@ -271,10 +271,10 @@ class Smach(Plugin):
         if file_name is None or file_name == '':
             return
 
-        img = QImage(self._widget.xdot_widget.rect().size(), QImage.Format_ARGB32_Premultiplied)
+        img = QImage(QSize(self._widget.xdot_widget.graph.width,self._widget.xdot_widget.graph.height), QImage.Format_ARGB32_Premultiplied)
         painter = QPainter(img)
         painter.setRenderHint(QPainter.Antialiasing)
-        self._widget.xdot_widget.render(painter)
+        self._widget.xdot_widget.graph.draw(painter)
         painter.end()
         img.save(file_name)
 
