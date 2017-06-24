@@ -82,8 +82,6 @@ class ConfigureFilterchainWidget(QWidget):
 
         try:
             filters_string = self._srv_get_filterchain_filter(self._current_execution_name, self._current_filterchain)
-            if len(filters_string) == 0:
-                return
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
@@ -91,7 +89,7 @@ class ConfigureFilterchainWidget(QWidget):
 
         if len(filters_list) == 0:
             return
-        for filter in filters_list.sort():
+        for filter in filters_list:
             if len(filter) > 0:
                 self.filters.addItem(filter)
 
