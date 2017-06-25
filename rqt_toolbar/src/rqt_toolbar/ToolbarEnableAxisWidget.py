@@ -56,7 +56,7 @@ class EnableAxisWidget(QWidget):
             self.depthAxis.setPalette(self.paletteUnchecked.palette())
             self.yawAxis.setPalette(self.paletteUnchecked.palette())
             self.allAxis.setPalette(self.paletteUnchecked.palette())
-            self._enable_axis(X=0, Y=0,Z=0,PITCH=0,ROLL=0, YAW=0)
+            self._enable_axis(X=-1, Y=-1,Z=-1,PITCH=-1,ROLL=-1, YAW=-1)
 
     def _handle_xyAxis_clicked(self, checked):
         if checked:
