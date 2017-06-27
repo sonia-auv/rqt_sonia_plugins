@@ -49,12 +49,12 @@ class WaypointWidget(QMainWindow):
         self.set_initial_depth = rospy.ServiceProxy('/proc_navigation/set_depth_offset', SetDepthOffset)
         self.set_initial_position = rospy.ServiceProxy('/proc_navigation/set_world_x_y_offset', SetWorldXYOffset)
 
-        self.xPositionTarget.returnPressed.connect(self.send_position)
-        self.yPositionTarget.returnPressed.connect(self.send_position)
-        self.zPositionTarget.returnPressed.connect(self.send_position)
+        self.xPositionTarget.returnPressed.connect(self.send_positionXY)
+        self.yPositionTarget.returnPressed.connect(self.send_positionXY)
+        self.zPositionTarget.returnPressed.connect(self.send_positionZ)
         self.rollPositionTarget.returnPressed.connect(self.send_position)
         self.pitchPositionTarget.returnPressed.connect(self.send_position)
-        self.yawPositionTarget.returnPressed.connect(self.send_position)
+        self.yawPositionTarget.returnPressed.connect(self.send_positionYAW)
 
         self.actionReset_Depth.triggered.connect(self._reset_depth)
         self.actionReset_Position.triggered.connect(self._reset_position)
@@ -117,15 +117,26 @@ class WaypointWidget(QMainWindow):
         self.yawPositionTarget.setText('%.2f' % data.YAW)
 
     def send_position(self):
+        pass
+
+    def send_positionXY(self):
         x_target = float(self.xPositionTarget.text())
         y_target = float(self.yPositionTarget.text())
-        z_target = float(self.zPositionTarget.text())
-        roll_target = float(self.rollPositionTarget.text())
-        pitch_target = float(self.pitchPositionTarget.text())
-        yaw_target = float(self.yawPositionTarget.text())
         try:
             self.set_xy_global_target(X=x_target, Y=y_target)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
+    def send_positionZ(self):
+        z_target = float(self.zPositionTarget.text())
+        try:
             self.set_z_global_target(Z=z_target)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
+
+    def send_positionYAW(self):
+        yaw_target = float(self.yawPositionTarget.text())
+        try:
             self.set_yaw_global_target(YAW=yaw_target)
         except rospy.ServiceException as err:
             rospy.logerr(err)
