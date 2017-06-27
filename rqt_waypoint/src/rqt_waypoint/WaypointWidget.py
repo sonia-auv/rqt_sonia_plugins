@@ -7,7 +7,7 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
 from proc_control.msg import PositionTarget
-from proc_control.srv import SetPositionTarget, ClearWaypoint
+from proc_control.srv import SetPositionTarget, ClearWaypoint, SetXYTarget, SetYawTarget, SetZTarget
 from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
 
@@ -42,7 +42,10 @@ class WaypointWidget(QMainWindow):
         self.odom_result_received.connect(self._odom_result_received)
         self.current_target_received.connect(self._current_target_received)
 
-        self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
+        #self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
+        self.set_xy_global_target = rospy.ServiceProxy('/proc_control/set_xy_global_target', SetXYTarget)
+        self.set_z_global_target = rospy.ServiceProxy('/proc_control/set_z_global_target', SetZTarget)
+        self.set_yaw_global_target = rospy.ServiceProxy('/proc_control/set_yaw_global_target', SetYawTarget)
         self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
         self.set_initial_depth = rospy.ServiceProxy('/proc_navigation/set_depth_offset', SetDepthOffset)
         self.set_initial_position = rospy.ServiceProxy('/proc_navigation/set_world_x_y_offset', SetWorldXYOffset)
@@ -122,7 +125,10 @@ class WaypointWidget(QMainWindow):
         pitch_target = float(self.pitchPositionTarget.text())
         yaw_target = float(self.yawPositionTarget.text())
         try:
-            self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
+            #self.set_global_target(X=x_target, Y=y_target, Z=z_target,ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
+            self.set_xy_global_target(X=x_target, Y=y_target)
+            self.set_z_global_target(Z=z_target)
+            self.set_yaw_global_target(YAW=yaw_target)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
