@@ -7,7 +7,7 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
 from proc_control.msg import PositionTarget
-from proc_control.srv import SetPositionTarget, ClearWaypoint, SetXYTarget, SetYawTarget, SetZTarget
+from proc_control.srv import ClearWaypoint, SetXYTarget, SetYawTarget, SetZTarget
 from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
 
@@ -21,7 +21,7 @@ class WaypointWidget(QMainWindow):
         super(WaypointWidget, self).__init__()
         # Give QObjects reasonable names
         try:
-            rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
+            rospy.wait_for_service('/proc_control/set_xy_global_target', timeout=2)
             rospy.wait_for_service('/proc_control/clear_waypoint',timeout=2)
             rospy.wait_for_service('/proc_navigation/set_depth_offset',timeout=2)
             rospy.wait_for_service('/proc_navigation/set_world_x_y_offset', timeout=2)
@@ -42,7 +42,6 @@ class WaypointWidget(QMainWindow):
         self.odom_result_received.connect(self._odom_result_received)
         self.current_target_received.connect(self._current_target_received)
 
-        #self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
         self.set_xy_global_target = rospy.ServiceProxy('/proc_control/set_xy_global_target', SetXYTarget)
         self.set_z_global_target = rospy.ServiceProxy('/proc_control/set_z_global_target', SetZTarget)
         self.set_yaw_global_target = rospy.ServiceProxy('/proc_control/set_yaw_global_target', SetYawTarget)
@@ -125,7 +124,6 @@ class WaypointWidget(QMainWindow):
         pitch_target = float(self.pitchPositionTarget.text())
         yaw_target = float(self.yawPositionTarget.text())
         try:
-            #self.set_global_target(X=x_target, Y=y_target, Z=z_target,ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
             self.set_xy_global_target(X=x_target, Y=y_target)
             self.set_z_global_target(Z=z_target)
             self.set_yaw_global_target(YAW=yaw_target)

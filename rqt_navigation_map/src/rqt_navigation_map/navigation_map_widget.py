@@ -14,7 +14,7 @@ from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
 from MapDrawer import MapDrawer
 from proc_control.msg import PositionTarget
-from proc_control.srv import SetPositionTarget
+from proc_control.srv import SetXYTarget, SetZTarget, SetYawTarget
 
 
 # main class inherits from the ui window class
@@ -28,7 +28,7 @@ class NavigationMapWidget(QWidget):
         super(NavigationMapWidget, self).__init__()
         rp = rospkg.RosPack()
         try:
-            rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
+            rospy.wait_for_service('/proc_control/set_xy_global_target', timeout=2)
         except rospy.ROSException:
             False
 
@@ -61,7 +61,9 @@ class NavigationMapWidget(QWidget):
 
         self.odom_result_received.connect(self._odom_callback_signal)
         self.current_target_received.connect(self._position_target_callback_signal)
-        self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
+        self.set_xy_global_target = rospy.ServiceProxy('/proc_control/set_xy_global_target', SetXYTarget)
+        self.set_z_global_target = rospy.ServiceProxy('/proc_control/set_z_global_target', SetZTarget)
+        self.set_yaw_global_target = rospy.ServiceProxy('/proc_control/set_yaw_global_target', SetYawTarget)
 
         self._define_menu()
 
@@ -193,7 +195,9 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.drawTarget(position_x, position_y, position_z)
         rospy.loginfo('Set Target selected at (%.2f, %.2f)', position_x, position_y)
         try:
-            self.set_global_target(X=position_x, Y=position_y, Z=self._position[2], ROLL=0, PITCH=0, YAW=self._yaw)
+            self.set_xy_global_target(X=position_x, Y=position_y)
+            self.set_z_global_target(Z=self._position[2])
+            self.set_yaw_global_target(YAW=self._yaw)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
