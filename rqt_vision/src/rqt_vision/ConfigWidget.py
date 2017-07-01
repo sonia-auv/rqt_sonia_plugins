@@ -7,7 +7,7 @@ from tkFileDialog import askopenfilename
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from proc_image_processing.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain
+from proc_image_processing.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain, republish
 from provider_vision.srv import start_stop_media
 
 
@@ -89,7 +89,7 @@ class ConfigWidget(QWidget):
         media_list = media_string.list.split(';')
         if len(media_list) == 0:
             return
-        for media in media_list:
+        for media in sorted(media_list):
             if len(media) > 0:
                 self.media_list.addItem(media)
 
