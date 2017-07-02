@@ -64,7 +64,7 @@ class ConfigureFilterchainWidget(QWidget):
         all_filter_list = all_filter.list.split(';')
         if len(all_filter_list) == 0:
             return
-        for filter in all_filter_list:
+        for filter in sorted(all_filter_list):
             if len(filter) > 0:
                 self.all_filters.addItem(filter)
         self._current_filter_to_add = all_filter_list[0]
