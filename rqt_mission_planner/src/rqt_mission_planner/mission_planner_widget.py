@@ -166,6 +166,8 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             set_mission_client(received_mission_request)
             self.tabWidget.currentWidget().label_mission_name.setText(mission_name)
             self.tabWidget.currentWidget().paint_panel.update()
+
+            self._save_on_disk(os.path.join(self.mission_executor_mission_state_default_folder, mission_name))
         except rospy.ServiceException, e:
             print 'Mission Executor is not started'
             return
@@ -292,10 +294,13 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         root = Tk()
         root.withdraw()
         fout = asksaveasfilename(defaultextension='.yml', initialdir=self.mission_executor_mission_state_default_folder)
-        if fout:
-            with open(fout, 'w') as output:
+        self._save_on_disk(fout)
+
+    def _save_on_disk(self, filename):
+        if filename:
+            with open(filename, 'w') as output:
                 yaml.dump(self.renderer.create_container(), output, default_flow_style=False)
-                self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(fout))
+                self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(filename))
                 self.tabWidget.currentWidget().paint_panel.update()
 
     def load_states(self, directory):
