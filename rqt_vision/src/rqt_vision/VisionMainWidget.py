@@ -7,7 +7,7 @@ import time
 from python_qt_binding import loadUi
 from python_qt_binding.QtGui import QPainter, QImage
 from python_qt_binding.QtCore import Qt, pyqtSignal
-from python_qt_binding.QtWidgets import QMenu,QAction,QWidget
+from python_qt_binding.QtWidgets import QMenu, QAction, QWidget
 from sensor_msgs.msg import Image as SensorImage
 from proc_image_processing.msg import VisionTarget
 from proc_image_processing.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd, republish
@@ -22,6 +22,7 @@ from proc_image_processing.srv import get_information_list
 class VisionMainWidget(QWidget):
     result_change = pyqtSignal('QString')
     image_change = pyqtSignal('PyQt_PyObject')
+
     def __init__(self):
         super(VisionMainWidget, self).__init__()
         try:
@@ -48,9 +49,12 @@ class VisionMainWidget(QWidget):
         self.result_change.connect(self._handle_result)
         self.image_change.connect(self._handle_new_image)
         ##### Service
-        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
-        self._srv_get_filterchain_from_execution = rospy.ServiceProxy('/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
-        self._srv_get_media_from_execution = rospy.ServiceProxy('/proc_image_processing/get_media_from_execution', get_media_from_execution)
+        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list',
+                                                            get_information_list)
+        self._srv_get_filterchain_from_execution = rospy.ServiceProxy(
+            '/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
+        self._srv_get_media_from_execution = rospy.ServiceProxy('/proc_image_processing/get_media_from_execution',
+                                                                get_media_from_execution)
         self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
 
         self._srv_start_republisher = rospy.ServiceProxy('//image_republisher_node/republish', republish)
@@ -78,7 +82,8 @@ class VisionMainWidget(QWidget):
         self._menu.addAction(self._stop_recordAction)
         self._menu.addSeparator()
 
-        deleteAction = QAction(self.imageFrame.tr("Delete this execution"), self.imageFrame, triggered=self.delete_current_execution)
+        deleteAction = QAction(self.imageFrame.tr("Delete this execution"), self.imageFrame,
+                               triggered=self.delete_current_execution)
         self._menu.addAction(deleteAction)
 
     def fill_execution_list(self):
@@ -98,7 +103,6 @@ class VisionMainWidget(QWidget):
 
         except rospy.ServiceException as err:
             rospy.logerr(err)
-
 
     def current_execution_index_changed(self, index):
         self._refresh_clean()
@@ -120,12 +124,12 @@ class VisionMainWidget(QWidget):
         except:
             rospy.logerr('Republisher node is not stated !')
             self._current_execution_subscriber = rospy.Subscriber('/proc_image_processing/' + new_execution + '_image',
-                                                              SensorImage, self.current_execution_callback)
+                                                                  SensorImage, self.current_execution_callback)
 
-        self._current_execution_subscriber_result = rospy.Subscriber('/proc_image_processing/' + new_execution + '_result',
-                                                                     VisionTarget,
-                                                                     self.current_execution_result_callback)
-
+        self._current_execution_subscriber_result = rospy.Subscriber(
+            '/proc_image_processing/' + new_execution + '_result',
+            VisionTarget,
+            self.current_execution_result_callback)
 
     def _refresh_clean(self):
         if self._current_execution_subscriber is not None:
@@ -142,7 +146,7 @@ class VisionMainWidget(QWidget):
     def current_execution_callback(self, img):
         self.image_change.emit(img)
 
-    def _handle_new_image(self,img):
+    def _handle_new_image(self, img):
         try:
             if self._image_seq < img.header.seq:
                 cv_image = self.bridge.imgmsg_to_cv2(img, desired_encoding="rgb8")
@@ -154,8 +158,9 @@ class VisionMainWidget(QWidget):
                 if self._is_recording:
                     if self._video_writer is None:
                         four_cc = cv2.VideoWriter_fourcc(*'HFYU')
-                        self._video_writer = cv2.VideoWriter(self._recording_file_name, four_cc, float(15), (width,height))
-                    temp = cv2.cvtColor(cv_image,cv2.COLOR_BGR2RGB)
+                        self._video_writer = cv2.VideoWriter(self._recording_file_name, four_cc, float(15),
+                                                             (width, height))
+                    temp = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
                     self._video_writer.write(temp)
         except CvBridgeError as e:
             print(e)
@@ -181,10 +186,10 @@ class VisionMainWidget(QWidget):
                                                                                                       visionTarget.desc_2)
         self.result_change.emit(result)
 
-    def _handle_result(self,result):
+    def _handle_result(self, result):
         self.result_text.setText(result)
 
-    def image_frame_mouse_release_event(self,event):
+    def image_frame_mouse_release_event(self, event):
         if event.button() == Qt.RightButton:
             self._menu.exec_(self.imageFrame.mapToGlobal(event.pos()))
 
@@ -195,7 +200,7 @@ class VisionMainWidget(QWidget):
 
         try:
             media = self._srv_get_media_from_execution(self._current_execution)
-            self._srv_execute_cmd(self._current_execution,self._filterchain.list,media.list,2)
+            self._srv_execute_cmd(self._current_execution, self._filterchain.list, media.list, 2)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
@@ -230,10 +235,3 @@ class VisionMainWidget(QWidget):
         self._video_writer = None
         self._recordAction.setEnabled(True)
         self._stop_recordAction.setEnabled(False)
-
-
-
-
-
-
-
