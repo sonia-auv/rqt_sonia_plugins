@@ -147,6 +147,12 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>-99999</number>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="y_spin">
       <property name="geometry">
@@ -156,6 +162,12 @@
         <width>161</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="minimum">
+       <number>-99999</number>
+      </property>
+      <property name="maximum">
+       <number>999999</number>
       </property>
      </widget>
      <widget class="QSpinBox" name="width_spin">
@@ -167,6 +179,12 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>-9999</number>
+      </property>
+      <property name="maximum">
+       <number>9999</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="height_spin">
       <property name="geometry">
@@ -177,6 +195,12 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>-9999</number>
+      </property>
+      <property name="maximum">
+       <number>9999</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="angle_spin">
       <property name="geometry">
@@ -186,6 +210,12 @@
         <width>161</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="minimum">
+       <number>-9999</number>
+      </property>
+      <property name="maximum">
+       <number>9999</number>
       </property>
      </widget>
      <widget class="QLineEdit" name="spec_text">
