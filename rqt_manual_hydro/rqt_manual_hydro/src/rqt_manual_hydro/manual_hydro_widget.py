@@ -46,9 +46,9 @@ class ManualHydroWidget(QWidget):
 
     def _publish_in_continuous(self):
         while not rospy.is_shutdown() and self.thread_running:
-            print 'publishing'
+            print 'publishing hydro'
             target = PingPose()
-            target.pose.orientation.z = math.radians(self.heading_spin%360)
+            target.pose.orientation.z = math.radians(self.heading_spin.value() %360)
 
             self.topic_ping.publish(target)
             rospy.sleep(self.thread_duration.value())
