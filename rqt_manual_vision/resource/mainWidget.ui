@@ -20,7 +20,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Actuator</string>
+   <string>Vision emulation</string>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

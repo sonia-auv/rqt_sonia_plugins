@@ -3,8 +3,6 @@ import os
 import rospkg
 import rospy
 import time
-from std_msgs.msg import String
-from smach_msgs.msg import SmachContainerStatus
 from provider_actuators.srv import DoActionSrv, DoActionSrvRequest
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -21,6 +19,7 @@ class ActuatorWidget(QWidget):
         ui_file = os.path.join(rp.get_path('rqt_actuator'), 'resource', 'mainWidget.ui')
         loadUi(ui_file, self)
 
+        self.do_action_srv = rospy.ServiceProxy('/provider_actuators/do_action_srv', DoActionSrv)
         self.drop_port.clicked.connect(self._handle_drop_port)
         self.drop_starboard.clicked.connect(self._handle_drop_starboard)
         self.torpido_port.clicked.connect(self._handle_torpido_port)
