@@ -15,7 +15,7 @@ class HydroPingWidget(QWidget):
     def __init__(self):
         super(HydroPingWidget, self).__init__()
 
-        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_hydro_ping'), 'resource', 'mainwidget.ui')
+        ui_file = os.path.join(rospkg.RosPack().get_path('rqt_hydro_ping'), 'resource', 'mainwindow.ui')
         loadUi(ui_file, self)
         self.setWindowTitle('Hydro Ping')
 
@@ -24,7 +24,7 @@ class HydroPingWidget(QWidget):
 
         self.monitor_hydro_ping_msg.connect(self._received_thruster_msg)
 
-    def _handle_thruster_msg(self,msg):
+    def _handle_thruster_msg(self, msg):
         pass
         pass
 
