@@ -6,7 +6,8 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-from provider_thruster.msg import ThrusterEffort
+from provider_hydrophone.msg import PingMsg as provider_hydro_ping_msg
+from proc_hydrophone.msg import PingPose as proc_hydro_ping_msg
 
 
 class HydroPingWidget(QWidget):
@@ -18,6 +19,8 @@ class HydroPingWidget(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_hydro_ping'), 'resource', 'mainwindow.ui')
         loadUi(ui_file, self)
         self.setWindowTitle('Hydro Ping')
+
+        self.provider_hydro_subscriber = rospy.Subscriber('/provider_hydrophone/provider_hydrophone', provider_hydro_ping_msg,)
 
         self._thruster_subscriber = rospy.Subscriber('/provider_thruster/thruster_effort', ThrusterEffort,
                                                      self._handle_thruster_msg)
