@@ -58,5 +58,5 @@ class ManualVisionWidget(QWidget):
             rospy.sleep(self.thread_duration.value())
 
     def shutdown_plugin(self):
-        self.topic_result.unregister()
-        pass
+        if self.topic_result is not None:
+            self.topic_result.unregister()
