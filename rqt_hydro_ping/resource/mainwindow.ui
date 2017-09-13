@@ -118,6 +118,11 @@
         </column>
         <column>
          <property name="text">
+          <string>Amplitude</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>Heading</string>
          </property>
         </column>

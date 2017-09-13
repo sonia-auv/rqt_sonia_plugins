@@ -2,9 +2,13 @@ import os
 import rospy
 import rospkg
 
+from datetime import datetime
+
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
+
+#from python_qt_binding.QtGui import
 
 from provider_hydrophone.msg import PingMsg
 
@@ -37,11 +41,14 @@ class HydroPingWidget(QWidget):
     def _received_provider_hydro_ping_msg(self, msg):
         freq_value = self.slider_hydro_freq.value()
 
-        freq_value_min = freq_value - 1
-        freq_value_max = freq_value + 1
+        freq_range = range(freq_value - 1, freq_value + 1)
 
-        if freq_value_min >= freq_value <= freq_value_max:
-            self.table_hydro_ping_data.addItem(msg)
+        print(freq_range)
+        if freq_value in freq_range:
+            time = "{}:{}".format(msg.header.stamp.secs, msg.header.stamp.nsecs)
+            ls = [time, msg.header.seq, msg.noise, msg.heading,  msg.amplitude, msg.elevation]
+            print(ls)
+        #self.table_hydro_ping_data.addItems(ls)
 
 
     def shutdown_plugin(self):
