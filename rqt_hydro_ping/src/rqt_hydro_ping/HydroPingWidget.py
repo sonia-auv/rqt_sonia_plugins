@@ -7,8 +7,8 @@ from datetime import datetime
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
+from python_qt_binding.QtWidgets import QTableWidgetItem
 
-#from python_qt_binding.QtGui import
 
 from provider_hydrophone.msg import PingMsg
 
@@ -43,11 +43,32 @@ class HydroPingWidget(QWidget):
 
         freq_range = range(freq_value - 1, freq_value + 1)
 
+        rowPosition = self.table_hydro_ping_data.rowCount()
+        self.table_hydro_ping_data.insertRow(rowPosition)
+
+        time = "{}:{}".format(msg.header.stamp.secs, msg.header.stamp.nsecs)
+
+        time_item = QTableWidgetItem(time)
+        sequence_item = QTableWidgetItem(str(msg.header.seq))
+        noise_item = QTableWidgetItem(str(msg.noise))
+        heading_item = QTableWidgetItem(str(msg.heading))
+        amplitude_item = QTableWidgetItem(str(msg.amplitude))
+        elevation_item = QTableWidgetItem(str(msg.elevation))
+
+        self.table_hydro_ping_data.setItem(rowPosition, 0, time_item)
+        self.table_hydro_ping_data.setItem(rowPosition, 1, sequence_item)
+        self.table_hydro_ping_data.setItem(rowPosition, 2, noise_item)
+        self.table_hydro_ping_data.setItem(rowPosition, 3, heading_item)
+        self.table_hydro_ping_data.setItem(rowPosition, 4, amplitude_item)
+        self.table_hydro_ping_data.setItem(rowPosition, 5, elevation_item)
+
+        self.table_hydro_ping_data.resizeRowsToContents()
+
         print(freq_range)
-        if freq_value in freq_range:
-            time = "{}:{}".format(msg.header.stamp.secs, msg.header.stamp.nsecs)
-            ls = [time, msg.header.seq, msg.noise, msg.heading,  msg.amplitude, msg.elevation]
-            print(ls)
+        #if freq_value in freq_range:
+         #   time = "{}:{}".format(msg.header.stamp.secs, msg.header.stamp.nsecs)
+         #   ls = [time, msg.header.seq, msg.noise, msg.heading,  msg.amplitude, msg.elevation]
+            #print(ls)
         #self.table_hydro_ping_data.addItems(ls)
 
 
