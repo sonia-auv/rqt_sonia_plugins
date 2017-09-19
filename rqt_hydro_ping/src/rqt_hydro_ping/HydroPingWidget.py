@@ -14,7 +14,7 @@ from provider_hydrophone.msg import PingMsg
 
 
 class HydroPingWidget(QWidget):
-    PING_LIST_MAX_ITEM_COUNT = 50
+    PING_LIST_MAX_ITEM_COUNT = 250
     _monitor_hydro_ping_msg = pyqtSignal('PyQt_PyObject')
 
     def __init__(self):
@@ -26,7 +26,7 @@ class HydroPingWidget(QWidget):
 
         self.ping_list = []
 
-        self._provider_hydro_subscriber = rospy.Subscriber('/provider_hydrophone/provider_hydrophone', PingMsg,
+        self._provider_hydro_subscriber = rospy.Subscriber('/provider_hydrophone/ping', PingMsg,
                                                            self._handle_provider_hydro_ping_msg)
 
         self.slider_hydro_freq.valueChanged.connect(
@@ -89,8 +89,8 @@ class HydroPingWidget(QWidget):
         self.table_hydro_ping_data.insertRow(row_position)
 
         self.table_hydro_ping_data.setItem(row_position, 0, time_item)
-        self.table_hydro_ping_data.setItem(row_position, 1, sequence_item)
-        self.table_hydro_ping_data.setItem(row_position, 2, frequency_item)
+        self.table_hydro_ping_data.setItem(row_position, 1, frequency_item)
+        self.table_hydro_ping_data.setItem(row_position, 2, sequence_item)
         self.table_hydro_ping_data.setItem(row_position, 3, noise_item)
         self.table_hydro_ping_data.setItem(row_position, 4, heading_item)
         self.table_hydro_ping_data.setItem(row_position, 5, amplitude_item)
