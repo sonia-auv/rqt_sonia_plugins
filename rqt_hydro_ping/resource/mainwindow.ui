@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QWidget" name="QForm">
+ <widget class="QWidget" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>538</width>
+    <width>620</width>
     <height>329</height>
    </rect>
   </property>
@@ -22,7 +22,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>560</width>
+     <width>620</width>
      <height>0</height>
     </size>
    </property>
@@ -77,8 +77,14 @@
       </item>
       <item>
        <widget class="QTableWidget" name="table_hydro_ping_data">
+        <property name="minimumSize">
+         <size>
+          <width>620</width>
+          <height>400</height>
+         </size>
+        </property>
         <property name="columnCount">
-         <number>5</number>
+         <number>6</number>
         </property>
         <attribute name="horizontalHeaderCascadingSectionResizes">
          <bool>true</bool>
@@ -108,17 +114,17 @@
         </column>
         <column>
          <property name="text">
+          <string>Frequency</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
           <string>Sequence</string>
          </property>
         </column>
         <column>
          <property name="text">
           <string>Noise</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Amplitude</string>
          </property>
         </column>
         <column>
@@ -168,7 +174,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>538</width>
+     <width>620</width>
      <height>19</height>
     </rect>
    </property>
