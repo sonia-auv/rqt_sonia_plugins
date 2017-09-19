@@ -1,7 +1,7 @@
 <library path="src">
   <class name="ManualHydro" type="rqt_manual_hydro.manual_hydro.ManualHydro" base_class_type="rqt_gui_py::Plugin">
     <description>
-      A Python GUI plugin to launch actuators
+      Hydrophone manual simulator
     </description>
     <qtgui>
       <group>
@@ -10,13 +10,13 @@
         <statustip>Plugins related to visualization.</statustip>
       </group>
       <group>
-        <label>&amp;Vision</label>
+        <label>&amp;Hydro</label>
         <icon type="theme">folder</icon>
       </group>
 
-      <label>&amp;Manual Hydro</label>
+      <label>&amp;Hydrophone Manual Simulator</label>
       <icon type="theme">view-fullscreen</icon>
-      <statustip>A convivial interface to load mission</statustip>
+      <statustip>A convivial interface to simulation hydrophone</statustip>
     </qtgui>
   </class>
 </library>
