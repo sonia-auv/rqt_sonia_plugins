@@ -1,0 +1,22 @@
+<library path="src">
+  <class name="HydroPing" type="rqt_hydro_ping.HydroPing.HydroPing" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      Provide interface to view hydrophone ping data
+    </description>
+    <qtgui>
+      
+      <group>
+        <label>&amp;SONIA</label>
+        <icon type="theme">folder</icon>
+      </group>
+      <group>
+        <label>&amp;Hydro</label>
+        <icon type="theme">folder</icon>
+      </group>
+      
+      <label>Hydrophone Ping</label>
+      <icon type="theme">utilities-system-monitor</icon>
+      <statustip>Provide interface to filter hydrophone ping</statustip>
+    </qtgui>
+  </class>
+</library>
