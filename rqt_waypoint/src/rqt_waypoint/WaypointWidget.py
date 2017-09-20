@@ -22,8 +22,8 @@ class WaypointWidget(QMainWindow):
         # Give QObjects reasonable names
         try:
             rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
-            rospy.wait_for_service('/proc_control/clear_waypoint',timeout=2)
-            rospy.wait_for_service('/proc_navigation/set_depth_offset',timeout=2)
+            rospy.wait_for_service('/proc_control/clear_waypoint', timeout=2)
+            rospy.wait_for_service('/proc_navigation/set_depth_offset', timeout=2)
             rospy.wait_for_service('/proc_navigation/set_world_x_y_offset', timeout=2)
         except rospy.ROSException:
             False
