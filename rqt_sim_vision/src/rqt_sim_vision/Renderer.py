@@ -40,7 +40,7 @@ class Path:
         self.painter.setBrush(QBrush(QColor(100, 100, 255)))
 
         self.line.setP1(QPointF(int(pos_x), int(pos_y)))
-        self.line.setAngle(90 - angle)
+        self.line.setAngle(90)
         self.line.setLength(height)
 
         self.painter.drawLine(self.line)
