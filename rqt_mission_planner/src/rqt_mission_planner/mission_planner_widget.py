@@ -9,7 +9,7 @@ import tkMessageBox
 from Tkinter import Tk
 
 from tkFileDialog import asksaveasfilename, askopenfilename
-from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest
+from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest, NameChange
 
 from mission_model.state import fill_state_from_path, fill_submission_from_path
 from mission_model.parameter_table_model import ParameterTableModel, GlobalParameterTableModel
@@ -71,6 +71,12 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.renderer.add_state_listener(self)
 
         self.i = 0
+
+        self._name_change_service = rospy.Service('/mission_planning/name_change', NameChange, self._name_change)
+
+    def _name_change(self, req):
+        self.renderer.name_change(req.old_name, req.new_name)
+        return True
 
     def clean_tabs(self):
         while self.tabWidget.count() > 1:

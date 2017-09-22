@@ -1,5 +1,8 @@
+import rospy
+
+from controller_mission.srv import NameChange
 from python_qt_binding.QtCore import QAbstractTableModel, Qt, QVariant
-from rqt_mission_planner.Renderer import Renderer
+
 
 class ParameterTableModel(QAbstractTableModel):
     _current_state = None
@@ -55,6 +58,13 @@ class ParameterTableModel(QAbstractTableModel):
                         self._current_state.global_params[row].value = value
                 if name != self._current_state.name:
                     self._current_state.notify_name_changed(name, self._current_state.name)
+                    rospy.wait_for_service('/mission_planning/name_change')
+                    name_change_pub = rospy.ServiceProxy('/mission_planning/name_change', NameChange)
+                    try:
+                        name_change_pub(name, self._current_state.name)
+                    except rospy.ServiceException as exc:
+                        rospy.loginfo('Service did not process request: ' + str(exc))
+
                 self.dataChanged.emit(index, index)
             return True
 

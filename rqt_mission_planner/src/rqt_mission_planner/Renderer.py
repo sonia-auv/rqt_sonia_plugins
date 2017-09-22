@@ -242,8 +242,8 @@ class Renderer:
         print self.statesui
         for state in self.statesui:
             for transition in list(state.state.transitions):
-                if transition.state == self.current_selected_stateui.state.name:
-                    state.state.transitions.remove(transition)
+                if transition.state == old_name:
+                    transition.state = new_name
 
     def delete_transition(self, stateui, transition):
         stateui.remove_transition(transition)
