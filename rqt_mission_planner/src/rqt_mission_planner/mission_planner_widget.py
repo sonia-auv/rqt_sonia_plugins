@@ -37,7 +37,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.mission_executor_mission_state_default_folder = os.path.join(rp.get_path('controller_mission'), 'missions')
         loadUi(ui_file, self)
         new_tab = QWidget()
-        loadUi(self._tab_widget_ui_file,new_tab)
+        loadUi(self._tab_widget_ui_file, new_tab)
         self.state_directory = os.path.join(rp.get_path('controller_mission'), 'src', 'controller_mission', 'state')
         self.submission_directory = os.path.join(rp.get_path('controller_mission'), 'missions')
         self._handle_refresh_lists()
@@ -121,6 +121,23 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 return False
         return True
 
+    def validate_transition_name(self):
+        states_names = []
+        for state1 in self.renderer.statesui:
+            for parameter in state1.state.parameters:
+                if str(parameter.description) == 'state_name':
+                    states_names.append(parameter.value)
+
+        for state1 in self.renderer.statesui:
+            count = 0
+            for transition in list(state1.state.transitions):
+                for state_name in states_names:
+                    if transition.state == state_name:
+                        count += 1
+                if count == 0:
+                    return False
+        return True
+
     def valid_mission(self):
         if not self.validate_mission_has_root_state():
             root = Tk()
@@ -131,6 +148,11 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             root = Tk()
             root.withdraw()
             tkMessageBox.showerror("State name", 'State names must be unique !')
+            return False
+        if not self.validate_transition_name():
+            root = Tk()
+            root.withdraw()
+            tkMessageBox.showerror("Transition name", 'Transition name not fit with state name !')
             return False
 
         return True

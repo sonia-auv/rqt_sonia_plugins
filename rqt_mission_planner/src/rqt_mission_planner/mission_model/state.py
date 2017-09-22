@@ -16,6 +16,7 @@ class Parameter:
         if isinstance(self.value, basestring):
             self.value = self.value.replace('\'','').replace('"','')
 
+
 class Transition:
     def __init__(self, outcome_name, state_name):
         self.outcome, self.state = outcome_name, state_name
@@ -31,13 +32,12 @@ class State:
     global_params = []
     base_file = None
     subscribers = []
-    
 
     def notify_name_changed(self, old_name, new_name):
         for subscriber in self.subscribers:
             subscriber(old_name, new_name)
 
-    def __init__(self, name,base_file):
+    def __init__(self, name, base_file):
         self._name = name
         self.base_file = base_file
         self.parameters = []

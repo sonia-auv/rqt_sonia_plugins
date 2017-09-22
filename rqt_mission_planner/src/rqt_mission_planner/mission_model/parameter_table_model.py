@@ -1,5 +1,5 @@
 from python_qt_binding.QtCore import QAbstractTableModel, Qt, QVariant
-
+from rqt_mission_planner.Renderer import Renderer
 
 class ParameterTableModel(QAbstractTableModel):
     _current_state = None

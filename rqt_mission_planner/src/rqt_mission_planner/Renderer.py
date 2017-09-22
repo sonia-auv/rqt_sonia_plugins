@@ -14,7 +14,6 @@ from python_qt_binding.QtWidgets import QAction, QMenu
 from python_qt_binding.QtCore import QPointF, QRect, Qt
 
 
-
 class TransitionUI:
     def __init__(self,name, state1, state2):
         self.name,self.state1, self.state2 = name,state1, state2
@@ -116,6 +115,7 @@ class StateUI:
         return math.pow(pos.x() - self.get_x() * scale, 2) + math.pow(pos.y() - self.get_y() * scale, 2) < math.pow(
             self.radius * scale / 2, 2)
 
+
 class Renderer:
     EDIT = 0
     TRANSITION = 1
@@ -175,6 +175,9 @@ class Renderer:
                     for transition in list(state.transitions):
                         if transition.state2 == self.current_selected_stateui:
                             state.transitions.remove(transition)
+                    for transition in list(state.state.transitions):
+                        if transition.state == self.current_selected_stateui.state.name:
+                            state.state.transitions.remove(transition)
                 self.current_selected_stateui = None
                 self.paint_panel.update()
         return self.paint_panel_key_press_event_original(event)
@@ -235,7 +238,14 @@ class Renderer:
             return
         pass
 
-    def delete_transition(self,stateui,transition):
+    def name_change(self, old_name, new_name):
+        print self.statesui
+        for state in self.statesui:
+            for transition in list(state.state.transitions):
+                if transition.state == self.current_selected_stateui.state.name:
+                    state.state.transitions.remove(transition)
+
+    def delete_transition(self, stateui, transition):
         stateui.remove_transition(transition)
         self.paint_panel.update()
 
