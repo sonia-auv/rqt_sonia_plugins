@@ -72,12 +72,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
         self.i = 0
 
-        self._name_change_service = rospy.Service('/mission_planning/name_change', NameChange, self._name_change)
-
-    def _name_change(self, req):
-        self.renderer.name_change(req.old_name, req.new_name)
-        return True
-
     def clean_tabs(self):
         while self.tabWidget.count() > 1:
             self.tabWidget.removeTab(self.tabWidget.count()-1)
@@ -129,19 +123,30 @@ class MissionPlannerWidget(QMainWindow, StateListener):
 
     def validate_transition_name(self):
         states_names = []
-        for state1 in self.renderer.statesui:
-            for parameter in state1.state.parameters:
+        not_good_transitions = []
+        for stateUI in self.renderer.statesui:
+            for parameter in stateUI.state.parameters:
                 if str(parameter.description) == 'state_name':
                     states_names.append(parameter.value)
 
-        for state1 in self.renderer.statesui:
+        for stateUI in self.renderer.statesui:
             count = 0
-            for transition in list(state1.state.transitions):
+            for transition in list(stateUI.state.transitions):
                 for state_name in states_names:
                     if transition.state == state_name:
                         count += 1
                 if count == 0:
-                    return False
+                    not_good_transitions.append(transition.state)
+
+        if len(not_good_transitions):
+            root = Tk()
+            root.withdraw()
+            message = 'Transition name not fit with state name : \n'
+            for msg in not_good_transitions:
+                message += '-- ' + msg + '\n'
+            tkMessageBox.showerror("Transition name", message)
+            return False
+
         return True
 
     def valid_mission(self):
@@ -156,9 +161,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             tkMessageBox.showerror("State name", 'State names must be unique !')
             return False
         if not self.validate_transition_name():
-            root = Tk()
-            root.withdraw()
-            tkMessageBox.showerror("Transition name", 'Transition name not fit with state name !')
             return False
 
         return True
@@ -214,6 +216,11 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.renderer.add_global_parameters(name, value)
         self.global_table_model.global_params_changed(self.renderer.globalparams)
 
+    def _state_subscribers(self):
+        pass
+        for stateUI in self.renderer.statesui:
+            stateUI.state.subscribers.append(self.renderer.name_change)
+
     def _load_mission_remotely(self, mission_name):
 
         try:
@@ -225,6 +232,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
             self.renderer.missionContainer = yaml.load(mission_content.content)
             self.verify_difference_with_current_states()
             self.renderer.statesui = self.renderer.missionContainer.statesui
+            self._state_subscribers()
             self.renderer.globalparams = self.renderer.missionContainer.globalparams
             self.global_table_model.global_params_changed(self.renderer.globalparams)
             self.tabWidget.currentWidget().label_mission_name.setText(mission_name)
@@ -311,6 +319,7 @@ class MissionPlannerWidget(QMainWindow, StateListener):
                 self.renderer.missionContainer = yaml.load(inputfile)
                 self.verify_difference_with_current_states()
                 self.renderer.statesui = self.renderer.missionContainer.statesui
+                self._state_subscribers()
                 self.renderer.globalparams = self.renderer.missionContainer.globalparams
                 self.global_table_model.global_params_changed(self.renderer.globalparams)
                 self.tabWidget.currentWidget().label_mission_name.setText(os.path.basename(fin))

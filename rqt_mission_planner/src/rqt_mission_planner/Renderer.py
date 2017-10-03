@@ -15,8 +15,8 @@ from python_qt_binding.QtCore import QPointF, QRect, Qt
 
 
 class TransitionUI:
-    def __init__(self,name, state1, state2):
-        self.name,self.state1, self.state2 = name,state1, state2
+    def __init__(self, name, state1, state2):
+        self.name, self.state1, self.state2 = name, state1, state2
 
     def draw(self, painter):
         angle = math.atan2(self.state2.get_y() - self.state1.get_y(), self.state2.get_x() - self.state1.get_x())
@@ -36,10 +36,12 @@ class TransitionUI:
                          state2_position_x - (20 * math.cos(angle - (math.pi / 4))),
                          state2_position_y - (20 * math.sin(angle - (math.pi / 4))))
 
-        painter.drawText(state1_position_x + (state2_position_x - state1_position_x)/2 + 20*abs(math.sin(angle)),state1_position_y + (state2_position_y-state1_position_y)/2 + 20 *abs(math.cos(angle)),self.name)
+        painter.drawText(state1_position_x + (state2_position_x - state1_position_x) / 2 + 20 * abs(math.sin(angle)),
+                         state1_position_y + (state2_position_y - state1_position_y) / 2 + 20 * abs(math.cos(angle)),
+                         self.name)
 
 
-#This is used while creating a transition to create a line following mouse.
+# This is used while creating a transition to create a line following mouse.
 class DummyTransition:
     def __init__(self, state, pos):
         self.state, self.pos = state, pos
@@ -75,6 +77,7 @@ class StateUI:
         self.calculate_radius()
 
     def state_name_changed(self, old, new):
+        print old, new
         self.calculate_radius()
 
     def setPosition(self, x, y):
@@ -97,7 +100,8 @@ class StateUI:
     def draw(self, painter):
         painter.drawEllipse(self.position[0], self.position[1], self.radius,
                             self.radius)
-        painter.drawText(QRect(self.position[0], self.position[1], self.radius, self.radius), Qt.AlignCenter, self.state.name);
+        painter.drawText(QRect(self.position[0], self.position[1], self.radius, self.radius), Qt.AlignCenter,
+                         self.state.name);
 
         for transition in self.transitions:
             transition.draw(painter)
@@ -146,7 +150,7 @@ class Renderer:
         self.current_selected_globalparam = None
 
         self.state_listeners = []
-        
+
         self.missionContainer = []
         self.statesui = []
         self.globalparams = []
@@ -197,17 +201,24 @@ class Renderer:
         menu.addSeparator()
         transition_delete = QMenu('Remove Transition', self.paint_panel)
         for transition in self.current_selected_stateui.transitions:
-            transition_delete.addAction(QAction(self.paint_panel.tr(transition.name + ' : ' + transition.state2.state.name),self.paint_panel,triggered=functools.partial(self.delete_transition,self.current_selected_stateui,transition)))
+            transition_delete.addAction(
+                QAction(self.paint_panel.tr(transition.name + ' : ' + transition.state2.state.name), self.paint_panel,
+                        triggered=functools.partial(self.delete_transition, self.current_selected_stateui, transition)))
         menu.addMenu(transition_delete)
 
         menu.addSeparator()
         if self.current_selected_stateui.state.is_submission:
-            action_open_sub_mission = QAction(self.paint_panel.tr('Open Sub-Mission from CM...'),self.paint_panel,triggered=functools.partial(self.load_submission_from_cm,self.current_selected_stateui))
+            action_open_sub_mission = QAction(self.paint_panel.tr('Open Sub-Mission from CM...'), self.paint_panel,
+                                              triggered=functools.partial(self.load_submission_from_cm,
+                                                                          self.current_selected_stateui))
             menu.addAction(action_open_sub_mission)
         else:
-            action_open_file = QAction(self.paint_panel.tr('Open in Editor...'),self.paint_panel,triggered=functools.partial(self.open_state_file,self.current_selected_stateui))
+            action_open_file = QAction(self.paint_panel.tr('Open in Editor...'), self.paint_panel,
+                                       triggered=functools.partial(self.open_state_file, self.current_selected_stateui))
             menu.addAction(action_open_file)
-            action_push_state = QAction(self.paint_panel.tr('Push State Code to CM...'),self.paint_panel,triggered=functools.partial(self.push_state_to_CM,self.current_selected_stateui))
+            action_push_state = QAction(self.paint_panel.tr('Push State Code to CM...'), self.paint_panel,
+                                        triggered=functools.partial(self.push_state_to_CM,
+                                                                    self.current_selected_stateui))
             menu.addAction(action_push_state)
 
         return menu
@@ -216,10 +227,10 @@ class Renderer:
         self.load_submission_in_other_tab_function(stateui.state.submission_file)
         pass
 
-    def open_state_file(self,stateui):
+    def open_state_file(self, stateui):
         subprocess.call(["xdg-open", self.controller_mission_directory + stateui.state.base_file])
 
-    def push_state_to_CM(self,stateui):
+    def push_state_to_CM(self, stateui):
         try:
             with open(self.controller_mission_directory + stateui.state.base_file, 'r') as myfile:
                 data = myfile.read()
@@ -239,7 +250,6 @@ class Renderer:
         pass
 
     def name_change(self, old_name, new_name):
-        print self.statesui
         for state in self.statesui:
             for transition in list(state.state.transitions):
                 if transition.state == old_name:
@@ -255,9 +265,10 @@ class Renderer:
         self.paint_panel.setCursor(Qt.CrossCursor)
 
     def add_state(self, state):
-        state = StateUI(state, (100, 100))
-        self.statesui.append(state)
+        stateui = StateUI(state, (100, 100))
+        self.statesui.append(stateui)
         self.paint_panel.update()
+        stateui.state.subscribers.append(self.name_change)
 
     def find_stateui_by_name(self, name):
         for stateui in self.statesui:
@@ -281,7 +292,8 @@ class Renderer:
         for state in self.statesui:
             if state.contains(current_mouse_position, self.scale_value):
                 if self.current_paint_mode == self.TRANSITION:
-                    self.current_selected_stateui.add_transition(TransitionUI(self.current_transition, self.current_selected_stateui, state))
+                    self.current_selected_stateui.add_transition(
+                        TransitionUI(self.current_transition, self.current_selected_stateui, state))
                     self.dummy_transition_line = None
                     self.paint_panel.setCursor(Qt.ArrowCursor)
                     self.current_paint_mode = self.EDIT
@@ -292,7 +304,7 @@ class Renderer:
                     self._state_selection_changed(self.current_selected_stateui.state)
                     self.paint_panel.update()
                     return
-                
+
         self.dummy_transition_line = None
         self.paint_panel.setCursor(Qt.ArrowCursor)
         self.current_paint_mode = self.EDIT
@@ -312,8 +324,9 @@ class Renderer:
         if self.current_paint_mode == self.TRANSITION:
             # draw transition following mouse.
             self.dummy_transition_line = DummyTransition(self.current_selected_stateui,
-                                                         (mouseEvent.x() / self.scale_value - self.translated_position.x(),
-                                                          mouseEvent.y() / self.scale_value - self.translated_position.y()))
+                                                         (
+                                                         mouseEvent.x() / self.scale_value - self.translated_position.x(),
+                                                         mouseEvent.y() / self.scale_value - self.translated_position.y()))
         else:
             if self.mouse_pressed:
                 if self.last_position_moved and self.current_selected_stateui:
@@ -378,10 +391,9 @@ class Renderer:
 
     def create_container(self):
         return MissionContainer(self.statesui, self.globalparams)
-        
-        
+
+
 class MissionContainer:
-    def __init__(self,statesui, globalparams):
+    def __init__(self, statesui, globalparams):
         self.statesui = statesui
         self.globalparams = globalparams
-

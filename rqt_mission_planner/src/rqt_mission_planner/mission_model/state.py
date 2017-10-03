@@ -33,16 +33,17 @@ class State:
     base_file = None
     subscribers = []
 
-    def notify_name_changed(self, old_name, new_name):
-        for subscriber in self.subscribers:
-            subscriber(old_name, new_name)
-
     def __init__(self, name, base_file):
         self._name = name
         self.base_file = base_file
         self.parameters = []
         self.transitions = []
         self.outcome_states = []
+        self.subscribers = []
+
+    def notify_name_changed(self, old_name, new_name):
+        for subscriber in self.subscribers:
+            subscriber(old_name, new_name)
 
     @property
     def submission_file(self):
