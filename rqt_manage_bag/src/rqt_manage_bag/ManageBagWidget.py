@@ -30,6 +30,7 @@ class ManageBagWidget(QMainWindow):
         self.start_time = None
         self.stop_time = None
         self.check_time = False
+        self.i = 0
 
         self.actionLoad_bag_File.triggered.connect(self._handle_load)
         self.StartpushButton.clicked.connect(self._handle_start)
@@ -74,7 +75,9 @@ class ManageBagWidget(QMainWindow):
 
         outbag.reindex()
 
-        rospy.loginfo('The new bag is create')
+        self.i += 1
+
+        rospy.loginfo('The new bag is create %i' % self.i)
 
     def _handle_start_test_triggered(self):
         pass
