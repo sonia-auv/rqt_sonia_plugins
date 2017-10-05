@@ -38,20 +38,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="Bag_name">
-         <property name="maximumSize">
-          <size>
-           <width>10000</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 255, 255);</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
+        <widget class="QLineEdit" name="BagName"/>
        </item>
       </layout>
      </widget>

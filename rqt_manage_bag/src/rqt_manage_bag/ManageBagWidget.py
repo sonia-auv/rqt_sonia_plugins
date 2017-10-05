@@ -40,12 +40,13 @@ class ManageBagWidget(QMainWindow):
         root.withdraw()
         self.bag_file = askopenfilename(defaultextension='.bag', initialdir=expanduser("~/Bags"))
         if self.bag_file:
-            self.Bag_name.setText(self.bag_file)
+            self.BagName.setText(self.bag_file)
             self.ros_bag = rosbag.Bag(self.bag_file)
 
     def _handle_start(self):
         self.topic_name = self.TopicName.text()
         self.new_ros_bag = self.NewBagName.text()
+        self.bag_file = self.BagName.text()
         if self.CheckTime.checkState():
             self.check_time = True
             self.start_time = int(self.StartTime.text())
