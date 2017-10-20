@@ -1,0 +1,21 @@
+<library path="lib/libagent_gui">
+  <class name="TestBoard" type="rqt_test_board.test_board_control.TestBoard" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      A Python GUI plugin for provider power
+    </description>
+    <qtgui>
+      <group>
+        <label>&amp;SONIA</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to visualization.</statustip>
+      </group>
+      <group>
+        <label>&amp;Ele</label>
+        <icon type="theme">folder</icon>
+      </group>
+      <label>&amp;Test_board</label>
+      <icon type="theme">view-fullscreen</icon>
+      <statustip>A convivial interface to test board</statustip>
+    </qtgui>
+  </class>
+</library>
