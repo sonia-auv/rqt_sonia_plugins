@@ -7,29 +7,29 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>300</height>
+    <height>366</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>260</width>
-    <height>300</height>
+    <height>350</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>260</width>
-    <height>300</height>
+    <height>366</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Mission Planning Tool</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QWidget" name="widget" native="true">
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QLabel" name="Polling">
          <property name="layoutDirection">
@@ -148,6 +148,19 @@
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="SingleSend">
+         <property name="text">
+          <string>Single Send</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
