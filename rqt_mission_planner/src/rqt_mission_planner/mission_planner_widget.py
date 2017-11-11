@@ -9,7 +9,7 @@ import tkMessageBox
 from Tkinter import Tk
 
 from tkFileDialog import asksaveasfilename, askopenfilename
-from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest, NameChange
+from controller_mission.srv import ReceivedMission, ReceivedMissionRequest, SendMission, SendMissionRequest
 
 from mission_model.state import fill_state_from_path, fill_submission_from_path
 from mission_model.parameter_table_model import ParameterTableModel, GlobalParameterTableModel

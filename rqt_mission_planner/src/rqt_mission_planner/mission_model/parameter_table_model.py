@@ -1,6 +1,5 @@
 import rospy
 
-from controller_mission.srv import NameChange
 from python_qt_binding.QtCore import QAbstractTableModel, Qt, QVariant
 
 

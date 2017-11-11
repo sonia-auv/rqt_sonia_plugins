@@ -39,7 +39,6 @@ class State:
         self.parameters = []
         self.transitions = []
         self.outcome_states = []
-        self.subscribers = []
 
     def notify_name_changed(self, old_name, new_name):
         for subscriber in self.subscribers:
