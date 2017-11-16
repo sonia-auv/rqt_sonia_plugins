@@ -30,13 +30,7 @@ class TestBoardWidget(QMainWindow):
             self.slave = int(self.Slave.text())
             self.cmd = int(self.Cmd.text())
             data = self.Data.text()[1:][:-1]
-            for i in data:
-                if i != ',':
-                    data_list.append(int(i))
-
-            print data_list
-
-
+            exec ('data_list = [{}]'.format(data))
             self.data = data_list
             self.rate = rospy.Rate(int(self.Rate.text()))
             self.thread_running = True
