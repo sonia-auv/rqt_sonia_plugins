@@ -26,9 +26,18 @@ class TestBoardWidget(QMainWindow):
 
     def _handle_start(self):
         try:
+            data_list = []
             self.slave = int(self.Slave.text())
             self.cmd = int(self.Cmd.text())
-            self.data = list([int(self.Data.text())])
+            data = self.Data.text()[1:][:-1]
+            for i in data:
+                if i != ',':
+                    data_list.append(int(i))
+
+            print data_list
+
+
+            self.data = data_list
             self.rate = rospy.Rate(int(self.Rate.text()))
             self.thread_running = True
             self.thread = Thread(target=self._publish_in_continuous)
