@@ -43,14 +43,21 @@ class BatteryWidget(QWidget):
         self.psu_received.emit(data)
 
     def _handle_result(self, msg):
+        nb = 0
         if msg.cmd == self.cmd_ps_vbatt and msg.slave == self.slave:
             self.battery_slider.setValue(int(msg.data * 100))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 
+        if msg.data <= 15.0:
+            nb += 1
+        else:
+            nb = 0
+
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
 
-        if msg.data <= 15.0 and self.nb_msg == 0:
+        if msg.data <= 15.0 and self.nb_msg == 0 and nb == 20:
+            nb = 0
             self.time = rospy.get_time()
             self.nb_msg = 1
             root = Tk()
