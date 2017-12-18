@@ -107,24 +107,33 @@ class WaypointWidget(QMainWindow):
         self.current_target_received.emit(data)
 
     def _current_target_received(self,data):
-        self.xPositionTarget.setText('%.2f' % data.X)
-        self.yPositionTarget.setText('%.2f' % data.Y)
-        self.zPositionTarget.setText('%.2f' % data.Z)
-        self.rollPositionTarget.setText('%.2f' % data.ROLL)
-        self.pitchPositionTarget.setText('%.2f' % data.PITCH)
-        self.yawPositionTarget.setText('%.2f' % data.YAW)
+        try:
+            self.xPositionTarget.setText('%.2f' % data.X)
+            self.yPositionTarget.setText('%.2f' % data.Y)
+            self.zPositionTarget.setText('%.2f' % data.Z)
+            self.rollPositionTarget.setText('%.2f' % data.ROLL)
+            self.pitchPositionTarget.setText('%.2f' % data.PITCH)
+            self.yawPositionTarget.setText('%.2f' % data.YAW)
+        except ValueError:
+            pass
 
     def send_position(self):
-        x_target = float(self.xPositionTarget.text())
-        y_target = float(self.yPositionTarget.text())
-        z_target = float(self.zPositionTarget.text())
-        roll_target = float(self.zPositionTarget.text())
-        pitch_target = float(self.pitchPositionTarget.text())
-        yaw_target = float(self.yawPositionTarget.text())
         try:
-            self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target, YAW=yaw_target)
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+            x_target = float(self.xPositionTarget.text())
+            y_target = float(self.yPositionTarget.text())
+            z_target = float(self.zPositionTarget.text())
+            roll_target = float(self.rollPositionTarget.text())
+            pitch_target = float(self.pitchPositionTarget.text())
+            yaw_target = float(self.yawPositionTarget.text())
+            try:
+                self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target,
+                                       YAW=yaw_target)
+            except rospy.ServiceException as err:
+                rospy.logerr(err)
+        except ValueError:
+            pass
+
+
 
     def shutdown_plugin(self):
         self._odom_subscriber.unregister()
