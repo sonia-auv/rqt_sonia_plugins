@@ -10,6 +10,7 @@ from ToolbarBatteryWidget import BatteryWidget
 from ToolbarCpuTempWidget import CpuTempWidget
 from ToolbarKillmissionWidget import KillMissionWidget
 from ToolbarCameraWidget import CameraWidget
+from ToolbarControlModeWidget import ControlModeWidget
 from Palette import Palette
 
 
@@ -44,9 +45,11 @@ class ToolBar(Plugin):
         self._batteryWidget1 = BatteryWidget(1, 1)
         self._batteryWidget2 = BatteryWidget(2, 3)
         self._tempWidget = CpuTempWidget()
+        self._controlModeWidget = ControlModeWidget()
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
+        self._toolbar.addWidget(self._controlModeWidget)
         self._toolbar.addWidget(self._camera)
         self._toolbar.addWidget(self._tempWidget)
         self._toolbar.addWidget(self._batteryWidget1)

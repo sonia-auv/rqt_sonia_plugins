@@ -217,7 +217,6 @@ class MissionPlannerWidget(QMainWindow, StateListener):
         self.global_table_model.global_params_changed(self.renderer.globalparams)
 
     def _state_subscribers(self):
-        pass
         for stateUI in self.renderer.statesui:
             stateUI.state.subscribers.append(self.renderer.name_change)
 
