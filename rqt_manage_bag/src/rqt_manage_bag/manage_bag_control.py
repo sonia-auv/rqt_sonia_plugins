@@ -26,7 +26,9 @@ class ManageBag(Plugin):
         self._mainWindow.setPalette(context._handler._main_window.palette())
         self._mainWindow.setAutoFillBackground(True)
         # Add widget to the user interface
+
         context.add_widget(self._mainWindow)
+
 
     def shutdown_plugin(self):
         self._mainWindow.shutdown_plugin()
