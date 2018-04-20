@@ -76,12 +76,7 @@ class ManageBagWidget(QMainWindow):
         self.topic_name = self.TopicName.text()
         self.new_ros_bag = self.NewBagName.text()
         self.bag_file = self.BagName.text()
-        try:
-            self.start_thread()
-        except:
-            self._mainWindow.StartpushButton.setEnabled(False)
-            self._mainWindow.RunpushButton.setEnabled(True)
-            rospy.logerr('Sorry something wrong')
+        self.start_thread()
 
     def start_thread(self):
         t1 = threading.Thread(target=self.manage_bag)
@@ -89,29 +84,33 @@ class ManageBagWidget(QMainWindow):
         t1.start()
 
     def manage_bag(self):
-        # TODO : Handle error
-        outbag = rosbag.Bag(expanduser("~/Bags") + '/' + self.new_ros_bag, 'w')
-        pub = rospy.Publisher(self.topic_name, CompressedImage, queue_size=100)
-        for topic, msg, t in self.ros_bag.read_messages():
-            rate = rospy.Rate(self.frame)
-            start, stop = self.start, self.stop
-            if topic == self.topic_name:
-                pub.publish(msg)
+        try:
+            outbag = rosbag.Bag(expanduser("~/Bags") + '/' + self.new_ros_bag, 'w')
+            pub = rospy.Publisher(self.topic_name, CompressedImage, queue_size=100)
+            for topic, msg, t in self.ros_bag.read_messages():
+                rate = rospy.Rate(self.frame)
+                start, stop = self.start, self.stop
+                if topic == self.topic_name:
+                    pub.publish(msg)
 
-                if start and not stop:
-                    outbag.write(topic, msg, t)
-            rate.sleep()
+                    if start and not stop:
+                        outbag.write(topic, msg, t)
+                rate.sleep()
 
-        outbag.close()
+            outbag.close()
 
-        outbag.reindex()
+            outbag.reindex()
 
-        self.i += 1
-        self.StartpushButton.setEnabled(False)
-        self.StoppushButton.setEnabled(False)
-        self.RunpushButton.setEnabled(True)
+            self.i += 1
+            self.StartpushButton.setEnabled(False)
+            self.StoppushButton.setEnabled(False)
+            self.RunpushButton.setEnabled(True)
 
-        rospy.loginfo('The new bag is create %i' % self.i)
+            rospy.loginfo('The new bag is create %i' % self.i)
+        except:
+            self.StartpushButton.setEnabled(False)
+            self.RunpushButton.setEnabled(True)
+            rospy.logerr('Sorry something wrong')
 
     def _handle_start_test_triggered(self):
         pass
@@ -131,39 +130,3 @@ class ManageBagWidget(QMainWindow):
         # TODO restore intrinsic configuration, usually using:
         # v = instance_settings.value(k)
         pass
-
-
-class RunSaveBag:
-
-    def __init__(self, main_window):
-        self.main_window = main_window
-        self.i = 0
-
-    def manage_bag(self):
-        while not rospy.is_shutdown():
-            if self.main_window.run:
-                outbag = rosbag.Bag(expanduser("~/Bags") + '/' + self.main_window.new_ros_bag, 'w')
-                pub = rospy.Publisher(self.main_window.topic_name, CompressedImage, queue_size=100)
-                rate = rospy.Rate(10)
-                for topic, msg, t in self.main_window.ros_bag.read_messages():
-                    start, stop = self.main_window.start, self.main_window.stop
-                    print topic
-                    if topic == self.main_window.topic_name:
-                        pub.publish(msg)
-
-                        if start and not stop:
-                            print 'salut'
-                            #outbag.write(topic, msg, t)
-                    rate.sleep()
-
-                outbag.close()
-
-                outbag.reindex()
-
-                self.i += 1
-                self.main_window.StartpushButton.setEnabled(False)
-                self.main_window.StoppushButton.setEnabled(False)
-                self.main_window.RunpushButton.setEnabled(True)
-
-                rospy.loginfo('The new bag is create %i' % self.i)
-                self.main_window.run = False
