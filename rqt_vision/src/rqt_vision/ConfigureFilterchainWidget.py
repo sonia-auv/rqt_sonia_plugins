@@ -112,20 +112,20 @@ class ConfigureFilterchainWidget(QWidget):
 
         try:
             all_param = self._srv_get_filterchain_filter_all_param(self._current_execution_name,self._current_filterchain,self._current_filter)
+            params = all_param.list.split(';')
+            for param_index, param in enumerate(params):
+                param_tab = param.split('|')
+                if len(param_tab) <> 6:
+                    continue
+                param_name = param_tab[0]
+                param_type = param_tab[1]
+                param_value = param_tab[2]
+                param_min = param_tab[3]
+                param_max = param_tab[4]
+                param_desc = param_tab[5]
+                self._load_parameter(param_index,param_name, param_type,param_value,param_min, param_max, param_desc)
         except rospy.ServiceException as err:
             rospy.logerr(err)
-        params = all_param.list.split(';')
-        for param_index, param in enumerate(params):
-            param_tab = param.split('|')
-            if len(param_tab) <> 6:
-                continue
-            param_name = param_tab[0]
-            param_type = param_tab[1]
-            param_value = param_tab[2]
-            param_min = param_tab[3]
-            param_max = param_tab[4]
-            param_desc = param_tab[5]
-            self._load_parameter(param_index,param_name, param_type,param_value,param_min, param_max, param_desc)
 
     def clear_parameters(self):
         for label in self.parameters.findChildren(QLabel):

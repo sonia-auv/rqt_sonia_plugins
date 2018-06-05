@@ -94,7 +94,7 @@ class ManageBagWidget(QMainWindow):
                     pub.publish(msg)
 
                     if start and not stop:
-                        outbag.write(topic, msg, t)
+                        outbag.write(topic, msg)
                 rate.sleep()
 
             outbag.close()
