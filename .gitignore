@@ -163,3 +163,7 @@ build/
 devel/
 /src/CMakeLists.txt
 test/*.xml
+
+
+# VSCode
+.vscode/
