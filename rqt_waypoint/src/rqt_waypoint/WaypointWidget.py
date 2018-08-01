@@ -121,7 +121,7 @@ class WaypointWidget(QMainWindow):
         try:
             x_target = float(self.xPositionTarget.text())
             y_target = float(self.yPositionTarget.text())
-            z_target = float(self.zPositionTarget.text())
+            z_target = min(float(self.zPositionTarget.text()), 3)
             roll_target = float(self.rollPositionTarget.text())
             pitch_target = float(self.pitchPositionTarget.text())
             yaw_target = float(self.yawPositionTarget.text())
