@@ -6,10 +6,10 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
-from proc_control.msg import PositionTarget
 from proc_control.srv import ClearWaypoint, SetPositionTarget
 from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Pose
 
 
 class WaypointWidget(QMainWindow):
@@ -36,7 +36,7 @@ class WaypointWidget(QMainWindow):
         self.setObjectName('MyWaypointWidget')
 
         self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
-        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', PositionTarget,
+        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
                                                            self._position_target_callback)
 
         self.odom_result_received.connect(self._odom_result_received)
@@ -108,12 +108,12 @@ class WaypointWidget(QMainWindow):
 
     def _current_target_received(self,data):
         try:
-            self.xPositionTarget.setText('%.2f' % data.X)
-            self.yPositionTarget.setText('%.2f' % data.Y)
-            self.zPositionTarget.setText('%.2f' % data.Z)
-            self.rollPositionTarget.setText('%.2f' % data.ROLL)
-            self.pitchPositionTarget.setText('%.2f' % data.PITCH)
-            self.yawPositionTarget.setText('%.2f' % data.YAW)
+            self.xPositionTarget.setText('%.2f' % data.position.x)
+            self.yPositionTarget.setText('%.2f' % data.position.y)
+            self.zPositionTarget.setText('%.2f' % data.position.z)
+            self.rollPositionTarget.setText('%.2f' % data.orientation.x)
+            self.pitchPositionTarget.setText('%.2f' % data.orientation.y)
+            self.yawPositionTarget.setText('%.2f' % data.orientation.z)
         except ValueError:
             pass
 

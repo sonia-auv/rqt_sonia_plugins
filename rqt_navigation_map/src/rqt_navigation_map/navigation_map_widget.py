@@ -12,8 +12,8 @@ from tf.transformations import quaternion_about_axis
 
 from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Pose
 from MapDrawer import MapDrawer
-from proc_control.msg import PositionTarget
 from proc_control.srv import SetPositionTarget
 
 
@@ -56,7 +56,7 @@ class NavigationMapWidget(QWidget):
         self._yaw = 0
 
         self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
-        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', PositionTarget,
+        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
                                                            self._position_target_callback)
 
         self.odom_result_received.connect(self._odom_callback_signal)
@@ -99,7 +99,7 @@ class NavigationMapWidget(QWidget):
         self.current_target_received.emit(target)
 
     def _position_target_callback_signal(self, target):
-        self._mapDrawer.drawTarget(target.X, target.Y, target.Z)
+        self._mapDrawer.drawTarget(target.position.x, target.position.y, target.position.z)
 
     def _odom_callback_signal(self,odom_data):
         vehicle_position_x = odom_data.pose.pose.position.x
