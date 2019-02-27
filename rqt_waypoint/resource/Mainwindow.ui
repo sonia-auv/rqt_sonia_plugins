@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>298</height>
+    <width>660</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -73,7 +73,7 @@
       <x>0</x>
       <y>50</y>
       <width>571</width>
-      <height>221</height>
+      <height>259</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -83,29 +83,43 @@
      <property name="leftMargin">
       <number>10</number>
      </property>
-     <item row="3" column="5">
-      <widget class="QLineEdit" name="yawPositionTarget">
+     <item row="6" column="2">
+      <widget class="QLineEdit" name="yVelocityTarget">
        <property name="text">
         <string>0.0</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
+     <item row="7" column="3">
+      <widget class="QLabel" name="yawVelocityLabel">
        <property name="text">
-        <string>Position :</string>
+        <string>Yaw :</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="3">
-      <widget class="QLabel" name="rollPositionLabel">
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="xPositionTarget">
        <property name="text">
-        <string>Roll :</string>
+        <string>0.0</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="xPositionLabel">
+     <item row="6" column="4">
+      <widget class="QLineEdit" name="pitchVelocityCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="yPositionLabel">
+       <property name="text">
+        <string>Y :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="xVelocityLabel">
        <property name="text">
         <string>X :</string>
        </property>
@@ -118,17 +132,78 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="yPositionLabel">
+     <item row="3" column="4">
+      <widget class="QLineEdit" name="yawPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Y :</string>
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="xPositionTarget">
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="yVelocityCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="4">
+      <widget class="QLineEdit" name="rollVelocityCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="xVelocityCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLineEdit" name="zVelocityCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
+      <widget class="QLabel" name="pitchVelocityLabel">
+       <property name="text">
+        <string>Pitch :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="3">
+      <widget class="QLabel" name="rollVelocityLabel">
+       <property name="text">
+        <string>Roll :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="4">
+      <widget class="QLineEdit" name="rollPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Velocity :</string>
        </property>
       </widget>
      </item>
@@ -145,48 +220,22 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="zPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
+     <item row="6" column="0">
+      <widget class="QLabel" name="yVelocityLabel">
        <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
+        <string>Y :</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="yPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="yPositionTarget">
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="pitchPositionTarget">
        <property name="text">
         <string>0.0</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="zPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4">
-      <widget class="QLineEdit" name="rollPositionCurrent">
+     <item row="2" column="4">
+      <widget class="QLineEdit" name="pitchPositionCurrent">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -205,106 +254,10 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="pitchPositionLabel">
-       <property name="text">
-        <string>Pitch :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="3">
-      <widget class="QLabel" name="yawPositionLabel">
-       <property name="text">
-        <string>Yaw :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLineEdit" name="pitchPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="zPositionTarget">
        <property name="text">
         <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="5">
-      <widget class="QLineEdit" name="pitchPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
-      <widget class="QLineEdit" name="yawPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="xVelocityLabel">
-       <property name="text">
-        <string>X :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Velocity :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="yVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="zVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="4">
-      <widget class="QLineEdit" name="rollVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="4">
-      <widget class="QLineEdit" name="pitchVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="4">
-      <widget class="QLineEdit" name="yawVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="yVelocityLabel">
-       <property name="text">
-        <string>Y :</string>
        </property>
       </widget>
      </item>
@@ -315,31 +268,120 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="3">
-      <widget class="QLabel" name="rollVelocityLabel">
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="zPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="yPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="rollPositionLabel">
        <property name="text">
         <string>Roll :</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="3">
-      <widget class="QLabel" name="pitchVelocityLabel">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="yPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Pitch :</string>
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="7" column="3">
-      <widget class="QLabel" name="yawVelocityLabel">
+     <item row="3" column="3">
+      <widget class="QLabel" name="yawPositionLabel">
        <property name="text">
         <string>Yaw :</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="xVelocityCurrent">
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Position :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLineEdit" name="yawPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="xPositionLabel">
+       <property name="text">
+        <string>X :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="pitchPositionLabel">
+       <property name="text">
+        <string>Pitch :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="4">
+      <widget class="QLineEdit" name="yawVelocityCurrent">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="zVelocityTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLineEdit" name="xVelocityTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="5">
+      <widget class="QLineEdit" name="rollVelocityTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="5">
+      <widget class="QLineEdit" name="pitchVelocityTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="5">
+      <widget class="QLineEdit" name="yawVelocityTarget">
+       <property name="text">
+        <string>0.0</string>
        </property>
       </widget>
      </item>
@@ -351,8 +393,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>580</width>
-     <height>19</height>
+     <width>660</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="StartTestMenu">
