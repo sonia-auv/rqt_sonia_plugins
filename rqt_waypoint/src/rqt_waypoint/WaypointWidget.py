@@ -6,16 +6,17 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
-from proc_control.msg import PositionTarget
-from proc_control.srv import ClearWaypoint, SetPositionTarget
+from proc_control.srv import ClearWaypoint, SetPositionTarget, SetControlMode
 from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Pose, Twist
 
 
 class WaypointWidget(QMainWindow):
 
     odom_result_received = pyqtSignal('PyQt_PyObject')
     current_target_received = pyqtSignal('PyQt_PyObject')
+    current_target_velocity_received = pyqtSignal('PyQt_PyObject')
 
     def __init__(self):
         super(WaypointWidget, self).__init__()
@@ -36,11 +37,15 @@ class WaypointWidget(QMainWindow):
         self.setObjectName('MyWaypointWidget')
 
         self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
-        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', PositionTarget,
+        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
                                                            self._position_target_callback)
+
+        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target_velocity', Twist,
+                                                           self._velocity_target_callback)
 
         self.odom_result_received.connect(self._odom_result_received)
         self.current_target_received.connect(self._current_target_received)
+        self.current_target_velocity_received.connect(self._current_target_velocity_received)
 
         self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
         self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
@@ -53,6 +58,13 @@ class WaypointWidget(QMainWindow):
         self.rollPositionTarget.returnPressed.connect(self.send_position)
         self.pitchPositionTarget.returnPressed.connect(self.send_position)
         self.yawPositionTarget.returnPressed.connect(self.send_position)
+
+        self.xVelocityTarget.returnPressed.connect(self.send_velocity)
+        self.yVelocityTarget.returnPressed.connect(self.send_velocity)
+        self.zVelocityTarget.returnPressed.connect(self.send_velocity)
+        self.rollVelocityTarget.returnPressed.connect(self.send_velocity)
+        self.pitchVelocityTarget.returnPressed.connect(self.send_velocity)
+        self.yawVelocityTarget.returnPressed.connect(self.send_velocity)
 
         self.actionReset_Depth.triggered.connect(self._reset_depth)
         self.actionReset_Position.triggered.connect(self._reset_position)
@@ -106,14 +118,28 @@ class WaypointWidget(QMainWindow):
     def _position_target_callback(self,data):
         self.current_target_received.emit(data)
 
+    def _velocity_target_callback(self, data):
+        self.current_target_velocity_received.emit(data)
+
     def _current_target_received(self,data):
         try:
-            self.xPositionTarget.setText('%.2f' % data.X)
-            self.yPositionTarget.setText('%.2f' % data.Y)
-            self.zPositionTarget.setText('%.2f' % data.Z)
-            self.rollPositionTarget.setText('%.2f' % data.ROLL)
-            self.pitchPositionTarget.setText('%.2f' % data.PITCH)
-            self.yawPositionTarget.setText('%.2f' % data.YAW)
+            self.xPositionTarget.setText('%.2f' % data.position.x)
+            self.yPositionTarget.setText('%.2f' % data.position.y)
+            self.zPositionTarget.setText('%.2f' % data.position.z)
+            self.rollPositionTarget.setText('%.2f' % data.orientation.x)
+            self.pitchPositionTarget.setText('%.2f' % data.orientation.y)
+            self.yawPositionTarget.setText('%.2f' % data.orientation.z)
+        except ValueError:
+            pass
+
+    def _current_target_velocity_received(self,data):
+        try:
+            self.xVelocityTarget.setText('%.2f' % data.linear.x)
+            self.yVelocityTarget.setText('%.2f' % data.linear.y)
+            self.zVelocityTarget.setText('%.2f' % data.linear.z)
+            self.rollVelocityTarget.setText('%.2f' % data.angular.x)
+            self.pitchVelocityTarget.setText('%.2f' % data.angular.y)
+            self.yawVelocityTarget.setText('%.2f' % data.angular.z)
         except ValueError:
             pass
 
@@ -125,6 +151,22 @@ class WaypointWidget(QMainWindow):
             roll_target = float(self.rollPositionTarget.text())
             pitch_target = float(self.pitchPositionTarget.text())
             yaw_target = float(self.yawPositionTarget.text())
+            try:
+                self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target,
+                                       YAW=yaw_target)
+            except rospy.ServiceException as err:
+                rospy.logerr(err)
+        except ValueError:
+            pass
+
+    def send_velocity(self):
+        try:
+            x_target = float(self.xVelocityTarget.text())
+            y_target = float(self.yVelocityTarget.text())
+            z_target = min(float(self.zVelocityTarget.text()), 3)
+            roll_target = float(self.rollVelocityTarget.text())
+            pitch_target = float(self.pitchVelocityTarget.text())
+            yaw_target = float(self.yawVelocityTarget.text())
             try:
                 self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target,
                                        YAW=yaw_target)
