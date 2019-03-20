@@ -119,7 +119,7 @@ class ManageBagWidget(QMainWindow):
             os.makedirs(out_directory)
         try:
             bag_name = "{}.bag".format(str(uuid.uuid1()))
-            os.rename(os.path.join("~/Bags", self.new_ros_bag), os.path.join(out_directory, bag_name))
+            os.rename(os.path.join(expanduser("~/Bags"), self.new_ros_bag), os.path.join(out_directory, bag_name))
         except:
             self._message_box("No object select")
 
@@ -164,7 +164,7 @@ class ManageBagWidget(QMainWindow):
 
     def manage_bag(self):
         try:
-            self.outbag = rosbag.Bag(os.path.join("~/Bags", self.new_ros_bag), 'w')
+            self.outbag = rosbag.Bag(os.path.join(expanduser("~/Bags"), self.new_ros_bag), 'w')
             pub = rospy.Publisher(self.topic_name, CompressedImage, queue_size=100)
             for topic, msg, t in self.ros_bag.read_messages():
                 rate = rospy.Rate(self.frame)
