@@ -58,6 +58,8 @@ class ManageBagWidget(QMainWindow):
         self.runPushButton.setEnabled(False)
         self.saveBagButton.setEnabled(False)
         self.extracButton.setEnabled(False)
+        self.saveBagButton.setEnabled(False)
+        self.selectOuputFolder.setEnabled(False)
 
         self.topicName.addItem('/provider_vision/Front_GigE/compressed')
         self.topicName.addItem('/provider_vision/Bottom_GigE/compressed')

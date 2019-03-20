@@ -59,7 +59,7 @@
               <item>
                <widget class="QPushButton" name="selectOuputFolder">
                 <property name="text">
-                 <string>Select output folder</string>
+                 <string>Select general folder</string>
                 </property>
                </widget>
               </item>
@@ -157,6 +157,13 @@
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="breakButton">
+          <property name="text">
+           <string>Break</string>
+          </property>
          </widget>
         </item>
         <item>
