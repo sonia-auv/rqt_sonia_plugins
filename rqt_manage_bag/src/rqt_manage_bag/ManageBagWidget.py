@@ -154,6 +154,8 @@ class ManageBagWidget(QMainWindow):
     def _handle_run(self):
         self.startStopPushButton.setEnabled(True)
         self.runPushButton.setEnabled(False)
+        self.selectOuputFolder.setEnabled(False)
+        self.saveBagButton.setEnabled(False)
         self.new_ros_bag = str(uuid.uuid1()) + '.bag'
         self.start_thread(self.manage_bag)
 
@@ -183,6 +185,7 @@ class ManageBagWidget(QMainWindow):
             self.i += 1
             self.startStopPushButton.setEnabled(False)
             self.runPushButton.setEnabled(True)
+            self.selectOuputFolder.setEnabled(True)
 
             rospy.loginfo('The new bag is create %i' % self.i)
         except:
