@@ -24,6 +24,8 @@ class ActuatorWidget(QWidget):
         self.drop_starboard.clicked.connect(self._handle_drop_starboard)
         self.torpido_port.clicked.connect(self._handle_torpido_port)
         self.torpido_starboard.clicked.connect(self._handle_torpido_starboard)
+        self.open_arm.clicked.connect(self._handle_open_robotic_arm)
+        self.close_arm.clicked.connect(self._handle_close_robotic_arm)
 
 
     def _handle_drop_port(self):
@@ -49,6 +51,20 @@ class ActuatorWidget(QWidget):
     def _handle_torpido_starboard(self):
         try:
             self.do_action_srv(DoActionSrvRequest.ELEMENT_TORPEDO,DoActionSrvRequest.SIDE_STARBOARD,DoActionSrvRequest.ACTION_TORPEDO_LAUNCH)
+        except rospy.ServiceException, e:
+            print e
+            rospy.logerr('Controller Mission Node is not started')
+
+    def _handle_open_robotic_arm(self):
+        try:
+            self.do_action_srv(DoActionSrvRequest.ELEMENT_ARM,DoActionSrvRequest.ARM_OPEN,DoActionSrvRequest.ACTION_ARM_EXEC)
+        except rospy.ServiceException, e:
+            print e
+            rospy.logerr('Controller Mission Node is not started')
+
+    def _handle_close_robotic_arm(self):
+        try:
+            self.do_action_srv(DoActionSrvRequest.ELEMENT_ARM,DoActionSrvRequest.ARM_CLOSE,DoActionSrvRequest.ACTION_ARM_EXEC)
         except rospy.ServiceException, e:
             print e
             rospy.logerr('Controller Mission Node is not started')

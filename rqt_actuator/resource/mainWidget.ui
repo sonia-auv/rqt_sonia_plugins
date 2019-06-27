@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>398</width>
-    <height>208</height>
+    <height>247</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -60,6 +60,20 @@
        <widget class="QPushButton" name="torpido_starboard">
         <property name="text">
          <string>Torpido Starboard</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="open_arm">
+        <property name="text">
+         <string>Open Robotic Arm</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="close_arm">
+        <property name="text">
+         <string>Close Robotic Arm</string>
         </property>
        </widget>
       </item>
