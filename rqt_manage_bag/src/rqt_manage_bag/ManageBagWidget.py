@@ -42,6 +42,7 @@ class ManageBagWidget(QMainWindow):
         self.in_extract = None
         self.out_extract = None
         self.value = 0
+        self.lcdNumberFPS.display(self.frame)
 
         self.selectInputBag.clicked.connect(self._handle_load)
         self.selectOutputFolder.clicked.connect(self._handle_select_folder)
@@ -119,6 +120,9 @@ class ManageBagWidget(QMainWindow):
     # Bouton saveBagButton
 
     def _save_bag(self):
+        print(self.out_folder, '\n')
+        print(self.nameObject.text(), '\n')
+
         out_directory = os.path.join(self.out_folder, self.nameObject.text())
         if not os.path.exists(out_directory):
             os.makedirs(out_directory)
@@ -137,15 +141,16 @@ class ManageBagWidget(QMainWindow):
 
     def _value_change(self):
         self.frame = self.FPS.value()
+        self.lcdNumberFPS.display(self.frame)
 
     # Bouton selectOutputFolder
 
     def _handle_select_folder(self):
-        # self.out_folder = self._select_folder("Select Output Directory")
-        # self.outputFolder.setText(self.out_folder)
-        # self.saveBagButton.setEnabled(True)
-        self.outputFolder.setText(self._select_folder("Select Output Directory"))
-        self.runPushButton.setEnabled(True)
+        self.out_folder = self._select_folder("Select Output Directory")
+        self.outputFolder.setText(self.out_folder)
+        # self.outputFolder.setText(self._select_folder("Select Output Directory"))
+        # self.runPushButton.setEnabled(True)
+        self.saveBagButton.setEnabled(True)
 
     # Bouton selectInputBag
 
@@ -154,13 +159,13 @@ class ManageBagWidget(QMainWindow):
         if self.bag_file[-4:] == ".bag":
             self.inputBag.setText(self.bag_file)
             self.ros_bag = rosbag.Bag(self.bag_file)
-            self.topics = self.ros_bag.get_type_and_topic_info()[1].keys()
-            self.types = []
-            for i in range(0, len(self.ros_bag.get_type_and_topic_info()[1].values())):
-                self.label_3.setText = self.ros_bag.get_type_and_topic_info()[1].values()[i][0]
-                #self.topicName.addItem(self.ros_bag.get_type_and_topic_info()[1].values()[i])
-            # self.runPushButton.setEnabled(True)
-            self.selectOutputFolder.setEnabled(True)
+            # self.topics = self.ros_bag.get_type_and_topic_info()[1].keys()
+            # self.types = []
+            # for i in range(0, len(self.ros_bag.get_type_and_topic_info()[1].values())):
+            #    self.label_3.setText = self.ros_bag.get_type_and_topic_info()[1].values()[i][0]
+            # self.topicName.addItem(self.ros_bag.get_type_and_topic_info()[1].values()[i])
+            self.runPushButton.setEnabled(True)
+            # self.selectOutputFolder.setEnabled(True)
 
     # Bouton startStopPushButton
 
@@ -178,8 +183,8 @@ class ManageBagWidget(QMainWindow):
 
     def _handle_run(self):
         self.startStopPushButton.setEnabled(True)
-        # self.runPushButton.setEnabled(False)
-        self.runPushButton.setText("Stop bag")
+        self.runPushButton.setEnabled(False)
+        # self.runPushButton.setText("Stop bag")
         self.selectOutputFolder.setEnabled(False)
         self.saveBagButton.setEnabled(False)
         self.new_ros_bag = str(uuid.uuid1()) + '.bag'
@@ -192,10 +197,10 @@ class ManageBagWidget(QMainWindow):
         t1.start()
 
     def manage_bag(self):
-        # try:
+        try:
             self.outbag = rosbag.Bag(os.path.join(expanduser("~/Bags"), self.new_ros_bag), 'w')
             # self.outbag = rosbag.Bag(os.path.join(self.outputFolder,self.new_ros_bag), 'w')
-            self.label_2.setText = self.outbag
+            # self.label_2.setText = self.outbag
             pub = rospy.Publisher(self.topic_name, CompressedImage, queue_size=100)
             for topic, msg, t in self.ros_bag.read_messages():
                 # print(topic, '\n')
@@ -219,9 +224,10 @@ class ManageBagWidget(QMainWindow):
             self.selectOutputFolder.setEnabled(True)
 
             rospy.loginfo('The new bag %i is created' % self.i)
-        # except:
-            # self.startStopPushButton.setEnabled(False)
-            # self.runPushButton.setEnabled(True)
+        except:
+            self.startStopPushButton.setEnabled(False)
+            self.runPushButton.setEnabled(True)
+            print("Something has gone wrong in reading the bag")
             # self._message_box("Something has gone wrong in manage_bag")
 
     def _message_box(self, msg):
