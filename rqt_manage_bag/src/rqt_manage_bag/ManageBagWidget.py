@@ -116,6 +116,8 @@ class ManageBagWidget(QMainWindow):
     def _select_folder(self, msg):
         return str(QFileDialog.getExistingDirectory(self, msg))
 
+    # Bouton saveBagButton
+
     def _save_bag(self):
         out_directory = os.path.join(self.out_folder, self.nameObject.text())
         if not os.path.exists(out_directory):
@@ -126,8 +128,12 @@ class ManageBagWidget(QMainWindow):
         except:
             self._message_box("No object selected")
 
+    # ComboBox topicName
+
     def _handle_topic_name_change(self):
         self.topic_name = self.topicName.currentText()
+
+    # QSlide FPS
 
     def _value_change(self):
         self.frame = self.FPS.value()
@@ -155,6 +161,8 @@ class ManageBagWidget(QMainWindow):
                 #self.topicName.addItem(self.ros_bag.get_type_and_topic_info()[1].values()[i])
             # self.runPushButton.setEnabled(True)
             self.selectOutputFolder.setEnabled(True)
+
+    # Bouton startStopPushButton
 
     def _handle_start(self):
         if not self.start:
@@ -190,6 +198,8 @@ class ManageBagWidget(QMainWindow):
             self.label_2.setText = self.outbag
             pub = rospy.Publisher(self.topic_name, CompressedImage, queue_size=100)
             for topic, msg, t in self.ros_bag.read_messages():
+                # print(topic, '\n')
+                # print(msg, '\n')
                 rate = rospy.Rate(self.frame)
                 start, stop = self.start, self.stop
                 if topic == self.topic_name:
