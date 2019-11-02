@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
-    <height>463</height>
+    <width>717</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Bag Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="toolTip">
@@ -32,14 +32,14 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QLineEdit" name="inputBag"/>
-        </item>
-        <item>
          <widget class="QPushButton" name="selectInputBag">
           <property name="text">
            <string>Select input bag file</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="inputBag"/>
         </item>
         <item>
          <widget class="QWidget" name="widget_2" native="true">
@@ -73,7 +73,11 @@
            </widget>
           </item>
           <item>
-           <widget class="QLCDNumber" name="lcdNumberFPS"/>
+           <widget class="QLCDNumber" name="lcdNumberFPS">
+            <property name="intValue" stdset="0">
+             <number>0</number>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_FPS">
@@ -117,7 +121,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="label_newBag">
              <property name="maximumSize">
               <size>
                <width>120</width>
@@ -130,9 +134,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="label_newBagName">
              <property name="text">
-              <string>TextLabel</string>
+              <string/>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -143,14 +147,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="outputFolder"/>
-        </item>
-        <item>
          <widget class="QPushButton" name="selectOutputFolder">
           <property name="text">
            <string>Select general folder</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="outputFolder"/>
         </item>
         <item>
          <widget class="QWidget" name="widget_3" native="true">
@@ -171,20 +175,64 @@
            <item>
             <widget class="QLineEdit" name="nameObject"/>
            </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget_4" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>60</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <widget class="QPushButton" name="saveBagButton">
+            <widget class="QLabel" name="label_location">
              <property name="text">
-              <string>Save Bag</string>
+              <string>Location</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="locationObject"/>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="breakButton">
+         <widget class="QWidget" name="widget_5" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_date">
+             <property name="text">
+              <string>Date</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="dateObject"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveBagButton">
           <property name="text">
-           <string>Break</string>
+           <string>Save Bag</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="resetButton">
+          <property name="text">
+           <string>Reset</string>
           </property>
          </widget>
         </item>
