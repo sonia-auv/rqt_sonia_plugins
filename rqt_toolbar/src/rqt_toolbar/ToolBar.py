@@ -44,13 +44,13 @@ class ToolBar(Plugin):
         self._batteryWidget1 = BatteryWidget(1, 1)
         self._batteryWidget2 = BatteryWidget(2, 3)
         self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', 'Babe')
-        self._tempWidget2 = CpuTempWidget('/provider_jetson/system_temperature', 'Jetson')
+        # self._tempWidget2 = CpuTempWidget('/provider_jetson/system_temperature', 'Jetson') Plus besoin pour le moment
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._enableAxisWidget)
         self._toolbar.addWidget(self._camera)
         self._toolbar.addWidget(self._tempWidget1)
-        self._toolbar.addWidget(self._tempWidget2)
+        # self._toolbar.addWidget(self._tempWidget2) Plus besoin pour le moment
         self._toolbar.addWidget(self._batteryWidget1)
         self._toolbar.addWidget(self._batteryWidget2)
         self._toolbar.addWidget(self._killMissionWidget)
