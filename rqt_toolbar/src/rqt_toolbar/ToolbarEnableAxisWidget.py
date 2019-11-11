@@ -6,7 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtGui import QColor
 
-from proc_control.srv import EnableControl
+from proc_control.srv import EnableControl, ClearWaypoint, SetPositionTarget
 
 
 class EnableAxisWidget(QWidget):
@@ -40,6 +40,12 @@ class EnableAxisWidget(QWidget):
         self.allAxis.click()
 
         self.new_toolbar_is_load = False
+
+    def _reset_position(self):
+        try:
+            self.set_initial_position()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
 
     def _handle_allAxis_clicked(self, checked):
         if self.xyAxis.isChecked() != checked:
@@ -89,6 +95,7 @@ class EnableAxisWidget(QWidget):
 
     def _handle_rollAxis_clicked(self, checked):
         if checked:
+            self._reset_position(self)
             self.rollAxis.setPalette(self.paletteChecked.palette())
             self._enable_axis(X=-1, Y=-1, Z=-1, PITCH=-1, ROLL=1, YAW=-1)
         else:
