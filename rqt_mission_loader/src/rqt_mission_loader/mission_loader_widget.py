@@ -11,7 +11,6 @@ from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
-from PySide2.QtWidgets import QApplication, QPushButton
 
 # main class inherits from the ui window class
 class MissionPlannerWidget(QWidget):
@@ -66,7 +65,6 @@ class MissionPlannerWidget(QWidget):
             succeed_button_req = LoadMissionRequest()
             succeed_button_req.mission = self.mission_names.currentText()
             succeed_button_srv(succeed_button_req)
-            CurrentMission.
         except rospy.ServiceException, e:
             rospy.logerr('Controller Mission Node is not started')
 
