@@ -61,9 +61,9 @@ class MissionPlannerWidget(QWidget):
 
     def _handle_succeed_button(self):
         try:
-            succeed_button_srv = rospy.ServiceProxy('mission_executor/succeed_button', succeedButton)
-            succeed_button_req = LoadMissionRequest()
-            succeed_button_req.mission = self.mission_names.currentText()
+            succeed_button_srv = rospy.ServiceProxy('mission_executor/succeed_button', SucceedButton)
+            succeed_button_req = SuccedButtonRequest()
+            succeed_button_req.status = self.mission_names.currentText()
             succeed_button_srv(succeed_button_req)
         except rospy.ServiceException, e:
             rospy.logerr('Controller Mission Node is not started')
