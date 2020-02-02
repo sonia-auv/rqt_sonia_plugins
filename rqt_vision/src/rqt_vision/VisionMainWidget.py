@@ -115,15 +115,15 @@ class VisionMainWidget(QWidget):
         except rospy.ServiceException as err:
             rospy.logerr(err)
         
-        topic_name = '/proc_image_processing/' + new_execution + '_image/compressed'
+        topic_name = "/proc_image_processing/{}_image/compressed".format(new_execution)
         
         try:
             self._srv_start_republisher('/proc_image_processing/' + new_execution + '_image', 1)
             ip = os.getenv('ROS_IP', '127.0.0.1')
-            topic_name = '/proc_image_processing/' + new_execution + '_image_' + ip.replace('.', '')
+            topic_name = '/proc_image_processing/{}_image_{}'.format(new_execution, ip.replace('.', ''))
             self._current_execution_subscriber = rospy.Subscriber(topic_name,
                                                                   SensorCompressedImage, self.current_execution_callback)
-            print 'subscribe ', topic_name
+            print('subscribe ', topic_name)
         except:
             rospy.logerr('Republisher node is not stated !')
             self._current_execution_subscriber = rospy.Subscriber(topic_name,
