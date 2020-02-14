@@ -25,8 +25,9 @@ class BatteryWidget(QWidget):
         # Give QObjects reasonable names
         self.setObjectName('BatteryWdiget')
         self.no_batt = no_batt
-        self.bat_max = 16.5
-        self.bat_min = 15.5
+        self.bat_max = 16.8
+        self.bat_min = 15.4
+        self.bat_warning = 15.6
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'battery.ui')
         loadUi(ui_file, self)
@@ -50,7 +51,7 @@ class BatteryWidget(QWidget):
             self.progressBar.setValue(int(msg.data * 10))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 
-        if msg.data <= self.bat_min:
+         if msg.data <= self.bat_warning:
             nb += 1
         else:
             nb = 0
@@ -58,7 +59,7 @@ class BatteryWidget(QWidget):
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
 
-        if msg.data <= self.bat_min and self.nb_msg == 0 and nb == 20:
+        if msg.data <= 20: # and self.nb_msg == 0 and nb == 20:
             nb = 0
             self.time = rospy.get_time()
             self.nb_msg = 1
