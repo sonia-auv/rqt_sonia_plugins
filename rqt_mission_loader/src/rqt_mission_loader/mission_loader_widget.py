@@ -3,6 +3,7 @@ import os
 import rospkg
 import rospy
 import time
+import sys
 from std_msgs.msg import String
 from smach_msgs.msg import SmachContainerStatus
 from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest, CurrentMission
@@ -10,7 +11,6 @@ from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
-
 
 # main class inherits from the ui window class
 class MissionPlannerWidget(QWidget):
@@ -41,6 +41,7 @@ class MissionPlannerWidget(QWidget):
         self.started_mission_name_received.connect(self._handle_started_mission_name_result)
         self.current_state_name_received.connect(self._handle_mission_state_result)
         self.mission_ended_received.connect(self._handle_mission_ended_result)
+        self.succeed_button.clicked.connect(self._handle_succeed_button)
 
         self.initialize_label()
 
@@ -57,6 +58,15 @@ class MissionPlannerWidget(QWidget):
     def _handle_mission_ended(self,data):
         self.mission_ended_received.emit('*Finished*')
         self.started_mission_name_received.emit('---')
+
+    def _handle_succeed_button(self):
+        try:
+            succeed_button_srv = rospy.ServiceProxy('mission_executor/succeed_button', SucceedButton)
+            succeed_button_req = SuccedButtonRequest()
+            succeed_button_req.status = self.mission_names.currentText()
+            succeed_button_srv(succeed_button_req)
+        except rospy.ServiceException, e:
+            rospy.logerr('Controller Mission Node is not started')
 
     def _handle_mission_ended_result(self,string):
         self.current_state_name_label.setText(string)
