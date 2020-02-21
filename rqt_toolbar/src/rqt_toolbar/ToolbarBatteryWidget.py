@@ -51,19 +51,19 @@ class BatteryWidget(QWidget):
             self.progressBar.setValue(int(msg.data * 10))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 
-         if msg.data <= self.bat_warning:
-            nb += 1
+        if msg.data <= self.bat_warning:
+            nb+=1
         else:
             nb = 0
-
+            
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
 
-        if msg.data <= 20: # and self.nb_msg == 0 and nb == 20:
+        if msg.data <= self.bat_warning and self.nb_msg == 0 and nb == 20:
             nb = 0
             self.time = rospy.get_time()
             self.nb_msg = 1
             root = Tk()
             root.withdraw()
-            self.result = tkMessageBox.showwarning("ATTENTION", 'Battery # :' + str(self.no_batt) + 'has a very low voltage')
+            self.result = tkMessageBox.showwarning("ATTENTION", 'Battery # :' + str(self.no_batt) + ' has a very low voltage')
             root.destroy()
