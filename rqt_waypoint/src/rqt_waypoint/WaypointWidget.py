@@ -109,12 +109,22 @@ class WaypointWidget(QMainWindow):
         self.set_control_mode_srv(0)
         self.positionMode.setEnabled(False)
         self.velocityMode.setEnabled(True)
+        self.clearWaypoint.setEnabled(True)
+        try:
+            self.clear_waypoint_srv()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _velocity_mode(self):
         self.set_control_mode_srv(2)
         self.positionMode.setEnabled(True)
         self.velocityMode.setEnabled(False)
+        self.clearWaypoint.setEnabled(False)
+        try:
+            self.clear_waypoint_srv()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _odom_result_received(self, odom):
