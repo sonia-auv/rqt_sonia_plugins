@@ -1,8 +1,12 @@
+'''
+\modified by : Camille Sauvain
+\date : 2020/02/22
+'''
+
 import os
 import rospy
 import rospkg
 import tkMessageBox
-
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -23,7 +27,7 @@ class BatteryWidget(QWidget):
     def __init__(self, no_batt, slave):
         super(BatteryWidget, self).__init__()
         # Give QObjects reasonable names
-        self.setObjectName('BatteryWdiget')
+        self.setObjectName('BatteryWidget')
         self.no_batt = no_batt
         self.bat_max = 16.8
         self.bat_min = 15.4
@@ -35,10 +39,15 @@ class BatteryWidget(QWidget):
         self.setObjectName('MyEnableAxisWidget')
         self._power_supply = rospy.Subscriber('/provider_power/power', powerMsg, self._power_supply_callback)
         self.psu_received.connect(self._handle_result)
-
-        self.battery_label.setText('Battery {} :'.format(no_batt))
+        
+        if no_batt == 1:
+            self.battery_label.setText('Battery DVL :')
+        else:
+            self.battery_label.setText('Battery PC :')        
+        
         self.nb_msg = 0
         self.time = None
+        self.nb = 0
 
         self.slave = slave
 
@@ -46,24 +55,27 @@ class BatteryWidget(QWidget):
         self.psu_received.emit(data)
 
     def _handle_result(self, msg):
-        nb = 0
+        
         if msg.cmd == self.cmd_ps_vbatt and msg.slave == self.slave:
             self.progressBar.setValue(int(msg.data * 10))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 
-        if msg.data <= self.bat_warning:
-            nb+=1
-        else:
-            nb = 0
+            if msg.data <= float(self.bat_warning):
+                self.nb+=1
+            else:
+                self.nb = 0
             
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
 
-        if msg.data <= self.bat_warning and self.nb_msg == 0 and nb == 20:
-            nb = 0
+        if msg.data <= float(self.bat_warning) and self.nb_msg == 0 and self.nb == 5:
+            self.nb = 0
             self.time = rospy.get_time()
             self.nb_msg = 1
             root = Tk()
             root.withdraw()
-            self.result = tkMessageBox.showwarning("ATTENTION", 'Battery # :' + str(self.no_batt) + ' has a very low voltage')
+            if self.no_batt == 1:
+                self.result = tkMessageBox.showwarning("ATTENTION", 'Battery DVL : has a very low voltage')
+            else:
+                self.result = tkMessageBox.showwarning("ATTENTION", 'Battery PC has a very low voltage')
             root.destroy()

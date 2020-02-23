@@ -27,6 +27,7 @@ class EnableAxisWidget(QWidget):
 
         self.setObjectName('MyEnableAxisWidget')
         self.enable_axis = rospy.ServiceProxy('/proc_control/enable_control', EnableControl)
+        self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
         self.new_toolbar_is_load = True
 
         # Subscribe to slot
@@ -41,13 +42,14 @@ class EnableAxisWidget(QWidget):
 
         self.new_toolbar_is_load = False
 
-    def _reset_position(self):
+    def _clear_waypoint(self):
         try:
-            self.set_initial_position()
+            self.clear_waypoint_srv()
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
     def _handle_allAxis_clicked(self, checked):
+        self._clear_waypoint()
         if self.xyAxis.isChecked() != checked:
             self.xyAxis.toggle()
         if self.depthAxis.isChecked() != checked:
@@ -95,7 +97,6 @@ class EnableAxisWidget(QWidget):
 
     def _handle_rollAxis_clicked(self, checked):
         if checked:
-            self._reset_position(self)
             self.rollAxis.setPalette(self.paletteChecked.palette())
             self._enable_axis(X=-1, Y=-1, Z=-1, PITCH=-1, ROLL=1, YAW=-1)
         else:
