@@ -1,21 +1,13 @@
-'''
-\modified by : Camille Sauvain
-\date : 2020/02/22
-'''
-
 import os
 import rospy
 import rospkg
 import tkMessageBox
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtWidgets import QWidget, QMessageBox
 from python_qt_binding.QtCore import pyqtSignal
-from Tkinter import Tk
-
 
 from provider_power.msg import powerMsg
-
 
 class BatteryWidget(QWidget):
 
@@ -60,7 +52,7 @@ class BatteryWidget(QWidget):
             self.progressBar.setValue(int(msg.data * 10))
             self.battery_value.setText('{:.2f} V'.format(msg.data))
 
-            if msg.data <= float(self.bat_warning):
+            if msg.data <= self.bat_warning:
                 self.nb+=1
             else:
                 self.nb = 0
@@ -78,14 +70,16 @@ class BatteryWidget(QWidget):
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
 
-        if msg.data <= float(self.bat_warning) and self.nb_msg == 0 and self.nb == 5:
+        if msg.data <= self.bat_warning and self.nb_msg == 0 and self.nb == 5:
             self.nb = 0
             self.time = rospy.get_time()
             self.nb_msg = 1
-            root = Tk()
-            root.withdraw()
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+            msg.setWindowTitle("ATTENTION")
+            msg.setStandardButtons(QMessageBox.Close)
             if self.no_batt == 1:
-                self.result = tkMessageBox.showwarning("ATTENTION", 'Battery DVL : has a very low voltage')
+                msg.setText('Battery DVL : has a very low voltage')
             else:
-                self.result = tkMessageBox.showwarning("ATTENTION", 'Battery PC has a very low voltage')
-            root.destroy()
+                msg.setText('Battery PC has a very low voltage')
+            msg.exec_()
