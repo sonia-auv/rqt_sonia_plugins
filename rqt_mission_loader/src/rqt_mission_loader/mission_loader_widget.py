@@ -3,7 +3,6 @@ import os
 import rospkg
 import rospy
 import time
-import sys
 from std_msgs.msg import String
 from smach_msgs.msg import SmachContainerStatus
 from controller_mission.srv import ListMissions, LoadMission, LoadMissionRequest, CurrentMission

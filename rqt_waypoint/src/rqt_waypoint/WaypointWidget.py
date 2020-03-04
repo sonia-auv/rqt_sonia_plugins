@@ -74,7 +74,7 @@ class WaypointWidget(QMainWindow):
         self.velocityMode.clicked.connect(self._velocity_mode)
 
         self.positionMode.setEnabled(False)
-        self.velocityMode.setEnabled(False)
+        self.velocityMode.setEnabled(True)
 
     def _reset_depth(self):
         try:
@@ -107,10 +107,24 @@ class WaypointWidget(QMainWindow):
 
     def _position_mode(self):
         self.set_control_mode_srv(0)
+        self.positionMode.setEnabled(False)
+        self.velocityMode.setEnabled(True)
+        self.clearWaypoint.setEnabled(True)
+        try:
+            self.clear_waypoint_srv()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _velocity_mode(self):
         self.set_control_mode_srv(2)
+        self.positionMode.setEnabled(True)
+        self.velocityMode.setEnabled(False)
+        self.clearWaypoint.setEnabled(False)
+        try:
+            self.clear_waypoint_srv()
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _odom_result_received(self, odom):
