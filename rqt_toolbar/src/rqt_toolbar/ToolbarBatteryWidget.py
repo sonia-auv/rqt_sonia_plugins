@@ -59,13 +59,13 @@ class BatteryWidget(QWidget):
 
             percentage = (msg.data - self.bat_min) / (self.bat_max - self.bat_min) * 100
             if percentage >= 80:
-                self.progressBar.setStyleSheet('selection-background-color:green ; background-color:gray')
+                self.progressBar.setStyleSheet('selection-background-color:green ; background-color:gray ; color:black')
             elif 80 > percentage >= 50:
-                self.progressBar.setStyleSheet('selection-background-color:yellow ; background-color:gray')
+                self.progressBar.setStyleSheet('selection-background-color:yellow ; background-color:gray ; color:black')
             elif 50 > percentage >= 20:
-                self.progressBar.setStyleSheet('selection-background-color:orange ; background-color:gray')
+                self.progressBar.setStyleSheet('selection-background-color:orange ; background-color:gray ; color:black')
             else:
-                self.progressBar.setStyleSheet('selection-background-color:red ; background-color:gray')
+                self.progressBar.setStyleSheet('selection-background-color:red ; background-color:gray ; color:black')
             
         if self.time is not None and rospy.get_time() - self.time >= 60:
             self.nb_msg = 0
