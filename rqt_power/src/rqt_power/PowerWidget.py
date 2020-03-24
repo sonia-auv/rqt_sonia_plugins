@@ -2,6 +2,7 @@ import os
 import rospkg
 import rospy
 
+from time import sleep
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
@@ -145,12 +146,10 @@ class PowerWidget(QMainWindow):
 
     def _set_all_bus_state(self, state):
         activation = activateAllPS()
+        activation.slave = 0
+        activation.bus = 0
         activation.data = bool(state)
-        for i in range(0, 4):
-            activation.slave = i
-            for j in range(1, 3):
-                activation.bus = j
-                self.activate_all_ps.publish(activation)
+        self.activate_all_ps.publish(activation)
 
     def _handle_start_test_triggered(self):
         pass
