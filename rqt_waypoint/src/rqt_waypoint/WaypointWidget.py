@@ -7,8 +7,8 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
 from std_msgs.msg import UInt8
-from proc_control.srv import ClearWaypoint, SetPositionTarget, SetControlMode
-from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
+from sonia_msgs.srv import ClearWaypoint, SetPositionTarget, SetControlMode
+from sonia_msgs.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose, Twist
 

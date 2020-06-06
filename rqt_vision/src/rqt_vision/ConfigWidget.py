@@ -7,8 +7,8 @@ from tkFileDialog import askopenfilename
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from proc_image_processing.srv import execute_cmd,get_information_list, manage_filterchain, copy_filterchain, save_filterchain, republish
-from provider_vision.srv import start_stop_media
+from sonia_msgs.srv import ExecuteCmd, GetInformationList, ManageFilterchain, CopyFilterchain, SaveFilterchain
+from sonia_msgs.srv import StartStopMedia
 
 
 class ConfigWidget(QWidget):
@@ -31,12 +31,12 @@ class ConfigWidget(QWidget):
         self._main_window = main_window
 
         ##### Service
-        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', get_information_list)
-        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
-        self._srv_start_media_cmd = rospy.ServiceProxy('/provider_vision/start_stop_camera', start_stop_media)
-        self._srv_manage_filterchain = rospy.ServiceProxy('/proc_image_processing/manage_filterchain', manage_filterchain)
-        self._srv_copy_filterchain = rospy.ServiceProxy('/proc_image_processing/copy_filterchain', copy_filterchain)
-        self._srv_save_filterchain = rospy.ServiceProxy('/proc_image_processing/save_filterchain', save_filterchain)
+        self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list', GetInformationList)
+        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', ExecuteCmd)
+        self._srv_start_media_cmd = rospy.ServiceProxy('/provider_vision/start_stop_camera', StartStopMedia)
+        self._srv_manage_filterchain = rospy.ServiceProxy('/proc_image_processing/manage_filterchain', ManageFilterchain)
+        self._srv_copy_filterchain = rospy.ServiceProxy('/proc_image_processing/copy_filterchain', CopyFilterchain)
+        self._srv_save_filterchain = rospy.ServiceProxy('/proc_image_processing/save_filterchain', SaveFilterchain)
 
         self.filterchain_list.currentIndexChanged[int].connect(self.current_filterchain_index_changed)
         self.filterchains.itemSelectionChanged.connect(self._handle_filterchains_selection_changed)

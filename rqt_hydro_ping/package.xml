@@ -13,7 +13,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-    <run_depend>proc_hydro</run_depend>
     <run_depend>rospy</run_depend>
     <run_depend>rqt_gui</run_depend>
     <run_depend>rqt_gui_py</run_depend>

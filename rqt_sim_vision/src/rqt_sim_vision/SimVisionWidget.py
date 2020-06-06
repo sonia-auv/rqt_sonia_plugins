@@ -6,7 +6,7 @@ import math
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow, QWidget
 from python_qt_binding.QtCore import pyqtSignal, QPointF
-from proc_image_processing.msg import VisionTarget
+from sonia_msgs.msg import VisionTarget
 from nav_msgs.msg import Odometry
 from Renderer import Buoy, Path
 

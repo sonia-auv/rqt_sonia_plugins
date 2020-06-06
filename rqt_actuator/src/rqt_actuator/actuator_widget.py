@@ -3,7 +3,7 @@ import os
 import rospkg
 import rospy
 import time
-from provider_actuators.srv import DoActionSrv, DoActionSrvRequest
+from sonia_msgs.srv import DoActionSrv, DoActionSrvRequest
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal

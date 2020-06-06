@@ -4,7 +4,7 @@ import rospkg
 from threading import Thread
 import rospy
 import time
-from interface_rs485.msg import SendRS485Msg
+from sonia_msgs.msg import SendRS485Msg
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal

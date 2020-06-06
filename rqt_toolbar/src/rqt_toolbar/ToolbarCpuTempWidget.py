@@ -6,11 +6,10 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-from provider_system.msg import SystemTemperature
-from std_msgs.msg import Float32
+from sensor_msgs.msg import Temperature
 
 class CpuTempWidget(QWidget):
-    systemTemperatureReceived = pyqtSignal(Float32)
+    systemTemperatureReceived = pyqtSignal(Temperature)
 
     def __init__(self, topic, type):
         super(CpuTempWidget, self).__init__()
@@ -21,7 +20,7 @@ class CpuTempWidget(QWidget):
 
         self.temp_label.setText('{} :'.format(type))
 
-        rospy.Subscriber(topic, Float32, self.system_temperature_callback)
+        rospy.Subscriber(topic, Temperature, self.system_temperature_callback)
         self.systemTemperatureReceived.connect(self.handle_result)
         self.temp_value.setText("{0} C".format("?"))
 
@@ -29,4 +28,4 @@ class CpuTempWidget(QWidget):
         self.systemTemperatureReceived.emit(data)
 
     def handle_result(self, msg):
-        self.temp_value.setText("{0} C".format(msg.data))
+        self.temp_value.setText("{0} C".format(msg.data.temperature))

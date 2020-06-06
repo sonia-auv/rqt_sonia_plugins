@@ -14,7 +14,7 @@ from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
 from MapDrawer import MapDrawer
-from proc_control.srv import SetPositionTarget
+from sonia_msgs.srv import SetPositionTarget
 
 
 # main class inherits from the ui window class

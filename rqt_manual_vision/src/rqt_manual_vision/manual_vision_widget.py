@@ -4,7 +4,7 @@ import rospkg
 from threading import Thread
 import rospy
 import time
-from proc_image_processing.msg import VisionTarget
+from sonia_msgs.msg import VisionTarget
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
