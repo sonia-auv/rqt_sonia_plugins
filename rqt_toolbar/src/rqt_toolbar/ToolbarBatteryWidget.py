@@ -7,13 +7,13 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget, QMessageBox
 from python_qt_binding.QtCore import pyqtSignal
 
-from provider_power.msg import powerMsg
+from sonia_msgs.msg import PowerMsg
 
 class BatteryWidget(QWidget):
 
     BATT_MAX = 28
     BATT_THRESHOLD = 25.6
-    psu_received = pyqtSignal(powerMsg)
+    psu_received = pyqtSignal(PowerMsg)
     cmd_ps_vbatt = 7
 
     def __init__(self, no_batt, slave):
@@ -29,7 +29,7 @@ class BatteryWidget(QWidget):
         loadUi(ui_file, self)
 
         self.setObjectName('MyEnableAxisWidget')
-        self._power_supply = rospy.Subscriber('/provider_power/power', powerMsg, self._power_supply_callback)
+        self._power_supply = rospy.Subscriber('/provider_power/power', PowerMsg, self._power_supply_callback)
         self.psu_received.connect(self._handle_result)
         
         if no_batt == 1:

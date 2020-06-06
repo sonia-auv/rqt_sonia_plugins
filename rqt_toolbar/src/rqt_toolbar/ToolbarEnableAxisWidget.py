@@ -6,7 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtGui import QColor
 
-from proc_control.srv import EnableControl, ClearWaypoint, SetPositionTarget
+from sonia_msgs.srv import EnableControl, ClearWaypoint, SetPositionTarget
 
 
 class EnableAxisWidget(QWidget):

@@ -5,8 +5,8 @@ import rospkg
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QAction, QMenu, QWidget, QActionGroup
 from python_qt_binding.QtCore import pyqtSignal, Qt
-from provider_kill_mission.msg import MissionSwitchMsg, KillSwitchMsg
-from provider_kill_mission.srv import OverrideMissionSwitch, OverrideMissionSwitchRequest, SetMissionSwitch, \
+from sonia_msgs.msg import MissionSwitchMsg, KillSwitchMsg
+from sonia_msgs.srv import OverrideMissionSwitch, OverrideMissionSwitchRequest, SetMissionSwitch, \
     SetMissionSwitchRequest, GetOverrideMissionSwitch, GetMissionSwitch, GetKillSwitch
 
 

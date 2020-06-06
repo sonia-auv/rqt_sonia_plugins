@@ -5,7 +5,7 @@ import rospy
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
-from provider_power.msg import powerMsg, activateAllPS
+from sonia_msgs.msg import PowerMsg, ActivateAllPS
 from PowerCardButtonAction import PowerCardButtonAction
 
 

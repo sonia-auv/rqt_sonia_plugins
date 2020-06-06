@@ -8,8 +8,8 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 
 #from sonia_msgs.msg import SendCanMsg
-from provider_thruster.msg import ThrusterEffort
-from proc_control.srv import EnableThrusters
+from sonia_msgs.msg import ThrusterEffort
+from sonia_msgs.srv import EnableThrusters
 
 
 class ThrusterWidget(QMainWindow):
