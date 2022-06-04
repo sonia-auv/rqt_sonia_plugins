@@ -6,7 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtGui import QColor
 
-from sonia_msgs.srv import EnableControl, ClearWaypoint, SetPositionTarget
+from sonia_common.srv import EnableControl, EnableThrusters, ClearWaypoint, SetPositionTarget
 
 
 class EnableAxisWidget(QWidget):
@@ -27,6 +27,7 @@ class EnableAxisWidget(QWidget):
 
         self.setObjectName('MyEnableAxisWidget')
         self.enable_axis = rospy.ServiceProxy('/proc_control/enable_control', EnableControl)
+        self.enable_thrusters = rospy.ServiceProxy('/proc_control/enable_thrusters', EnableThrusters)
         self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
         self.new_toolbar_is_load = True
 
@@ -76,6 +77,7 @@ class EnableAxisWidget(QWidget):
             self.rollAxis.setPalette(self.paletteUnchecked.palette())
             self.yawAxis.setPalette(self.paletteUnchecked.palette())
             self.allAxis.setPalette(self.paletteUnchecked.palette())
+            self.enable_thrusters(isEnable=True)
             if not self.new_toolbar_is_load:
                 self._enable_axis(X=0, Y=0, Z=0, PITCH=0, ROLL=0, YAW=0)
 
