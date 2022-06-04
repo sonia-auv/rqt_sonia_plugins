@@ -1,7 +1,7 @@
 import rospy
 import tkMessageBox
 
-from provider_power.srv import ManagePowerSupplyBus
+from sonia_msgs.srv import ManagePowerSupplyBus
 from Tkinter import Tk
 
 class PowerCardButtonAction():

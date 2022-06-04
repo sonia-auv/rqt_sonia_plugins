@@ -5,11 +5,11 @@ from threading import Thread
 import rospy
 import time
 import math
-from proc_image_processing.msg import VisionTarget
+from sonia_msgs.msg import VisionTarget
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
-from proc_hydrophone.msg import PingPose
+from sonia_msgs.msg import PingPose
 
 
 # main class inherits from the ui window class

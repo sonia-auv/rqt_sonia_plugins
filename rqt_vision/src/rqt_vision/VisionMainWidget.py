@@ -9,14 +9,14 @@ from python_qt_binding.QtGui import QPainter, QImage
 from python_qt_binding.QtCore import Qt, pyqtSignal
 from python_qt_binding.QtWidgets import QMenu, QAction, QWidget
 from sensor_msgs.msg import CompressedImage as SensorCompressedImage
-from proc_image_processing.msg import VisionTarget
-from proc_image_processing.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd, republish
+from sonia_msgs.msg import VisionTarget
+from sonia_msgs.srv import GetFilterchainFromExecution, GetMediaFromExecution, ExecuteCmd, Republish
 from cv_bridge import CvBridge, CvBridgeError
 from ConfigureFilterchainWidget import ConfigureFilterchainWidget
 from Tkinter import Tk
 from tkFileDialog import asksaveasfilename
 
-from proc_image_processing.srv import get_information_list
+from sonia_msgs.srv import GetInformationList
 
 
 class VisionMainWidget(QWidget):
@@ -50,14 +50,14 @@ class VisionMainWidget(QWidget):
         self.image_change.connect(self._handle_new_image)
         ##### Service
         self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list',
-                                                            get_information_list)
+                                                            GetInformationList)
         self._srv_get_filterchain_from_execution = rospy.ServiceProxy(
-            '/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
+            '/proc_image_processing/get_filterchain_from_execution', GetFilterchainFromExecution)
         self._srv_get_media_from_execution = rospy.ServiceProxy('/proc_image_processing/get_media_from_execution',
-                                                                get_media_from_execution)
-        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
+                                                                GetMediaFromExecution)
+        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', ExecuteCmd)
 
-        self._srv_start_republisher = rospy.ServiceProxy('//image_republisher_node/republish', republish)
+        self._srv_start_republisher = rospy.ServiceProxy('//image_republisher_node/republish', Republish)
         ###
         self.image_frame_mouse_release_event_original = self.imageFrame.mouseReleaseEvent
         self.imageFrame.mouseReleaseEvent = self.image_frame_mouse_release_event

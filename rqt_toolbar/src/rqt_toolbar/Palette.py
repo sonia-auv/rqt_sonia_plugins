@@ -5,9 +5,6 @@ import rospkg
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 
-from proc_control.srv import EnableControl
-from sonia_msgs.msg import PowerSupplyMsg
-
 
 class Palette(QWidget):
 

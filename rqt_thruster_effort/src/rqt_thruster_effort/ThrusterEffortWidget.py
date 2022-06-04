@@ -6,7 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtCore import pyqtSignal
 
-from provider_thruster.msg import ThrusterEffort
+from sonia_msgs.msg import ThrusterEffort
 
 
 class ThrusterEffortWidget(QWidget):

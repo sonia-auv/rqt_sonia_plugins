@@ -10,7 +10,7 @@ from python_qt_binding.QtCore import pyqtSignal
 from python_qt_binding.QtWidgets import QTableWidgetItem
 
 
-from provider_hydrophone.msg import PingMsg
+from sonia_msgs.msg import PingMsg
 
 
 class HydroPingWidget(QWidget):

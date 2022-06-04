@@ -13,7 +13,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-    <run_depend>proc_control</run_depend>
+    <run_depend>sonia_msgs</run_depend>
     <run_depend>rospy</run_depend>
     <run_depend>rqt_gui</run_depend>
     <run_depend>rqt_gui_py</run_depend>
