@@ -7,8 +7,8 @@ from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
 
 from std_msgs.msg import UInt8
-from proc_control.srv import ClearWaypoint, SetPositionTarget, SetControlMode
-from proc_navigation.srv import SetDepthOffset, SetWorldXYOffset
+from sonia_msgs.srv import ClearWaypoint, SetPositionTarget, SetControlMode
+from sonia_msgs.srv import SetDepthOffset, SetWorldXYOffset
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose, Twist
 
@@ -74,7 +74,7 @@ class WaypointWidget(QMainWindow):
         self.velocityMode.clicked.connect(self._velocity_mode)
 
         self.positionMode.setEnabled(False)
-        self.velocityMode.setEnabled(False)
+        self.velocityMode.setEnabled(True)
 
     def _reset_depth(self):
         try:
@@ -106,11 +106,25 @@ class WaypointWidget(QMainWindow):
             rospy.logerr(err)
 
     def _position_mode(self):
-        self.set_control_mode_srv(0)
+        try:
+            self.clear_waypoint_srv()
+            self.set_control_mode_srv(0)
+            self.positionMode.setEnabled(False)
+            self.velocityMode.setEnabled(True)
+            self.clearWaypoint.setEnabled(True)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _velocity_mode(self):
-        self.set_control_mode_srv(2)
+        try:
+            self.clear_waypoint_srv()
+            self.set_control_mode_srv(2)
+            self.positionMode.setEnabled(True)
+            self.velocityMode.setEnabled(False)
+            self.clearWaypoint.setEnabled(False)
+        except rospy.ServiceException as err:
+            rospy.logerr(err)
         pass
 
     def _odom_result_received(self, odom):

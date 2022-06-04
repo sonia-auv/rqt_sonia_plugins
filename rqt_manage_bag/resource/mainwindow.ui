@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1044</width>
-    <height>449</height>
+    <width>717</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Bag Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout_6">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="toolTip">
@@ -32,42 +32,14 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QWidget" name="widget_4" native="true">
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <widget class="QWidget" name="widget_5" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QLineEdit" name="inputBag"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="selectInputBag">
-                <property name="text">
-                 <string>Select input bag file</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QWidget" name="widget" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_4">
-              <item>
-               <widget class="QLineEdit" name="outputFolder"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="selectOuputFolder">
-                <property name="text">
-                 <string>Select general folder</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
+         <widget class="QPushButton" name="selectInputBag">
+          <property name="text">
+           <string>Select input bag file</string>
+          </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="inputBag"/>
         </item>
         <item>
          <widget class="QWidget" name="widget_2" native="true">
@@ -92,43 +64,97 @@
          </widget>
         </item>
         <item>
-         <widget class="QSlider" name="FPS">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>90</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="runPushButton">
+            <property name="text">
+             <string>Run original bag</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLCDNumber" name="lcdNumberFPS">
+            <property name="intValue" stdset="0">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_FPS">
+            <property name="text">
+             <string>FPS</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="FPS">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>90</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="startStopPushButton">
+            <property name="text">
+             <string>Start recording bag</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QWidget" name="widget_7" native="true">
+         <widget class="QWidget" name="widget" native="true">
           <property name="maximumSize">
            <size>
-            <width>200000</width>
+            <width>16777215</width>
             <height>60</height>
            </size>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QPushButton" name="startStopPushButton">
+            <widget class="QLabel" name="label_newBag">
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
              <property name="text">
-              <string>Start</string>
+              <string>New bag name :</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="runPushButton">
+            <widget class="QLabel" name="label_newBagName">
              <property name="text">
-              <string>Run</string>
+              <string/>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectOutputFolder">
+          <property name="text">
+           <string>Select general folder</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="outputFolder"/>
         </item>
         <item>
          <widget class="QWidget" name="widget_3" native="true">
@@ -149,20 +175,64 @@
            <item>
             <widget class="QLineEdit" name="nameObject"/>
            </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget_4" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>60</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
            <item>
-            <widget class="QPushButton" name="saveBagButton">
+            <widget class="QLabel" name="label_location">
              <property name="text">
-              <string>Save Bag</string>
+              <string>Location</string>
              </property>
             </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="locationObject"/>
            </item>
           </layout>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="breakButton">
+         <widget class="QWidget" name="widget_5" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_date">
+             <property name="text">
+              <string>Date</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="dateObject"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="saveBagButton">
           <property name="text">
-           <string>Break</string>
+           <string>Save Bag</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="resetButton">
+          <property name="text">
+           <string>Reset</string>
           </property>
          </widget>
         </item>

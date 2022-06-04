@@ -8,15 +8,15 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtGui import QPainter, QImage
 from python_qt_binding.QtCore import Qt, pyqtSignal
 from python_qt_binding.QtWidgets import QMenu, QAction, QWidget
-from sensor_msgs.msg import Image as SensorImage
-from proc_image_processing.msg import VisionTarget
-from proc_image_processing.srv import get_filterchain_from_execution, get_media_from_execution, execute_cmd, republish
+from sensor_msgs.msg import CompressedImage as SensorCompressedImage
+from sonia_msgs.msg import VisionTarget
+from sonia_msgs.srv import GetFilterchainFromExecution, GetMediaFromExecution, ExecuteCmd, Republish
 from cv_bridge import CvBridge, CvBridgeError
 from ConfigureFilterchainWidget import ConfigureFilterchainWidget
 from Tkinter import Tk
 from tkFileDialog import asksaveasfilename
 
-from proc_image_processing.srv import get_information_list
+from sonia_msgs.srv import GetInformationList
 
 
 class VisionMainWidget(QWidget):
@@ -50,14 +50,14 @@ class VisionMainWidget(QWidget):
         self.image_change.connect(self._handle_new_image)
         ##### Service
         self._srv_get_information_list = rospy.ServiceProxy('/proc_image_processing/get_information_list',
-                                                            get_information_list)
+                                                            GetInformationList)
         self._srv_get_filterchain_from_execution = rospy.ServiceProxy(
-            '/proc_image_processing/get_filterchain_from_execution', get_filterchain_from_execution)
+            '/proc_image_processing/get_filterchain_from_execution', GetFilterchainFromExecution)
         self._srv_get_media_from_execution = rospy.ServiceProxy('/proc_image_processing/get_media_from_execution',
-                                                                get_media_from_execution)
-        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', execute_cmd)
+                                                                GetMediaFromExecution)
+        self._srv_execute_cmd = rospy.ServiceProxy('/proc_image_processing/execute_cmd', ExecuteCmd)
 
-        self._srv_start_republisher = rospy.ServiceProxy('//image_republisher_node/republish', republish)
+        self._srv_start_republisher = rospy.ServiceProxy('//image_republisher_node/republish', Republish)
         ###
         self.image_frame_mouse_release_event_original = self.imageFrame.mouseReleaseEvent
         self.imageFrame.mouseReleaseEvent = self.image_frame_mouse_release_event
@@ -114,17 +114,21 @@ class VisionMainWidget(QWidget):
             self._filterchain = self._srv_get_filterchain_from_execution(self._current_execution)
         except rospy.ServiceException as err:
             rospy.logerr(err)
+        
+        topic_name = "/proc_image_processing/{}_image/compressed".format(new_execution)
+        
         try:
             self._srv_start_republisher('/proc_image_processing/' + new_execution + '_image', 1)
             ip = os.getenv('ROS_IP', '127.0.0.1')
-            topic_name = '/proc_image_processing/' + new_execution + '_image_' + ip.replace('.', '')
+            topic_name = '/proc_image_processing/{}_image_{}'.format(new_execution, ip.replace('.', ''))
             self._current_execution_subscriber = rospy.Subscriber(topic_name,
-                                                                  SensorImage, self.current_execution_callback)
-            print 'subscribe ', topic_name
+                                                                  SensorCompressedImage, self.current_execution_callback)
+            print('subscribe ', topic_name)
         except:
             rospy.logerr('Republisher node is not stated !')
-            self._current_execution_subscriber = rospy.Subscriber('/proc_image_processing/' + new_execution + '_image',
-                                                                  SensorImage, self.current_execution_callback)
+            self._current_execution_subscriber = rospy.Subscriber(topic_name,
+                                                                  SensorCompressedImage, self.current_execution_callback)
+            
 
         self._current_execution_subscriber_result = rospy.Subscriber(
             '/proc_image_processing/' + new_execution + '_result',
@@ -149,7 +153,7 @@ class VisionMainWidget(QWidget):
     def _handle_new_image(self, img):
         try:
             if self._image_seq < img.header.seq:
-                cv_image = self.bridge.imgmsg_to_cv2(img, desired_encoding="rgb8")
+                cv_image = self.bridge.compressed_imgmsg_to_cv2(img, desired_encoding="rgb8")
                 self._image_seq = img.header.seq
                 height, width, channel = cv_image.shape
                 bytesPerLine = 3 * width
@@ -182,6 +186,7 @@ class VisionMainWidget(QWidget):
                                                                                                       visionTarget.width,
                                                                                                       visionTarget.height,
                                                                                                       visionTarget.angle,
+                                                                                                      visionTarget.distance,
                                                                                                       visionTarget.desc_1,
                                                                                                       visionTarget.desc_2)
         self.result_change.emit(result)

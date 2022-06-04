@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
+    <width>250</width>
     <height>60</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>291</width>
+    <width>220</width>
     <height>60</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>291</width>
+    <width>400</width>
     <height>60</height>
    </size>
   </property>
@@ -65,8 +65,17 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item>
+      <item alignment="Qt::AlignRight">
        <widget class="QLabel" name="battery_label">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>80</width>
@@ -75,7 +84,7 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>80</width>
+          <width>300</width>
           <height>16777215</height>
          </size>
         </property>
@@ -91,6 +100,12 @@
       </item>
       <item>
        <widget class="QLabel" name="battery_value">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>30</width>
@@ -117,69 +132,36 @@
        </widget>
       </item>
       <item>
-       <widget class="QSlider" name="battery_slider">
-        <property name="enabled">
-         <bool>false</bool>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>35</height>
+          <width>50</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>124</width>
+          <width>70</width>
           <height>16777215</height>
          </size>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
         <property name="styleSheet">
-         <string notr="true">QSlider::groove:horizontal {
-    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, 
-                            stop: 0 #e41500, 
-                            stop: 0.3 #e4d414,
-                            stop: 1 #0be400);
-    position: absolute; /* absolutely position 4px from the left and right of the widget. setting margins on the widget should work too... */
-    top: 10px; bottom: 10px;
-	border-radius: 4px;
-}
-
-QSlider::handle:horizontal {
-    width: 10px;
-	border-radius: 3px;
-    background: rgb(117, 156, 176);
-    margin: -5px 0; /* expand outside the groove */
-}</string>
+         <string notr="true"/>
         </property>
         <property name="minimum">
-         <number>1330</number>
+         <number>154</number>
         </property>
         <property name="maximum">
-         <number>1690</number>
-        </property>
-        <property name="singleStep">
-         <number>1</number>
+         <number>168</number>
         </property>
         <property name="value">
-         <number>1330</number>
-        </property>
-        <property name="sliderPosition">
-         <number>1330</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="tickPosition">
-         <enum>QSlider::TicksBelow</enum>
-        </property>
-        <property name="tickInterval">
-         <number>1</number>
+         <number>159</number>
         </property>
        </widget>
       </item>
