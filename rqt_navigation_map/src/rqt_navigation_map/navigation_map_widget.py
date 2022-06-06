@@ -136,14 +136,14 @@ class NavigationMapWidget(QWidget):
 
         lock_on_sub = instance_settings.value('lock_on_sub_activated') == 'True'
         if lock_on_sub is None:
-            print 'Nothing stored for lock_on_sub'
+            print('Nothing stored for lock_on_sub')
         else:
             self._lock_on_sub(lock_on_sub)
             self._lockOnSubAction.setChecked(lock_on_sub)
 
         rotate_with_sub = instance_settings.value('rotate_with_sub_activated') == 'True'
         if rotate_with_sub is None:
-            print 'Nothing stored for lock_on_sub'
+            print('Nothing stored for lock_on_sub')
         else:
             self._rotate_with_sub(rotate_with_sub)
             self._rotateSubAction.setChecked(rotate_with_sub)

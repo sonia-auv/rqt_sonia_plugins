@@ -60,8 +60,8 @@ class KillMissionWidget(QWidget):
                                                           GetKillSwitch)
             kill_state = get_kill_switch_state()
             self._handle_kill_result(bool(kill_state.state))
-        except rospy.ServiceException, e:
-            print e
+        except rospy.ServiceException as e:
+            print(e)
             rospy.logerr('Mission Executor is not starteddd')
 
     def _create_contextual_menu(self):

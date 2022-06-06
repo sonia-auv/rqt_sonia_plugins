@@ -114,14 +114,14 @@ class ConfigWidget(QWidget):
             try:
                 self._srv_start_media_cmd(media,1)
                 media = '/provider_vision' + media.replace('.','')
-                print 'media : ' ,media
+                print('media : ' ,media)
             except rospy.ServiceException as err:
                 rospy.logerr(err)
         #Normal Mode
         if len(media) == 0:
             media = self._current_media
 
-        print 'Media for start' , media
+        print('Media for start' , media)
         try:
             self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
         except rospy.ServiceException as err:

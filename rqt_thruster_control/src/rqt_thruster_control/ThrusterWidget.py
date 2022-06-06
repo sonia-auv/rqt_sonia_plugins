@@ -2,7 +2,7 @@ import os
 import rospy
 import rospkg
 import threading
-from ThrusterAction import ThrusterAction
+from .ThrusterAction import ThrusterAction
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow

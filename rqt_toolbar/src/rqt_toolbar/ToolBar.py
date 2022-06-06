@@ -32,8 +32,8 @@ class ToolBar(Plugin):
         args, unknowns = parser.parse_known_args(context.argv())
 
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         self._toolbar = QToolBar()
         self._palette = Palette()

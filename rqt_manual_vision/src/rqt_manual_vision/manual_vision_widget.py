@@ -36,7 +36,7 @@ class ManualVisionWidget(QWidget):
             self.topic_result = rospy.Publisher(self.topic_name.text(), VisionTarget, queue_size=10)
             self.thread = Thread(target=self._publish_in_continuous)
             self.thread.start()
-        except rospy.ROSException, e:
+        except rospy.ROSException as e:
             rospy.logerr('unable to publish')
 
     def _handle_stop(self):
@@ -44,7 +44,7 @@ class ManualVisionWidget(QWidget):
 
     def _publish_in_continuous(self):
         while not rospy.is_shutdown() and self.thread_running:
-            print 'publishing'
+            print('publishing')
             target = VisionTarget()
             target.x = self.x_spin.value()
             target.y = self.y_spin.value()

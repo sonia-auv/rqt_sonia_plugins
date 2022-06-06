@@ -45,7 +45,7 @@ class TestBoardWidget(QMainWindow):
     def _publish_in_continuous(self):
         stop = True
         while not rospy.is_shutdown() and self.thread_running and stop:
-            print 'publishing'
+            print('publishing')
             msg = SendRS485Msg()
             msg.slave = self.slave
             msg.cmd = self.cmd

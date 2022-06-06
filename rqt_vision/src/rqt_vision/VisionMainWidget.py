@@ -12,7 +12,7 @@ from sensor_msgs.msg import CompressedImage as SensorCompressedImage
 from sonia_msgs.msg import VisionTarget
 from sonia_msgs.srv import GetFilterchainFromExecution, GetMediaFromExecution, ExecuteCmd, Republish
 from cv_bridge import CvBridge, CvBridgeError
-from ConfigureFilterchainWidget import ConfigureFilterchainWidget
+from .ConfigureFilterchainWidget import ConfigureFilterchainWidget
 from Tkinter import Tk
 from tkFileDialog import asksaveasfilename
 

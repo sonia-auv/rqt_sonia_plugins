@@ -102,4 +102,4 @@ class MapDrawer():
             layer.restore_settings(plugin_settings,instance_settings)
 
     def shutdown_plugin(self):
-        print 'Shutting down'
+        print('Shutting down')

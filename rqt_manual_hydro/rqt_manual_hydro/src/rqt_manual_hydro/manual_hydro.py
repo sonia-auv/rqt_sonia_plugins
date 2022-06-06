@@ -1,6 +1,6 @@
 from rqt_gui_py.plugin import Plugin
 
-from manual_hydro_widget import ManualHydroWidget
+from .manual_hydro_widget import ManualHydroWidget
 
 
 class ManualHydro(Plugin):

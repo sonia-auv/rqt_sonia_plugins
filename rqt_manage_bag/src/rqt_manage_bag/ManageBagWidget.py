@@ -12,7 +12,6 @@ from os.path import expanduser
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge
 
-
 class ManageBagWidget(QMainWindow):
 
     def __init__(self):
