@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>866</width>
-    <height>175</height>
+    <height>240</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -126,7 +126,7 @@
       <item>
        <widget class="QLabel" name="T1_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -178,6 +178,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T1_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -208,7 +215,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T2_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -260,6 +267,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T2_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -290,7 +304,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T3_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -342,6 +356,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T3_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -372,7 +393,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T4_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -424,6 +445,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T4_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -454,7 +482,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T5_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -506,6 +534,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T5_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -536,7 +571,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T6_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -588,6 +623,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T6_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -618,7 +660,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T7_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -670,6 +712,13 @@ QSlider::handle:vertical {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="T7_pwm">
+        <property name="text">
+         <string>PWM: </string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -700,7 +749,7 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T8_value">
         <property name="text">
-         <string>- %</string>
+         <string>- N</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -749,6 +798,13 @@ QSlider::handle:vertical {
         </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="T8_pwm">
+        <property name="text">
+         <string>PWM: </string>
         </property>
        </widget>
       </item>
