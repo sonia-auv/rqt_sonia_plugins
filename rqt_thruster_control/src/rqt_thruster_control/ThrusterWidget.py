@@ -9,6 +9,7 @@ from python_qt_binding.QtWidgets import QMainWindow
 
 from std_msgs.msg import UInt16MultiArray
 from std_msgs.msg import Bool
+from std_srvs.srv import Empty
 
 class ThrusterWidget(QMainWindow):
 
@@ -25,6 +26,7 @@ class ThrusterWidget(QMainWindow):
         # Subscribe to slot
         self.enableButton.setEnabled(True)
         self.disableButton.setEnabled(False)
+        self.resetPwmButton.setEnabled(False)
         self.enableButton.clicked[bool].connect(self._handle_enableButton_clicked)
         self.disableButton.clicked[bool].connect(self._handle_disableButton_clicked)
         self.actionStart_test.triggered.connect(self._handle_start_test_triggered)
@@ -41,6 +43,7 @@ class ThrusterWidget(QMainWindow):
 
         self.thruster_publisher = rospy.Publisher("/provider_thruster/thruster_pwm", UInt16MultiArray, queue_size=10)
         self.enable_thrusters_publisher = rospy.Publisher("/provider_power/activate_all_motor", Bool, queue_size=10)
+        self.dry_test_service = rospy.ServiceProxy('/provider_thruster/dry_test', Empty)
 
         self.enableButton.setEnabled(True)
         self.disableButton.setEnabled(False)
@@ -63,6 +66,7 @@ class ThrusterWidget(QMainWindow):
         self.T3_T4.setEnabled(True)
         self.T5_T6.setEnabled(True)
         self.T7_T8.setEnabled(True)
+        self.resetPwmButton.setEnabled(True)
         self.actionStart_test.setEnabled(True)
         self.enable_thrusters_publisher.publish(data = True)
 
@@ -73,6 +77,7 @@ class ThrusterWidget(QMainWindow):
         self.T3_T4.setEnabled(False)
         self.T5_T6.setEnabled(False)
         self.T7_T8.setEnabled(False)
+        self.resetPwmButton.setEnabled(False)
         self.actionStart_test.setEnabled(False)
         self.enable_thrusters_publisher.publish(data = False)
 
@@ -83,7 +88,7 @@ class ThrusterWidget(QMainWindow):
         self.thruster_publisher.publish(data = self.pwms)
 
     def _handle_start_test_triggered(self):
-        pass
+        self.dry_test_service()
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
