@@ -118,7 +118,11 @@ class ThrusterWidget(QMainWindow):
         self.thruster_publisher.publish(data = self.pwms)
 
     def _handle_start_test_triggered(self):
-        self.dry_test_service()
+        try:
+            self.dry_test_service()
+        except rospy.ServiceException as e:
+            print(e)
+            rospy.logerr('Provider Thruster Node is not started')
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
