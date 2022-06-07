@@ -10,6 +10,7 @@ from std_msgs.msg import Bool
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
 from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
+from sonia_common.srv import ObjectPoseService, ObjectPoseServiceResponse
 
 
 class WaypointWidget(QMainWindow):
@@ -33,11 +34,14 @@ class WaypointWidget(QMainWindow):
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
         self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
+        self.simulation_started_subscriber = rospy.Subscriber("/proc_simulation/start_simulation", Pose, self.simulation_started_callback)
 
-        self.set_initial_position_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10)
+        self.set_initial_position_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10, latch=True)
         self.single_add_pose_publisher = rospy.Publisher("/proc_control/add_pose", AddPose, queue_size=10)
         self.multi_add_pose_publisher = rospy.Publisher("/proc_planner/send_multi_addpose", MultiAddPose, queue_size=10)
         self.reset_trajectory_publisher = rospy.Publisher("/proc_control/reset_trajectory", Bool, queue_size=10)
+
+        self.initial_position_service = rospy.ServiceProxy("obj_pose_srv", ObjectPoseService)
 
         self.current_target_received.connect(self._current_target_received)
 
@@ -73,7 +77,27 @@ class WaypointWidget(QMainWindow):
         self.reset_trajectory_publisher.publish(data=True)
 
     def send_initial_position(self):
-        pass
+        try:
+            # TODO: Replace with environment variable.
+            resp = self.initial_position_service.call(object_name='AUV8')
+            pose = Pose()
+            pose.position.x = resp.object_pose.position.x
+            pose.position.y = resp.object_pose.position.y
+            pose.position.z = resp.object_pose.position.z
+
+            pose.orientation.x = resp.object_pose.orientation.x
+            pose.orientation.y = resp.object_pose.orientation.y
+            pose.orientation.z = resp.object_pose.orientation.z
+            pose.orientation.w = resp.object_pose.orientation.w
+
+            self.set_initial_position_publisher.publish(pose)
+
+        except rospy.ServiceException as e:
+            print(e)
+            rospy.logerr('Simulation is not started')
+
+    def simulation_started_callback(self, msg):
+        self.initialPosition.setEnabled(False)
 
     def _position_target_callback(self,data):
         self.current_target_received.emit(data)
@@ -166,7 +190,6 @@ class WaypointWidget(QMainWindow):
 
                         self.multi_add_pose_publisher.publish(multi_pose)
                         self.reset_commands()
-
         except ValueError:
             pass
 

@@ -119,7 +119,7 @@ class ThrusterWidget(QMainWindow):
 
     def _handle_start_test_triggered(self):
         try:
-            self.dry_test_service()
+            self.dry_test_service.call()
         except rospy.ServiceException as e:
             print(e)
             rospy.logerr('Provider Thruster Node is not started')
