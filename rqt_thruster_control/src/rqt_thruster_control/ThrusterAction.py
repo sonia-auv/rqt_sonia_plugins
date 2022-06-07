@@ -8,7 +8,7 @@ class ThrusterAction():
 
         eval('mainwindow.' + thrusterName + '_effort1100.clicked[bool]').connect(self._handle_thruster_effort1100_clicked)
         eval('mainwindow.' + thrusterName + '_effort1300.clicked[bool]').connect(self._handle_thruster_effort1300_clicked)
-        eval('mainwindow.' + thrusterName + '_effort1500.clicked[bool]').connect(self._handle_thruster_effort1500_clicked)
+        eval('mainwindow.' + thrusterName + '_effort1500.clicked[bool]').connect(self.handle_thruster_effort1500_clicked)
         eval('mainwindow.' + thrusterName + '_effort1700.clicked[bool]').connect(self._handle_thruster_effort1700_clicked)
         eval('mainwindow.' + thrusterName + '_effort1900.clicked[bool]').connect(self._handle_thruster_effort1900_clicked)
 
@@ -20,7 +20,7 @@ class ThrusterAction():
     def _handle_thruster_effort1300_clicked(self, checked):
         self._update_speed_slider(1300)
 
-    def _handle_thruster_effort1500_clicked(self, checked):
+    def handle_thruster_effort1500_clicked(self, checked):
         self._update_speed_slider(1500)
 
     def _handle_thruster_effort1700_clicked(self, checked):

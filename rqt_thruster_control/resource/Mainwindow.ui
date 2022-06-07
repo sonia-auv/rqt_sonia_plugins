@@ -39,7 +39,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Enable</string>
+     <string>Dry Run</string>
     </property>
    </widget>
    <widget class="QPushButton" name="disableButton">
@@ -52,7 +52,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Disable</string>
+     <string>Normal</string>
     </property>
    </widget>
    <widget class="QFrame" name="T1_T2">
