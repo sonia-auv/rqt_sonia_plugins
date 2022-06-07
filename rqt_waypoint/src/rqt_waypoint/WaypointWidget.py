@@ -3,33 +3,22 @@ import rospy
 import rospkg
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QMainWindow
+from python_qt_binding.QtWidgets import QMainWindow, QMessageBox
 from python_qt_binding.QtCore import pyqtSignal
 
-from std_msgs.msg import UInt8
-from sonia_msgs.srv import ClearWaypoint, SetPositionTarget, SetControlMode
-from sonia_msgs.srv import SetDepthOffset, SetWorldXYOffset
+from std_msgs.msg import Bool
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Pose, Twist
+from geometry_msgs.msg import Pose
+from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
 
 
 class WaypointWidget(QMainWindow):
 
-    odom_result_received = pyqtSignal('PyQt_PyObject')
     current_target_received = pyqtSignal('PyQt_PyObject')
-    current_target_velocity_received = pyqtSignal('PyQt_PyObject')
 
     def __init__(self):
         super(WaypointWidget, self).__init__()
         # Give QObjects reasonable names
-        try:
-            rospy.wait_for_service('/proc_control/set_control_mode', timeout=2)
-            rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
-            rospy.wait_for_service('/proc_control/clear_waypoint', timeout=2)
-            rospy.wait_for_service('/proc_navigation/set_depth_offset', timeout=2)
-            rospy.wait_for_service('/proc_navigation/set_world_x_y_offset', timeout=2)
-        except rospy.ROSException:
-            False
 
         self.setObjectName('WaypointWidget')
 
@@ -38,183 +27,158 @@ class WaypointWidget(QMainWindow):
 
         self.setObjectName('MyWaypointWidget')
 
-        self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
-        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
-                                                           self._position_target_callback)
+        self.current_mode_id = 0
+        self.z_pose = 0
 
-        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target_velocity', Twist,
-                                                           self._velocity_target_callback)
+        self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
+        self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
+        self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
 
-        self.control_mode_subscriber = rospy.Subscriber('/proc_control/control_mode', UInt8, self._control_mode_callback)
+        self.set_initial_position_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10)
+        self.single_add_pose_publisher = rospy.Publisher("/proc_control/add_pose", AddPose, queue_size=10)
+        self.multi_add_pose_publisher = rospy.Publisher("/proc_planner/send_multi_addpose", MultiAddPose, queue_size=10)
+        self.reset_trajectory_publisher = rospy.Publisher("/proc_control/reset_trajectory", Bool, queue_size=10)
 
-        self.odom_result_received.connect(self._odom_result_received)
         self.current_target_received.connect(self._current_target_received)
-        self.current_target_velocity_received.connect(self._current_target_velocity_received)
-
-        self.set_control_mode_srv = rospy.ServiceProxy('/proc_control/set_control_mode', SetControlMode)
-        self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
-        self.clear_waypoint_srv = rospy.ServiceProxy('/proc_control/clear_waypoint', ClearWaypoint)
-        self.set_initial_depth = rospy.ServiceProxy('/proc_navigation/set_depth_offset', SetDepthOffset)
-        self.set_initial_position = rospy.ServiceProxy('/proc_navigation/set_world_x_y_offset', SetWorldXYOffset)
-
-        self.xPositionTarget.returnPressed.connect(self.send_position)
-        self.yPositionTarget.returnPressed.connect(self.send_position)
-        self.zPositionTarget.returnPressed.connect(self.send_position)
-        self.rollPositionTarget.returnPressed.connect(self.send_position)
-        self.pitchPositionTarget.returnPressed.connect(self.send_position)
-        self.yawPositionTarget.returnPressed.connect(self.send_position)
 
         self.actionReset_Depth.triggered.connect(self._reset_depth)
         self.actionReset_Position.triggered.connect(self._reset_position)
 
         self.clearWaypoint.clicked.connect(self._clear_waypoint)
-        self.initialPosition.clicked.connect(self._clear_waypoint_and_reset_position)
+        self.initialPosition.clicked.connect(self.send_initial_position)
 
-        self.positionMode.clicked.connect(self._position_mode)
-        self.velocityMode.clicked.connect(self._velocity_mode)
-
-        self.positionMode.setEnabled(False)
-        self.velocityMode.setEnabled(True)
+        self.sendWaypointButton.clicked.connect(self.send_position)
+        self.sendWaypointButton.setEnabled(False)
+        self.sendWaypointButton.setText("Choose a mode")
 
     def _reset_depth(self):
-        try:
-            self.set_initial_depth()
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        pass
 
     def _reset_position(self):
-        try:
-            self.set_initial_position()
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        pass
+    
+    def set_mpc_info(self, msg):
+        self.current_mode_id = msg.mpc_mode
+        if self.current_mode_id == 11 or self.current_mode_id == 10:
+            self.sendWaypointButton.setText("Send Waypoint")
+            self.sendWaypointButton.setEnabled(True)
+        else:
+            self.sendWaypointButton.setText("Choose a mode")
+            self.sendWaypointButton.setEnabled(False)
 
-    def _odom_callback(self, data):
-        self.odom_result_received.emit(data)
+    def auv_pose_callback(self, msg):
+        self.z_pose = float(msg.pose.pose.position.z)
 
     def _clear_waypoint(self):
-        try:
-            self.clear_waypoint_srv()
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+        self.reset_trajectory_publisher.publish(data=True)
 
-    def _clear_waypoint_and_reset_position(self):
-        try:
-            self.set_initial_position()
-            rospy.sleep(0.05)
-            self.clear_waypoint_srv()
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
-
-    def _position_mode(self):
-        try:
-            self.clear_waypoint_srv()
-            self.set_control_mode_srv(0)
-            self.positionMode.setEnabled(False)
-            self.velocityMode.setEnabled(True)
-            self.clearWaypoint.setEnabled(True)
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
+    def send_initial_position(self):
         pass
-
-    def _velocity_mode(self):
-        try:
-            self.clear_waypoint_srv()
-            self.set_control_mode_srv(2)
-            self.positionMode.setEnabled(True)
-            self.velocityMode.setEnabled(False)
-            self.clearWaypoint.setEnabled(False)
-        except rospy.ServiceException as err:
-            rospy.logerr(err)
-        pass
-
-    def _odom_result_received(self, odom):
-        self.xPositionCurrent.setText('%.2f' % odom.pose.pose.position.x)
-        self.yPositionCurrent.setText('%.2f' % odom.pose.pose.position.y)
-        self.zPositionCurrent.setText('%.2f' % odom.pose.pose.position.z)
-        self.rollPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.x)
-        self.pitchPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.y)
-        self.yawPositionCurrent.setText('%.2f' % odom.pose.pose.orientation.z)
-        self.xVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.x)
-        self.yVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.y)
-        self.zVelocityCurrent.setText('%.2f' % odom.twist.twist.linear.z)
-        self.rollVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.x)
-        self.pitchVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.y)
-        self.yawVelocityCurrent.setText('%.2f' % odom.twist.twist.angular.z)
 
     def _position_target_callback(self,data):
         self.current_target_received.emit(data)
 
-    def _velocity_target_callback(self, data):
-        self.current_target_velocity_received.emit(data)
-
-    def _control_mode_callback(self, data):
-        if data.data == 0:
-            self.positionMode.setEnabled(False)
-            self.velocityMode.setEnabled(True)
-        elif data.data == 2:
-            self.positionMode.setEnabled(True)
-            self.velocityMode.setEnabled(False)
-        else:
-            self.positionMode.setEnabled(True)
-            self.velocityMode.setEnabled(True)
-
-
-    def _current_target_received(self,data):
+    def _current_target_received(self, data):
         try:
-            self.xPositionTarget.setText('%.2f' % data.position.x)
-            self.yPositionTarget.setText('%.2f' % data.position.y)
-            self.zPositionTarget.setText('%.2f' % data.position.z)
-            self.rollPositionTarget.setText('%.2f' % data.orientation.x)
-            self.pitchPositionTarget.setText('%.2f' % data.orientation.y)
-            self.yawPositionTarget.setText('%.2f' % data.orientation.z)
+            self.xPositionCurrent.setText('%.2f' % data.position.x)
+            self.yPositionCurrent.setText('%.2f' % data.position.y)
+            self.zPositionCurrent.setText('%.2f' % data.position.z)
+            self.rollPositionCurrent.setText('%.2f' % data.orientation.x)
+            self.pitchPositionCurrent.setText('%.2f' % data.orientation.y)
+            self.yawPositionCurrent.setText('%.2f' % data.orientation.z)
         except ValueError:
             pass
 
-    def _current_target_velocity_received(self,data):
-        try:
-            self.xPositionTarget.setText('%.2f' % data.linear.x)
-            self.yPositionTarget.setText('%.2f' % data.linear.y)
-            self.zPositionTarget.setText('%.2f' % data.linear.z)
-            self.rollPositionTarget.setText('%.2f' % data.angular.x)
-            self.pitchPositionTarget.setText('%.2f' % data.angular.y)
-            self.yawPositionTarget.setText('%.2f' % data.angular.z)
-        except ValueError:
-            pass
+    def reset_commands(self):
+        self.xPositionTarget.setText('0.0')
+        self.yPositionTarget.setText('0.0')
+        self.zPositionTarget.setText('0.0')
+        self.rollPositionTarget.setText('0.0')
+        self.pitchPositionTarget.setText('0.0')
+        self.yawPositionTarget.setText('0.0')
+        
+        self.speed.setText('0')
+        self.fine.setText('0.0')
 
     def send_position(self):
         try:
-            x_target = float(self.xPositionTarget.text())
-            y_target = float(self.yPositionTarget.text())
-            z_target = min(float(self.zPositionTarget.text()), 3)
-            roll_target = float(self.rollPositionTarget.text())
-            pitch_target = float(self.pitchPositionTarget.text())
-            yaw_target = float(self.yawPositionTarget.text())
-            try:
-                self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target,
-                                       YAW=yaw_target)
-            except rospy.ServiceException as err:
-                rospy.logerr(err)
+            print("Sending waypoint.")
+            z_axis_problem = False
+            x_val = float(self.xPositionTarget.text())
+            y_val = float(self.yPositionTarget.text())
+            z_val = min(float(self.zPositionTarget.text()), 3)
+            roll_val = float(self.rollPositionTarget.text())
+            pitch_Val = float(self.pitchPositionTarget.text())
+            yaw_val = float(self.yawPositionTarget.text())
+            frame_val = self.frameChoice.currentIndex()
+            speed_val = int(self.speed.text())
+            fine_val = float(self.fine.text())
+            method_val = self.methodChoice.currentIndex()
+            path_val = self.pathLength.isChecked()
+            # Verify z-axis
+            if frame_val == 0 or frame_val == 2:
+                if z_val > 4: z_axis_problem = True
+            else:
+                if z_val + self.z_pose > 4: z_axis_problem = True  
+            if z_axis_problem:
+                self.show_error("Depth too low.")
+            else:
+                if self.current_mode_id == 11:
+                    if speed_val <= 0:
+                        self.show_error("Speed incorrect.")
+                    else:
+                        # Send a single waypoint.
+                        pose = AddPose()
+                        pose.position.x = x_val
+                        pose.position.y = y_val
+                        pose.position.z = z_val
+                        pose.orientation.x = roll_val
+                        pose.orientation.y = pitch_Val
+                        pose.orientation.z = yaw_val
+                        pose.frame = frame_val
+                        pose.speed = speed_val
+                        pose.fine = fine_val
+                        pose.rotation = path_val
+
+                        self.single_add_pose_publisher.publish(pose)
+                        self.reset_commands()
+
+                elif self.current_mode_id == 10:
+                    if speed_val < 0 or speed_val > 2:
+                        self.show_error("Speed profile incorrect.")
+                    else:
+                        # Send a multi-waypoint.
+                        pose = AddPose()
+                        pose.position.x = x_val
+                        pose.position.y = y_val
+                        pose.position.z = z_val
+                        pose.orientation.x = roll_val
+                        pose.orientation.y = pitch_Val
+                        pose.orientation.z = yaw_val
+                        pose.frame = frame_val
+                        pose.speed = speed_val
+                        pose.fine = fine_val
+                        pose.rotation = path_val
+
+                        multi_pose = MultiAddPose()
+                        multi_pose.pose.append(pose)
+                        multi_pose.interpolation_method = method_val
+
+                        self.multi_add_pose_publisher.publish(multi_pose)
+                        self.reset_commands()
+
         except ValueError:
             pass
 
-    def send_velocity(self):
-        try:
-            x_target = float(self.xVelocityTarget.text())
-            y_target = float(self.yVelocityTarget.text())
-            z_target = min(float(self.zVelocityTarget.text()), 3)
-            roll_target = float(self.rollVelocityTarget.text())
-            pitch_target = float(self.pitchVelocityTarget.text())
-            yaw_target = float(self.yawVelocityTarget.text())
-            try:
-                self.set_global_target(X=x_target, Y=y_target, Z=z_target, ROLL=roll_target, PITCH=pitch_target,
-                                       YAW=yaw_target)
-            except rospy.ServiceException as err:
-                rospy.logerr(err)
-        except ValueError:
-            pass
-
-
+    def show_error(self, message):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Warning)
+        msgBox.setText(message)
+        msgBox.setWindowTitle("Error")
+        msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.exec()
 
     def shutdown_plugin(self):
-        self._odom_subscriber.unregister()
+        self.auv_position_subscriber.unregister()
+        self.controller_info_subscriber.unregister()
         self.position_target_subscriber.unregister()

@@ -484,7 +484,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="speed">
        <property name="text">
         <string>0</string>
        </property>
@@ -498,7 +498,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="fine">
        <property name="text">
         <string>0.0</string>
        </property>
