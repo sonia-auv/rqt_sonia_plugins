@@ -2,13 +2,13 @@ import os
 import rospy
 import rospkg
 import random
-from Tkinter import Tk
-from tkFileDialog import askopenfilename
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from sonia_msgs.srv import ExecuteCmd, GetInformationList, ManageFilterchain, CopyFilterchain, SaveFilterchain
-from sonia_msgs.srv import StartStopMedia
+from sonia_common.srv import ExecuteCmd, GetInformationList, ManageFilterchain, CopyFilterchain, SaveFilterchain
+from sonia_common.srv import StartStopMedia
 
 
 class ConfigWidget(QWidget):
