@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>517</width>
+    <width>572</width>
     <height>32</height>
    </rect>
   </property>
@@ -130,13 +130,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>512</width>
+     <width>571</width>
      <height>31</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPushButton" name="allAxis">
+     <widget class="QPushButton" name="mpcPlanner">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -144,7 +144,7 @@
        </size>
       </property>
       <property name="text">
-       <string>All</string>
+       <string>10 : MPC Planner</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -155,7 +155,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="xyAxis">
+     <widget class="QPushButton" name="mpcSingleWpts">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -163,7 +163,7 @@
        </size>
       </property>
       <property name="text">
-       <string>XY</string>
+       <string>11 : MPC Single Wpts</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -174,7 +174,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="depthAxis">
+     <widget class="QPushButton" name="softKill">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -182,64 +182,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Depth</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="rollAxis">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Roll</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pitchAxis">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Pitch</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="yawAxis">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>22</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>Yaw</string>
+       <string>0 : Soft Kill</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
