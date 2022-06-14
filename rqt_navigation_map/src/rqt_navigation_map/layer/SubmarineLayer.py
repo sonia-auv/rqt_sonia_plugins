@@ -3,7 +3,7 @@ import rospkg
 import os
 import threading
 
-from Layer import Layer
+from .Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
     glVertex3f, glNormal3f, GL_LINES, GL_TRIANGLES, GL_QUADS,glLoadMatrixd,glMatrixMode,GL_MODELVIEW,glGetDoublev,GL_MODELVIEW_MATRIX
 from tf.transformations import quaternion_matrix

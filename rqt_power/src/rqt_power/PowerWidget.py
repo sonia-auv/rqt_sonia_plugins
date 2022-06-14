@@ -5,12 +5,13 @@ import rospy
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
-from sonia_msgs.msg import PowerMsg, ActivateAllPS
+from std_msgs.msg import Float64MultiArray
 from .PowerCardButtonAction import PowerCardButtonAction
 
 
 class PowerWidget(QMainWindow):
-    power_result_received = pyqtSignal(powerMsg)
+    voltage_result_received = pyqtSignal(Float64MultiArray)
+    current_result_received = pyqtSignal(Float64MultiArray)
 
     CMD_PS_V16_1 = 0
     CMD_PS_V16_2 = 1
@@ -35,11 +36,13 @@ class PowerWidget(QMainWindow):
 
         self.setObjectName('MyPowerControlWidget')
 
-        self._power_subscriber = rospy.Subscriber("/provider_power/power", powerMsg, self._power_callback)
+        self._voltage_subscriber = rospy.Subscriber("/provider_power/voltage", Float64MultiArray, self._voltage_callback)
+        self._current_subscriber = rospy.Subscriber("/provider_power/current", Float64MultiArray, self._current_callback)
 
-        self.activate_all_ps = rospy.Publisher('/provider_power/activate_all_ps', activateAllPS, queue_size=100)
+        #self.activate_all_ps = rospy.Publisher('/provider_power/activate_all_ps', activateAllPS, queue_size=100)
 
-        self.power_result_received.connect(self.show_Data)
+        self.voltage_result_received.connect(self.show_Voltage)
+        self.current_result_received.connect(self.show_Current)
 
         self.EnableAll.setEnabled(True)
         self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
@@ -62,10 +65,16 @@ class PowerWidget(QMainWindow):
         self.card_4_buttons = PowerCardButtonAction(self, '3')
 
 
-    def _power_callback(self, data):
-        self.power_result_received.emit(data)
+    def _voltage_callback(self, data):
+        self.voltage_result_received.emit(data)
 
-    def show_Data(self, powerData):
+    def _current_media(self, data):
+        self.current_result_received.emit(data)
+
+    def show_Current(self, data):
+        self.current_label.setText(str(data.data[0]))
+
+    def show_Voltage(self, powerData):
 
         format_data = '{:.2f}'.format(powerData.data)
 

@@ -1,6 +1,6 @@
 from rqt_gui_py.plugin import Plugin
 
-from navigation_map_widget import NavigationMapWidget
+from .navigation_map_widget import NavigationMapWidget
 
 
 class NavigationMap(Plugin):
