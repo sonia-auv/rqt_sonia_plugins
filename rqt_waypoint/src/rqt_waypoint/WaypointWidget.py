@@ -62,7 +62,7 @@ class WaypointWidget(QMainWindow):
     
     def set_mpc_info(self, msg):
         self.current_mode_id = msg.mpc_mode
-        if self.current_mode_id == 11 or self.current_mode_id == 10:
+        if self.current_mode_id != 0:
             self.sendWaypointButton.setText("Send Waypoint")
             self.sendWaypointButton.setEnabled(True)
         else:

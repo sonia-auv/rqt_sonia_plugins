@@ -5,7 +5,7 @@ import rospy
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray, Bool
 from .PowerCardButtonAction import PowerCardButtonAction
 
 
@@ -13,7 +13,7 @@ class PowerWidget(QMainWindow):
     voltage_result_received = pyqtSignal(Float64MultiArray)
     voltage12V_result_received = pyqtSignal(Float64MultiArray)
     current_result_received = pyqtSignal(Float64MultiArray)
-
+    temperature_result_received = pyqtSignal(Float64MultiArray)
 
     CMD_PS_V16_1 = 0
     CMD_PS_V16_2 = 1
@@ -41,19 +41,20 @@ class PowerWidget(QMainWindow):
         self._voltage_subscriber = rospy.Subscriber("/provider_power/voltage", Float64MultiArray, self._voltage_callback)
         self._voltage12V_subscriber = rospy.Subscriber("/provider_power/voltage12V", Float64MultiArray, self._voltage12V_callback)
         self._current_subscriber = rospy.Subscriber("/provider_power/current", Float64MultiArray, self._current_callback)
+        self._temperature_subscriber = rospy.Subscriber("/provider_power/temperature", Float64MultiArray, self._temperature_callback)
 
-
-        #self.activate_all_ps = rospy.Publisher('/provider_power/activate_all_ps', activateAllPS, queue_size=100)
+        self.activate_all_motor = rospy.Publisher('/provider_power/activate_all_motor', Bool, queue_size=100)
 
         self.voltage_result_received.connect(self.show_Voltage)
         self.current_result_received.connect(self.show_Current)
         self.voltage12V_result_received.connect(self.show_12V)
+        self.temperature_result_received.connect(self.show_Temperature)
 
-        # self.EnableAll.setEnabled(True)
-        # self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
+        self.EnableAll.setEnabled(True)
+        self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
 
-        # self.DisableAll.setEnabled(False)
-        # self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
+        self.DisableAll.setEnabled(False)
+        self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
 
 
     def _voltage_callback(self, data):
@@ -65,38 +66,66 @@ class PowerWidget(QMainWindow):
     def _current_callback(self, data):
         self.current_result_received.emit(data)
 
+    def _temperature_callback(self, data):
+        self.temperature_result_received.emit(data)
+
     def show_12V(self, data):
         pass
 
+    def show_Temperature(self, data):
+        for i in range(len(data.data)-2):
+            format_data = '{:.2f}'.format(data.data[i])
+            eval('self.TempM' + str(i+1)).display(format_data)
+            eval('self.TempM' + str(i+1) + '_2').display(format_data)
+
+        format_data = '{:.2f}'.format(data.data[len(data.data)-2])
+        self.TempB1.display(format_data)
+        self.TempB1_2.display(format_data)
+        format_data = '{:.2f}'.format(data.data[len(data.data)-1])
+        self.TempB2.display(format_data)
+        self.TempB2_2.display(format_data)
+
     def show_Current(self, data):
-        pass
+
+        for i in range(len(data.data)-2):
+            format_data = '{:.2f}'.format(data.data[i])
+            eval('self.CurrentM' + str(i+1)).display(format_data)
+            eval('self.CurrentM' + str(i+1) + '_2').display(format_data)
+
+        format_data = '{:.2f}'.format(data.data[len(data.data)-2])
+        self.CurrentB1.display(format_data)
+        self.CurrentB1_2.display(format_data)
+        format_data = '{:.2f}'.format(data.data[len(data.data)-1])
+        self.CurrentB2.display(format_data)
+        self.CurrentB2_2.display(format_data)
 
     def show_Voltage(self, data):
 
-        rospy.loginfo("%s"%len(data.data))
-
-        for i in range(len(data.data)-3):
+        for i in range(len(data.data)-2):
             format_data = '{:.2f}'.format(data.data[i])
             eval('self.VoltageM' + str(i+1)).display(format_data)
             eval('self.VoltageM' + str(i+1) + '_2').display(format_data)
 
-
         format_data = '{:.2f}'.format(data.data[len(data.data)-2])
         self.VoltageB1.display(format_data)
+        self.VoltageB1_2.display(format_data)
         format_data = '{:.2f}'.format(data.data[len(data.data)-1])
         self.VoltageB2.display(format_data)
+        self.VoltageB2_2.display(format_data)
 
         
 
-    # def _handle_out_enable_all_clicked(self):
-    #     self._set_all_bus_state(1)
-    #     self.DisableAll.setEnabled(True)
-    #     self.EnableAll.setEnabled(False)
+    def _handle_out_enable_all_clicked(self):
+        #self._set_all_bus_state(1)
+        self.DisableAll.setEnabled(True)
+        self.EnableAll.setEnabled(False)
+        self.activate_all_motor.publish(True)
 
-    # def _handle_out_disable_all_clicked(self):
-    #     self._set_all_bus_state(0)
-    #     self.DisableAll.setEnabled(False)
-    #     self.EnableAll.setEnabled(True)
+    def _handle_out_disable_all_clicked(self):
+        #self._set_all_bus_state(0)
+        self.DisableAll.setEnabled(False)
+        self.EnableAll.setEnabled(True)
+        self.activate_all_motor.publish(False)
 
     # def _set_all_bus_state(self, state):
     #     activation = activateAllPS()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1598</width>
-    <height>1000</height>
+    <width>872</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -2677,9 +2677,15 @@
                <layout class="QHBoxLayout" name="horizontalLayout_50">
                 <item>
                  <widget class="QLabel" name="label_190">
+                  <property name="minimumSize">
+                   <size>
+                    <width>50</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="maximumSize">
                    <size>
-                    <width>60</width>
+                    <width>80</width>
                     <height>33</height>
                    </size>
                   </property>
@@ -3333,9 +3339,15 @@
                <layout class="QHBoxLayout" name="horizontalLayout_47">
                 <item>
                  <widget class="QLabel" name="label_178">
+                  <property name="minimumSize">
+                   <size>
+                    <width>50</width>
+                    <height>0</height>
+                   </size>
+                  </property>
                   <property name="maximumSize">
                    <size>
-                    <width>60</width>
+                    <width>80</width>
                     <height>33</height>
                    </size>
                   </property>
@@ -3719,19 +3731,6 @@
            <widget class="QWidget" name="widget_16" native="true">
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QPushButton" name="DisableAll">
-               <property name="maximumSize">
-                <size>
-                 <width>200</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Disable</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QPushButton" name="EnableAll">
                <property name="maximumSize">
                 <size>
@@ -3741,6 +3740,19 @@
                </property>
                <property name="text">
                 <string>Enable</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="DisableAll">
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>Disable</string>
                </property>
               </widget>
              </item>

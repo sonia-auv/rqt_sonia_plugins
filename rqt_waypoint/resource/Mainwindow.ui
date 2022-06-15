@@ -541,6 +541,8 @@
     </property>
     <addaction name="actionReset_Depth"/>
     <addaction name="actionTare_IMU"/>
+    <addaction name="actionToggle_DVL"/>
+    <addaction name="actionToggle_Sonar"/>
    </widget>
    <addaction name="StartTestMenu"/>
    <addaction name="menuSensors"/>
@@ -558,6 +560,16 @@
   <action name="actionTare_IMU">
    <property name="text">
     <string>Tare IMU</string>
+   </property>
+  </action>
+  <action name="actionToggle_DVL">
+   <property name="text">
+    <string>Toggle DVL</string>
+   </property>
+  </action>
+  <action name="actionToggle_Sonar">
+   <property name="text">
+    <string>Toggle Sonar</string>
    </property>
   </action>
  </widget>
