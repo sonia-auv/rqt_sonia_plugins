@@ -18,7 +18,7 @@ class DepthIndicatorWidget(QWidget):
         loadUi(ui_file, self)
         self.setWindowTitle('Depth Indicator')
 
-        self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
+        self._odom_subscriber = rospy.Subscriber('/telemetry/auv_states', Odometry, self._odom_callback)
 
         self.odometry_received.connect(self._handle_result)
 

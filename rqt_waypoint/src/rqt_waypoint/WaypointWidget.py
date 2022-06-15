@@ -25,7 +25,7 @@ class WaypointWidget(QMainWindow):
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_waypoint'), 'resource', 'Mainwindow.ui')
         loadUi(ui_file, self)
-
+        self.setWindowTitle('Waypoint')
         self.setObjectName('MyWaypointWidget')
 
         self.current_mode_id = 0
