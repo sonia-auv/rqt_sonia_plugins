@@ -1,0 +1,48 @@
+ARG BASE_IMAGE="ghcr.io/sonia-auv/sonia_common/sonia_common:x86-perception-latest"
+
+FROM ${BASE_IMAGE}
+
+USER root
+
+ARG BUILD_DATE
+ARG VERSION
+
+ENV NODE_NAME=rqt_sonia_plugins
+
+LABEL net.etsmtl.sonia-auv.node.build-date=${BUILD_DATE}
+LABEL net.etsmtl.sonia-auv.node.version=${VERSION}
+LABEL net.etsmtl.sonia-auv.node.name=${NODE_NAME}
+
+
+ENV SONIA_WS=${SONIA_HOME}/ros_sonia_ws
+
+ENV NODE_NAME=${NODE_NAME}
+ENV NODE_PATH=${SONIA_WS}/src/${NODE_NAME}
+ENV LAUNCH_FILE=${NODE_NAME}.launch
+ENV SCRIPT_DIR=${SONIA_WS}/scripts
+ENV ENTRYPOINT_FILE=sonia_entrypoint.sh
+ENV LAUNCH_ABSPATH=${NODE_PATH}/launch/${LAUNCH_FILE}
+ENV ENTRYPOINT_ABSPATH=${NODE_PATH}/scripts/${ENTRYPOINT_FILE}
+
+ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
+
+WORKDIR ${SONIA_WS}
+
+RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
+RUN apt update
+RUN apt install -y ros-noetic-desktop-full
+
+COPY . ${NODE_PATH}
+
+RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; catkin_make"
+
+RUN chown -R ${SONIA_USER}: ${SONIA_WS}
+RUN usermod -a -G dialout ${SONIA_USER}
+USER ${SONIA_USER}
+
+RUN mkdir ${SCRIPT_DIR}
+
+RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
+
+ENTRYPOINT ["/usr/bin/tail", "-f", "/dev/null"]
+CMD [""]
