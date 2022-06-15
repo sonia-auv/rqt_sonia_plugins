@@ -65,7 +65,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="clearWaypoint">
+      <widget class="QPushButton" name="resetTrajectory">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -533,7 +533,7 @@
     <property name="title">
      <string>Waypoint</string>
     </property>
-    <addaction name="actionReset_Position"/>
+    <addaction name="actionStart_Simulation"/>
    </widget>
    <widget class="QMenu" name="menuSensors">
     <property name="title">
@@ -547,17 +547,12 @@
   </widget>
   <action name="actionReset_Depth">
    <property name="text">
-    <string>Set Depth Offset</string>
+    <string>Tare Depth</string>
    </property>
   </action>
-  <action name="actionReset_Position">
+  <action name="actionStart_Simulation">
    <property name="text">
     <string>Start Simulation</string>
-   </property>
-  </action>
-  <action name="actionSet_Initial_Position">
-   <property name="text">
-    <string>Set Initial Position</string>
    </property>
   </action>
   <action name="actionTare_IMU">
@@ -567,7 +562,7 @@
   </action>
  </widget>
  <tabstops>
-  <tabstop>clearWaypoint</tabstop>
+  <tabstop>resetTrajectory</tabstop>
   <tabstop>xPositionTarget</tabstop>
   <tabstop>yPositionTarget</tabstop>
   <tabstop>zPositionTarget</tabstop>

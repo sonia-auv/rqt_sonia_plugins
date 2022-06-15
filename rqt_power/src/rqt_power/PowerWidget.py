@@ -11,7 +11,9 @@ from .PowerCardButtonAction import PowerCardButtonAction
 
 class PowerWidget(QMainWindow):
     voltage_result_received = pyqtSignal(Float64MultiArray)
+    voltage12V_result_received = pyqtSignal(Float64MultiArray)
     current_result_received = pyqtSignal(Float64MultiArray)
+
 
     CMD_PS_V16_1 = 0
     CMD_PS_V16_2 = 1
@@ -37,129 +39,73 @@ class PowerWidget(QMainWindow):
         self.setObjectName('MyPowerControlWidget')
 
         self._voltage_subscriber = rospy.Subscriber("/provider_power/voltage", Float64MultiArray, self._voltage_callback)
+        self._voltage12V_subscriber = rospy.Subscriber("/provider_power/voltage12V", Float64MultiArray, self._voltage12V_callback)
         self._current_subscriber = rospy.Subscriber("/provider_power/current", Float64MultiArray, self._current_callback)
+
 
         #self.activate_all_ps = rospy.Publisher('/provider_power/activate_all_ps', activateAllPS, queue_size=100)
 
         self.voltage_result_received.connect(self.show_Voltage)
         self.current_result_received.connect(self.show_Current)
+        self.voltage12V_result_received.connect(self.show_12V)
 
-        self.EnableAll.setEnabled(True)
-        self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
+        # self.EnableAll.setEnabled(True)
+        # self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
 
-        self.DisableAll.setEnabled(False)
-        self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
-
-        # Subscribe to slot
-        # --------------------------------------------------card1---------------------------------------------------------------#
-        # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_1_buttons = PowerCardButtonAction(self, '0')
-        # --------------------------------------------------card2--------------------------------------------------------------#
-        # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_2_buttons = PowerCardButtonAction(self, '1')
-        # --------------------------------------------------card3--------------------------------------------------------------#
-        # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_3_buttons = PowerCardButtonAction(self, '2')
-        # --------------------------------------------------card4--------------------------------------------------------------#
-        # ---------------------------------------------------------------------------------------------------------------------#
-        self.card_4_buttons = PowerCardButtonAction(self, '3')
+        # self.DisableAll.setEnabled(False)
+        # self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
 
 
     def _voltage_callback(self, data):
         self.voltage_result_received.emit(data)
 
-    def _current_media(self, data):
+    def _voltage12V_callback(self, data):
+        self.voltage12V_result_received.emit(data)
+
+    def _current_callback(self, data):
         self.current_result_received.emit(data)
 
+    def show_12V(self, data):
+        pass
+
     def show_Current(self, data):
-        self.current_label.setText(str(data.data[0]))
+        pass
 
-    def show_Voltage(self, powerData):
+    def show_Voltage(self, data):
 
-        format_data = '{:.2f}'.format(powerData.data)
+        rospy.loginfo("%s"%len(data.data))
 
-        if powerData.cmd == self.CMD_PS_V16_1:
+        for i in range(len(data.data)-3):
+            format_data = '{:.2f}'.format(data.data[i])
+            eval('self.VoltageM' + str(i+1)).display(format_data)
+            eval('self.VoltageM' + str(i+1) + '_2').display(format_data)
 
-            eval('self.Voltage161' + str(powerData.slave)).display(format_data)
-            eval('self.Voltage161Card' + str(powerData.slave)).display(format_data)
 
-        elif powerData.cmd == self.CMD_PS_V16_2:
+        format_data = '{:.2f}'.format(data.data[len(data.data)-2])
+        self.VoltageB1.display(format_data)
+        format_data = '{:.2f}'.format(data.data[len(data.data)-1])
+        self.VoltageB2.display(format_data)
 
-            eval('self.Voltage162' + str(powerData.slave)).display(format_data)
-            eval('self.Voltage162Card' + str(powerData.slave)).display(format_data)
+        
 
-        elif powerData.cmd == self.CMD_PS_V12:
+    # def _handle_out_enable_all_clicked(self):
+    #     self._set_all_bus_state(1)
+    #     self.DisableAll.setEnabled(True)
+    #     self.EnableAll.setEnabled(False)
 
-            eval('self.Voltage12' + str(powerData.slave)).display(format_data)
-            eval('self.Voltage12Card' + str(powerData.slave)).display(format_data)
+    # def _handle_out_disable_all_clicked(self):
+    #     self._set_all_bus_state(0)
+    #     self.DisableAll.setEnabled(False)
+    #     self.EnableAll.setEnabled(True)
 
-        elif powerData.cmd == self.CMD_PS_C16_1:
-
-            eval('self.Current161' + str(powerData.slave)).display(format_data)
-            eval('self.Current161Card' + str(powerData.slave)).display(format_data)
-
-        elif powerData.cmd == self.CMD_PS_C16_2:
-
-            eval('self.Current162' + str(powerData.slave)).display(format_data)
-            eval('self.Current162Card' + str(powerData.slave)).display(format_data)
-
-        elif powerData.cmd == self.CMD_PS_C12:
-
-            eval('self.Current12' + str(powerData.slave)).display(format_data)
-            eval('self.Current12Card' + str(powerData.slave)).display(format_data)
-
-        elif powerData.cmd == self.CMD_PS_temperature:
-
-            eval('self.Temperature' + str(powerData.slave)).display(format_data)
-            eval('self.TemperatureCard' + str(powerData.slave)).display(format_data)
-
-        elif powerData.cmd == self.CMD_PS_VBatt:
-
-            eval('self.Battery' + str(powerData.slave)).display(format_data)
-            eval('self.BatteryCard' + str(powerData.slave)).display(format_data)
-
-        elif powerData.cmd == self.check_ps_12v:
-            if powerData.data == 0:
-                eval('self.OutEnable12' + str(powerData.slave)).setEnabled(True)
-                eval('self.OutDisable12' + str(powerData.slave)).setEnabled(False)
-            else:
-                eval('self.OutEnable12' + str(powerData.slave)).setEnabled(False)
-                eval('self.OutDisable12' + str(powerData.slave)).setEnabled(True)
-
-        elif powerData.cmd == self.check_ps_16v_1:
-            if powerData.data == 0:
-                eval('self.OutEnable161' + str(powerData.slave)).setEnabled(True)
-                eval('self.OutDisable161' + str(powerData.slave)).setEnabled(False)
-            else:
-                eval('self.OutEnable161' + str(powerData.slave)).setEnabled(False)
-                eval('self.OutDisable161' + str(powerData.slave)).setEnabled(True)
-
-        elif powerData.cmd == self.check_ps_16v_2:
-            if powerData.data == 0:
-                eval('self.OutEnable162' + str(powerData.slave)).setEnabled(True)
-                eval('self.OutDisable162' + str(powerData.slave)).setEnabled(False)
-            else:
-                eval('self.OutEnable162' + str(powerData.slave)).setEnabled(False)
-                eval('self.OutDisable162' + str(powerData.slave)).setEnabled(True)
-
-    def _handle_out_enable_all_clicked(self):
-        self._set_all_bus_state(1)
-        self.DisableAll.setEnabled(True)
-        self.EnableAll.setEnabled(False)
-
-    def _handle_out_disable_all_clicked(self):
-        self._set_all_bus_state(0)
-        self.DisableAll.setEnabled(False)
-        self.EnableAll.setEnabled(True)
-
-    def _set_all_bus_state(self, state):
-        activation = activateAllPS()
-        activation.data = bool(state)
-        for i in range(0, 4):
-            activation.slave = i
-            for j in range(1, 3):
-                activation.bus = j
-                self.activate_all_ps.publish(activation)
+    # def _set_all_bus_state(self, state):
+    #     activation = activateAllPS()
+    #     activation.data = bool(state)
+    #     for i in range(0, 4):
+    #         activation.slave = i
+    #         for j in range(1, 3):
+    #             activation.bus = j
+    #             self.activate_all_ps.publish(activation)
 
     def _handle_start_test_triggered(self):
         pass
@@ -168,7 +114,9 @@ class PowerWidget(QMainWindow):
         pass
 
     def shutdown_plugin(self):
-        self._power_subscriber.unregister()
+        self._voltage_subscriber.unregister()
+        self._current_subscriber.unregister()
+        self._voltage12V_subscriber.unregister()
         pass
 
     def save_settings(self, plugin_settings, instance_settings):
