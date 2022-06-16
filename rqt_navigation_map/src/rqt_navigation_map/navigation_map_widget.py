@@ -29,10 +29,6 @@ class NavigationMapWidget(QWidget):
     def __init__(self, plugin):
         super(NavigationMapWidget, self).__init__()
         rp = rospkg.RosPack()
-        # try:
-        #     rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
-        # except rospy.ROSException:
-        #     False
 
         ui_file = os.path.join(rp.get_path('rqt_navigation_map'), 'resource', 'mainWidget.ui')
         loadUi(ui_file, self)
@@ -68,8 +64,6 @@ class NavigationMapWidget(QWidget):
         self.single_add_pose_publisher = rospy.Publisher("/proc_control/add_pose", AddPose, queue_size=10)
         self.multi_add_pose_publisher = rospy.Publisher("/proc_planner/send_multi_addpose", MultiAddPose, queue_size=10)
         
-        #self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
-
         self._define_menu()
 
     def _define_menu(self):
@@ -107,12 +101,13 @@ class NavigationMapWidget(QWidget):
 
     def _position_target_callback_signal(self, target):
         self._mapDrawer.drawTarget(target.position.x, target.position.y, target.position.z)
+        self._current_target_z = target.position.z
 
     def _odom_callback_signal(self,odom_data):
-        vehicle_position_x = odom_data.pose.pose.position.x
-        vehicle_position_y = odom_data.pose.pose.position.y
-        vehicle_position_z = odom_data.pose.pose.position.z
-        self._position = (vehicle_position_x, vehicle_position_y, vehicle_position_z)
+        self.vehicle_position_x = odom_data.pose.pose.position.x
+        self.vehicle_position_y = odom_data.pose.pose.position.y
+        self.vehicle_position_z = odom_data.pose.pose.position.z
+        self._position = (self.vehicle_position_x, self.vehicle_position_y, self.vehicle_position_z)
         self._mapDrawer.set_position(self._position)
         self._yaw = odom_data.pose.pose.orientation.z
         self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
@@ -206,15 +201,20 @@ class NavigationMapWidget(QWidget):
             pose = AddPose()
             pose.position.x = position_x
             pose.position.y = position_y
-            pose.position.z = position_z
+            pose.position.z = self._current_target_z
+            pose.orientation.z = self._yaw
             pose.frame = 0
             if self.current_mode_id == 11:
-                pose.speed = numpy.uint8(position_x + position_y + position_z)
+                pose.speed = numpy.uint8(abs(self.vehicle_position_x)+abs(position_x) + abs(self.vehicle_position_y)+abs(position_y))
+                rospy.loginfo("%s, %s, %s, %s\n%s",position_x,position_y,position_z,pose.speed,pose)
                 self.single_add_pose_publisher.publish(pose)
             elif self.current_mode_id == 10:
+                multi_pose = MultiAddPose()
                 pose.speed = 0
-                self.multi_add_pose_publisher.publish(pose)
-            # self.set_global_target(X=position_x, Y=position_y, Z=self._position[2], ROLL=0.0, PITCH=0.0, YAW=self._yaw)
+                multi_pose.pose.append(pose)
+                multi_pose.interpolation_method = 0
+                rospy.loginfo("%s, %s, %s, %s\n%s",position_x,position_y,position_z,pose.speed,pose)
+                self.multi_add_pose_publisher.publish(multi_pose)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 
