@@ -46,12 +46,11 @@ class WaypointWidget(QMainWindow):
         self.current_target_received.connect(self._current_target_received)
 
         self.actionReset_Depth.triggered.connect(self._reset_depth)
-        self.actionReset_Position.triggered.connect(self._reset_position)
-
-        self.clearWaypoint.clicked.connect(self._clear_waypoint)
-        self.initialPosition.clicked.connect(self.send_initial_position)
-
+        self.initialPosition.clicked.connect(self._reset_position)
+        self.resetTrajectory.clicked.connect(self._clear_waypoint)
+        self.actionStart_Simulation.triggered.connect(self.send_initial_position)
         self.sendWaypointButton.clicked.connect(self.send_position)
+
         self.sendWaypointButton.setEnabled(False)
         self.sendWaypointButton.setText("Choose a mode")
 
@@ -63,7 +62,7 @@ class WaypointWidget(QMainWindow):
     
     def set_mpc_info(self, msg):
         self.current_mode_id = msg.mpc_mode
-        if self.current_mode_id == 11 or self.current_mode_id == 10:
+        if self.current_mode_id != 0:
             self.sendWaypointButton.setText("Send Waypoint")
             self.sendWaypointButton.setEnabled(True)
         else:

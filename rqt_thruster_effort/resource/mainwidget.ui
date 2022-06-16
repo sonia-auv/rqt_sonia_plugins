@@ -39,66 +39,9 @@
      </property>
      <property name="palette">
       <palette>
-       <active>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
+       <active/>
+       <inactive/>
+       <disabled/>
       </palette>
      </property>
      <property name="autoFillBackground">
@@ -349,6 +292,9 @@ QSlider::handle:vertical {
          <number>50</number>
         </property>
         <property name="value">
+         <number>0</number>
+        </property>
+        <property name="sliderPosition">
          <number>0</number>
         </property>
         <property name="orientation">

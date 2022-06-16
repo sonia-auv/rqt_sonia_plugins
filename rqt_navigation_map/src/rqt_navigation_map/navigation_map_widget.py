@@ -13,8 +13,8 @@ from tf.transformations import quaternion_about_axis
 from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
-from MapDrawer import MapDrawer
-from sonia_msgs.srv import SetPositionTarget
+from .MapDrawer import MapDrawer
+from sonia_common.msg import AddPose, MultiAddPose
 
 
 # main class inherits from the ui window class

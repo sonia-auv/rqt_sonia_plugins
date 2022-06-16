@@ -1,11 +1,11 @@
 from __future__ import division
 import struct
 
-from layer.PathLayer import PathLayer
-from layer.GridLayer import GridLayer
-from layer.SubmarineLayer import SubmarineLayer
-from layer.CoorSystemLayer import CoorSystemLayer
-from layer.TargetLayer import TargetLayer
+from .layer.PathLayer import PathLayer
+from .layer.GridLayer import GridLayer
+from .layer.SubmarineLayer import SubmarineLayer
+from .layer.CoorSystemLayer import CoorSystemLayer
+from .layer.TargetLayer import TargetLayer
 
 from python_qt_binding.QtCore import QTimer, qWarning
 

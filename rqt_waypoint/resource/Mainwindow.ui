@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
+    <width>661</width>
     <height>324</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>580</width>
+    <width>350</width>
     <height>180</height>
    </size>
   </property>
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Thruster</string>
+   <string notr="true">Waypoint</string>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
@@ -65,7 +65,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="clearWaypoint">
+      <widget class="QPushButton" name="resetTrajectory">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -87,13 +87,6 @@
        </property>
        <property name="text">
         <string>Set Initial Position</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="pathLength">
-       <property name="text">
-        <string>Long Path</string>
        </property>
       </widget>
      </item>
@@ -505,6 +498,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QRadioButton" name="pathLength">
+       <property name="text">
+        <string>Long Path</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -525,38 +525,56 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>580</width>
-     <height>22</height>
+     <width>661</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="StartTestMenu">
     <property name="title">
      <string>Waypoint</string>
     </property>
+    <addaction name="actionStart_Simulation"/>
+   </widget>
+   <widget class="QMenu" name="menuSensors">
+    <property name="title">
+     <string>Sensors</string>
+    </property>
     <addaction name="actionReset_Depth"/>
-    <addaction name="actionReset_Position"/>
+    <addaction name="actionTare_IMU"/>
+    <addaction name="actionToggle_DVL"/>
+    <addaction name="actionToggle_Sonar"/>
    </widget>
    <addaction name="StartTestMenu"/>
+   <addaction name="menuSensors"/>
   </widget>
-  <action name="actionStart_test">
-   <property name="text">
-    <string>Start test</string>
-   </property>
-  </action>
   <action name="actionReset_Depth">
    <property name="text">
-    <string>Set Depth Offset</string>
+    <string>Tare Depth</string>
    </property>
   </action>
-  <action name="actionReset_Position">
+  <action name="actionStart_Simulation">
    <property name="text">
-    <string>Set Initial Position</string>
+    <string>Start Simulation</string>
+   </property>
+  </action>
+  <action name="actionTare_IMU">
+   <property name="text">
+    <string>Tare IMU</string>
+   </property>
+  </action>
+  <action name="actionToggle_DVL">
+   <property name="text">
+    <string>Toggle DVL</string>
+   </property>
+  </action>
+  <action name="actionToggle_Sonar">
+   <property name="text">
+    <string>Toggle Sonar</string>
    </property>
   </action>
  </widget>
  <tabstops>
-  <tabstop>clearWaypoint</tabstop>
-  <tabstop>initialPosition</tabstop>
+  <tabstop>resetTrajectory</tabstop>
   <tabstop>xPositionTarget</tabstop>
   <tabstop>yPositionTarget</tabstop>
   <tabstop>zPositionTarget</tabstop>
