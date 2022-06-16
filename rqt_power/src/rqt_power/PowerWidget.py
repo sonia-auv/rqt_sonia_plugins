@@ -2,6 +2,7 @@ import os
 import rospkg
 import rospy
 
+from time import sleep
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
