@@ -11,6 +11,7 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
 from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
 from sonia_common.srv import ObjectPoseService, ObjectPoseServiceResponse
+from std_srvs.srv import Empty
 
 
 class WaypointWidget(QMainWindow):
@@ -31,21 +32,40 @@ class WaypointWidget(QMainWindow):
         self.current_mode_id = 0
         self.z_pose = 0
 
+        self.dvl_started = False
+        self.actionToggle_DVL.setText("Stop DVL")
+        self.sonar_started = False
+        self.actionToggle_Sonar.setText("Stop sonar")
+
+        # Subscribers
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
         self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
         self.simulation_started_subscriber = rospy.Subscriber("/proc_simulation/start_simulation", Pose, self.simulation_started_callback)
+        self.dvl_started_subscriber = rospy.Subscriber("/provider_dvl/enable_disable_ping", Bool, self.dvl_started_callback)
+        self.sonar_started_subscriber = rospy.Subscriber("/provider_sonar/enable_disable_ping", Bool, self.sonar_started_callback)
 
-        self.set_initial_position_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10, latch=True)
+        # Publishers
+        self.simulation_start_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10, latch=True)
         self.single_add_pose_publisher = rospy.Publisher("/proc_control/add_pose", AddPose, queue_size=10)
         self.multi_add_pose_publisher = rospy.Publisher("/proc_planner/send_multi_addpose", MultiAddPose, queue_size=10)
         self.reset_trajectory_publisher = rospy.Publisher("/proc_control/reset_trajectory", Bool, queue_size=10)
+        self.auv7_tare_publisher = rospy.Publisher("/provider_dvl/setDepthOffset", Bool, queue_size=10)
+        self.set_dvl_started_publisher = rospy.Publisher("/provider_dvl/enable_disable_ping", Bool, queue_size=10, latch=True)
+        self.set_sonar_started_publisher = rospy.Publisher("/provider_sonar/enable_disable_ping", Bool, queue_size=10, latch=True)
+        self.set_initial_position_publisher = rospy.Publisher("/proc_nav/reset_pos", Bool, queue_size=10)
 
+        # Services
         self.initial_position_service = rospy.ServiceProxy("obj_pose_srv", ObjectPoseService)
+        self.depth_tare_service = rospy.ServiceProxy("/provider_depth/tare", Empty)
+        self.imu_tare_service = rospy.ServiceProxy("/provider_imu/tare", Empty)
 
         self.current_target_received.connect(self._current_target_received)
 
         self.actionReset_Depth.triggered.connect(self._reset_depth)
+        self.actionTare_IMU.triggered.connect(self._tare_imu)
+        self.actionToggle_DVL.triggered.connect(self.toggleDVL)
+        self.actionToggle_Sonar.triggered.connect(self.toggleSonar)
         self.initialPosition.clicked.connect(self._reset_position)
         self.resetTrajectory.clicked.connect(self._clear_waypoint)
         self.actionStart_Simulation.triggered.connect(self.send_initial_position)
@@ -55,10 +75,44 @@ class WaypointWidget(QMainWindow):
         self.sendWaypointButton.setText("Choose a mode")
 
     def _reset_depth(self):
-        pass
+        # Getting AUV name environnment variable.
+        auv_name = os.getenv('AUV')
+        if auv_name == "AUV7":
+            self.auv7_tare_publisher.publish(data=True)
+        elif auv_name == "AUV8":
+            try:
+                self.depth_tare_service.call()
+            except rospy.ServiceException as e:
+                print(e)
+                rospy.logerr('Provider depth is not started.')
+        else:
+            rospy.logerr('AUV environment variable not properly set.')
+
+    def _tare_imu(self):
+        try:
+            self.imu_tare_service.call()
+        except rospy.ServiceException as e:
+            print(e)
+            rospy.logerr('Provider IMU is not started.')
+
+    def toggleDVL(self):
+        self.dvl_started = not self.dvl_started
+        self.set_dvl_started_publisher.publish(data=self.dvl_started)
+
+    def dvl_started_callback(self, msg):
+        self.dvl_started = msg.data
+        self.actionToggle_DVL.setText("Stop DVL" if self.dvl_started else "Start DVL")
+
+    def toggleSonar(self):
+        self.sonar_started = not self.sonar_started
+        self.set_sonar_started_publisher.publish(data=self.sonar_started)
+
+    def sonar_started_callback(self, msg):
+        self.sonar_started = msg.data
+        self.actionToggle_Sonar.setText("Stop sonar" if self.sonar_started else "Start sonar")
 
     def _reset_position(self):
-        pass
+        self.set_initial_position_publisher.publish(data=True)
     
     def set_mpc_info(self, msg):
         self.current_mode_id = msg.mpc_mode
@@ -77,19 +131,22 @@ class WaypointWidget(QMainWindow):
 
     def send_initial_position(self):
         try:
-            # TODO: Replace with environment variable.
-            resp = self.initial_position_service.call(object_name='AUV8')
-            pose = Pose()
-            pose.position.x = resp.object_pose.position.x
-            pose.position.y = resp.object_pose.position.y
-            pose.position.z = resp.object_pose.position.z
+            auv_name = os.getenv('AUV')
+            if auv_name:
+                resp = self.initial_position_service.call(object_name=auv_name)
+                pose = Pose()
+                pose.position.x = resp.object_pose.position.x
+                pose.position.y = resp.object_pose.position.y
+                pose.position.z = resp.object_pose.position.z
 
-            pose.orientation.x = resp.object_pose.orientation.x
-            pose.orientation.y = resp.object_pose.orientation.y
-            pose.orientation.z = resp.object_pose.orientation.z
-            pose.orientation.w = resp.object_pose.orientation.w
+                pose.orientation.x = resp.object_pose.orientation.x
+                pose.orientation.y = resp.object_pose.orientation.y
+                pose.orientation.z = resp.object_pose.orientation.z
+                pose.orientation.w = resp.object_pose.orientation.w
 
-            self.set_initial_position_publisher.publish(pose)
+                self.simulation_start_publisher.publish(pose)
+            else:
+                rospy.logerr('AUV environment variable not properly set.')
 
         except rospy.ServiceException as e:
             print(e)
