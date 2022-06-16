@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from qt_gui.plugin import Plugin
-from SimVisionWidget import SimVisionWidget
+from .SimVisionWidget import SimVisionWidget
 
 
 class SimulateVisionControl(Plugin):
@@ -15,8 +15,8 @@ class SimulateVisionControl(Plugin):
                       help="Put plugin in silent mode")
         args, unknowns = parser.parse_known_args(context.argv())
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         # Create QWidget
         self._mainWindow = SimVisionWidget()

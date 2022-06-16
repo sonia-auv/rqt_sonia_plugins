@@ -74,10 +74,10 @@ class loader:
         fp.close()
 
         if type == 'solid':
-            print "reading text file" + str(filename)
+            print("reading text file" + str(filename))
             self.load_text_stl(filename)
         else:
-            print "reading binary stl file " + str(filename, )
+            print("reading binary stl file " + str(filename, ))
             self.load_binary_stl(filename)
 
     # read text stl match keywords to grab the points to build the model
@@ -219,7 +219,7 @@ def main():
     ticks = pygame.time.get_ticks()
     while 1:
         event = pygame.event.poll()
-        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):  # pylint:disable=undefined-variable
+        if event.type == QUIT or (eprintvent.type == KEYDOWN and event.key == K_ESCAPE):  # pylint:disable=undefined-variable
             break
 
         # draw the scene
@@ -227,7 +227,7 @@ def main():
         pygame.display.flip()
         frames = frames + 1
 
-    print "fps:  %d" % ((frames * 1000) / (pygame.time.get_ticks() - ticks))
+    print("fps:  %d" % ((frames * 1000) / (pygame.time.get_ticks() - ticks)))
 
 
 if __name__ == '__main__':

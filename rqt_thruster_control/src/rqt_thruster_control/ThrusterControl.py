@@ -1,6 +1,5 @@
 from qt_gui.plugin import Plugin
-from ThrusterWidget import ThrusterWidget
-
+from .ThrusterWidget import ThrusterWidget
 
 class ThrusterControl(Plugin):
 
@@ -19,8 +18,8 @@ class ThrusterControl(Plugin):
         args, unknowns = parser.parse_known_args(context.argv())
 
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         self._mainWindow = ThrusterWidget()
 

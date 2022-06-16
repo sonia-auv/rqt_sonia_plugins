@@ -1,4 +1,4 @@
-from Layer import Layer
+from .Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glVertex3f, GL_LINES
 
 

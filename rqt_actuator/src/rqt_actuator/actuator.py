@@ -1,6 +1,6 @@
 from rqt_gui_py.plugin import Plugin
 
-from actuator_widget import ActuatorWidget
+from .actuator_widget import ActuatorWidget
 
 
 class Actuator(Plugin):

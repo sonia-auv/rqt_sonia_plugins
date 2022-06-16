@@ -1,5 +1,5 @@
 import threading
-from Layer import Layer
+from .Layer import Layer
 from OpenGL.GL import glBegin, glColor3f, glEnd, glLineWidth, glMultMatrixf, glTranslatef, \
     glVertex3f,glNormal3f, GL_LINES
 

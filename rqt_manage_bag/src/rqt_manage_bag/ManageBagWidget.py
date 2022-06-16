@@ -12,7 +12,6 @@ from os.path import expanduser
 from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge
 
-
 class ManageBagWidget(QMainWindow):
 
     def __init__(self):
@@ -29,7 +28,7 @@ class ManageBagWidget(QMainWindow):
         self.bag_file = None
         self.out_folder = None
         self.ros_bag = None
-        self.topic_name = '/provider_vision/Front_GigE/compressed'
+        self.topic_name = ' '
         self.new_ros_bag = None
         self.start_time = None
         self.stop_time = None
@@ -64,9 +63,6 @@ class ManageBagWidget(QMainWindow):
         self.saveBagButton.setEnabled(False)
         self.selectOutputFolder.setEnabled(False)
         self.resetButton.setEnabled(False)
-
-        self.topicName.addItem('/provider_vision/Front_GigE/compressed')
-        self.topicName.addItem('/provider_vision/Bottom_GigE/compressed')
 
     def _reset_segmentation(self):
         self.startStopPushButton.setEnabled(False)
@@ -146,18 +142,18 @@ class ManageBagWidget(QMainWindow):
             for filename in os.listdir(out_directory):
                 if filename.endswith(".bag"):
                     self.j += 1
-            if self.topic_name == "/provider_vision/Front_GigE/compressed":
-                self.camera = "bottom"
-            else:
+            if 'front' in self.topic_name or 'Front' in self.topic_name:
                 self.camera = "front"
+            else:
+                self.camera = "bottom"
 
             bag_name = self.camera + "_" + self.nameObject.text() + "_" + self.locationObject.text() + "_" + self.dateObject.text() + "_" + str(self.j) + ".bag"
             self.label_newBagName.setText(bag_name)
             os.rename(os.path.join(expanduser("~/Bags"), self.new_ros_bag), os.path.join(out_directory, bag_name))
-            rospy.loginfo('The new bag name : %s, located in %s' % (bag_name, out_directory))
+            rospy.loginfo('The new bag %s is located in %s' % (bag_name, out_directory))
             self.resetButton.setEnabled(True)
         except:
-            print("Error in save bag")
+            rospy.loginfo("Error in save bag")
             self._message_box("No object selected")
 
     # ComboBox topicName
@@ -186,6 +182,9 @@ class ManageBagWidget(QMainWindow):
             self.inputBag.setText(self.bag_file)
             self.ros_bag = rosbag.Bag(self.bag_file)
             self.runPushButton.setEnabled(True)
+            topics = self.ros_bag.get_type_and_topic_info()[1].keys()
+            for i in range(0,len(topics)):
+                self.topicName.addItem(list(topics)[i])
 
     # Bouton startStopPushButton
 
@@ -242,7 +241,7 @@ class ManageBagWidget(QMainWindow):
         except:
             self.startStopPushButton.setEnabled(False)
             self.runPushButton.setEnabled(True)
-            print("Something has gone wrong in manage_bag")
+            rospy.loginfo("Something has gone wrong in manage_bag")
 
     def _message_box(self, msg):
         msg = QMessageBox()

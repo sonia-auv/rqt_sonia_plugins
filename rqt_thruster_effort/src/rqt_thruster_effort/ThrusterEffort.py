@@ -1,6 +1,6 @@
 from qt_gui.plugin import Plugin
 
-from ThrusterEffortWidget import ThrusterEffortWidget
+from .ThrusterEffortWidget import ThrusterEffortWidget
 
 
 class ThrusterEffort(Plugin):
@@ -22,8 +22,8 @@ class ThrusterEffort(Plugin):
         args, unknowns = parser.parse_known_args(context.argv())
 
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         self._mainWindow = ThrusterEffortWidget()
 

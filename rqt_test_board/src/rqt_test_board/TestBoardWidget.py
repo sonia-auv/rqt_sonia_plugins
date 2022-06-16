@@ -4,7 +4,7 @@ import rospkg
 from threading import Thread
 import rospy
 import time
-from sonia_msgs.msg import SendRS485Msg
+from sonia_common.msg import SendRS485Msg
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
 from python_qt_binding.QtCore import pyqtSignal
@@ -45,7 +45,7 @@ class TestBoardWidget(QMainWindow):
     def _publish_in_continuous(self):
         stop = True
         while not rospy.is_shutdown() and self.thread_running and stop:
-            print 'publishing'
+            print('publishing')
             msg = SendRS485Msg()
             msg.slave = self.slave
             msg.cmd = self.cmd

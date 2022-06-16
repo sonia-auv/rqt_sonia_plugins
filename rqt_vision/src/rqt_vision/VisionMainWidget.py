@@ -9,14 +9,14 @@ from python_qt_binding.QtGui import QPainter, QImage
 from python_qt_binding.QtCore import Qt, pyqtSignal
 from python_qt_binding.QtWidgets import QMenu, QAction, QWidget
 from sensor_msgs.msg import CompressedImage as SensorCompressedImage
-from sonia_msgs.msg import VisionTarget
-from sonia_msgs.srv import GetFilterchainFromExecution, GetMediaFromExecution, ExecuteCmd, Republish
+from sonia_common.msg import VisionTarget
+from sonia_common.srv import GetFilterchainFromExecution, GetMediaFromExecution, ExecuteCmd, Republish
 from cv_bridge import CvBridge, CvBridgeError
-from ConfigureFilterchainWidget import ConfigureFilterchainWidget
-from Tkinter import Tk
-from tkFileDialog import asksaveasfilename
+from .ConfigureFilterchainWidget import ConfigureFilterchainWidget
+from tkinter import Tk
+from tkinter.filedialog import asksaveasfilename
 
-from sonia_msgs.srv import GetInformationList
+from sonia_common.srv import GetInformationList
 
 
 class VisionMainWidget(QWidget):

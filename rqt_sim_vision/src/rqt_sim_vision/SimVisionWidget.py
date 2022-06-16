@@ -8,7 +8,7 @@ from python_qt_binding.QtWidgets import QMainWindow, QWidget
 from python_qt_binding.QtCore import pyqtSignal, QPointF
 from sonia_msgs.msg import VisionTarget
 from nav_msgs.msg import Odometry
-from Renderer import Buoy, Path
+from .Renderer import Buoy, Path
 
 
 class SimVisionWidget(QMainWindow):

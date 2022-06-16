@@ -1,7 +1,5 @@
-#!/usr/bin/env python
 from qt_gui.plugin import Plugin
-from ManageBagWidget import ManageBagWidget
-
+from .ManageBagWidget import ManageBagWidget
 
 class ManageBag(Plugin):
 
@@ -13,8 +11,8 @@ class ManageBag(Plugin):
         parser.add_argument("-q", "--quiet", action="store_true", dest="quiet", help="Put plugin in silent mode")
         args, unknowns = parser.parse_known_args(context.argv())
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         # Create QWidget
         self._mainWindow = ManageBagWidget()

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>223</height>
+    <width>661</width>
+    <height>324</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>580</width>
+    <width>350</width>
     <height>180</height>
    </size>
   </property>
@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string notr="true">Thruster</string>
+   <string notr="true">Waypoint</string>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
@@ -52,7 +52,20 @@
       <enum>QLayout::SetNoConstraint</enum>
      </property>
      <item>
-      <widget class="QPushButton" name="clearWaypoint">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="resetTrajectory">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -60,7 +73,7 @@
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="text">
-        <string>Clear Waypoint</string>
+        <string>Reset Trajectory</string>
        </property>
       </widget>
      </item>
@@ -77,6 +90,19 @@
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
@@ -85,7 +111,7 @@
       <x>0</x>
       <y>50</y>
       <width>571</width>
-      <height>143</height>
+      <height>174</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -95,158 +121,35 @@
      <property name="leftMargin">
       <number>10</number>
      </property>
-     <item row="1" column="7">
-      <widget class="QLineEdit" name="rollPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="4">
+     <item row="4" column="3">
       <widget class="QLabel" name="yawPositionLabel">
        <property name="text">
         <string>Yaw :</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="5">
-      <widget class="QLineEdit" name="rollPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="xVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="7">
-      <widget class="QLineEdit" name="yawPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="zPositionLabel">
-       <property name="text">
-        <string>Z :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Position</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="xPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="3">
-      <widget class="QLineEdit" name="zPositionTarget">
+      <widget class="QLabel" name="pitchPositionLabel">
+       <property name="text">
+        <string>Pitch :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="xPositionTarget">
        <property name="text">
         <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="5">
-      <widget class="QLineEdit" name="pitchPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="text">
-        <string>0.0</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="6">
-      <widget class="QLineEdit" name="yawVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Velocity</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item row="3" column="5">
-      <widget class="QLineEdit" name="yawPositionCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
+      <widget class="QLineEdit" name="pitchPositionTarget">
        <property name="text">
         <string>0.0</string>
        </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="yPositionCurrent">
        <property name="enabled">
         <bool>false</bool>
@@ -262,24 +165,67 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="6">
-      <widget class="QLineEdit" name="rollVelocityCurrent">
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="yPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLineEdit" name="pitchPositionCurrent">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
-      </widget>
-     </item>
-     <item row="2" column="4">
-      <widget class="QLabel" name="pitchPositionLabel">
        <property name="text">
-        <string>Pitch :</string>
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="2" column="3">
+      <widget class="QLabel" name="rollPositionLabel">
+       <property name="text">
+        <string>Roll :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="zPositionLabel">
+       <property name="text">
+        <string>Z :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="commandLabel1">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Command</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="xPositionLabel">
+       <property name="text">
+        <string>X :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
       <widget class="QLineEdit" name="zPositionCurrent">
        <property name="enabled">
         <bool>false</bool>
@@ -295,60 +241,131 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="xPositionLabel">
-       <property name="text">
-        <string>X :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="yPositionLabel">
-       <property name="text">
-        <string>Y :</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="7">
-      <widget class="QLineEdit" name="pitchPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLineEdit" name="yPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLineEdit" name="xPositionTarget">
-       <property name="text">
-        <string>0.0</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="4">
-      <widget class="QLabel" name="rollPositionLabel">
+      <widget class="QLabel" name="posLabel2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Roll :</string>
+        <string>Position</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="yVelocityCurrent">
+     <item row="4" column="4">
+      <widget class="QLineEdit" name="yawPositionCurrent">
        <property name="enabled">
         <bool>false</bool>
        </property>
        <property name="focusPolicy">
         <enum>Qt::NoFocus</enum>
        </property>
+       <property name="text">
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
+     <item row="6" column="1" colspan="2">
+      <widget class="QComboBox" name="methodChoice">
+       <property name="currentText">
+        <string>Hermite</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Hermite</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>v5cubic</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Spline</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="5">
+      <widget class="QLineEdit" name="rollPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="xPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="5">
+      <widget class="QLineEdit" name="yawPositionTarget">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="5">
+      <widget class="QLabel" name="commandLabel2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Command</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLineEdit" name="rollPositionCurrent">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>0.0</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="yPositionLabel">
+       <property name="text">
+        <string>Y :</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="posLabel1">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
          <horstretch>0</horstretch>
@@ -369,87 +386,136 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="6">
-      <widget class="QLineEdit" name="pitchVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
+     <item row="6" column="4" colspan="2">
+      <widget class="QComboBox" name="frameChoice">
+       <item>
+        <property name="text">
+         <string>Abs. position &amp; Abs. angle</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rel. position &amp; Rel. angle</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rel. position &amp; Abs. angle</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Abs. position &amp; Rel. angle</string>
+        </property>
+       </item>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="zVelocityCurrent">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="6">
-      <widget class="QLabel" name="label_4">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item row="4" column="2">
+      <widget class="QLineEdit" name="zPositionTarget">
        <property name="text">
-        <string>Velocity</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>0.0</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="4" colspan="4">
-      <widget class="QPushButton" name="velocityMode">
+     <item row="6" column="0">
+      <widget class="QLabel" name="methodLabel">
        <property name="text">
-        <string>Velocity</string>
+        <string>Method</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0" colspan="4">
-      <widget class="QPushButton" name="positionMode">
+     <item row="6" column="3">
+      <widget class="QLabel" name="frameLabel">
        <property name="text">
-        <string>Position</string>
+        <string>Frame</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="3">
-      <widget class="QLabel" name="label_5">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="sendWaypointButton">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>270</y>
+      <width>264</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Send waypoint</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>230</y>
+      <width>571</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="speedLabel">
        <property name="text">
-        <string>Command</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>Speed</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="7">
-      <widget class="QLabel" name="label_6">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+     <item>
+      <widget class="QLineEdit" name="speed">
        <property name="text">
-        <string>Command</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>0</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="fineLabel">
+       <property name="text">
+        <string>Fine</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="fine">
+       <property name="text">
+        <string>0.0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="pathLength">
+       <property name="text">
+        <string>Long Path</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>
@@ -459,56 +525,68 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>580</width>
-     <height>22</height>
+     <width>661</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="StartTestMenu">
     <property name="title">
      <string>Waypoint</string>
     </property>
+    <addaction name="actionStart_Simulation"/>
+   </widget>
+   <widget class="QMenu" name="menuSensors">
+    <property name="title">
+     <string>Sensors</string>
+    </property>
     <addaction name="actionReset_Depth"/>
-    <addaction name="actionReset_Position"/>
+    <addaction name="actionTare_IMU"/>
+    <addaction name="actionToggle_DVL"/>
+    <addaction name="actionToggle_Sonar"/>
    </widget>
    <addaction name="StartTestMenu"/>
+   <addaction name="menuSensors"/>
   </widget>
-  <action name="actionStart_test">
-   <property name="text">
-    <string>Start test</string>
-   </property>
-  </action>
   <action name="actionReset_Depth">
    <property name="text">
-    <string>Set Depth Offset</string>
+    <string>Tare Depth</string>
    </property>
   </action>
-  <action name="actionReset_Position">
+  <action name="actionStart_Simulation">
    <property name="text">
-    <string>Set Initial Position</string>
+    <string>Start Simulation</string>
+   </property>
+  </action>
+  <action name="actionTare_IMU">
+   <property name="text">
+    <string>Tare IMU</string>
+   </property>
+  </action>
+  <action name="actionToggle_DVL">
+   <property name="text">
+    <string>Toggle DVL</string>
+   </property>
+  </action>
+  <action name="actionToggle_Sonar">
+   <property name="text">
+    <string>Toggle Sonar</string>
    </property>
   </action>
  </widget>
  <tabstops>
-  <tabstop>clearWaypoint</tabstop>
-  <tabstop>initialPosition</tabstop>
+  <tabstop>resetTrajectory</tabstop>
   <tabstop>xPositionTarget</tabstop>
   <tabstop>yPositionTarget</tabstop>
   <tabstop>zPositionTarget</tabstop>
   <tabstop>rollPositionTarget</tabstop>
   <tabstop>pitchPositionTarget</tabstop>
   <tabstop>yawPositionTarget</tabstop>
-  <tabstop>yVelocityCurrent</tabstop>
-  <tabstop>zVelocityCurrent</tabstop>
   <tabstop>pitchPositionCurrent</tabstop>
-  <tabstop>xVelocityCurrent</tabstop>
-  <tabstop>pitchVelocityCurrent</tabstop>
   <tabstop>zPositionCurrent</tabstop>
   <tabstop>yawPositionCurrent</tabstop>
   <tabstop>yPositionCurrent</tabstop>
   <tabstop>rollPositionCurrent</tabstop>
-  <tabstop>yawVelocityCurrent</tabstop>
   <tabstop>xPositionCurrent</tabstop>
-  <tabstop>rollVelocityCurrent</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -5,7 +5,7 @@ import rospkg
 from qt_gui.plugin import Plugin
 from python_qt_binding.QtWidgets import QMainWindow
 
-from WaypointWidget import WaypointWidget
+from .WaypointWidget import WaypointWidget
 
 
 class Waypoint(Plugin):
@@ -27,8 +27,8 @@ class Waypoint(Plugin):
         args, unknowns = parser.parse_known_args(context.argv())
 
         if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
+            print('arguments: ', args)
+            print('unknowns: ', unknowns)
 
         self._mainWindow = WaypointWidget()
 
