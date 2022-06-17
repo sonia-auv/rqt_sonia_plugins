@@ -6,7 +6,7 @@ import math
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow, QWidget
 from python_qt_binding.QtCore import pyqtSignal, QPointF
-from sonia_msgs.msg import VisionTarget
+from sonia_common.msg import VisionTarget
 from nav_msgs.msg import Odometry
 from .Renderer import Buoy, Path
 
@@ -62,7 +62,8 @@ class SimVisionWidget(QMainWindow):
         self.Fence = False
         self.Path_fender = False
 
-        self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
+        self._odom_subscriber = rospy.Subscriber('/telemetry/auv_states', Odometry, self._odom_callback)
+        #self._odom_subscriber = rospy.Subscriber('/proc_nav/auv_states', Odometry, self._odom_callback)
 
         self._publish_image_data = rospy.Publisher('/proc_image_processing/result', VisionTarget, queue_size=10)
 
@@ -121,6 +122,7 @@ class SimVisionWidget(QMainWindow):
         pass
 
     def show_path_finder_position(self, posData):
+        rospy.loginfo(self.displayed)
         if self.displayed == 1:
             path_position_x = self.posx_sub
             path_position_y = self.posy_sub
@@ -151,6 +153,8 @@ class SimVisionWidget(QMainWindow):
             data = self.set_data(self.posx_sub, self.posy_sub, self.rect_width, self.rect_height, int(self.angle))
 
             self._publish_image_data.publish(data)
+
+            rospy.loginfo('test')
 
             self.update()
 

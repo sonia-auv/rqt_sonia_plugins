@@ -21,7 +21,7 @@ class ThrusterEffortWidget(QWidget):
         loadUi(ui_file, self)
         self.setWindowTitle('Thruster Effort')
 
-        self._thruster_newton_subscriber = rospy.Subscriber("/provider_thruster/thruster_newton", Int8MultiArray, self._handle_thruster_newton_msg)
+        self._thruster_newton_subscriber = rospy.Subscriber("/telemetry/thruster_newton", Int8MultiArray, self._handle_thruster_newton_msg)
         self._thruster_pwm_subscriber = rospy.Subscriber("/provider_thruster/thruster_pwm", UInt16MultiArray, self._handle_thruster_pwm_msg)
 
         self.monitor_thruster_newton_msg.connect(self._received_thruster_newton_msg)

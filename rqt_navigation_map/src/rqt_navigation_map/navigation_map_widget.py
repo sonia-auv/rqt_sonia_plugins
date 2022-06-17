@@ -10,7 +10,7 @@ from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint, pyqtSig
 from python_qt_binding.QtWidgets import QAction, QMenu, QWidget
 
 import rospy
-from tf.transformations import quaternion_about_axis
+from tf.transformations import quaternion_about_axis, euler_from_quaternion
 
 from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
@@ -54,7 +54,8 @@ class NavigationMapWidget(QWidget):
         self._yaw = 0
 
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
-        self._odom_subscriber = rospy.Subscriber('/telemetry/auv_states', Odometry, self._odom_callback)
+        self._odom_subscriber = rospy.Subscriber('/proc_nav/auv_states', Odometry, self._odom_callback)
+        #self._odom_subscriber = rospy.Subscriber('/telemetry/auv_states', Odometry, self._odom_callback)
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
                                                            self._position_target_callback)
 
@@ -102,15 +103,20 @@ class NavigationMapWidget(QWidget):
     def _position_target_callback_signal(self, target):
         self._mapDrawer.drawTarget(target.position.x, target.position.y, target.position.z)
         self._current_target_z = target.position.z
+        self._current_target_yaw = math.degrees(euler_from_quaternion([target.orientation.x,target.orientation.y,target.orientation.z,target.orientation.w],'szyx')[0])
 
     def _odom_callback_signal(self,odom_data):
         self.vehicle_position_x = odom_data.pose.pose.position.x
         self.vehicle_position_y = odom_data.pose.pose.position.y
         self.vehicle_position_z = odom_data.pose.pose.position.z
+        self.vehicle_orientation_x = odom_data.pose.pose.orientation.x
+        self.vehicle_orientation_y = odom_data.pose.pose.orientation.y
+        self.vehicle_orientation_z = odom_data.pose.pose.orientation.z
+        self.vehicle_orientation_w = odom_data.pose.pose.orientation.w
         self._position = (self.vehicle_position_x, self.vehicle_position_y, self.vehicle_position_z)
         self._mapDrawer.set_position(self._position)
-        self._yaw = odom_data.pose.pose.orientation.z
-        self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
+        self._yaw = math.degrees(euler_from_quaternion([self.vehicle_orientation_x,self.vehicle_orientation_y,self.vehicle_orientation_z,self.vehicle_orientation_w],'szyx')[0])
+        self._orientation = (self.vehicle_orientation_x,self.vehicle_orientation_y,self.vehicle_orientation_z,self.vehicle_orientation_w)
         self._mapDrawer.set_orientation(self._orientation, self._yaw)
 
     def _odom_callback(self, odom_data):
@@ -202,7 +208,7 @@ class NavigationMapWidget(QWidget):
             pose.position.x = position_x
             pose.position.y = position_y
             pose.position.z = self._current_target_z
-            pose.orientation.z = self._yaw
+            pose.orientation.z = self._current_target_yaw
             pose.frame = 0
             if self.current_mode_id == 11:
                 pose.speed = numpy.uint8(abs(self.vehicle_position_x)+abs(position_x) + abs(self.vehicle_position_y)+abs(position_y))
