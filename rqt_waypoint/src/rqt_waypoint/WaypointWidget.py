@@ -26,7 +26,7 @@ class WaypointWidget(QMainWindow):
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_waypoint'), 'resource', 'Mainwindow.ui')
         loadUi(ui_file, self)
-
+        self.setWindowTitle('Waypoint')
         self.setObjectName('MyWaypointWidget')
 
         self.current_mode_id = 0
@@ -41,7 +41,7 @@ class WaypointWidget(QMainWindow):
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
         self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
-        self.simulation_started_subscriber = rospy.Subscriber("/proc_simulation/start_simulation", Pose, self.simulation_started_callback)
+
         self.dvl_started_subscriber = rospy.Subscriber("/provider_dvl/enable_disable_ping", Bool, self.dvl_started_callback)
         self.sonar_started_subscriber = rospy.Subscriber("/provider_sonar/enable_disable_ping", Bool, self.sonar_started_callback)
 
@@ -151,9 +151,7 @@ class WaypointWidget(QMainWindow):
         except rospy.ServiceException as e:
             print(e)
             rospy.logerr('Simulation is not started')
-
-    def simulation_started_callback(self, msg):
-        self.initialPosition.setEnabled(False)
+            self.show_error('Simulation is not started')
 
     def _position_target_callback(self,data):
         self.current_target_received.emit(data)

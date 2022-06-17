@@ -46,7 +46,7 @@ class ThrusterEffortWidget(QWidget):
         eval('self.T' + str(thruster_id) + '_slider').setValue(int(value))
     
     def _set_pwm_value(self, thruster_id, value):
-        eval('self.T' + str(thruster_id) + '_pwm').setText('PWM: {}'.format(int(value)))
+        eval('self.T' + str(thruster_id) + '_pwm').setText('PWM : {}'.format(int(value)))
 
     def shutdown_plugin(self):
         self._thruster_newton_subscriber.unregister()
