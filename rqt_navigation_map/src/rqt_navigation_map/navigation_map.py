@@ -7,7 +7,7 @@ class NavigationMap(Plugin):
 
     def __init__(self, context):
         super(NavigationMap, self).__init__(context)
-        self.setObjectName('PoseView')
+        self.setObjectName('NavigationMap')
 
         self._widget = NavigationMapWidget(self)
         if context.serial_number() > 1:

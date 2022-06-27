@@ -1,6 +1,7 @@
 import os
 import rospy
 import rospkg
+import math
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow, QMessageBox
@@ -12,7 +13,7 @@ from geometry_msgs.msg import Pose
 from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
 from sonia_common.srv import ObjectPoseService, ObjectPoseServiceResponse
 from std_srvs.srv import Empty
-
+from tf.transformations import euler_from_quaternion
 
 class WaypointWidget(QMainWindow):
 
@@ -40,7 +41,8 @@ class WaypointWidget(QMainWindow):
         # Subscribers
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
-        self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
+        # self.auv_position_subscriber = rospy.Subscriber("/proc_nav/auv_states", Odometry, self.auv_pose_callback)
+        #self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
 
         self.dvl_started_subscriber = rospy.Subscriber("/provider_dvl/enable_disable_ping", Bool, self.dvl_started_callback)
         self.sonar_started_subscriber = rospy.Subscriber("/provider_sonar/enable_disable_ping", Bool, self.sonar_started_callback)
@@ -66,7 +68,7 @@ class WaypointWidget(QMainWindow):
         self.actionTare_IMU.triggered.connect(self._tare_imu)
         self.actionToggle_DVL.triggered.connect(self.toggleDVL)
         self.actionToggle_Sonar.triggered.connect(self.toggleSonar)
-        self.initialPosition.clicked.connect(self._reset_position)
+        self.actionReset_Position.triggered.connect(self._reset_position)
         self.resetTrajectory.clicked.connect(self._clear_waypoint)
         self.actionStart_Simulation.triggered.connect(self.send_initial_position)
         self.sendWaypointButton.clicked.connect(self.send_position)
@@ -112,7 +114,10 @@ class WaypointWidget(QMainWindow):
         self.actionToggle_Sonar.setText("Stop sonar" if self.sonar_started else "Start sonar")
 
     def _reset_position(self):
-        self.set_initial_position_publisher.publish(data=True)
+        if self.current_mode_id == 0:
+            self.set_initial_position_publisher.publish(data=True)
+        else:
+            self.show_error('Control mode must be 0 to reset position')
     
     def set_mpc_info(self, msg):
         self.current_mode_id = msg.mpc_mode
@@ -123,8 +128,9 @@ class WaypointWidget(QMainWindow):
             self.sendWaypointButton.setText("Choose a mode")
             self.sendWaypointButton.setEnabled(False)
 
-    def auv_pose_callback(self, msg):
-        self.z_pose = float(msg.pose.pose.position.z)
+    # def auv_pose_callback(self, msg):
+    #     self.z_pose = float(msg.pose.pose.position.z)
+    #     self.z_pose
 
     def _clear_waypoint(self):
         self.reset_trajectory_publisher.publish(data=True)
@@ -161,9 +167,9 @@ class WaypointWidget(QMainWindow):
             self.xPositionCurrent.setText('%.2f' % data.position.x)
             self.yPositionCurrent.setText('%.2f' % data.position.y)
             self.zPositionCurrent.setText('%.2f' % data.position.z)
-            self.rollPositionCurrent.setText('%.2f' % data.orientation.x)
-            self.pitchPositionCurrent.setText('%.2f' % data.orientation.y)
-            self.yawPositionCurrent.setText('%.2f' % data.orientation.z)
+            self.rollPositionCurrent.setText('%.2f' % math.degrees(euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z,data.orientation.w],'szyx')[2]))
+            self.pitchPositionCurrent.setText('%.2f' % math.degrees(euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z,data.orientation.w],'szyx')[1]))
+            self.yawPositionCurrent.setText('%.2f' % math.degrees(euler_from_quaternion([data.orientation.x,data.orientation.y,data.orientation.z,data.orientation.w],'szyx')[0]))
         except ValueError:
             pass
 
@@ -196,8 +202,8 @@ class WaypointWidget(QMainWindow):
             # Verify z-axis
             if frame_val == 0 or frame_val == 2:
                 if z_val > 4: z_axis_problem = True
-            else:
-                if z_val + self.z_pose > 4: z_axis_problem = True  
+            # else:
+            #     if z_val + self.z_pose > 4: z_axis_problem = True  
             if z_axis_problem:
                 self.show_error("Depth too low.")
             else:
@@ -256,6 +262,7 @@ class WaypointWidget(QMainWindow):
         msgBox.exec()
 
     def shutdown_plugin(self):
-        self.auv_position_subscriber.unregister()
         self.controller_info_subscriber.unregister()
         self.position_target_subscriber.unregister()
+        self.dvl_started_subscriber.unregister()
+        self.sonar_started_subscriber.unregister()
