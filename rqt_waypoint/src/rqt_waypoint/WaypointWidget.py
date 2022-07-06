@@ -32,11 +32,6 @@ class WaypointWidget(QMainWindow):
         self.current_mode_id = 0
         self.z_pose = 0
 
-        self.dvl_started = False
-        self.actionToggle_DVL.setText("Start DVL")
-        self.sonar_started = False
-        self.actionToggle_Sonar.setText("Start sonar")
-
         self.sendWaypointButton.setEnabled(False)
         self.sendWaypointButton.setText("Choose a mode")
 
@@ -49,9 +44,6 @@ class WaypointWidget(QMainWindow):
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
         # self.auv_position_subscriber = rospy.Subscriber("/proc_nav/auv_states", Odometry, self.auv_pose_callback)
         # self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
-
-        self.dvl_started_subscriber = rospy.Subscriber("/provider_dvl/enable_disable_ping", Bool, self.dvl_started_callback)
-        self.sonar_started_subscriber = rospy.Subscriber("/provider_sonar/enable_disable_ping", Bool, self.sonar_started_callback)
 
         # Publishers
         self.simulation_start_publisher = rospy.Publisher("/proc_simulation/start_simulation", Pose, queue_size=10, latch=True)
@@ -78,8 +70,10 @@ class WaypointWidget(QMainWindow):
         # Sensors menu
         self.actionReset_Depth.triggered.connect(self._reset_depth)
         self.actionTare_IMU.triggered.connect(self._tare_imu)
-        self.actionToggle_DVL.triggered.connect(self.toggleDVL)
-        self.actionToggle_Sonar.triggered.connect(self.toggleSonar)
+        self.actionStart_DVL.triggered.connect(self.startDVL)
+        self.actionStop_DVL.triggered.connect(self.stopDVL)
+        self.actionStart_SONAR.triggered.connect(self.startSonar)
+        self.actionStop_SONAR.triggered.connect(self.stopSonar)
 
         # Waypoint tab buttons
         self.resetTrajectory.clicked.connect(self._clear_waypoint)
@@ -87,8 +81,6 @@ class WaypointWidget(QMainWindow):
 
         # Unity tab buttons
         self.updateUnityButton.clicked.connect(self.update_unity)
-
-
 
     def _reset_depth(self):
         # Getting AUV name environnment variable.
@@ -111,21 +103,17 @@ class WaypointWidget(QMainWindow):
             print(e)
             rospy.logerr('Provider IMU is not started.')
 
-    def toggleDVL(self):
-        self.dvl_started = not self.dvl_started
-        self.set_dvl_started_publisher.publish(data=self.dvl_started)
+    def startDVL(self):
+        self.set_dvl_started_publisher.publish(data=True)
 
-    def dvl_started_callback(self, msg):
-        self.dvl_started = msg.data
-        self.actionToggle_DVL.setText("Stop DVL" if self.dvl_started else "Start DVL")
+    def stopDVL(self):
+        self.set_dvl_started_publisher.publish(data=False)
 
-    def toggleSonar(self):
-        self.sonar_started = not self.sonar_started
-        self.set_sonar_started_publisher.publish(data=self.sonar_started)
+    def startSonar(self):
+        self.set_sonar_started_publisher.publish(data=True)
 
-    def sonar_started_callback(self, msg):
-        self.sonar_started = msg.data
-        self.actionToggle_Sonar.setText("Stop sonar" if self.sonar_started else "Start sonar")
+    def stopSonar(self):
+        self.set_sonar_started_publisher.publish(data=False)
 
     def _reset_position(self):
         if self.current_mode_id == 0:
@@ -294,5 +282,4 @@ class WaypointWidget(QMainWindow):
     def shutdown_plugin(self):
         self.controller_info_subscriber.unregister()
         self.position_target_subscriber.unregister()
-        self.dvl_started_subscriber.unregister()
-        self.sonar_started_subscriber.unregister()
+        

@@ -802,7 +802,7 @@
      <x>0</x>
      <y>0</y>
      <width>657</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSimulation">
@@ -816,10 +816,24 @@
     <property name="title">
      <string>Sensors</string>
     </property>
+    <widget class="QMenu" name="menuSONAR">
+     <property name="title">
+      <string>SONAR</string>
+     </property>
+     <addaction name="actionStart_SONAR"/>
+     <addaction name="actionStop_SONAR"/>
+    </widget>
+    <widget class="QMenu" name="menuDVL">
+     <property name="title">
+      <string>DVL</string>
+     </property>
+     <addaction name="actionStart_DVL"/>
+     <addaction name="actionStop_DVL"/>
+    </widget>
     <addaction name="actionReset_Depth"/>
     <addaction name="actionTare_IMU"/>
-    <addaction name="actionToggle_DVL"/>
-    <addaction name="actionToggle_Sonar"/>
+    <addaction name="menuDVL"/>
+    <addaction name="menuSONAR"/>
    </widget>
    <addaction name="menuSimulation"/>
    <addaction name="menuSensors"/>
@@ -839,22 +853,32 @@
     <string>Tare IMU</string>
    </property>
   </action>
-  <action name="actionToggle_DVL">
-   <property name="text">
-    <string>Toggle DVL</string>
-   </property>
-  </action>
-  <action name="actionToggle_Sonar">
-   <property name="text">
-    <string>Toggle Sonar</string>
-   </property>
-  </action>
   <action name="actionReset_Position">
    <property name="text">
     <string>Reset Position</string>
    </property>
    <property name="toolTip">
     <string>Set Initial Position</string>
+   </property>
+  </action>
+  <action name="actionStart_DVL">
+   <property name="text">
+    <string>Start DVL</string>
+   </property>
+  </action>
+  <action name="actionStop_DVL">
+   <property name="text">
+    <string>Stop DVL</string>
+   </property>
+  </action>
+  <action name="actionStart_SONAR">
+   <property name="text">
+    <string>Start SONAR</string>
+   </property>
+  </action>
+  <action name="actionStop_SONAR">
+   <property name="text">
+    <string>Stop SONAR</string>
    </property>
   </action>
  </widget>
