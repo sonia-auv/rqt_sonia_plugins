@@ -15,7 +15,7 @@ class Waypoint(Plugin):
 
 
         # Give QObjects reasonable names
-        self.setObjectName('EnableAxis')
+        self.setObjectName('WaypointWidget')
 
         # Process standalone plugin command-line arguments
         from argparse import ArgumentParser
