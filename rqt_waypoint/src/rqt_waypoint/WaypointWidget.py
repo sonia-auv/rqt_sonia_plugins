@@ -11,7 +11,7 @@ from std_msgs.msg import Bool
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
 from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
-from sonia_common.srv import ObjectPoseService, SetSimulationAUV
+from sonia_common.srv import ObjectPoseService, SetSimulationAUVService
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion
 
@@ -35,6 +35,8 @@ class WaypointWidget(QMainWindow):
         self.sendWaypointButton.setEnabled(False)
         self.sendWaypointButton.setText("Choose a mode")
 
+        self.frameChoice.setCurrentIndex(1)
+
         self.prev_auv = ""
         self.prev_scene = ""
         self.prev_run = ""
@@ -57,7 +59,7 @@ class WaypointWidget(QMainWindow):
 
         # Services
         self.initial_position_service = rospy.ServiceProxy("/proc_simulation/auv_pose", ObjectPoseService)
-        self.set_auv_service = rospy.ServiceProxy("/proc_simulation/select_auv", SetSimulationAUV)
+        self.set_auv_service = rospy.ServiceProxy("/proc_simulation/select_auv", SetSimulationAUVService)
         self.depth_tare_service = rospy.ServiceProxy("/provider_depth/tare", Empty)
         self.imu_tare_service = rospy.ServiceProxy("/provider_imu/tare", Empty)
 
@@ -116,10 +118,22 @@ class WaypointWidget(QMainWindow):
         self.set_sonar_started_publisher.publish(data=False)
 
     def _reset_position(self):
-        if self.current_mode_id == 0:
-            self.set_initial_position_publisher.publish(data=True)
-        else:
-            self.show_error('Control mode must be 0 to reset position')
+
+        pose = Pose()
+        pose.position.x = 0
+        pose.position.y = 0
+        pose.position.z = 0
+
+        pose.orientation.x = 0
+        pose.orientation.y = 0
+        pose.orientation.z = 0
+        pose.orientation.w = 0
+
+        self.simulation_start_publisher.publish(pose)
+        # if self.current_mode_id == 0:
+        #     self.set_initial_position_publisher.publish(data=True)
+        # else:
+        #     self.show_error('Control mode must be 0 to reset position')
     
     def set_mpc_info(self, msg):
         self.current_mode_id = msg.mpc_mode
