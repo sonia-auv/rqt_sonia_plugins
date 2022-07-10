@@ -20,7 +20,6 @@ class WarningsWidget(QWidget):
         self.dvlIndicator.setStyleSheet("background-color: green")
 
         ### tests
-        #sleep(10)
         self.motorIndicator.setStyleSheet("background-color: yellow")
         self.motorIndicator.setEnabled(True)
         self.motorIndicator.clicked.connect(self.openMotorMenu)
