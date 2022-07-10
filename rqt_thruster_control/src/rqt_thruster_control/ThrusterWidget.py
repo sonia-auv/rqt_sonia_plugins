@@ -2,6 +2,7 @@ import os
 import rospy
 import rospkg
 import threading
+import asyncio
 from .ThrusterAction import ThrusterAction
 
 from python_qt_binding import loadUi
@@ -118,11 +119,8 @@ class ThrusterWidget(QMainWindow):
         self.thruster_publisher.publish(data = self.pwms)
 
     def _handle_start_test_triggered(self):
-        try:
-            self.dry_test_service.call()
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Provider Thruster Node is not started')
+        newThread = Threads(self.dry_test_service)
+        newThread.start()
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
@@ -142,3 +140,14 @@ class ThrusterWidget(QMainWindow):
         # Comment in to signal that the plugin has a way to configure
         # This will enable a setting button (gear icon) in each dock widget title bar
         # Usually used to open a modal configuration dialog
+class Threads(threading.Thread):
+    def __init__(self, dryTestService):
+        super(Threads, self).__init__()
+        self.dryTestService = dryTestService
+    
+    def run(self):
+        try:
+            self.dryTestService.call()
+        except rospy.ServiceException as e:
+            print(e)
+            rospy.logerr('Provider Thruster Node is not started')
