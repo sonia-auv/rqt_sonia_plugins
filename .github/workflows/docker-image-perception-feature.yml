@@ -40,7 +40,7 @@ jobs:
       ARCH: arm64
       TARGET_TYPE: perception
       TARGET_VERSION: feature
-      IMAGE_NAME: sonia-rqt
+      IMAGE_NAME: rqt_sonia_plugins
       GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
