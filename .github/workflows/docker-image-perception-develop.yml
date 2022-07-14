@@ -3,8 +3,6 @@ name: Docker Image CI - Develop Branch
 on:
   push:
     branches: [develop]
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
   build-ros-perception-x86-64:
@@ -15,7 +13,7 @@ jobs:
       ARCH: x86
       TARGET_TYPE: perception
       TARGET_VERSION: develop
-      IMAGE_NAME: proc_fault
+      IMAGE_NAME: rqt_sonia_plugins
       GITHUB_REMOTE_URL: docker.pkg.github.com/${{ github.repository }}
     steps:
       - uses: actions/checkout@v2
