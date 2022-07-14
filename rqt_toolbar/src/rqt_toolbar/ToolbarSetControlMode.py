@@ -46,21 +46,28 @@ class SetModeControlWidget(QWidget):
 
     def set_buttons_style(self, mode):
         if mode == 10:
-            self.mpcPlanner.setPalette(self.paletteChecked.palette())
-            self.mpcSingleWpts.setPalette(self.paletteUnchecked.palette())
-            self.softKill.setPalette(self.paletteUnchecked.palette())
+            self.mpcPlanner.setStyleSheet("background-color: green")
+            self.mpcSingleWpts.setStyleSheet("background-color: red")
+            self.softKill.setStyleSheet("background-color: red")
         elif mode == 11:
-            self.mpcPlanner.setPalette(self.paletteUnchecked.palette())
-            self.mpcSingleWpts.setPalette(self.paletteChecked.palette())
-            self.softKill.setPalette(self.paletteUnchecked.palette())
+            self.mpcPlanner.setStyleSheet("background-color: red")
+            self.mpcSingleWpts.setStyleSheet("background-color: green")
+            self.softKill.setStyleSheet("background-color: red")
         elif mode  == 0:
-            self.mpcPlanner.setPalette(self.paletteUnchecked.palette())
-            self.mpcSingleWpts.setPalette(self.paletteUnchecked.palette())
-            self.softKill.setPalette(self.paletteChecked.palette())
+            self.mpcPlanner.setStyleSheet("background-color: red")
+            self.mpcSingleWpts.setStyleSheet("background-color: red")
+            self.softKill.setStyleSheet("background-color: green")
+    
+    def set_target_reached(self, status):
+        if status:
+            self.targetReached.setStyleSheet("background-color: green")
+        else:
+            self.targetReached.setStyleSheet("background-color: red")
 
     def set_mode(self, mode):
         self.setModePublisher.publish(data=mode)
 
     def controller_info_callback(self, msg):
         self.set_buttons_style(msg.mpc_mode)
+        self.set_target_reached(msg.target_reached)
 

@@ -39,66 +39,9 @@
      </property>
      <property name="palette">
       <palette>
-       <active>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </active>
-       <inactive>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </inactive>
-       <disabled>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-        <colorrole role="Window">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
-           <red>54</red>
-           <green>54</green>
-           <blue>54</blue>
-          </color>
-         </brush>
-        </colorrole>
-       </disabled>
+       <active/>
+       <inactive/>
+       <disabled/>
       </palette>
      </property>
      <property name="autoFillBackground">
@@ -182,6 +125,9 @@ QSlider::handle:vertical {
        <widget class="QLabel" name="T1_pwm">
         <property name="text">
          <string>PWM: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -270,7 +216,13 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T2_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -351,6 +303,9 @@ QSlider::handle:vertical {
         <property name="value">
          <number>0</number>
         </property>
+        <property name="sliderPosition">
+         <number>0</number>
+        </property>
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -359,7 +314,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T3_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -448,7 +406,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T4_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -537,7 +498,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T5_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -626,7 +590,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T6_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -715,7 +682,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T7_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -804,7 +774,10 @@ QSlider::handle:vertical {
       <item>
        <widget class="QLabel" name="T8_pwm">
         <property name="text">
-         <string>PWM: </string>
+         <string>PWM :</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>

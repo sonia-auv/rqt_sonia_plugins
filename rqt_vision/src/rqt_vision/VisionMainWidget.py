@@ -186,7 +186,7 @@ class VisionMainWidget(QWidget):
                                                                                                       visionTarget.width,
                                                                                                       visionTarget.height,
                                                                                                       visionTarget.angle,
-                                                                                                      visionTarget.distance,
+                                                                                                    #   visionTarget.distance,
                                                                                                       visionTarget.desc_1,
                                                                                                       visionTarget.desc_2)
         self.result_change.emit(result)

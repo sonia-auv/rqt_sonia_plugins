@@ -8,7 +8,7 @@ from python_qt_binding.QtWidgets import QMainWindow, QToolBar
 from .ToolbarSetControlMode import SetModeControlWidget
 from .ToolbarBatteryWidget import BatteryWidget
 from .ToolbarCpuTempWidget import CpuTempWidget
-#from .ToolbarKillmissionWidget import KillMissionWidget
+from .ToolbarKillmissionWidget import KillMissionWidget
 from .ToolbarCameraWidget import CameraWidget
 from .Palette import Palette
 
@@ -38,11 +38,11 @@ class ToolBar(Plugin):
         self._toolbar = QToolBar()
         self._palette = Palette()
         self._setControlModeWidget = SetModeControlWidget()
-        #self._killMissionWidget = KillMissionWidget()
         self._camera = CameraWidget()
         # context._handler._main_window.setPalette(self._palette.palette())
         self._batteryWidget1 = BatteryWidget(8)
         self._batteryWidget2 = BatteryWidget(9)
+        self._killMissionWidget = KillMissionWidget()
         self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', 'AUV') # TODO: Use environment variables for AUV name.
 
         # Add widget to the user interface
@@ -51,7 +51,7 @@ class ToolBar(Plugin):
         self._toolbar.addWidget(self._tempWidget1)
         self._toolbar.addWidget(self._batteryWidget1)
         self._toolbar.addWidget(self._batteryWidget2)
-        #self._toolbar.addWidget(self._killMissionWidget)
+        self._toolbar.addWidget(self._killMissionWidget)
 
         context.add_toolbar(self._toolbar)
 
