@@ -27,7 +27,6 @@ class BatteryWidget(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'battery.ui')
         loadUi(ui_file, self)
 
-        self.setObjectName('MyEnableAxisWidget')
         self._power_supply = rospy.Subscriber('/provider_power/voltage', Float64MultiArray, self._power_supply_callback)
         self.psu_received.connect(self._handle_result)
         

@@ -67,7 +67,7 @@ class ConfigWidget(QWidget):
         filterchain_list = filterchain_string.list.split(';')
         if len(filterchain_list) == 0:
             return
-        for filterchain in filterchain_list:
+        for filterchain in sorted(filterchain_list):
             if len(filterchain) > 0:
                 self.filterchain_list.addItem(filterchain)
                 self.filterchains.addItem(filterchain)
