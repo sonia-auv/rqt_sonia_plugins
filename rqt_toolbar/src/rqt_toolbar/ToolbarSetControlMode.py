@@ -19,8 +19,6 @@ class SetModeControlWidget(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'set_control_mode.ui')
         loadUi(ui_file, self)
 
-        self.setObjectName('MyEnableAxisWidget')
-
         self.setModePublisher = rospy.Publisher('/proc_control/set_mode', UInt8, queue_size=10)
 
         self.controllerInfoSubscriber = rospy.Subscriber('/proc_control/controller_info', MpcInfo, self.controller_info_callback)

@@ -3,7 +3,6 @@ import rospy
 import rospkg
 
 from qt_gui.plugin import Plugin
-from python_qt_binding.QtWidgets import QMainWindow
 
 from .WaypointWidget import WaypointWidget
 
@@ -15,7 +14,7 @@ class Waypoint(Plugin):
 
 
         # Give QObjects reasonable names
-        self.setObjectName('EnableAxis')
+        self.setObjectName('WaypointWidget')
 
         # Process standalone plugin command-line arguments
         from argparse import ArgumentParser

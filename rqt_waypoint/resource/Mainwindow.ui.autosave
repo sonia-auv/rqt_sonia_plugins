@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
+    <width>657</width>
     <height>348</height>
    </rect>
   </property>
@@ -38,11 +38,11 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="waypointTab">
        <attribute name="title">
@@ -495,268 +495,9 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_13">
-            <item>
-             <spacer name="horizontalSpacer_7">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="posLabel1_4">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Sub</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <item>
-             <widget class="QComboBox" name="subChoice">
-              <property name="editable">
-               <bool>false</bool>
-              </property>
-              <property name="currentText">
-               <string>AUV8</string>
-              </property>
-              <property name="placeholderText" stdset="0">
-               <string/>
-              </property>
-              <item>
-               <property name="text">
-                <string>AUV8</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>AUV7</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_8">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <item>
-             <spacer name="horizontalSpacer_9">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="posLabel1_5">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Scene</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_9">
-            <item>
-             <widget class="QComboBox" name="sceneChoice">
-              <property name="editable">
-               <bool>false</bool>
-              </property>
-              <property name="currentText">
-               <string>Maryland</string>
-              </property>
-              <property name="placeholderText" stdset="0">
-               <string/>
-              </property>
-              <item>
-               <property name="text">
-                <string>Maryland</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>CVM</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Transdec</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_10">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <spacer name="horizontalSpacer_12">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="posLabel1_6">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Run</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <widget class="QComboBox" name="runChoice">
-              <property name="editable">
-               <bool>false</bool>
-              </property>
-              <property name="currentText">
-               <string>Prequalif</string>
-              </property>
-              <property name="placeholderText" stdset="0">
-               <string/>
-              </property>
-              <item>
-               <property name="text">
-                <string>Prequalif</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Semi-final</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Final</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_11">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <spacer name="horizontalSpacer_5">
+           <spacer name="horizontalSpacer_9">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -769,13 +510,248 @@
            </spacer>
           </item>
           <item>
+           <widget class="QLabel" name="posLabel1_4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Sub</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="subChoice">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Sub</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>AUV8</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>AUV7</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_10">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="posLabel1_5">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Scene</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="sceneChoice">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Scene</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Maryland</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CVM</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Transdec</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="posLabel1_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Run</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="runChoice">
+            <property name="editable">
+             <bool>false</bool>
+            </property>
+            <property name="currentText">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Run</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Prequalif</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Semi-final</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Final</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_12">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
            <widget class="QPushButton" name="updateUnityButton">
             <property name="text">
              <string>Update</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="2">
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -792,19 +768,6 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="missionTab">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <attribute name="title">
-        <string>Missions</string>
-       </attribute>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
-         <layout class="QGridLayout" name="missionGrid"/>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -814,8 +777,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>661</width>
-     <height>22</height>
+     <width>657</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSimulation">
@@ -829,24 +792,10 @@
     <property name="title">
      <string>Sensors</string>
     </property>
-    <widget class="QMenu" name="menuSONAR">
-     <property name="title">
-      <string>SONAR</string>
-     </property>
-     <addaction name="actionStart_SONAR"/>
-     <addaction name="actionStop_SONAR"/>
-    </widget>
-    <widget class="QMenu" name="menuDVL">
-     <property name="title">
-      <string>DVL</string>
-     </property>
-     <addaction name="actionStart_DVL"/>
-     <addaction name="actionStop_DVL"/>
-    </widget>
     <addaction name="actionReset_Depth"/>
     <addaction name="actionTare_IMU"/>
-    <addaction name="menuDVL"/>
-    <addaction name="menuSONAR"/>
+    <addaction name="actionToggle_DVL"/>
+    <addaction name="actionToggle_Sonar"/>
    </widget>
    <addaction name="menuSimulation"/>
    <addaction name="menuSensors"/>
@@ -866,32 +815,22 @@
     <string>Tare IMU</string>
    </property>
   </action>
+  <action name="actionToggle_DVL">
+   <property name="text">
+    <string>Toggle DVL</string>
+   </property>
+  </action>
+  <action name="actionToggle_Sonar">
+   <property name="text">
+    <string>Toggle Sonar</string>
+   </property>
+  </action>
   <action name="actionReset_Position">
    <property name="text">
     <string>Reset Position</string>
    </property>
    <property name="toolTip">
     <string>Set Initial Position</string>
-   </property>
-  </action>
-  <action name="actionStart_DVL">
-   <property name="text">
-    <string>Start DVL</string>
-   </property>
-  </action>
-  <action name="actionStop_DVL">
-   <property name="text">
-    <string>Stop DVL</string>
-   </property>
-  </action>
-  <action name="actionStart_SONAR">
-   <property name="text">
-    <string>Start SONAR</string>
-   </property>
-  </action>
-  <action name="actionStop_SONAR">
-   <property name="text">
-    <string>Stop SONAR</string>
    </property>
   </action>
  </widget>

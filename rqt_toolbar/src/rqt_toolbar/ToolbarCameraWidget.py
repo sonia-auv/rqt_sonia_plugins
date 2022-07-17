@@ -10,7 +10,7 @@ class CameraWidget(QWidget):
 
     def __init__(self):
         super(CameraWidget, self).__init__()
-        self.setObjectName('CpuTempWidget')
+        self.setObjectName('CameraWidget')
 
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'start_cam.ui')
         loadUi(ui_file, self)

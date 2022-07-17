@@ -109,9 +109,9 @@ class NavigationMapWidget(QWidget):
         self.vehicle_position_x = odom_data.pose.pose.position.x
         self.vehicle_position_y = odom_data.pose.pose.position.y
         self.vehicle_position_z = odom_data.pose.pose.position.z
-        self.vehicle_orientation_x = odom_data.pose.pose.orientation.x
-        self.vehicle_orientation_y = odom_data.pose.pose.orientation.y
-        self.vehicle_orientation_z = odom_data.pose.pose.orientation.z
+        self.vehicle_orientation_x = odom_data.pose.pose.orientation.y
+        self.vehicle_orientation_y = odom_data.pose.pose.orientation.x
+        self.vehicle_orientation_z = -odom_data.pose.pose.orientation.z
         self.vehicle_orientation_w = odom_data.pose.pose.orientation.w
         self._position = (self.vehicle_position_x, self.vehicle_position_y, self.vehicle_position_z)
         self._mapDrawer.set_position(self._position)

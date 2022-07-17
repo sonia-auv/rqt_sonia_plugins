@@ -46,7 +46,7 @@ class ToolBar(Plugin):
         self._batteryWidget1 = BatteryWidget(8)
         self._batteryWidget2 = BatteryWidget(9)
         self._killMissionWidget = KillMissionWidget()
-        self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', 'AUV') # TODO: Use environment variables for AUV name.
+        self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', os.getenv('AUV','AUV')) # TODO: Use environment variables for AUV name.
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._setControlModeWidget)
