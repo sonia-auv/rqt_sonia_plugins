@@ -1,16 +1,17 @@
 import os
+import threading
+from time import sleep, time
 import rospy
 import rospkg
 import math
 
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QMainWindow, QMessageBox
-from python_qt_binding.QtCore import pyqtSignal
+from python_qt_binding.QtWidgets import QMainWindow, QMessageBox, QLabel
+from python_qt_binding.QtCore import pyqtSignal, pyqtSlot
 
 from std_msgs.msg import Bool
-from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
-from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
+from sonia_common.msg import AddPose, MultiAddPose, MpcInfo, MissionTimer
 from sonia_common.srv import ObjectPoseService, SetSimulationAUVService
 from std_srvs.srv import Empty
 from tf.transformations import euler_from_quaternion
@@ -18,6 +19,8 @@ from tf.transformations import euler_from_quaternion
 class WaypointWidget(QMainWindow):
 
     current_target_received = pyqtSignal('PyQt_PyObject')
+    createLabel = pyqtSignal(MissionTimer)
+    listMissionLabels = {}
 
     def __init__(self):
         super(WaypointWidget, self).__init__()
@@ -31,6 +34,7 @@ class WaypointWidget(QMainWindow):
 
         self.current_mode_id = 0
         self.z_pose = 0
+        self.labelsCreated = 0
 
         self.sendWaypointButton.setEnabled(False)
         self.sendWaypointButton.setText("Choose a mode")
@@ -44,6 +48,7 @@ class WaypointWidget(QMainWindow):
         # Subscribers
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose, self._position_target_callback)
         self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
+        self.timeout_subscriber = rospy.Subscriber("/sonia_behaviors/timeout", MissionTimer, self.timeout_info)
         # self.auv_position_subscriber = rospy.Subscriber("/proc_nav/auv_states", Odometry, self.auv_pose_callback)
         # self.auv_position_subscriber = rospy.Subscriber("/telemetry/auv_states", Odometry, self.auv_pose_callback)
 
@@ -64,6 +69,7 @@ class WaypointWidget(QMainWindow):
         self.imu_tare_service = rospy.ServiceProxy("/provider_imu/tare", Empty)
 
         self.current_target_received.connect(self._current_target_received)
+        self.createLabel.connect(self.addButton)
 
         # Simulation menu
         self.actionStart_Simulation.triggered.connect(self.send_initial_position)
@@ -83,6 +89,85 @@ class WaypointWidget(QMainWindow):
 
         # Unity tab buttons
         self.updateUnityButton.clicked.connect(self.update_unity)
+    
+    def timeout_info(self, msg):
+        if msg.status == 1:
+            self.createLabel.emit(msg)
+        elif msg.status == 2:
+            self.missionComplete(msg)
+        elif msg.status == 3:
+            self.missionTimeout(msg)
+        elif msg.status == 4:
+            self.missionFailed(msg)
+    
+    @pyqtSlot(MissionTimer)
+    def addButton(self, msg):
+        label1 = QLabel()
+        label1.setText(msg.mission)
+        self.missionGrid.addWidget(label1, self.labelsCreated, 0)
+        timeout = float(msg.timeout)
+        label2 = QLabel()
+        label2.setText(f"{timeout:.1f}")
+        self.missionGrid.addWidget(label2, self.labelsCreated, 1)
+        self.labelsCreated += 1
+        self.listMissionLabels[msg.uniqueID] = [label1, label2]
+        t = threading.Thread(target = self.countdownThread, args=(msg.uniqueID, timeout))
+        t.start()
+
+    def countdownThread(self, uniqueID, timeout):
+        label = self.listMissionLabels[uniqueID][1]
+        startTime = time()
+        while (time())-startTime <= timeout:
+            sleep(0.1)
+            if label.styleSheet() != "":
+                return
+            label.setText(f"{(timeout-((time())-startTime)):.1f}")
+        label.setStyleSheet("background-color: yellow")
+        label.setText(f"{0:.1f}")
+        sleep(60)
+        try:
+            label.close()
+            self.listMissionLabels[uniqueID][0].close()
+            del self.listMissionLabels[uniqueID]
+        except RuntimeError:
+            pass
+    
+    def missionComplete(self, msg):
+        label = self.listMissionLabels[msg.uniqueID][1]
+        label.setStyleSheet("background-color: green")
+        label.setText(f"{label.text()} (Completed)")
+        sleep(60)
+        try:
+            label.close()
+            self.listMissionLabels[msg.uniqueID][0].close()
+            del self.listMissionLabels[msg.uniqueID]
+        except RuntimeError:
+            pass
+    
+    def missionTimeout(self, msg):
+        label = self.listMissionLabels[msg.uniqueID][1]
+        label.setStyleSheet("background-color: red")
+        label.setText(f"{label.text()} (Timed Out)")
+        label.setText(f"{0:.1f}")
+        sleep(60)
+        try:
+            label.close()
+            self.listMissionLabels[msg.uniqueID][0].close()
+            del self.listMissionLabels[msg.uniqueID]
+        except RuntimeError:
+            pass
+    
+    def missionFailed(self, msg):
+        label = self.listMissionLabels[msg.uniqueID][1]
+        label.setStyleSheet("background-color: red")
+        label.setText(f"{label.text()} (Failed)")
+        sleep(60)
+        try:
+            label.close()
+            self.listMissionLabels[msg.uniqueID][0].close()
+            del self.listMissionLabels[msg.uniqueID]
+        except RuntimeError:
+            pass
 
     def _reset_depth(self):
         # Getting AUV name environnment variable.
@@ -296,4 +381,5 @@ class WaypointWidget(QMainWindow):
     def shutdown_plugin(self):
         self.controller_info_subscriber.unregister()
         self.position_target_subscriber.unregister()
+        self.timeout_subscriber.unregister()
         
