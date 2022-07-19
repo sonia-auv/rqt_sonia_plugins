@@ -2,12 +2,10 @@ import os
 import rospkg
 import rospy
 
-from time import sleep
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QMainWindow
-from python_qt_binding.QtCore import pyqtSignal
-from std_msgs.msg import Float64MultiArray, Bool
-from .PowerCardButtonAction import PowerCardButtonAction
+from python_qt_binding.QtCore import pyqtSignal, pyqtSlot
+from std_msgs.msg import Float64MultiArray, Bool, UInt8MultiArray
 
 
 class PowerWidget(QMainWindow):
@@ -15,6 +13,7 @@ class PowerWidget(QMainWindow):
     voltage12V_result_received = pyqtSignal(Float64MultiArray)
     current_result_received = pyqtSignal(Float64MultiArray)
     temperature_result_received = pyqtSignal(Float64MultiArray)
+    motor_feedback_received = pyqtSignal(UInt8MultiArray)
 
     CMD_PS_V16_1 = 0
     CMD_PS_V16_2 = 1
@@ -43,6 +42,7 @@ class PowerWidget(QMainWindow):
         self._voltage12V_subscriber = rospy.Subscriber("/provider_power/voltage12V", Float64MultiArray, self._voltage12V_callback)
         self._current_subscriber = rospy.Subscriber("/provider_power/current", Float64MultiArray, self._current_callback)
         self._temperature_subscriber = rospy.Subscriber("/provider_power/temperature", Float64MultiArray, self._temperature_callback)
+        self.motor_feedback_subscriber = rospy.Subscriber("/provider_power/motor_feedback", UInt8MultiArray, self.motor_feedback_callback)
 
         self.activate_all_motor = rospy.Publisher('/provider_power/activate_all_motor', Bool, queue_size=100)
 
@@ -50,6 +50,7 @@ class PowerWidget(QMainWindow):
         self.current_result_received.connect(self.show_Current)
         self.voltage12V_result_received.connect(self.show_12V)
         self.temperature_result_received.connect(self.show_Temperature)
+        self.motor_feedback_received.connect(self.show_motor_feedback)
 
         self.EnableAll.setEnabled(True)
         self.EnableAll.clicked.connect(self._handle_out_enable_all_clicked)
@@ -69,6 +70,9 @@ class PowerWidget(QMainWindow):
 
     def _temperature_callback(self, data):
         self.temperature_result_received.emit(data)
+    
+    def motor_feedback_callback(self, data):
+        self.motor_feedback_received.emit(data)
 
     def show_12V(self, data):
         pass
@@ -88,7 +92,7 @@ class PowerWidget(QMainWindow):
 
     def show_Current(self, data):
 
-        for i in range(len(data.data)-2):
+        for i in range(len(data.data)-4):
             format_data = '{:.2f}'.format(data.data[i])
             eval('self.CurrentM' + str(i+1)).display(format_data)
             eval('self.CurrentM' + str(i+1) + '_2').display(format_data)
@@ -114,7 +118,13 @@ class PowerWidget(QMainWindow):
         self.VoltageB2.display(format_data)
         self.VoltageB2_2.display(format_data)
 
-        
+    @pyqtSlot(UInt8MultiArray)
+    def show_motor_feedback(self, data):
+        dict_colors = {0:"grey", 1:"green", 2:"yellow", 3:"red", 4:"blue"}
+        for i in range(len(data.data)):
+            color = dict_colors[data.data[i]]
+            for j in range(1,5):
+                eval(f"self.M{i+1}_{j}").setStyleSheet(f"background-color: {color}")
 
     def _handle_out_enable_all_clicked(self):
         #self._set_all_bus_state(1)
