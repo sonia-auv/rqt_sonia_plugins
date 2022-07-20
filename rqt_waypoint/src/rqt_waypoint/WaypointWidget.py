@@ -1,6 +1,7 @@
 import os
 import threading
 from time import sleep, time
+
 import rospy
 import rospkg
 import math
@@ -20,6 +21,9 @@ class WaypointWidget(QMainWindow):
 
     current_target_received = pyqtSignal('PyQt_PyObject')
     createLabel = pyqtSignal(MissionTimer)
+    greenLabel = pyqtSignal(MissionTimer)
+    redLabel = pyqtSignal(MissionTimer)
+    failedLabel = pyqtSignal(MissionTimer)
     listMissionLabels = {}
 
     def __init__(self):
@@ -70,6 +74,9 @@ class WaypointWidget(QMainWindow):
 
         self.current_target_received.connect(self._current_target_received)
         self.createLabel.connect(self.addButton)
+        self.redLabel.connect(self.missionTimeout)
+        self.greenLabel.connect(self.missionComplete)
+        self.failedLabel.connect(self.missionFailed)
 
         # Simulation menu
         self.actionStart_Simulation.triggered.connect(self.send_initial_position)
@@ -113,7 +120,7 @@ class WaypointWidget(QMainWindow):
         self.listMissionLabels[msg.uniqueID] = [label1, label2]
         t = threading.Thread(target = self.countdownThread, args=(msg.uniqueID, timeout))
         t.start()
-
+    
     def countdownThread(self, uniqueID, timeout):
         label = self.listMissionLabels[uniqueID][1]
         startTime = time()
@@ -124,50 +131,41 @@ class WaypointWidget(QMainWindow):
             label.setText(f"{(timeout-((time())-startTime)):.1f}")
         label.setStyleSheet("background-color: yellow")
         label.setText(f"{0:.1f}")
-        sleep(60)
+        t = threading.Thread(target = self.countdownTillDestroyThread, args=(msg.uniqueID,))
+        t.start()
+    
+    def countdownTillDestroyThread(self, uniqueID):
+        sleep(30)
         try:
-            label.close()
             self.listMissionLabels[uniqueID][0].close()
+            self.listMissionLabels[uniqueID][1].close()
             del self.listMissionLabels[uniqueID]
         except RuntimeError:
             pass
-    
+
+    @pyqtSlot(MissionTimer)
     def missionComplete(self, msg):
         label = self.listMissionLabels[msg.uniqueID][1]
         label.setStyleSheet("background-color: green")
         label.setText(f"{label.text()} (Completed)")
-        sleep(60)
-        try:
-            label.close()
-            self.listMissionLabels[msg.uniqueID][0].close()
-            del self.listMissionLabels[msg.uniqueID]
-        except RuntimeError:
-            pass
+        t = threading.Thread(target = self.countdownTillDestroyThread, args=(msg.uniqueID,))
+        t.start()
     
+    @pyqtSlot(MissionTimer)
     def missionTimeout(self, msg):
         label = self.listMissionLabels[msg.uniqueID][1]
         label.setStyleSheet("background-color: red")
-        label.setText(f"{label.text()} (Timed Out)")
-        label.setText(f"{0:.1f}")
-        sleep(60)
-        try:
-            label.close()
-            self.listMissionLabels[msg.uniqueID][0].close()
-            del self.listMissionLabels[msg.uniqueID]
-        except RuntimeError:
-            pass
+        label.setText(f"{0:.1f} (Timed Out)")
+        t = threading.Thread(target = self.countdownTillDestroyThread, args=(msg.uniqueID,))
+        t.start()
     
+    @pyqtSlot(MissionTimer)
     def missionFailed(self, msg):
         label = self.listMissionLabels[msg.uniqueID][1]
         label.setStyleSheet("background-color: red")
         label.setText(f"{label.text()} (Failed)")
-        sleep(60)
-        try:
-            label.close()
-            self.listMissionLabels[msg.uniqueID][0].close()
-            del self.listMissionLabels[msg.uniqueID]
-        except RuntimeError:
-            pass
+        t = threading.Thread(target = self.countdownTillDestroyThread, args=(msg.uniqueID,))
+        t.start()
 
     def _reset_depth(self):
         # Getting AUV name environnment variable.

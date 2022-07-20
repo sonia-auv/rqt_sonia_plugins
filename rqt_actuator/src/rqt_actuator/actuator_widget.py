@@ -2,7 +2,7 @@ from __future__ import division
 import os
 import rospkg
 import rospy
-import time
+import threading
 from sonia_common.srv import ActuatorDoActionSrv, ActuatorDoActionSrvRequest
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -29,45 +29,28 @@ class ActuatorWidget(QWidget):
 
 
     def _handle_drop_port(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_DROPPER,ActuatorDoActionSrvRequest.SIDE_PORT,ActuatorDoActionSrvRequest.ACTION_DROPPER_LAUNCH)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_DROPPER,ActuatorDoActionSrvRequest.SIDE_PORT,ActuatorDoActionSrvRequest.ACTION_DROPPER_LAUNCH)
+        newThread.start()
 
     def _handle_drop_starboard(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_DROPPER,ActuatorDoActionSrvRequest.SIDE_STARBOARD,ActuatorDoActionSrvRequest.ACTION_DROPPER_LAUNCH)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator Node is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_DROPPER,ActuatorDoActionSrvRequest.SIDE_STARBOARD,ActuatorDoActionSrvRequest.ACTION_DROPPER_LAUNCH)
+        newThread.start()
+
     def _handle_torpido_port(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_TORPEDO,ActuatorDoActionSrvRequest.SIDE_PORT,ActuatorDoActionSrvRequest.ACTION_TORPEDO_LAUNCH)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator Node is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_TORPEDO,ActuatorDoActionSrvRequest.SIDE_PORT,ActuatorDoActionSrvRequest.ACTION_TORPEDO_LAUNCH)
+        newThread.start()
 
     def _handle_torpido_starboard(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_TORPEDO,ActuatorDoActionSrvRequest.SIDE_STARBOARD,ActuatorDoActionSrvRequest.ACTION_TORPEDO_LAUNCH)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator Node is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_TORPEDO,ActuatorDoActionSrvRequest.SIDE_STARBOARD,ActuatorDoActionSrvRequest.ACTION_TORPEDO_LAUNCH)
+        newThread.start()
 
     def _handle_open_robotic_arm(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_ARM,ActuatorDoActionSrvRequest.ARM_OPEN,ActuatorDoActionSrvRequest.ACTION_ARM_EXEC)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator Node is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_ARM,ActuatorDoActionSrvRequest.ARM_OPEN,ActuatorDoActionSrvRequest.ACTION_ARM_EXEC)
+        newThread.start()
 
     def _handle_close_robotic_arm(self):
-        try:
-            self.do_action_srv(ActuatorDoActionSrvRequest.ELEMENT_ARM,ActuatorDoActionSrvRequest.ARM_CLOSE,ActuatorDoActionSrvRequest.ACTION_ARM_EXEC)
-        except rospy.ServiceException as e:
-            print(e)
-            rospy.logerr('Actuator Node is not started')
+        newThread = Threads(self.do_action_srv, ActuatorDoActionSrvRequest.ELEMENT_ARM,ActuatorDoActionSrvRequest.ARM_CLOSE,ActuatorDoActionSrvRequest.ACTION_ARM_EXEC)
+        newThread.start()
 
     def restore_settings(self, plugin_settings, instance_settings):
         pass
@@ -79,3 +62,19 @@ class ActuatorWidget(QWidget):
 
     def shutdown_plugin(self):
         pass
+
+
+class Threads(threading.Thread):
+    def __init__(self, do_action_srv, param1, param2, param3):
+        super(Threads, self).__init__()
+        self.do_action_srv = do_action_srv
+        self.param1 = param1
+        self.param2 = param2
+        self.param3 = param3
+    
+    def run(self):
+        try:
+            self.do_action_srv(self.param1, self.param2, self.param3)
+        except rospy.ServiceException as e:
+            print(e)
+            rospy.logerr('Actuator Node is not started')
