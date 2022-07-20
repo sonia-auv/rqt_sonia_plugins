@@ -79,27 +79,27 @@ class WarningsWidget(QWidget):
                 if len(dict_motors["red"]) == 1:
                     tooltip += f"Motor {dict_motors['red'][0]} is critical"
                 else:
-                    tooltip += f"Motors {', '.join(dict_motors['red'])} are critical"
-            elif len(dict_motors["blue"]) != 0:
+                    tooltip += f"Motors {', '.join(str(x) for x in dict_motors['red'])} are critical"
+            if len(dict_motors["blue"]) != 0:
                 if tooltip != "":
                     tooltip += "; "
                 if len(dict_motors["blue"]) == 1:
                     tooltip += f"Motor {dict_motors['blue'][0]} is restarting"
                 else:
-                    tooltip += f"Motors {', '.join(dict_motors['blue'])} are restarting"
-            elif len(dict_motors["yellow"]) != 0:
+                    tooltip += f"Motors {', '.join(str(x) for x in dict_motors['blue'])} are restarting"
+            if len(dict_motors["yellow"]) != 0:
                 if tooltip != "":
                     tooltip += "; "
                 if len(dict_motors["yellow"]) == 1:
                     tooltip += f"Motor {dict_motors['yellow'][0]} is over-current"
                 else:
-                    tooltip += f"Motors {', '.join(dict_motors['yellow'])} are over-current"
-            elif len(dict_motors["grey"]) != 0:
+                    tooltip += f"Motors {', '.join(str(x) for x in dict_motors['yellow'])} are over-current"
+            if len(dict_motors["grey"]) != 0:
                 if tooltip != "":
                     tooltip += "; "
                 if len(dict_motors["grey"]) == 1:
                     tooltip += f"Motor {dict_motors['grey'][0]} is off"
                 else:
-                    tooltip += f"Motors {', '.join(dict_motors['grey'])} are off"
+                    tooltip += f"Motors {', '.join(str(x) for x in dict_motors['grey'])} are off"
         if tooltip != self.motorIndicator.toolTip():
             self.motorIndicator.setToolTip(tooltip)
