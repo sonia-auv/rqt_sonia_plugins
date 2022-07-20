@@ -42,7 +42,7 @@ class PowerWidget(QMainWindow):
         self._voltage12V_subscriber = rospy.Subscriber("/provider_power/voltage12V", Float64MultiArray, self._voltage12V_callback)
         self._current_subscriber = rospy.Subscriber("/provider_power/current", Float64MultiArray, self._current_callback)
         self._temperature_subscriber = rospy.Subscriber("/provider_power/temperature", Float64MultiArray, self._temperature_callback)
-        self.motor_feedback_subscriber = rospy.Subscriber("/provider_power/motor_feedback", UInt8MultiArray, self.motor_feedback_callback)
+        self.motor_feedback_subscriber = rospy.Subscriber("/proc_fault/motor_feedback", UInt8MultiArray, self.motor_feedback_callback)
 
         self.activate_all_motor = rospy.Publisher('/provider_power/activate_all_motor', Bool, queue_size=100)
 
