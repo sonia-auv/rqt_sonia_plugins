@@ -2,7 +2,6 @@ import os
 import rospy
 import rospkg
 import threading
-import asyncio
 from .ThrusterAction import ThrusterAction
 
 from python_qt_binding import loadUi
