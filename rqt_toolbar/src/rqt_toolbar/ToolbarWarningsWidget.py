@@ -120,7 +120,17 @@ class WarningsWidget(QWidget):
             elif data.Severity == 3:
                 self.dvlIndicator.setStyleSheet("background: rgb(153, 0, 0)")
         elif data.Module == "IMU":
-            pass
+            self.imuIndicator.setToolTip(data.Msg)
+            if data.Severity == 4:
+                self.imuIndicator.setStyleSheet("background-color: green")
+            elif data.Severity == 0:
+                self.imuIndicator.setStyleSheet("background: rgb(214, 232, 101)")
+            elif data.Severity == 1:
+                self.imuIndicator.setStyleSheet("background-color: yellow")
+            elif data.Severity == 2:
+                self.imuIndicator.setStyleSheet("background-color: red")
+            elif data.Severity == 3:
+                self.imuIndicator.setStyleSheet("background: rgb(153, 0, 0)")
 
     def shutdown_plugin(self):
         self.motor_feedback_subscriber.unregister()
