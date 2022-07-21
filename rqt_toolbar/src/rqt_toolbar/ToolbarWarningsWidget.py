@@ -6,6 +6,7 @@ import threading
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from std_msgs.msg import UInt8MultiArray
+from sonia_common.msg import FaultWarning
 
 
 class WarningsWidget(QWidget):
@@ -16,6 +17,7 @@ class WarningsWidget(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_toolbar'), 'resource', 'warnings.ui')
         loadUi(ui_file, self)
         self.motor_feedback_subscriber = rospy.Subscriber("/proc_fault/motor_feedback", UInt8MultiArray, self.motor_feedback_callback)
+        self.other_feedback_subscriber = rospy.Subscriber("/proc_fault/control_checker_fault_warning", FaultWarning, self.other_feedback_callback)
         self.motorIndicator.setEnabled(True)
         self.motorIndicator.clicked.connect(self.openMotorMenu)
         self.dvlIndicator.setEnabled(True)
@@ -103,3 +105,23 @@ class WarningsWidget(QWidget):
                     tooltip += f"Motors {', '.join(str(x) for x in dict_motors['grey'])} are off"
         if tooltip != self.motorIndicator.toolTip():
             self.motorIndicator.setToolTip(tooltip)
+    
+    def other_feedback_callback(self, data):
+        if data.Module == "DVL":
+            self.dvlIndicator.setToolTip(data.Msg)
+            if data.Severity == 4:
+                self.dvlIndicator.setStyleSheet("background-color: green")
+            elif data.Severity == 0:
+                self.dvlIndicator.setStyleSheet("background: rgb(214, 232, 101)")
+            elif data.Severity == 1:
+                self.dvlIndicator.setStyleSheet("background-color: yellow")
+            elif data.Severity == 2:
+                self.dvlIndicator.setStyleSheet("background-color: red")
+            elif data.Severity == 3:
+                self.dvlIndicator.setStyleSheet("background: rgb(153, 0, 0)")
+        elif data.Module == "IMU":
+            pass
+
+    def shutdown_plugin(self):
+        self.motor_feedback_subscriber.unregister()
+        self.other_feedback_subscriber.unregister()
