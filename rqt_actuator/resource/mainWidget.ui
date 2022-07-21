@@ -50,16 +50,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="torpido_port">
+       <widget class="QPushButton" name="torpedo_port">
         <property name="text">
-         <string>Torpido Port</string>
+         <string>Torpedo Port</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="torpido_starboard">
+       <widget class="QPushButton" name="torpedo_starboard">
         <property name="text">
-         <string>Torpido Starboard</string>
+         <string>Torpedo Starboard</string>
         </property>
        </widget>
       </item>

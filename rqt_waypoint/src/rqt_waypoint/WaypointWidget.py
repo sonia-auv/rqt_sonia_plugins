@@ -100,12 +100,14 @@ class WaypointWidget(QMainWindow):
     def timeout_info(self, msg):
         if msg.status == 1:
             self.createLabel.emit(msg)
-        elif msg.status == 2:
-            self.missionComplete(msg)
-        elif msg.status == 3:
-            self.missionTimeout(msg)
-        elif msg.status == 4:
-            self.missionFailed(msg)
+        else:
+            if msg.uniqueID in self.listMissionLabels:
+                if msg.status == 2:
+                    self.missionComplete(msg)
+                elif msg.status == 3:
+                    self.missionTimeout(msg)
+                elif msg.status == 4:
+                    self.missionFailed(msg)
     
     @pyqtSlot(MissionTimer)
     def addButton(self, msg):
@@ -131,7 +133,7 @@ class WaypointWidget(QMainWindow):
             label.setText(f"{(timeout-((time())-startTime)):.1f}")
         label.setStyleSheet("background-color: yellow")
         label.setText(f"{0:.1f}")
-        t = threading.Thread(target = self.countdownTillDestroyThread, args=(msg.uniqueID,))
+        t = threading.Thread(target = self.countdownTillDestroyThread, args=(uniqueID,))
         t.start()
     
     def countdownTillDestroyThread(self, uniqueID):
@@ -140,7 +142,7 @@ class WaypointWidget(QMainWindow):
             self.listMissionLabels[uniqueID][0].close()
             self.listMissionLabels[uniqueID][1].close()
             del self.listMissionLabels[uniqueID]
-        except RuntimeError:
+        except (RuntimeError, KeyError):
             pass
 
     @pyqtSlot(MissionTimer)
