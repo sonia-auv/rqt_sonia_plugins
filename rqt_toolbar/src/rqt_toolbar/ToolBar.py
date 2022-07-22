@@ -60,8 +60,7 @@ class ToolBar(Plugin):
         context.add_toolbar(self._toolbar)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
-        pass
+        self._warnings.shutdown_plugin()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:
