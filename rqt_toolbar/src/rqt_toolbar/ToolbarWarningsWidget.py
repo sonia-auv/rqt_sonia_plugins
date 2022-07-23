@@ -118,7 +118,10 @@ class WarningsWidget(QWidget):
             elif data.Severity == 2:
                 self.dvlIndicator.setStyleSheet("background-color: red")
             elif data.Severity == 3:
-                self.dvlIndicator.setStyleSheet("background: rgb(153, 0, 0)")
+                self.dvlIndicator.setStyleSheet("background: rgb(88, 8, 24)")
+                self.dvlIndicator.setStyleSheet("""QPushButton{background: rgb(88, 8, 24);}
+                                                   QToolTip{background: rgb(88, 8, 24);
+                                                            color: white;}""")
         elif data.Module == "IMU":
             self.imuIndicator.setToolTip(data.Msg)
             if data.Severity == 4:
@@ -130,7 +133,9 @@ class WarningsWidget(QWidget):
             elif data.Severity == 2:
                 self.imuIndicator.setStyleSheet("background-color: red")
             elif data.Severity == 3:
-                self.imuIndicator.setStyleSheet("background: rgb(153, 0, 0)")
+                self.imuIndicator.setStyleSheet("""QPushButton{background: rgb(88, 8, 24);}
+                                                   QToolTip{background: rgb(88, 8, 24);
+                                                            color: white;}""")
 
     def shutdown_plugin(self):
         self.motor_feedback_subscriber.unregister()

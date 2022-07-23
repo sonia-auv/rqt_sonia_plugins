@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>594</width>
+    <width>514</width>
     <height>50</height>
    </rect>
   </property>
@@ -189,13 +189,6 @@
       <widget class="QPushButton" name="targetReached">
        <property name="text">
         <string>Target Reached</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="DVLInfo">
-       <property name="text">
-        <string>DVL Info</string>
        </property>
       </widget>
      </item>
