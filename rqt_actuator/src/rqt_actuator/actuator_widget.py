@@ -1,6 +1,5 @@
 import os
 from time import sleep
-from tkinter.tix import Tree
 import rospkg
 import rospy
 import threading
