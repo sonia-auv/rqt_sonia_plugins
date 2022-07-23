@@ -3,7 +3,6 @@ from time import sleep
 import rospkg
 import rospy
 import threading
-import queue
 from sonia_common.msg import ActuatorDoAction, ActuatorSendReply
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -11,8 +10,6 @@ from python_qt_binding.QtWidgets import QWidget
 
 # main class inherits from the ui window class
 class ActuatorWidget(QWidget):
-    q = queue.Queue()
-
     def __init__(self):
         super(ActuatorWidget, self).__init__()
         rp = rospkg.RosPack()
