@@ -30,37 +30,37 @@ class ActuatorWidget(QWidget):
         self.close_arm.clicked.connect(self._handle_close_robotic_arm)
 
     def _handle_drop_port(self):
-        if self.drop_port.styleSheet == "background-color: yellow":
+        if self.drop_port.styleSheet() == "background-color: yellow":
             return
         self.drop_port.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_DROPPER,ActuatorDoAction.SIDE_PORT,ActuatorDoAction.ACTION_DROPPER_LAUNCH)
 
     def _handle_drop_starboard(self):
-        if self.drop_starboard.styleSheet == "background-color: yellow":
+        if self.drop_starboard.styleSheet() == "background-color: yellow":
             return
         self.drop_starboard.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_DROPPER,ActuatorDoAction.SIDE_STARBOARD,ActuatorDoAction.ACTION_DROPPER_LAUNCH)
 
     def _handle_torpedo_port(self):
-        if self.torpedo_port.styleSheet == "background-color: yellow":
+        if self.torpedo_port.styleSheet() == "background-color: yellow":
             return
         self.torpedo_port.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_TORPEDO,ActuatorDoAction.SIDE_PORT,ActuatorDoAction.ACTION_TORPEDO_LAUNCH)
 
     def _handle_torpedo_starboard(self):
-        if self.torpedo_starboard.styleSheet == "background-color: yellow":
+        if self.torpedo_starboard.styleSheet() == "background-color: yellow":
             return
         self.torpedo_starboard.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_TORPEDO,ActuatorDoAction.SIDE_STARBOARD,ActuatorDoAction.ACTION_TORPEDO_LAUNCH)
 
     def _handle_open_robotic_arm(self):
-        if self.open_arm.styleSheet == "background-color: yellow":
+        if self.open_arm.styleSheet() == "background-color: yellow":
             return
         self.open_arm.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_ARM,ActuatorDoAction.ARM_OPEN,ActuatorDoAction.ACTION_ARM_EXEC)
 
     def _handle_close_robotic_arm(self):
-        if self.close_arm.styleSheet == "background-color: yellow":
+        if self.close_arm.styleSheet() == "background-color: yellow":
             return
         self.close_arm.setStyleSheet("background-color: yellow")
         self.sendMessage(ActuatorDoAction.ELEMENT_ARM,ActuatorDoAction.ARM_CLOSE,ActuatorDoAction.ACTION_ARM_EXEC)
@@ -95,15 +95,15 @@ class ActuatorWidget(QWidget):
             if data.response == ActuatorSendReply.RESPONSE_SUCCESS:
                 button.setStyleSheet("background-color: green")
                 newThread = Threads(button)
-                newThread.start
+                newThread.start()
             elif data.response == ActuatorSendReply.RESPONSE_TIMED_OUT:
                 button.setStyleSheet("background-color: red")
                 newThread = Threads(button)
-                newThread.start
+                newThread.start()
             elif data.response == ActuatorSendReply.RESPONSE_FAILURE:
                 button.setStyleSheet("background: rgb(88, 8, 24)")
                 newThread = Threads(button)
-                newThread.start
+                newThread.start()
 
     def restore_settings(self, plugin_settings, instance_settings):
         pass
@@ -124,7 +124,7 @@ class Threads(threading.Thread):
     
     def run(self):
         for i in range(0,5):
-            if self.button.styleSheet == "background-color: yellow":
+            if self.button.styleSheet() == "background-color: yellow":
                 return
             else:
                 sleep(1)
