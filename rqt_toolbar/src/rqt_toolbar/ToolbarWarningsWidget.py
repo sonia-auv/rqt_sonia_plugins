@@ -29,21 +29,21 @@ class WarningsWidget(QWidget):
         def command():
             os.system("rqt --standalone rqt_power")
         
-        for t in threading.enumerate():
-            if t.name=="Motor Windows":
-                return
-        newThread = threading.Thread(target=command, name="Motor Windows")
-        newThread.start()
+        # for t in threading.enumerate():
+        #     if t.name=="Motor Windows":
+        #         return
+        # newThread = threading.Thread(target=command, name="Motor Windows")
+        # newThread.start()
 
     def openDvlMenu(self):
         def command():
             os.system("rqt --standalone rqt_dvl")
         
-        for t in threading.enumerate():
-            if t.name=="DVL Windows":
-                return
-        newThread = threading.Thread(target=command, name="DVL Windows")
-        newThread.start()
+        # for t in threading.enumerate():
+        #     if t.name=="DVL Windows":
+        #         return
+        # newThread = threading.Thread(target=command, name="DVL Windows")
+        # newThread.start()
     
     def openImuMenu(self):
         pass #TODO: change it once an IMU widget has been created
@@ -113,12 +113,11 @@ class WarningsWidget(QWidget):
                 self.dvlIndicator.setStyleSheet("background-color: green")
             elif data.Severity == 0:
                 self.dvlIndicator.setStyleSheet("background: rgb(214, 232, 101)")
-            elif data.Severity == 1:
+            elif data.Severity == 1:    
                 self.dvlIndicator.setStyleSheet("background-color: yellow")
             elif data.Severity == 2:
                 self.dvlIndicator.setStyleSheet("background-color: red")
             elif data.Severity == 3:
-                self.dvlIndicator.setStyleSheet("background: rgb(88, 8, 24)")
                 self.dvlIndicator.setStyleSheet("""QPushButton{background: rgb(88, 8, 24);}
                                                    QToolTip{background: rgb(88, 8, 24);
                                                             color: white;}""")
