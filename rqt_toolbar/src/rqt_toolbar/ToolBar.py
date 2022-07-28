@@ -38,9 +38,9 @@ class ToolBar(Plugin):
             print('unknowns: ', unknowns)
 
         self._toolbar = QToolBar()
-        self._palette = Palette()
+        # self._palette = Palette()
         self._setControlModeWidget = SetModeControlWidget()
-        self._warnings = WarningsWidget()
+        # self._warnings = WarningsWidget()
         self._camera = CameraWidget()
         # context._handler._main_window.setPalette(self._palette.palette())
         self._batteryWidget1 = BatteryWidget(8)
@@ -50,7 +50,7 @@ class ToolBar(Plugin):
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._setControlModeWidget)
-        self._toolbar.addWidget(self._warnings)
+        # self._toolbar.addWidget(self._warnings)
         self._toolbar.addWidget(self._camera)
         self._toolbar.addWidget(self._tempWidget1)
         self._toolbar.addWidget(self._batteryWidget1)
