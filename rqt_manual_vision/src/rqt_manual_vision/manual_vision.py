@@ -1,6 +1,6 @@
 from rqt_gui_py.plugin import Plugin
 
-from manual_vision_widget import ManualVisionWidget
+from .manual_vision_widget import ManualVisionWidget
 
 
 class ManualVision(Plugin):

@@ -8,7 +8,7 @@ from python_qt_binding.QtWidgets import QMainWindow, QWidget
 from python_qt_binding.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QPalette
 
-from sonia_msgs.msg import BottomTracking
+from sonia_common.msg import BottomTracking
 from geometry_msgs.msg import TwistStamped
 
 

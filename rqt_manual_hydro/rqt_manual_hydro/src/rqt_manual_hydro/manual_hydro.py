@@ -1,13 +1,13 @@
 from rqt_gui_py.plugin import Plugin
 
-from manual_hydro_widget import ManualHydroWidget
+from .manual_hydro_widget import ManualHydroWidget
 
 
 class ManualHydro(Plugin):
 
     def __init__(self, context):
         super(ManualHydro, self).__init__(context)
-        self.setObjectName('Manual_Vision')
+        self.setObjectName('Manual_Hydro')
 
         self._widget = ManualHydroWidget()
         if context.serial_number() > 1:

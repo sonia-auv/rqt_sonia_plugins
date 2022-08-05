@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>870</width>
-    <height>348</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -33,26 +33,26 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>290</y>
+      <y>310</y>
       <width>91</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Enable</string>
+     <string>Dry Run</string>
     </property>
    </widget>
    <widget class="QPushButton" name="disableButton">
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>290</y>
+      <y>310</y>
       <width>101</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Disable</string>
+     <string>Normal</string>
     </property>
    </widget>
    <widget class="QFrame" name="T1_T2">
@@ -164,16 +164,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -206,13 +209,13 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="T1_effort100">
+    <widget class="QPushButton" name="T1_effort1900">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -222,10 +225,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T1_effort50">
+    <widget class="QPushButton" name="T1_effort1700">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -235,10 +238,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T1_effort0">
+    <widget class="QPushButton" name="T1_effort1500">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -248,10 +251,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T1_effortm50">
+    <widget class="QPushButton" name="T1_effort1300">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -261,10 +264,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T1_effortm100">
+    <widget class="QPushButton" name="T1_effort1100">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -274,10 +277,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T2_effort100">
+    <widget class="QPushButton" name="T2_effort1900">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -287,10 +290,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T2_effort50">
+    <widget class="QPushButton" name="T2_effort1700">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -300,10 +303,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T2_effort0">
+    <widget class="QPushButton" name="T2_effort1500">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -313,10 +316,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T2_effortm50">
+    <widget class="QPushButton" name="T2_effort1300">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -326,10 +329,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T2_effortm100">
+    <widget class="QPushButton" name="T2_effort1100">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -339,7 +342,7 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
     <widget class="QSlider" name="T2Slider">
@@ -369,16 +372,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -411,7 +417,7 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -559,16 +565,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -601,13 +610,13 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="T3_effort100">
+    <widget class="QPushButton" name="T3_effort1900">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -617,10 +626,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T3_effort50">
+    <widget class="QPushButton" name="T3_effort1700">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -630,10 +639,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T3_effort0">
+    <widget class="QPushButton" name="T3_effort1500">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -643,10 +652,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T3_effortm50">
+    <widget class="QPushButton" name="T3_effort1300">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -656,10 +665,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T3_effortm100">
+    <widget class="QPushButton" name="T3_effort1100">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -669,10 +678,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T4_effort100">
+    <widget class="QPushButton" name="T4_effort1900">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -682,10 +691,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T4_effort50">
+    <widget class="QPushButton" name="T4_effort1700">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -695,10 +704,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T4_effort0">
+    <widget class="QPushButton" name="T4_effort1500">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -708,10 +717,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T4_effortm50">
+    <widget class="QPushButton" name="T4_effort1300">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -721,10 +730,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T4_effortm100">
+    <widget class="QPushButton" name="T4_effort1100">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -734,7 +743,7 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
     <widget class="QSlider" name="T4Slider">
@@ -764,16 +773,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -806,7 +818,7 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -954,16 +966,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -996,13 +1011,13 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="T5_effort100">
+    <widget class="QPushButton" name="T5_effort1900">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1012,10 +1027,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T5_effort50">
+    <widget class="QPushButton" name="T5_effort1700">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1025,10 +1040,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T5_effort0">
+    <widget class="QPushButton" name="T5_effort1500">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1038,10 +1053,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T5_effortm50">
+    <widget class="QPushButton" name="T5_effort1300">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1051,10 +1066,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T5_effortm100">
+    <widget class="QPushButton" name="T5_effort1100">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1064,10 +1079,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T6_effort100">
+    <widget class="QPushButton" name="T6_effort1900">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1077,10 +1092,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T6_effort50">
+    <widget class="QPushButton" name="T6_effort1700">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1090,10 +1105,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T6_effort0">
+    <widget class="QPushButton" name="T6_effort1500">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1103,10 +1118,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T6_effortm50">
+    <widget class="QPushButton" name="T6_effort1300">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1116,10 +1131,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T6_effortm100">
+    <widget class="QPushButton" name="T6_effort1100">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1129,7 +1144,7 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
     <widget class="QSlider" name="T6Slider">
@@ -1159,16 +1174,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -1201,7 +1219,7 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1349,16 +1367,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -1391,13 +1412,13 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="T7_effort100">
+    <widget class="QPushButton" name="T7_effort1900">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1407,10 +1428,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T7_effort50">
+    <widget class="QPushButton" name="T7_effort1700">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1420,10 +1441,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T7_effort0">
+    <widget class="QPushButton" name="T7_effort1500">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1433,10 +1454,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T7_effortm50">
+    <widget class="QPushButton" name="T7_effort1300">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1446,10 +1467,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T7_effortm100">
+    <widget class="QPushButton" name="T7_effort1100">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -1459,10 +1480,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T8_effort100">
+    <widget class="QPushButton" name="T8_effort1900">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1472,10 +1493,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>100</string>
+      <string>1900</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T8_effort50">
+    <widget class="QPushButton" name="T8_effort1700">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1485,10 +1506,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>50</string>
+      <string>1700</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T8_effort0">
+    <widget class="QPushButton" name="T8_effort1500">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1498,10 +1519,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T8_effortm50">
+    <widget class="QPushButton" name="T8_effort1300">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1511,10 +1532,10 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-50</string>
+      <string>1300</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="T8_effortm100">
+    <widget class="QPushButton" name="T8_effort1100">
      <property name="geometry">
       <rect>
        <x>110</x>
@@ -1524,7 +1545,7 @@ QSlider::handle:vertical {
       </rect>
      </property>
      <property name="text">
-      <string>-100</string>
+      <string>1100</string>
      </property>
     </widget>
     <widget class="QSlider" name="T8Slider">
@@ -1554,16 +1575,19 @@ QSlider::handle:vertical {
 }</string>
      </property>
      <property name="minimum">
-      <number>-100</number>
+      <number>1100</number>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>1900</number>
      </property>
      <property name="singleStep">
       <number>1</number>
      </property>
      <property name="pageStep">
       <number>10</number>
+     </property>
+     <property name="value">
+      <number>1500</number>
      </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -1596,7 +1620,7 @@ QSlider::handle:vertical {
       </font>
      </property>
      <property name="text">
-      <string>0</string>
+      <string>1500</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1635,6 +1659,19 @@ QSlider::handle:vertical {
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="resetPwmButton">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>274</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset Pwm</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1642,7 +1679,7 @@ QSlider::handle:vertical {
      <x>0</x>
      <y>0</y>
      <width>870</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="StartTestMenu">

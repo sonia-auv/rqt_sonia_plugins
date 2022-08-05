@@ -7,7 +7,7 @@ from functools import partial
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt
 from python_qt_binding.QtWidgets import QWidget, QLabel, QCheckBox, QSlider,QSpinBox, QDoubleSpinBox, QLineEdit
-from sonia_msgs.srv import GetInformationList, GetFilterchainFilter, GetFilterchainFilterAllParam, SetFilterchainFilterParam, ManageFilterchainFilter, SetFilterchainFilterObserver, SaveFilterchain, SetFilterchainFilterOrder
+from sonia_common.srv import GetInformationList, GetFilterchainFilter, GetFilterchainFilterAllParam, SetFilterchainFilterParam, ManageFilterchainFilter, SetFilterchainFilterObserver, SaveFilterchain, SetFilterchainFilterOrder
 
 
 class ConfigureFilterchainWidget(QWidget):
@@ -115,7 +115,7 @@ class ConfigureFilterchainWidget(QWidget):
             params = all_param.list.split(';')
             for param_index, param in enumerate(params):
                 param_tab = param.split('|')
-                if len(param_tab) <> 6:
+                if len(param_tab) != 6:
                     continue
                 param_name = param_tab[0]
                 param_type = param_tab[1]

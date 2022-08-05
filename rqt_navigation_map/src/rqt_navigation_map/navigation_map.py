@@ -1,13 +1,13 @@
 from rqt_gui_py.plugin import Plugin
 
-from navigation_map_widget import NavigationMapWidget
+from .navigation_map_widget import NavigationMapWidget
 
 
 class NavigationMap(Plugin):
 
     def __init__(self, context):
         super(NavigationMap, self).__init__(context)
-        self.setObjectName('PoseView')
+        self.setObjectName('NavigationMap')
 
         self._widget = NavigationMapWidget(self)
         if context.serial_number() > 1:

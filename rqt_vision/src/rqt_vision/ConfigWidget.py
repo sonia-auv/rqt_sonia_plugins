@@ -2,13 +2,13 @@ import os
 import rospy
 import rospkg
 import random
-from Tkinter import Tk
-from tkFileDialog import askopenfilename
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from sonia_msgs.srv import ExecuteCmd, GetInformationList, ManageFilterchain, CopyFilterchain, SaveFilterchain
-from sonia_msgs.srv import StartStopMedia
+from sonia_common.srv import ExecuteCmd, GetInformationList, ManageFilterchain, CopyFilterchain, SaveFilterchain
+from sonia_common.srv import StartStopMedia
 
 
 class ConfigWidget(QWidget):
@@ -67,7 +67,7 @@ class ConfigWidget(QWidget):
         filterchain_list = filterchain_string.list.split(';')
         if len(filterchain_list) == 0:
             return
-        for filterchain in filterchain_list:
+        for filterchain in sorted(filterchain_list):
             if len(filterchain) > 0:
                 self.filterchain_list.addItem(filterchain)
                 self.filterchains.addItem(filterchain)
@@ -114,14 +114,14 @@ class ConfigWidget(QWidget):
             try:
                 self._srv_start_media_cmd(media,1)
                 media = '/provider_vision' + media.replace('.','')
-                print 'media : ' ,media
+                print('media : ' ,media)
             except rospy.ServiceException as err:
                 rospy.logerr(err)
         #Normal Mode
         if len(media) == 0:
             media = self._current_media
 
-        print 'Media for start' , media
+        print('Media for start' , media)
         try:
             self._srv_execute_cmd(self.name_text.text(), self._current_filterchain,media, 1)
         except rospy.ServiceException as err:

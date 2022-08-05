@@ -1,20 +1,22 @@
 from __future__ import division
 import os
+from turtle import position
 import rospkg
 import math
+import numpy
 
 from python_qt_binding import loadUi
 from python_qt_binding.QtCore import Qt, QTimer, qWarning, Slot, QPoint, pyqtSignal
 from python_qt_binding.QtWidgets import QAction, QMenu, QWidget
 
 import rospy
-from tf.transformations import quaternion_about_axis
+from tf.transformations import quaternion_about_axis, euler_from_quaternion
 
 from .gl_widget import GLWidget
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Pose
-from MapDrawer import MapDrawer
-from sonia_msgs.srv import SetPositionTarget
+from .MapDrawer import MapDrawer
+from sonia_common.msg import AddPose, MultiAddPose, MpcInfo
 
 
 # main class inherits from the ui window class
@@ -27,17 +29,13 @@ class NavigationMapWidget(QWidget):
     def __init__(self, plugin):
         super(NavigationMapWidget, self).__init__()
         rp = rospkg.RosPack()
-        try:
-            rospy.wait_for_service('/proc_control/set_global_target', timeout=2)
-        except rospy.ROSException:
-            False
 
         ui_file = os.path.join(rp.get_path('rqt_navigation_map'), 'resource', 'mainWidget.ui')
         loadUi(ui_file, self)
         self._plugin = plugin
 
         self._topic_name = None
-        self._odom_subscriber = None
+        # self._odom_subscriber = None
 
         # create GL view
         self._gl_view = GLWidget()
@@ -55,14 +53,18 @@ class NavigationMapWidget(QWidget):
         self._lock_on_sub_activated = False
         self._yaw = 0
 
-        self._odom_subscriber = rospy.Subscriber('/proc_navigation/odom', Odometry, self._odom_callback)
+        self.controller_info_subscriber = rospy.Subscriber("/proc_control/controller_info", MpcInfo, self.set_mpc_info)
+        self._odom_subscriber = rospy.Subscriber('/proc_nav/auv_states', Odometry, self._odom_callback)
+        #self._odom_subscriber = rospy.Subscriber('/telemetry/auv_states', Odometry, self._odom_callback)
         self.position_target_subscriber = rospy.Subscriber('/proc_control/current_target', Pose,
                                                            self._position_target_callback)
 
         self.odom_result_received.connect(self._odom_callback_signal)
         self.current_target_received.connect(self._position_target_callback_signal)
-        self.set_global_target = rospy.ServiceProxy('/proc_control/set_global_target', SetPositionTarget)
 
+        self.single_add_pose_publisher = rospy.Publisher("/proc_control/add_pose", AddPose, queue_size=10)
+        self.multi_add_pose_publisher = rospy.Publisher("/proc_planner/send_multi_addpose", MultiAddPose, queue_size=10)
+        
         self._define_menu()
 
     def _define_menu(self):
@@ -100,19 +102,28 @@ class NavigationMapWidget(QWidget):
 
     def _position_target_callback_signal(self, target):
         self._mapDrawer.drawTarget(target.position.x, target.position.y, target.position.z)
+        self._current_target_z = target.position.z
+        self._current_target_yaw = math.degrees(euler_from_quaternion([target.orientation.x,target.orientation.y,target.orientation.z,target.orientation.w],'szyx')[0])
 
     def _odom_callback_signal(self,odom_data):
-        vehicle_position_x = odom_data.pose.pose.position.x
-        vehicle_position_y = odom_data.pose.pose.position.y
-        vehicle_position_z = odom_data.pose.pose.position.z
-        self._position = (vehicle_position_x, vehicle_position_y, vehicle_position_z)
+        self.vehicle_position_x = odom_data.pose.pose.position.x
+        self.vehicle_position_y = odom_data.pose.pose.position.y
+        self.vehicle_position_z = odom_data.pose.pose.position.z
+        self.vehicle_orientation_x = odom_data.pose.pose.orientation.y
+        self.vehicle_orientation_y = odom_data.pose.pose.orientation.x
+        self.vehicle_orientation_z = -odom_data.pose.pose.orientation.z
+        self.vehicle_orientation_w = odom_data.pose.pose.orientation.w
+        self._position = (self.vehicle_position_x, self.vehicle_position_y, self.vehicle_position_z)
         self._mapDrawer.set_position(self._position)
-        self._yaw = odom_data.pose.pose.orientation.z
-        self._orientation = quaternion_about_axis(math.radians(self._yaw), (0.0, 0.0, 1.0))
+        self._yaw = math.degrees(euler_from_quaternion([self.vehicle_orientation_x,self.vehicle_orientation_y,self.vehicle_orientation_z,self.vehicle_orientation_w],'szyx')[0])
+        self._orientation = (self.vehicle_orientation_x,self.vehicle_orientation_y,self.vehicle_orientation_z,self.vehicle_orientation_w)
         self._mapDrawer.set_orientation(self._orientation, self._yaw)
 
     def _odom_callback(self, odom_data):
         self.odom_result_received.emit(odom_data)
+
+    def set_mpc_info(self, msg):
+        self.current_mode_id = msg.mpc_mode
 
     def save_settings(self, plugin_settings, instance_settings):
         self._mapDrawer.save_settings(plugin_settings,instance_settings)
@@ -136,14 +147,14 @@ class NavigationMapWidget(QWidget):
 
         lock_on_sub = instance_settings.value('lock_on_sub_activated') == 'True'
         if lock_on_sub is None:
-            print 'Nothing stored for lock_on_sub'
+            print('Nothing stored for lock_on_sub')
         else:
             self._lock_on_sub(lock_on_sub)
             self._lockOnSubAction.setChecked(lock_on_sub)
 
         rotate_with_sub = instance_settings.value('rotate_with_sub_activated') == 'True'
         if rotate_with_sub is None:
-            print 'Nothing stored for lock_on_sub'
+            print('Nothing stored for lock_on_sub')
         else:
             self._rotate_with_sub(rotate_with_sub)
             self._rotateSubAction.setChecked(rotate_with_sub)
@@ -193,7 +204,23 @@ class NavigationMapWidget(QWidget):
         self._mapDrawer.drawTarget(position_x, position_y, position_z)
         rospy.loginfo('Set Target selected at (%.2f, %.2f)', position_x, position_y)
         try:
-            self.set_global_target(X=position_x, Y=position_y, Z=self._position[2], ROLL=0.0, PITCH=0.0, YAW=self._yaw)
+            pose = AddPose()
+            pose.position.x = position_x
+            pose.position.y = position_y
+            pose.position.z = self._current_target_z
+            pose.orientation.z = self._current_target_yaw
+            pose.frame = 0
+            if self.current_mode_id == 11:
+                pose.speed = numpy.uint8(abs(self.vehicle_position_x)+abs(position_x) + abs(self.vehicle_position_y)+abs(position_y))
+                rospy.loginfo("%s, %s, %s, %s\n%s",position_x,position_y,position_z,pose.speed,pose)
+                self.single_add_pose_publisher.publish(pose)
+            elif self.current_mode_id == 10:
+                multi_pose = MultiAddPose()
+                pose.speed = 0
+                multi_pose.pose.append(pose)
+                multi_pose.interpolation_method = 0
+                rospy.loginfo("%s, %s, %s, %s\n%s",position_x,position_y,position_z,pose.speed,pose)
+                self.multi_add_pose_publisher.publish(multi_pose)
         except rospy.ServiceException as err:
             rospy.logerr(err)
 

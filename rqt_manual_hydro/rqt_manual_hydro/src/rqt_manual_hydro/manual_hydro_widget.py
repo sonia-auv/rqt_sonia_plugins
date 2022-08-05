@@ -38,7 +38,7 @@ class ManualHydroWidget(QWidget):
             self.topic_ping = rospy.Publisher('/proc_hydrophone/ping', PingPose, queue_size=10)
             self.thread = Thread(target=self._publish_in_continuous)
             self.thread.start()
-        except rospy.ROSException, e:
+        except rospy.ROSException as e:
             rospy.logerr('unable to publish')
 
     def _handle_stop(self):
@@ -46,7 +46,7 @@ class ManualHydroWidget(QWidget):
 
     def _publish_in_continuous(self):
         while not rospy.is_shutdown() and self.thread_running:
-            print 'publishing hydro'
+            print('publishing hydro')
             target = PingPose()
             target.pose.orientation.z = math.radians(self.heading_spin.value() %360)
 
