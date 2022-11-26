@@ -58,7 +58,6 @@ class PowerWidget(QMainWindow):
         self.DisableAll.setEnabled(False)
         self.DisableAll.clicked.connect(self._handle_out_disable_all_clicked)
 
-
     def _voltage_callback(self, data):
         self.voltage_result_received.emit(data)
 
@@ -157,7 +156,9 @@ class PowerWidget(QMainWindow):
         self._voltage_subscriber.unregister()
         self._current_subscriber.unregister()
         self._voltage12V_subscriber.unregister()
-        pass
+        self._temperature_subscriber.unregister()
+        self.motor_feedback_subscriber.unregister()
+        self.activate_all_motor.unregister()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:

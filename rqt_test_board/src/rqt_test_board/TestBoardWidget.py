@@ -56,4 +56,4 @@ class TestBoardWidget(QMainWindow):
                 stop = False
 
     def shutdown_plugin(self):
-        pass
+        self.topic_result.unregister()

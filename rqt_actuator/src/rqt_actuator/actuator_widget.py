@@ -19,6 +19,7 @@ class ActuatorWidget(QWidget):
 
         self.actuatorSubscriber = rospy.Subscriber("/provider_actuators/do_action_from_actuators", ActuatorSendReply, self.actuatorCallback)
         self.actuatorPublisher = rospy.Publisher("/provider_actuators/do_action_to_actuators", ActuatorDoAction, queue_size=100)
+        
         self.drop_port.clicked.connect(self._handle_drop_port)
         self.drop_starboard.clicked.connect(self._handle_drop_starboard)
         self.torpedo_port.clicked.connect(self._handle_torpedo_port)
@@ -112,7 +113,7 @@ class ActuatorWidget(QWidget):
 
     def shutdown_plugin(self):
         self.actuatorSubscriber.unregister()
-
+        self.actuatorPublisher.unregister()
 
 class Threads(threading.Thread):
     def __init__(self, button):

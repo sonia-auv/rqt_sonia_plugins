@@ -46,7 +46,7 @@ class ToolBar(Plugin):
         self._batteryWidget1 = BatteryWidget(8)
         self._batteryWidget2 = BatteryWidget(9)
         self._killMissionWidget = KillMissionWidget()
-        self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', os.getenv('AUV','AUV')) # TODO: Use environment variables for AUV name.
+        self._tempWidget1 = CpuTempWidget('/provider_system/system_temperature', os.getenv('AUV','AUV'))
 
         # Add widget to the user interface
         self._toolbar.addWidget(self._setControlModeWidget)
@@ -60,7 +60,11 @@ class ToolBar(Plugin):
         context.add_toolbar(self._toolbar)
 
     def shutdown_plugin(self):
-        self._warnings.shutdown_plugin()
+        self._setControlModeWidget.shutdown_plugin()
+        self._batteryWidget1.shutdown_plugin()
+        self._batteryWidget2.shutdown_plugin()
+        self._killMissionWidget.shutdown_plugin()
+        self._camera.shutdown_plugin()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:

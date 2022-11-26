@@ -20,7 +20,7 @@ class CpuTempWidget(QWidget):
 
         self.temp_label.setText('{}:'.format(type))
 
-        rospy.Subscriber(topic, Temperature, self.system_temperature_callback)
+        self.tempSubscriber = rospy.Subscriber(topic, Temperature, self.system_temperature_callback)
         self.systemTemperatureReceived.connect(self.handle_result)
         self.temp_value.setText("{0} C".format("?"))
 
@@ -29,3 +29,6 @@ class CpuTempWidget(QWidget):
 
     def handle_result(self, msg):
         self.temp_value.setText("{:.2f} C".format(msg.temperature))
+
+    def shutdown_plugin(self):
+        self.tempSubscriber.unregister()

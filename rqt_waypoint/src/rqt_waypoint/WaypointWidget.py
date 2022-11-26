@@ -256,7 +256,6 @@ class WaypointWidget(QMainWindow):
                 rospy.logerr('AUV environment variable not properly set.')
 
         except rospy.ServiceException as e:
-            print(e)
             rospy.logerr('Simulation is not started')
             self.show_error('Simulation is not started')
 
@@ -286,20 +285,24 @@ class WaypointWidget(QMainWindow):
         self.fine.setText('0.0')
 
     def update_unity(self):
-        if self.subChoice.currentText() != self.prev_auv:
-            os.environ["AUV"] = self.subChoice.currentText()
-            self.set_auv_service.call(object_name=self.subChoice.currentText())
-            self.prev_auv = self.subChoice.currentText()
+        try:
+            if self.subChoice.currentText() != self.prev_auv:
+                os.environ["AUV"] = self.subChoice.currentText()
+                self.set_auv_service.call(object_name=self.subChoice.currentText())
+                self.prev_auv = self.subChoice.currentText()
 
-        if self.sceneChoice.currentText() != self.prev_scene:
-            # self.show_error(self.sceneChoice.currentText())
-            self.show_error("Scene choice not implented yet")
-            self.prev_scene = self.sceneChoice.currentText()
+            if self.sceneChoice.currentText() != self.prev_scene:
+                # self.show_error(self.sceneChoice.currentText())
+                self.show_error("Scene choice not implented yet")
+                self.prev_scene = self.sceneChoice.currentText()
 
-        if self.runChoice.currentText() != self.prev_run:
-            # self.show_error(self.sceneChoice.currentText())
-            self.show_error("Run choice not implented yet")
-            self.prev_run = self.runChoice.currentText()
+            if self.runChoice.currentText() != self.prev_run:
+                # self.show_error(self.sceneChoice.currentText())
+                self.show_error("Run choice not implented yet")
+                self.prev_run = self.runChoice.currentText()
+        except rospy.ServiceException as e:
+            rospy.logerr('Simulation is not started')
+            self.show_error('Simulation is not started')
 
     def send_position(self):
         try:
@@ -382,4 +385,13 @@ class WaypointWidget(QMainWindow):
         self.controller_info_subscriber.unregister()
         self.position_target_subscriber.unregister()
         self.timeout_subscriber.unregister()
+
+        self.simulation_start_publisher.unregister()
+        self.single_add_pose_publisher.unregister()
+        self.multi_add_pose_publisher.unregister()
+        self.reset_trajectory_publisher.unregister()
+        self.auv7_tare_publisher.unregister()
+        self.set_dvl_started_publisher.unregister()
+        self.set_sonar_started_publisher.unregister()
+        self.set_initial_position_publisher.unregister()
         

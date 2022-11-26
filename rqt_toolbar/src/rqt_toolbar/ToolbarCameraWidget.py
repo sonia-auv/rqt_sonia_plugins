@@ -27,3 +27,7 @@ class CameraWidget(QWidget):
 
     def handle_front_click(self):
         pass
+
+    def shutdown_plugin(self):
+        # TODO: Unregister all the publishers and subscribers.
+        pass

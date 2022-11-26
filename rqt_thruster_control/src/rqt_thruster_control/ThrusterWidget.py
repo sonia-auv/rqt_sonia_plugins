@@ -122,8 +122,9 @@ class ThrusterWidget(QMainWindow):
         newThread.start()
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
-        pass
+        self.thruster_publisher.unregister()
+        self.dry_test_subscriber.unregister()
+        self.dry_test_publisher.unregister()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:

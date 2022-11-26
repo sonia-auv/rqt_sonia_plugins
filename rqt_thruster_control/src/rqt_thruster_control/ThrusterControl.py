@@ -32,8 +32,7 @@ class ThrusterControl(Plugin):
         context.add_widget(self._mainWindow)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
-        pass
+        self._mainWindow.shutdown_plugin()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:
