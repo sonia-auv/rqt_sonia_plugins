@@ -65,6 +65,7 @@ class ToolBar(Plugin):
         self._batteryWidget2.shutdown_plugin()
         self._killMissionWidget.shutdown_plugin()
         self._camera.shutdown_plugin()
+        self._tempWidget1.shutdown_plugin()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:
