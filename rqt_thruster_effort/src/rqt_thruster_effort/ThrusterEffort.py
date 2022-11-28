@@ -36,7 +36,6 @@ class ThrusterEffort(Plugin):
         context.add_widget(self._mainWindow)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
         self._mainWindow.shutdown_plugin()
         pass
 

@@ -1,0 +1,173 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb0003000000000048000004530000077f0000086f00000048000004780000077f0000086f0000000000000000078000000048000004780000077f0000086f')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "     H S   o H x   o      H x   o"
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd000000020000000200000738000003ccfc0100000004fb00000062007200710074005f0070006f007700650072005f005f00500072006f007600690064006500720050006f007700650072005f005f0031005f005f004d00790050006f0077006500720043006f006e00740072006f006c00570069006400670065007401000000000000038900000348000007bffc0000038f000003a90000036600fffffffc0200000003fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d006100670065005600690065007700570069006400670065007401000000160000016a0000005100fffffffb00000076007200710074005f00740068007200750073007400650072005f0063006f006e00740072006f006c005f005f005400680072007500730074006500720073005f005f0031005f005f004d0079005400680072007500730074006500720043006f006e00740072006f006c0057006900640067006500740100000186000001710000017100fffffffb0000004a007200710074005f006100630074007500610074006f0072005f005f004100630074007500610074006f0072005f005f0031005f005f006d00610069006e00570069006400670065007401000002fd000000e5000000e500fffffffb00000064007200710074005f006e0061007600690067006100740069006f006e005f006d00610070005f005f004e0061007600690067006100740069006f006e004d00610070005f005f0031005f005f0047004c00560069006500770057006900640067006500740100000000000001a60000000000000000fb00000044007200710074005f0076006900730069006f006e005f005f0056006900730069006f006e0053007400610072007400650072005f005f0031005f005f0046006f0072006d01000004960000011d000000000000000000000003000006b4000000e5fc0100000008fb00000058007200710074005f00640065007000740068005f0069006e00640069006300610074006f0072005f005f004400650070007400680049006e00640069006300610074006f0072005f005f0031005f005f0046006f0072006d0100000000000000e30000000000000000fb00000056007200710074005f0077006100790070006f0069006e0074005f005f0057006100790070006f0069006e0074005f005f0032005f005f004d00790057006100790070006f0069006e0074005700690064006700650074010000029b000007650000000000000000fb00000056007200710074005f0077006100790070006f0069006e0074005f005f0057006100790070006f0069006e0074005f005f0031005f005f004d00790057006100790070006f0069006e007400570069006400670065007401000000dc000002950000000000000000fb0000004a007200710074005f0077006100790070006f0069006e0074005f005f0057006100790070006f0069006e0074005f005f0031005f005f004d00610069006e00570069006e0064006f007701000000e90000015e0000000000000000fc00000000000005b30000000000fffffffa000000000200000002fb00000058007200710074005f00740068007200750073007400650072005f006500660066006f00720074005f005f00540068007200750073007400650072004500660066006f00720074005f005f0031005f005f0046006f0072006d0100000000ffffffff0000000000000000fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f03000007ae0000018d000005990000038cfb0000005c007200710074005f006d0061006e00750061006c005f0076006900730069006f006e005f005f004d0061006e00750061006c0056006900730069006f006e005f005f0031005f005f006d00610069006e00570069006400670065007401000008720000018e0000000000000000fb00000058007200710074005f007000750062006c00690073006800650072005f005f005000750062006c00690073006800650072005f005f0031005f005f005000750062006c0069007300680065007200570069006400670065007401000005dd000004230000000000000000fb00000058007200710074005f00740068007200750073007400650072005f006500660066006f00720074005f005f00540068007200750073007400650072004500660066006f00720074005f005f0032005f005f0046006f0072006d0100000744000002bc0000000000000000000007380000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 brqt_power__ProviderPower__1__MyPowerControlWidget              f                                                        j Q                                                                   q q                                                                                                                                                                                                                                                                             e                                                                                                     ^                   Xrqt_thruster_effort__ThrusterEffort__1__Form          &rqt_rviz__RViz__1__          \\rqt_manual_vision__ManualVision__1__mainWidget          Xrqt_publisher__Publisher__1__PublisherWidget          Xrqt_thruster_effort__ThrusterEffort__2__Form                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_actuator/Actuator': [1], 'rqt_image_view/ImageView': [1], 'rqt_power/ProviderPower': [1], 'rqt_thruster_control/Thrusters': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_actuator__Actuator__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__mainWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Actuator'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Image View'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/camera_array/front/image_raw/compressed_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/camera_array/front/image_raw/compressed'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_power__ProviderPower__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__MyPowerControlWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Power'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_thruster_control__Thrusters__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__MyThrusterControlWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Thruster'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

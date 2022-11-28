@@ -31,7 +31,7 @@ class VisionMainWidget(QWidget):
             rospy.wait_for_service('/proc_image_processing/get_media_from_execution', timeout=2)
             rospy.wait_for_service('/proc_image_processing/execute_cmd', timeout=2)
         except rospy.ROSException:
-            rospy.loginfo('Services unavailable')
+            rospy.loginfo('Proc image processing services unavailable')
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_vision'), 'resource', 'mainwidget.ui')
         loadUi(ui_file, self)
         self.setWindowTitle('Vision UI')

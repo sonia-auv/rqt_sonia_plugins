@@ -30,7 +30,6 @@ class TestBoard(Plugin):
 
     def shutdown_plugin(self):
         self._mainWindow.shutdown_plugin()
-        pass
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:

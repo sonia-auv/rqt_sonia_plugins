@@ -232,7 +232,7 @@ class SimVisionWidget(QMainWindow):
 
     def shutdown_plugin(self):
         self._odom_subscriber.unregister()
-        pass
+        self._publish_image_data.unregister()
 
     def save_settings(self, plugin_settings, instance_settings):
         # TODO save intrinsic configuration, usually using:

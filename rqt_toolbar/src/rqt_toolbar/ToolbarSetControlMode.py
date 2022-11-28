@@ -69,3 +69,7 @@ class SetModeControlWidget(QWidget):
         self.set_buttons_style(msg.mpc_mode)
         self.set_target_reached(msg.target_reached)
 
+    def shutdown_plugin(self):
+        self.setModePublisher.unregister()
+        self.controllerInfoSubscriber.unregister()
+

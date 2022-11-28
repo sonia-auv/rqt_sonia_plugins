@@ -227,3 +227,7 @@ class NavigationMapWidget(QWidget):
     def shutdown_plugin(self):
         self._odom_subscriber.unregister()
         self.position_target_subscriber.unregister()
+        self.controller_info_subscriber.unregister()
+        self.position_target_subscriber.unregister()
+        self.single_add_pose_publisher.unregister()
+        self.multi_add_pose_publisher.unregister()
